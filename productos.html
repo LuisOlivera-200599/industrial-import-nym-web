@@ -26,6 +26,7 @@
         radial-gradient(circle at top left, rgba(49, 87, 255, 0.18), transparent 28%),
         linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
       border-bottom: 1px solid var(--border);
+      overflow: hidden;
     }
 
     .page-hero-content {
@@ -34,6 +35,7 @@
       align-items: end;
       gap: 24px;
       flex-wrap: wrap;
+      width: 100%;
     }
 
     .page-hero h2 {
@@ -41,6 +43,7 @@
       line-height: 1.1;
       margin-bottom: 12px;
       letter-spacing: -0.03em;
+      word-break: break-word;
     }
 
     .page-hero p {
@@ -55,18 +58,25 @@
       color: var(--muted);
       font-size: 0.95rem;
       margin-top: 18px;
+      flex-wrap: wrap;
     }
 
     .catalog-section {
       padding: 70px 0 90px;
       background: var(--light);
+      overflow: hidden;
     }
 
     .catalog-layout {
       display: grid;
-      grid-template-columns: 300px 1fr;
+      grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
       gap: 28px;
       align-items: start;
+      width: 100%;
+    }
+
+    .catalog-layout > * {
+      min-width: 0;
     }
 
     .sidebar-panel,
@@ -74,7 +84,9 @@
       background: var(--white);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+      max-width: 100%;
     }
 
     .sidebar-panel {
@@ -139,7 +151,8 @@
       gap: 10px;
     }
 
-    .filter-item {
+    .filter-btn {
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -150,15 +163,25 @@
       background: #fcfcfd;
       transition: 0.3s ease;
       cursor: pointer;
+      text-align: left;
+      color: var(--text);
+      font: inherit;
     }
 
-    .filter-item:hover {
+    .filter-btn:hover {
       border-color: var(--primary);
       color: var(--primary);
       transform: translateX(2px);
     }
 
-    .filter-item span {
+    .filter-btn.active {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #eef3ff;
+      box-shadow: 0 0 0 3px rgba(49, 87, 255, 0.08);
+    }
+
+    .filter-btn span {
       font-size: 0.95rem;
       font-weight: 600;
     }
@@ -173,7 +196,7 @@
       align-items: center;
       gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 26px;
+      margin-bottom: 18px;
     }
 
     .catalog-topbar p {
@@ -196,9 +219,32 @@
       font-size: 0.9rem;
     }
 
+    .active-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .active-filter-tag {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: #eef3ff;
+      color: var(--primary);
+      font-size: 0.88rem;
+      font-weight: 700;
+      border: 1px solid #d9e5ff;
+    }
+
+    .result-summary {
+      color: var(--muted);
+      margin-bottom: 22px;
+      font-size: 0.95rem;
+    }
+
     .catalog-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 22px;
     }
 
@@ -227,6 +273,25 @@
       flex-wrap: wrap;
     }
 
+    .product-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .product-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: #f5f7fb;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
     .btn-sm {
       padding: 11px 16px;
       font-size: 0.9rem;
@@ -242,6 +307,34 @@
 
     .btn-whatsapp:hover {
       background: #d9fbe7;
+    }
+
+    .empty-state {
+      display: none;
+      margin-top: 10px;
+      padding: 28px;
+      border-radius: 20px;
+      border: 1px dashed #cdd9f8;
+      background: #f8fbff;
+      text-align: center;
+    }
+
+    .empty-state.show {
+      display: block;
+    }
+
+    .empty-state i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .empty-state h3 {
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      color: var(--muted);
     }
 
     .mini-note {
@@ -263,7 +356,7 @@
       }
 
       .catalog-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -279,6 +372,24 @@
 
       .page-hero {
         padding: 70px 0 45px;
+      }
+
+      .product-card.large .product-actions {
+        flex-direction: column;
+      }
+
+      .product-card.large .product-actions .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .catalog-layout {
+        gap: 22px;
+      }
+
+      .page-hero h2 {
+        font-size: 1.95rem;
       }
     }
   </style>
@@ -356,31 +467,91 @@
 
         <div class="search-box">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Buscar producto..." />
+          <input type="text" id="product-search" placeholder="Buscar producto..." />
         </div>
 
         <div class="filter-group">
           <h4>Categorías</h4>
-          <div class="filter-list">
-            <div class="filter-item"><span>Arranque motor</span><i class="fa-solid fa-angle-right"></i></div>
-            <div class="filter-item"><span>Automatización</span><i class="fa-solid fa-angle-right"></i></div>
-            <div class="filter-item"><span>Montaje en riel DIN</span><i class="fa-solid fa-angle-right"></i></div>
-            <div class="filter-item"><span>Montaje en panel</span><i class="fa-solid fa-angle-right"></i></div>
-            <div class="filter-item"><span>Conectores industriales</span><i class="fa-solid fa-angle-right"></i></div>
-            <div class="filter-item"><span>Relés y protección</span><i class="fa-solid fa-angle-right"></i></div>
-            <div class="filter-item"><span>Mando y señalización</span><i class="fa-solid fa-angle-right"></i></div>
+          <div class="filter-list" id="category-filters">
+            <button class="filter-btn active" type="button" data-filter-type="category" data-filter-value="all">
+              <span>Todas las categorías</span>
+              <i class="fa-solid fa-layer-group"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="arranque-motor">
+              <span>Arranque motor</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="automatizacion">
+              <span>Automatización</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="montaje-riel-din">
+              <span>Montaje en riel DIN</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="montaje-panel">
+              <span>Montaje en panel</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="conectores-industriales">
+              <span>Conectores industriales</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="reles-proteccion">
+              <span>Relés y protección</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="mando-senalizacion">
+              <span>Mando y señalización</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
           </div>
         </div>
 
         <div class="filter-group">
           <h4>Marcas</h4>
-          <div class="filter-list">
-            <div class="filter-item"><span>ABB</span><i class="fa-solid fa-angle-right"></i></div>
-            <div class="filter-item"><span>CHINT</span><i class="fa-solid fa-angle-right"></i></div>
-            <div class="filter-item"><span>Delta</span><i class="fa-solid fa-angle-right"></i></div>
-            <div class="filter-item"><span>Legrand</span><i class="fa-solid fa-angle-right"></i></div>
-            <div class="filter-item"><span>LS</span><i class="fa-solid fa-angle-right"></i></div>
-            <div class="filter-item"><span>Schneider Electric</span><i class="fa-solid fa-angle-right"></i></div>
+          <div class="filter-list" id="brand-filters">
+            <button class="filter-btn active" type="button" data-filter-type="brand" data-filter-value="all">
+              <span>Todas las marcas</span>
+              <i class="fa-solid fa-tags"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="abb">
+              <span>ABB</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="chint">
+              <span>CHINT</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="delta">
+              <span>Delta</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="legrand">
+              <span>Legrand</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="ls">
+              <span>LS</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
+
+            <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="schneider-electric">
+              <span>Schneider Electric</span>
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
           </div>
         </div>
       </aside>
@@ -399,13 +570,29 @@
           </div>
         </div>
 
-        <div class="catalog-grid">
-          <article class="product-card large">
+        <div class="active-filters" id="active-filters">
+          <span class="active-filter-tag">Categoría: Todas</span>
+          <span class="active-filter-tag">Marca: Todas</span>
+        </div>
+
+        <p class="result-summary" id="result-summary">Mostrando 6 productos.</p>
+
+        <div class="catalog-grid" id="catalog-grid">
+          <article
+            class="product-card large catalog-product"
+            data-category="automatizacion"
+            data-brand="abb"
+            data-name="Controlador industrial demo"
+          >
             <div class="product-image">
               <img src="imagenes/productos/productos-1.png" alt="Producto 1 del catálogo" />
             </div>
             <div class="product-body">
               <span class="product-brand">ABB</span>
+              <div class="product-meta">
+                <span class="product-pill">Automatización</span>
+                <span class="product-pill">Arranque motor</span>
+              </div>
               <h3>Controlador industrial demo</h3>
               <p>
                 Solución orientada a procesos técnicos y tareas de automatización
@@ -421,12 +608,21 @@
             </div>
           </article>
 
-          <article class="product-card large">
+          <article
+            class="product-card large catalog-product"
+            data-category="montaje-riel-din"
+            data-brand="schneider-electric"
+            data-name="Componente modular demo"
+          >
             <div class="product-image">
               <img src="imagenes/productos/productos-2.png" alt="Producto 2 del catálogo" />
             </div>
             <div class="product-body">
               <span class="product-brand">Schneider Electric</span>
+              <div class="product-meta">
+                <span class="product-pill">Montaje en riel DIN</span>
+                <span class="product-pill">Montaje en panel</span>
+              </div>
               <h3>Componente modular demo</h3>
               <p>
                 Producto de muestra para instalación ordenada y aplicaciones
@@ -442,12 +638,21 @@
             </div>
           </article>
 
-          <article class="product-card large">
+          <article
+            class="product-card large catalog-product"
+            data-category="reles-proteccion"
+            data-brand="chint"
+            data-name="Interruptor automático demo"
+          >
             <div class="product-image">
               <img src="imagenes/productos/productos-3.png" alt="Producto 3 del catálogo" />
             </div>
             <div class="product-body">
               <span class="product-brand">CHINT</span>
+              <div class="product-meta">
+                <span class="product-pill">Relés y protección</span>
+                <span class="product-pill">Conectores industriales</span>
+              </div>
               <h3>Interruptor automático demo</h3>
               <p>
                 Equipo de protección y control para distintas aplicaciones dentro
@@ -463,12 +668,21 @@
             </div>
           </article>
 
-          <article class="product-card large">
+          <article
+            class="product-card large catalog-product"
+            data-category="conectores-industriales"
+            data-brand="delta"
+            data-name="Dispositivo electrónico demo"
+          >
             <div class="product-image">
               <img src="imagenes/productos/productos-4.png" alt="Producto 4 del catálogo" />
             </div>
             <div class="product-body">
               <span class="product-brand">Delta</span>
+              <div class="product-meta">
+                <span class="product-pill">Conectores industriales</span>
+                <span class="product-pill">Mando y señalización</span>
+              </div>
               <h3>Dispositivo electrónico demo</h3>
               <p>
                 Solución de muestra para catálogo moderno, pensada para consulta y
@@ -484,12 +698,21 @@
             </div>
           </article>
 
-          <article class="product-card large">
+          <article
+            class="product-card large catalog-product"
+            data-category="montaje-panel"
+            data-brand="legrand"
+            data-name="Módulo para panel demo"
+          >
             <div class="product-image">
               <img src="imagenes/productos/productos-1.png" alt="Producto 5 del catálogo" />
             </div>
             <div class="product-body">
               <span class="product-brand">Legrand</span>
+              <div class="product-meta">
+                <span class="product-pill">Montaje en panel</span>
+                <span class="product-pill">Mando y señalización</span>
+              </div>
               <h3>Módulo para panel demo</h3>
               <p>
                 Producto demo para visualización de catálogo, filtros y gestión de
@@ -505,12 +728,21 @@
             </div>
           </article>
 
-          <article class="product-card large">
+          <article
+            class="product-card large catalog-product"
+            data-category="mando-senalizacion"
+            data-brand="ls"
+            data-name="Relé de control demo"
+          >
             <div class="product-image">
               <img src="imagenes/productos/productos-2.png" alt="Producto 6 del catálogo" />
             </div>
             <div class="product-body">
               <span class="product-brand">LS</span>
+              <div class="product-meta">
+                <span class="product-pill">Mando y señalización</span>
+                <span class="product-pill">Relés y protección</span>
+              </div>
               <h3>Relé de control demo</h3>
               <p>
                 Componente de muestra para líneas técnicas, protección y uso en
@@ -525,6 +757,12 @@
               </div>
             </div>
           </article>
+        </div>
+
+        <div class="empty-state" id="empty-state">
+          <i class="fa-solid fa-box-open"></i>
+          <h3>No encontramos productos con ese filtro</h3>
+          <p>Prueba con otra categoría, otra marca o cambia el texto de búsqueda.</p>
         </div>
 
         <div class="mini-note">
@@ -584,5 +822,115 @@
   </footer>
 
   <script src="js/script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const products = document.querySelectorAll(".catalog-product");
+      const categoryButtons = document.querySelectorAll('[data-filter-type="category"]');
+      const brandButtons = document.querySelectorAll('[data-filter-type="brand"]');
+      const searchInput = document.getElementById("product-search");
+      const resultSummary = document.getElementById("result-summary");
+      const activeFilters = document.getElementById("active-filters");
+      const emptyState = document.getElementById("empty-state");
+
+      let currentCategory = "all";
+      let currentBrand = "all";
+      let currentSearch = "";
+
+      const categoryLabels = {
+        "all": "Todas",
+        "arranque-motor": "Arranque motor",
+        "automatizacion": "Automatización",
+        "montaje-riel-din": "Montaje en riel DIN",
+        "montaje-panel": "Montaje en panel",
+        "conectores-industriales": "Conectores industriales",
+        "reles-proteccion": "Relés y protección",
+        "mando-senalizacion": "Mando y señalización"
+      };
+
+      const brandLabels = {
+        "all": "Todas",
+        "abb": "ABB",
+        "chint": "CHINT",
+        "delta": "Delta",
+        "legrand": "Legrand",
+        "ls": "LS",
+        "schneider-electric": "Schneider Electric"
+      };
+
+      function updateActiveButtons(buttons, selectedValue) {
+        buttons.forEach((button) => {
+          button.classList.toggle("active", button.dataset.filterValue === selectedValue);
+        });
+      }
+
+      function updateTags() {
+        const tags = [];
+
+        tags.push(`<span class="active-filter-tag">Categoría: ${categoryLabels[currentCategory]}</span>`);
+        tags.push(`<span class="active-filter-tag">Marca: ${brandLabels[currentBrand]}</span>`);
+
+        if (currentSearch.trim() !== "") {
+          tags.push(`<span class="active-filter-tag">Búsqueda: ${currentSearch}</span>`);
+        }
+
+        activeFilters.innerHTML = tags.join("");
+      }
+
+      function filterProducts() {
+        let visibleCount = 0;
+
+        products.forEach((product) => {
+          const category = product.dataset.category;
+          const brand = product.dataset.brand;
+          const name = product.dataset.name.toLowerCase();
+          const content = product.textContent.toLowerCase();
+
+          const matchesCategory = currentCategory === "all" || category === currentCategory;
+          const matchesBrand = currentBrand === "all" || brand === currentBrand;
+          const matchesSearch =
+            currentSearch.trim() === "" ||
+            name.includes(currentSearch) ||
+            content.includes(currentSearch);
+
+          const shouldShow = matchesCategory && matchesBrand && matchesSearch;
+
+          product.style.display = shouldShow ? "" : "none";
+
+          if (shouldShow) visibleCount++;
+        });
+
+        resultSummary.textContent =
+          visibleCount === 1
+            ? "Mostrando 1 producto."
+            : `Mostrando ${visibleCount} productos.`;
+
+        emptyState.classList.toggle("show", visibleCount === 0);
+        updateTags();
+      }
+
+      categoryButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          currentCategory = button.dataset.filterValue;
+          updateActiveButtons(categoryButtons, currentCategory);
+          filterProducts();
+        });
+      });
+
+      brandButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          currentBrand = button.dataset.filterValue;
+          updateActiveButtons(brandButtons, currentBrand);
+          filterProducts();
+        });
+      });
+
+      searchInput.addEventListener("input", (e) => {
+        currentSearch = e.target.value.trim().toLowerCase();
+        filterProducts();
+      });
+
+      filterProducts();
+    });
+  </script>
 </body>
 </html>

@@ -26,21 +26,14 @@
         radial-gradient(circle at top left, rgba(49, 87, 255, 0.18), transparent 28%),
         linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
       border-bottom: 1px solid var(--border);
-      overflow: hidden;
     }
 
     .page-hero-content {
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: end;
       gap: 24px;
       flex-wrap: wrap;
-      width: 100%;
-    }
-
-    .page-hero-content > div {
-      width: 100%;
-      max-width: 100%;
     }
 
     .page-hero h2 {
@@ -48,13 +41,12 @@
       line-height: 1.1;
       margin-bottom: 12px;
       letter-spacing: -0.03em;
-      word-break: break-word;
       max-width: 12ch;
     }
 
     .page-hero p {
       color: var(--muted);
-      max-width: 70ch;
+      max-width: 72ch;
     }
 
     .breadcrumb {
@@ -67,148 +59,145 @@
       flex-wrap: wrap;
     }
 
-    .contact-section {
+    .contact-page {
       padding: 75px 0 90px;
       background: var(--light);
-      overflow: hidden;
     }
 
-    .contact-layout {
+    .intro-grid {
       display: grid;
-      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      grid-template-columns: 1.05fr 0.95fr;
       gap: 28px;
-      align-items: start;
-      width: 100%;
+      align-items: stretch;
+      margin-bottom: 28px;
     }
 
-    .contact-layout > div {
-      min-width: 0;
-    }
-
-    .contact-info,
-    .contact-form-card,
-    .map-card,
-    .contact-visual {
+    .intro-card,
+    .contact-visual,
+    .info-panel,
+    .form-panel,
+    .map-panel,
+    .cta-contact {
       background: var(--white);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
-      width: 100%;
-      max-width: 100%;
     }
 
-    .contact-info,
-    .contact-form-card {
-      padding: 28px;
+    .intro-card,
+    .info-panel,
+    .form-panel,
+    .cta-contact {
+      padding: 30px;
     }
 
-    .contact-info h3,
-    .contact-form-card h3,
-    .map-card h3 {
-      margin-bottom: 14px;
+    .intro-card h3,
+    .info-panel h3,
+    .form-panel h3,
+    .map-panel h3,
+    .cta-contact h3 {
       font-size: 1.25rem;
-      word-break: break-word;
+      margin-bottom: 14px;
     }
 
-    .contact-info p,
-    .contact-form-card p {
+    .intro-card p,
+    .info-panel p,
+    .form-panel p,
+    .map-panel p,
+    .cta-contact p {
       color: var(--muted);
     }
 
     .contact-visual {
       overflow: hidden;
-      margin-bottom: 28px;
+      min-height: 100%;
     }
 
     .contact-visual img {
       width: 100%;
       height: 100%;
-      min-height: 260px;
+      min-height: 320px;
       object-fit: cover;
       display: block;
     }
 
-    .info-list {
-      margin-top: 22px;
-      display: grid;
-      gap: 16px;
-      width: 100%;
-    }
-
-    .info-item {
+    .pill-list {
+      margin-top: 20px;
       display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      padding: 16px;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: #fcfcfd;
-      width: 100%;
-      max-width: 100%;
-      min-width: 0;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
-    .info-item i {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #f5f7fb;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      margin-bottom: 28px;
+    }
+
+    .contact-box {
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: #fcfcfd;
+      transition: var(--transition);
+    }
+
+    .contact-box:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(49, 87, 255, 0.22);
+    }
+
+    .contact-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
       display: grid;
       place-items: center;
       background: #eef3ff;
       color: var(--primary);
-      flex-shrink: 0;
+      font-size: 1.25rem;
+      margin-bottom: 16px;
     }
 
-    .info-item h4 {
-      font-size: 0.98rem;
-      margin-bottom: 4px;
-      word-break: break-word;
+    .contact-box h4 {
+      margin-bottom: 8px;
+      font-size: 1rem;
     }
 
-    .info-item p,
-    .info-item a {
+    .contact-box p,
+    .contact-box a {
       color: var(--muted);
       font-size: 0.95rem;
       word-break: break-word;
       overflow-wrap: anywhere;
     }
 
-    .social-row {
-      margin-top: 22px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+    .form-panel {
+      margin-bottom: 28px;
     }
 
-    .social-row a {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: #eef3ff;
-      color: var(--primary);
-      transition: var(--transition);
-    }
-
-    .social-row a:hover {
-      background: var(--primary);
-      color: var(--white);
-      transform: translateY(-2px);
-    }
-
-    .contact-form-card form {
+    .form-panel form {
       margin-top: 20px;
       display: grid;
       gap: 16px;
-      width: 100%;
     }
 
     .form-row {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 14px;
-      width: 100%;
     }
 
     .field {
@@ -222,14 +211,12 @@
       font-weight: 600;
       font-size: 0.95rem;
       color: var(--text);
-      word-break: break-word;
     }
 
     .field input,
     .field textarea,
     .field select {
       width: 100%;
-      max-width: 100%;
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 14px 16px;
@@ -259,25 +246,22 @@
       border: 1px dashed var(--border);
       border-radius: 14px;
       padding: 14px 16px;
-      width: 100%;
     }
 
-    .map-card {
-      margin-top: 28px;
+    .map-panel {
       overflow: hidden;
-      width: 100%;
     }
 
-    .map-card h3 {
+    .map-panel-head {
       padding: 24px 24px 0;
     }
 
-    .map-card p {
-      padding: 0 24px 20px;
-      color: var(--muted);
+    .map-panel p {
+      margin-top: 8px;
     }
 
     .map-placeholder {
+      margin-top: 20px;
       min-height: 280px;
       display: grid;
       place-items: center;
@@ -286,26 +270,29 @@
       font-weight: 700;
       text-align: center;
       padding: 24px;
-      width: 100%;
     }
 
-    .quote-strip {
-      margin-top: 22px;
-      padding: 22px;
-      border-radius: 18px;
+    .cta-contact {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
       background: linear-gradient(135deg, #102a8c, #3157ff);
       color: var(--white);
+      border: none;
       box-shadow: var(--shadow-lg);
-      width: 100%;
     }
 
-    .quote-strip p {
+    .cta-contact p {
       color: rgba(255, 255, 255, 0.84);
-      margin-top: 8px;
+      max-width: 65ch;
     }
 
-    @media (max-width: 980px) {
-      .contact-layout {
+    @media (max-width: 1100px) {
+      .intro-grid,
+      .info-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -319,63 +306,40 @@
         padding: 70px 0 45px;
       }
 
-      .contact-info,
-      .contact-form-card {
+      .page-hero h2 {
+        max-width: 10ch;
+      }
+
+      .intro-card,
+      .info-panel,
+      .form-panel,
+      .cta-contact {
         padding: 22px;
       }
 
-      .map-card h3 {
+      .map-panel-head {
         padding: 20px 20px 0;
       }
 
-      .map-card p {
-        padding: 0 20px 18px;
+      .map-placeholder {
+        min-height: 220px;
       }
     }
 
     @media (max-width: 640px) {
-      .page-hero {
-        padding: 58px 0 40px;
-      }
-
-      .page-hero-content {
-        justify-content: flex-start;
-      }
-
-      .page-hero-content > div {
-        width: calc(100% - 28px);
-        margin: 0 auto;
-        max-width: 100%;
-        padding: 0;
-      }
-
       .page-hero h2 {
-        font-size: 1.72rem;
+        font-size: 1.75rem;
         line-height: 1.08;
         max-width: 9.5ch;
-        margin-inline: 0;
       }
 
       .page-hero p {
         font-size: 0.96rem;
         line-height: 1.7;
-        max-width: 100%;
-      }
-
-      .breadcrumb {
-        font-size: 0.92rem;
-      }
-
-      .contact-layout {
-        gap: 22px;
       }
 
       .contact-visual img {
-        min-height: 220px;
-      }
-
-      .map-placeholder {
-        min-height: 220px;
+        min-height: 250px;
       }
     }
   </style>
@@ -443,82 +407,68 @@
     </div>
   </section>
 
-  <section class="contact-section">
-    <div class="container contact-layout">
-      <div>
+  <section class="contact-page">
+    <div class="container">
+      <div class="intro-grid">
+        <div class="intro-card">
+          <span class="section-badge">Conecta con nosotros</span>
+          <h3>Una atención clara, directa y preparada para ayudarte mejor</h3>
+          <p>
+            En Industrial Import NYM buscamos que cada consulta tenga una vía clara
+            de atención. Por eso la sección de contacto está diseñada para mantener
+            el mismo orden visual del sitio y facilitar tanto la comunicación como la
+            solicitud de cotizaciones.
+          </p>
+
+          <div class="pill-list">
+            <span class="pill">Consulta rápida</span>
+            <span class="pill">Atención comercial</span>
+            <span class="pill">Formulario directo</span>
+            <span class="pill">Canales visibles</span>
+          </div>
+        </div>
+
         <div class="contact-visual">
           <img src="imagenes/general/general-4.png" alt="Canales de contacto y atención comercial" />
         </div>
+      </div>
 
-        <div class="contact-info">
-          <span class="section-badge">Canales directos</span>
-          <h3>Información de contacto</h3>
-          <p>
-            Puedes escribirnos por nuestros canales directos o completar el
-            formulario para una atención más organizada.
-          </p>
+      <div class="info-panel">
+        <span class="section-badge">Canales directos</span>
+        <h3>Información de contacto</h3>
+        <p>
+          Puedes escribirnos por nuestros canales directos o completar el formulario
+          para una atención más organizada y una respuesta más útil.
+        </p>
 
-          <div class="info-list">
-            <div class="info-item">
-              <i class="fa-solid fa-phone"></i>
-              <div>
-                <h4>Teléfono / WhatsApp</h4>
-                <p>999 999 999</p>
-              </div>
-            </div>
+        <div class="info-grid" style="margin-top: 24px;">
+          <article class="contact-box">
+            <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+            <h4>Teléfono / WhatsApp</h4>
+            <p>999 999 999</p>
+          </article>
 
-            <div class="info-item">
-              <i class="fa-solid fa-envelope"></i>
-              <div>
-                <h4>Correo electrónico</h4>
-                <a href="mailto:contacto@industrialimportnym.com">contacto@industrialimportnym.com</a>
-              </div>
-            </div>
+          <article class="contact-box">
+            <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+            <h4>Correo electrónico</h4>
+            <a href="mailto:contacto@industrialimportnym.com">contacto@industrialimportnym.com</a>
+          </article>
 
-            <div class="info-item">
-              <i class="fa-solid fa-location-dot"></i>
-              <div>
-                <h4>Dirección</h4>
-                <p>Av. Ejemplo 123, Lima, Perú</p>
-              </div>
-            </div>
+          <article class="contact-box">
+            <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <h4>Dirección</h4>
+            <p>Av. Ejemplo 123, Lima, Perú</p>
+          </article>
 
-            <div class="info-item">
-              <i class="fa-regular fa-clock"></i>
-              <div>
-                <h4>Horario de atención</h4>
-                <p>Lunes a sábado / 10:00 am - 5:00 pm</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="social-row">
-            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-          </div>
-
-          <div class="quote-strip">
-            <h3>¿Necesitas una cotización?</h3>
-            <p>
-              Déjanos tus datos y el detalle de tu requerimiento para ayudarte con
-              una respuesta más rápida y precisa.
-            </p>
-          </div>
-        </div>
-
-        <div class="map-card">
-          <h3>Ubicación referencial</h3>
-          <p>Espacio de prueba para integrar mapa o ubicación real más adelante.</p>
-          <div class="map-placeholder">
-            Mapa de ubicación demo<br />
-            Av. Ejemplo 123, Lima, Perú
-          </div>
+          <article class="contact-box">
+            <div class="contact-icon"><i class="fa-regular fa-clock"></i></div>
+            <h4>Horario de atención</h4>
+            <p>Lunes a sábado / 10:00 am - 5:00 pm</p>
+          </article>
         </div>
       </div>
 
-      <div class="contact-form-card">
+      <div class="form-panel">
         <span class="section-badge">Formulario</span>
         <h3>Envíanos tu consulta</h3>
         <p>
@@ -590,6 +540,33 @@
 
           <button type="submit" class="btn btn-primary">Enviar solicitud</button>
         </form>
+      </div>
+
+      <div class="map-panel">
+        <div class="map-panel-head">
+          <span class="section-badge">Ubicación</span>
+          <h3>Ubicación referencial</h3>
+          <p>Espacio de prueba para integrar mapa o ubicación real más adelante.</p>
+        </div>
+
+        <div class="map-placeholder">
+          Mapa de ubicación demo<br />
+          Av. Ejemplo 123, Lima, Perú
+        </div>
+      </div>
+
+      <div class="cta-contact">
+        <div>
+          <span class="section-badge dark">Atención comercial</span>
+          <h3>¿Listo para hacer una consulta o solicitar una cotización?</h3>
+          <p>
+            Estamos preparados para ayudarte con una atención más clara, moderna y
+            alineada a la experiencia visual del sitio.
+          </p>
+        </div>
+        <div>
+          <a href="#" class="btn btn-light">Escríbenos ahora</a>
+        </div>
       </div>
     </div>
   </section>

@@ -19,6 +19,7 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
   />
   <link rel="stylesheet" href="css/style.css" />
+
   <style>
     .page-hero {
       padding: 90px 0 60px;
@@ -88,10 +89,11 @@
       margin: 0;
     }
 
-    .sidebar-wrap,
-    .catalog-main {
-      min-width: 0;
+    .sidebar-wrap {
+      position: relative;
+      top: 0;
       align-self: start;
+      min-width: 0;
       margin: 0;
     }
 
@@ -103,11 +105,6 @@
       box-shadow: var(--shadow-sm);
       width: 100%;
       max-width: 100%;
-    }
-
-    .sidebar-wrap {
-      position: sticky;
-      top: 110px;
     }
 
     .sidebar-panel {
@@ -210,6 +207,8 @@
     .catalog-main {
       padding: 22px 28px 28px;
       margin: 0;
+      min-width: 0;
+      align-self: start;
     }
 
     .catalog-topbar {
@@ -384,10 +383,6 @@
         grid-template-columns: 1fr;
       }
 
-      .sidebar-wrap {
-        position: static;
-      }
-
       .catalog-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -458,6 +453,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="topbar">
     <div class="container topbar-content">
@@ -542,37 +538,30 @@
                 <span>Todas las categorías</span>
                 <i class="fa-solid fa-layer-group"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="arranque-motor">
                 <span>Arranque motor</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="automatizacion">
                 <span>Automatización</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="montaje-riel-din">
                 <span>Montaje en riel DIN</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="montaje-panel">
                 <span>Montaje en panel</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="conectores-industriales">
                 <span>Conectores industriales</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="reles-proteccion">
                 <span>Relés y protección</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="mando-senalizacion">
                 <span>Mando y señalización</span>
                 <i class="fa-solid fa-angle-right"></i>
@@ -587,32 +576,26 @@
                 <span>Todas las marcas</span>
                 <i class="fa-solid fa-tags"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="abb">
                 <span>ABB</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="chint">
                 <span>CHINT</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="delta">
                 <span>Delta</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="legrand">
                 <span>Legrand</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="ls">
                 <span>LS</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
-
               <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="schneider-electric">
                 <span>Schneider Electric</span>
                 <i class="fa-solid fa-angle-right"></i>
@@ -656,9 +639,7 @@
               </div>
               <h3>Controlador industrial demo</h3>
               <p>Solución orientada a procesos técnicos y tareas de automatización dentro de entornos modernos.</p>
-              <div class="product-footer">
-                <span class="stock available">Disponible</span>
-              </div>
+              <div class="product-footer"><span class="stock available">Disponible</span></div>
               <div class="product-actions">
                 <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
                 <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
@@ -678,9 +659,7 @@
               </div>
               <h3>Componente modular demo</h3>
               <p>Producto de muestra para instalación ordenada y aplicaciones técnicas con estructura profesional.</p>
-              <div class="product-footer">
-                <span class="stock preorder">Bajo pedido</span>
-              </div>
+              <div class="product-footer"><span class="stock preorder">Bajo pedido</span></div>
               <div class="product-actions">
                 <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
                 <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
@@ -700,9 +679,7 @@
               </div>
               <h3>Interruptor automático demo</h3>
               <p>Equipo de protección y control para distintas aplicaciones dentro del catálogo comercial.</p>
-              <div class="product-footer">
-                <span class="stock unavailable">Sin stock</span>
-              </div>
+              <div class="product-footer"><span class="stock unavailable">Sin stock</span></div>
               <div class="product-actions">
                 <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
                 <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
@@ -722,9 +699,7 @@
               </div>
               <h3>Dispositivo electrónico demo</h3>
               <p>Solución de muestra para catálogo moderno, pensada para consulta y cotización comercial.</p>
-              <div class="product-footer">
-                <span class="stock available">Disponible</span>
-              </div>
+              <div class="product-footer"><span class="stock available">Disponible</span></div>
               <div class="product-actions">
                 <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
                 <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
@@ -744,9 +719,7 @@
               </div>
               <h3>Módulo para panel demo</h3>
               <p>Producto demo para visualización de catálogo, filtros y gestión de stock visible.</p>
-              <div class="product-footer">
-                <span class="stock preorder">Bajo pedido</span>
-              </div>
+              <div class="product-footer"><span class="stock preorder">Bajo pedido</span></div>
               <div class="product-actions">
                 <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
                 <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
@@ -766,9 +739,7 @@
               </div>
               <h3>Relé de control demo</h3>
               <p>Componente de muestra para líneas técnicas, protección y uso en aplicaciones organizadas.</p>
-              <div class="product-footer">
-                <span class="stock available">Disponible</span>
-              </div>
+              <div class="product-footer"><span class="stock available">Disponible</span></div>
               <div class="product-actions">
                 <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
                 <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
@@ -840,6 +811,7 @@
   </footer>
 
   <script src="js/script.js"></script>
+
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const products = document.querySelectorAll(".catalog-product");
@@ -883,11 +855,14 @@
 
       function updateTags() {
         const tags = [];
+
         tags.push(`<span class="active-filter-tag">Categoría: ${categoryLabels[currentCategory]}</span>`);
         tags.push(`<span class="active-filter-tag">Marca: ${brandLabels[currentBrand]}</span>`);
+
         if (currentSearch.trim() !== "") {
           tags.push(`<span class="active-filter-tag">Búsqueda: ${currentSearch}</span>`);
         }
+
         activeFilters.innerHTML = tags.join("");
       }
 
@@ -908,7 +883,9 @@
             content.includes(currentSearch);
 
           const shouldShow = matchesCategory && matchesBrand && matchesSearch;
+
           product.style.display = shouldShow ? "" : "none";
+
           if (shouldShow) visibleCount++;
         });
 

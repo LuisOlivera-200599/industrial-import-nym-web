@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Productos | Industrial Import NYM</title>
+  <meta
+    name="description"
+    content="Catálogo de productos electrónicos y componentes de Industrial Import NYM."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero {
+      padding: 90px 0 60px;
+      background:
+        radial-gradient(circle at top left, rgba(49, 87, 255, 0.18), transparent 28%),
+        linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-hero-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .page-hero h2 {
+      font-size: clamp(2rem, 3.8vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      max-width: 70ch;
+    }
+
+    .breadcrumb {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 18px;
+    }
+
+    .catalog-section {
+      padding: 70px 0 90px;
+      background: var(--light);
+    }
+
+    .catalog-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .sidebar-panel,
+    .catalog-main {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar-panel {
+      padding: 22px;
+      position: sticky;
+      top: 110px;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.1rem;
+      margin-bottom: 18px;
+    }
+
+    .panel-title i {
+      color: var(--primary);
+    }
+
+    .search-box {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 14px 14px 42px;
+      font: inherit;
+      outline: none;
+      transition: 0.3s ease;
+      background: #fcfcfd;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
+    }
+
+    .filter-group {
+      margin-top: 20px;
+    }
+
+    .filter-group h4 {
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .filter-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .filter-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fcfcfd;
+      transition: 0.3s ease;
+      cursor: pointer;
+    }
+
+    .filter-item:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateX(2px);
+    }
+
+    .filter-item span {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .catalog-main {
+      padding: 28px;
+    }
+
+    .catalog-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .catalog-topbar p {
+      color: var(--muted);
+    }
+
+    .catalog-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .catalog-chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fcfcfd;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .product-card.large .product-image {
+      height: 210px;
+    }
+
+    .product-card.large .product-body h3 {
+      font-size: 1.05rem;
+    }
+
+    .product-card.large .product-actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-sm {
+      padding: 11px 16px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border-radius: 999px;
+    }
+
+    .btn-whatsapp {
+      background: #e8fff3;
+      color: #0f9f5a;
+      border: 1px solid #b7efcf;
+    }
+
+    .btn-whatsapp:hover {
+      background: #d9fbe7;
+    }
+
+    .mini-note {
+      margin-top: 28px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: #eef4ff;
+      color: var(--muted);
+      border: 1px solid #d9e5ff;
+    }
+
+    @media (max-width: 1100px) {
+      .catalog-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar-panel {
+        position: static;
+      }
+
+      .catalog-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .catalog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .catalog-main,
+      .sidebar-panel {
+        padding: 20px;
+      }
+
+      .page-hero {
+        padding: 70px 0 45px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container topbar-content">
+      <div class="topbar-left">
+        <span><i class="fa-solid fa-phone"></i> 999 999 999</span>
+        <span><i class="fa-solid fa-envelope"></i> contacto@industrialimportnym.com</span>
+        <span><i class="fa-solid fa-location-dot"></i> Av. Ejemplo 123, Lima, Perú</span>
+      </div>
+      <div class="topbar-right">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container nav">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">NYM</div>
+        <div class="logo-text">
+          <h1>Industrial Import NYM</h1>
+          <p>Soluciones electrónicas para la industria moderna</p>
+        </div>
+      </a>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <nav class="nav-menu" id="nav-menu">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="productos.html" class="active">Productos</a>
+        <a href="marcas.html">Marcas</a>
+        <a href="clientes.html">Clientes</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
+      </nav>
+
+      <a href="contacto.html" class="btn btn-primary desktop-cta">Solicitar cotización</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container page-hero-content">
+      <div>
+        <span class="section-badge">Catálogo</span>
+        <h2>Productos y componentes para distintas aplicaciones electrónicas</h2>
+        <p>
+          Explora una muestra de nuestro catálogo con categorías, marcas y estado
+          de disponibilidad visible para una consulta más clara y profesional.
+        </p>
+        <div class="breadcrumb">
+          <span><a href="index.html">Inicio</a></span>
+          <span>/</span>
+          <span>Productos</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="catalog-section">
+    <div class="container catalog-layout">
+      <aside class="sidebar-panel">
+        <div class="panel-title">
+          <i class="fa-solid fa-sliders"></i>
+          <h3>Filtros del catálogo</h3>
+        </div>
+
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Buscar producto..." />
+        </div>
+
+        <div class="filter-group">
+          <h4>Categorías</h4>
+          <div class="filter-list">
+            <div class="filter-item"><span>Arranque motor</span><i class="fa-solid fa-angle-right"></i></div>
+            <div class="filter-item"><span>Automatización</span><i class="fa-solid fa-angle-right"></i></div>
+            <div class="filter-item"><span>Montaje en riel DIN</span><i class="fa-solid fa-angle-right"></i></div>
+            <div class="filter-item"><span>Montaje en panel</span><i class="fa-solid fa-angle-right"></i></div>
+            <div class="filter-item"><span>Conectores industriales</span><i class="fa-solid fa-angle-right"></i></div>
+            <div class="filter-item"><span>Relés y protección</span><i class="fa-solid fa-angle-right"></i></div>
+            <div class="filter-item"><span>Mando y señalización</span><i class="fa-solid fa-angle-right"></i></div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h4>Marcas</h4>
+          <div class="filter-list">
+            <div class="filter-item"><span>ABB</span><i class="fa-solid fa-angle-right"></i></div>
+            <div class="filter-item"><span>CHINT</span><i class="fa-solid fa-angle-right"></i></div>
+            <div class="filter-item"><span>Delta</span><i class="fa-solid fa-angle-right"></i></div>
+            <div class="filter-item"><span>Legrand</span><i class="fa-solid fa-angle-right"></i></div>
+            <div class="filter-item"><span>LS</span><i class="fa-solid fa-angle-right"></i></div>
+            <div class="filter-item"><span>Schneider Electric</span><i class="fa-solid fa-angle-right"></i></div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="catalog-main">
+        <div class="catalog-topbar">
+          <div>
+            <h3>Catálogo general</h3>
+            <p>Mostrando productos demo del catálogo visual.</p>
+          </div>
+
+          <div class="catalog-actions">
+            <span class="catalog-chip">Sin precios visibles</span>
+            <span class="catalog-chip">Consulta por WhatsApp</span>
+            <span class="catalog-chip">Stock visible</span>
+          </div>
+        </div>
+
+        <div class="catalog-grid">
+          <article class="product-card large">
+            <div class="product-image placeholder">Producto 01</div>
+            <div class="product-body">
+              <span class="product-brand">ABB</span>
+              <h3>Controlador industrial demo</h3>
+              <p>
+                Solución orientada a procesos técnicos y tareas de automatización
+                dentro de entornos modernos.
+              </p>
+              <div class="product-footer">
+                <span class="stock available">Disponible</span>
+              </div>
+              <div class="product-actions">
+                <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
+                <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card large">
+            <div class="product-image placeholder">Producto 02</div>
+            <div class="product-body">
+              <span class="product-brand">Schneider Electric</span>
+              <h3>Componente modular demo</h3>
+              <p>
+                Producto de muestra para instalación ordenada y aplicaciones
+                técnicas con estructura profesional.
+              </p>
+              <div class="product-footer">
+                <span class="stock preorder">Bajo pedido</span>
+              </div>
+              <div class="product-actions">
+                <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
+                <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card large">
+            <div class="product-image placeholder">Producto 03</div>
+            <div class="product-body">
+              <span class="product-brand">CHINT</span>
+              <h3>Interruptor automático demo</h3>
+              <p>
+                Equipo de protección y control para distintas aplicaciones dentro
+                del catálogo comercial.
+              </p>
+              <div class="product-footer">
+                <span class="stock unavailable">Sin stock</span>
+              </div>
+              <div class="product-actions">
+                <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
+                <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card large">
+            <div class="product-image placeholder">Producto 04</div>
+            <div class="product-body">
+              <span class="product-brand">Delta</span>
+              <h3>Dispositivo electrónico demo</h3>
+              <p>
+                Solución de muestra para catálogo moderno, pensada para consulta y
+                cotización comercial.
+              </p>
+              <div class="product-footer">
+                <span class="stock available">Disponible</span>
+              </div>
+              <div class="product-actions">
+                <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
+                <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card large">
+            <div class="product-image placeholder">Producto 05</div>
+            <div class="product-body">
+              <span class="product-brand">Legrand</span>
+              <h3>Módulo para panel demo</h3>
+              <p>
+                Producto demo para visualización de catálogo, filtros y gestión de
+                stock visible.
+              </p>
+              <div class="product-footer">
+                <span class="stock preorder">Bajo pedido</span>
+              </div>
+              <div class="product-actions">
+                <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
+                <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card large">
+            <div class="product-image placeholder">Producto 06</div>
+            <div class="product-body">
+              <span class="product-brand">LS</span>
+              <h3>Relé de control demo</h3>
+              <p>
+                Componente de muestra para líneas técnicas, protección y uso en
+                aplicaciones organizadas.
+              </p>
+              <div class="product-footer">
+                <span class="stock available">Disponible</span>
+              </div>
+              <div class="product-actions">
+                <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
+                <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="mini-note">
+          Esta sección es una demo visual del catálogo. Más adelante aquí irá la
+          carga dinámica de productos desde el panel administrativo.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <h3>Industrial Import NYM</h3>
+        <p>
+          Soluciones electrónicas para la industria moderna, con una propuesta
+          comercial enfocada en confianza, orden y atención profesional.
+        </p>
+      </div>
+
+      <div>
+        <h4>Enlaces</h4>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="marcas.html">Marcas</a></li>
+          <li><a href="clientes.html">Clientes</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li>999 999 999</li>
+          <li>contacto@industrialimportnym.com</li>
+          <li>Av. Ejemplo 123, Lima, Perú</li>
+          <li>Lun - Sáb / 10:00 am - 5:00 pm</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Redes</h4>
+        <div class="footer-social">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Industrial Import NYM S.R.L. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

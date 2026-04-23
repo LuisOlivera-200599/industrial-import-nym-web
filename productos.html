@@ -203,7 +203,17 @@
     }
 
     .product-card.large .product-image {
+      height: auto;
+      min-height: 210px;
+      background: #fff;
+      padding: 0;
+    }
+
+    .product-card.large .product-image img {
+      width: 100%;
       height: 210px;
+      object-fit: cover;
+      display: block;
     }
 
     .product-card.large .product-body h3 {
@@ -391,7 +401,9 @@
 
         <div class="catalog-grid">
           <article class="product-card large">
-            <div class="product-image placeholder">Producto 01</div>
+            <div class="product-image">
+              <img src="images/productos/productos-1.png" alt="Producto 1 del catálogo" />
+            </div>
             <div class="product-body">
               <span class="product-brand">ABB</span>
               <h3>Controlador industrial demo</h3>
@@ -410,7 +422,9 @@
           </article>
 
           <article class="product-card large">
-            <div class="product-image placeholder">Producto 02</div>
+            <div class="product-image">
+              <img src="images/productos/productos-2.png" alt="Producto 2 del catálogo" />
+            </div>
             <div class="product-body">
               <span class="product-brand">Schneider Electric</span>
               <h3>Componente modular demo</h3>
@@ -429,7 +443,9 @@
           </article>
 
           <article class="product-card large">
-            <div class="product-image placeholder">Producto 03</div>
+            <div class="product-image">
+              <img src="images/productos/productos-3.png" alt="Producto 3 del catálogo" />
+            </div>
             <div class="product-body">
               <span class="product-brand">CHINT</span>
               <h3>Interruptor automático demo</h3>
@@ -448,7 +464,9 @@
           </article>
 
           <article class="product-card large">
-            <div class="product-image placeholder">Producto 04</div>
+            <div class="product-image">
+              <img src="images/productos/productos-4.png" alt="Producto 4 del catálogo" />
+            </div>
             <div class="product-body">
               <span class="product-brand">Delta</span>
               <h3>Dispositivo electrónico demo</h3>
@@ -467,7 +485,9 @@
           </article>
 
           <article class="product-card large">
-            <div class="product-image placeholder">Producto 05</div>
+            <div class="product-image">
+              <img src="images/productos/productos-1.png" alt="Producto 5 del catálogo" />
+            </div>
             <div class="product-body">
               <span class="product-brand">Legrand</span>
               <h3>Módulo para panel demo</h3>
@@ -486,7 +506,9 @@
           </article>
 
           <article class="product-card large">
-            <div class="product-image placeholder">Producto 06</div>
+            <div class="product-image">
+              <img src="images/productos/productos-2.png" alt="Producto 6 del catálogo" />
+            </div>
             <div class="product-body">
               <span class="product-brand">LS</span>
               <h3>Relé de control demo</h3>

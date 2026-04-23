@@ -31,7 +31,7 @@
 
     .page-hero-content {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: end;
       gap: 24px;
       flex-wrap: wrap;
@@ -339,11 +339,14 @@
       }
 
       .page-hero-content {
-        justify-content: center;
+        justify-content: flex-start;
       }
 
       .page-hero-content > div {
-        padding-inline: 2px;
+        width: calc(100% - 28px);
+        margin: 0 auto;
+        max-width: 100%;
+        padding: 0;
       }
 
       .page-hero h2 {

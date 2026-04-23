@@ -3,23 +3,108 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Industrial Import NYM | Soluciones electrónicas para la industria moderna</title>
+
   <meta
     name="description"
     content="Industrial Import NYM ofrece dispositivos y componentes electrónicos con enfoque en calidad, asesoría técnica y atención moderna."
   />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
+
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
   />
+
   <link rel="stylesheet" href="css/style.css" />
+
   <style>
+    .nav-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-dropdown-btn {
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0;
+    }
+
+    .nav-dropdown-btn i {
+      font-size: 0.78rem;
+      transition: transform 0.25s ease;
+    }
+
+    .nav-dropdown:hover .nav-dropdown-btn,
+    .nav-dropdown.active .nav-dropdown-btn {
+      color: var(--primary);
+    }
+
+    .nav-dropdown:hover .nav-dropdown-btn i,
+    .nav-dropdown.active .nav-dropdown-btn i {
+      transform: rotate(180deg);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 14px);
+      right: 0;
+      width: 230px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      padding: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: 0.25s ease;
+      z-index: 120;
+    }
+
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown.active .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .nav-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 14px;
+      border-radius: 12px;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .nav-dropdown-menu a:hover {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+
+    .nav-dropdown-menu i {
+      color: var(--primary);
+    }
+
     .hero-stats {
       display: flex;
       flex-wrap: wrap;
@@ -251,6 +336,35 @@
       }
     }
 
+    @media (max-width: 900px) {
+      .nav-dropdown {
+        width: 100%;
+        display: block;
+      }
+
+      .nav-dropdown-btn {
+        width: 100%;
+        justify-content: space-between;
+        padding: 12px 0;
+      }
+
+      .nav-dropdown-menu {
+        position: static;
+        width: 100%;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        border-radius: 14px;
+        margin-top: 6px;
+        display: none;
+      }
+
+      .nav-dropdown.active .nav-dropdown-menu {
+        display: block;
+      }
+    }
+
     @media (max-width: 760px) {
       .showcase-card-grid,
       .product-grid.home-products,
@@ -275,6 +389,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="topbar">
     <div class="container topbar-content">
@@ -283,6 +398,7 @@
         <span><i class="fa-solid fa-envelope"></i> contacto@industrialimportnym.com</span>
         <span><i class="fa-solid fa-location-dot"></i> Av. Ejemplo 123, Lima, Perú</span>
       </div>
+
       <div class="topbar-right">
         <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
         <a href="#"><i class="fa-brands fa-instagram"></i></a>
@@ -306,30 +422,30 @@
         <i class="fa-solid fa-bars"></i>
       </button>
 
-<nav class="nav-menu" id="nav-menu">
-  <a href="index.html" class="active">Inicio</a>
-  <a href="nosotros.html">Nosotros</a>
-  <a href="productos.html">Productos</a>
-  <a href="marcas.html">Marcas</a>
-  <a href="clientes.html">Clientes</a>
-  <a href="contacto.html">Contacto</a>
+      <nav class="nav-menu" id="nav-menu">
+        <a href="index.html" class="active">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="productos.html">Productos</a>
+        <a href="marcas.html">Marcas</a>
+        <a href="clientes.html">Clientes</a>
+        <a href="contacto.html">Contacto</a>
 
-  <div class="nav-dropdown">
-    <button class="nav-dropdown-btn" type="button">
-      Administrador
-      <i class="fa-solid fa-chevron-down"></i>
-    </button>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" type="button">
+            Administrador
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
 
-    <div class="nav-dropdown-menu">
-      <a href="admin-login.html">
-        <i class="fa-solid fa-user-shield"></i>
-        Ingresar al panel
-      </a>
-    </div>
-  </div>
+          <div class="nav-dropdown-menu">
+            <a href="admin-login.html">
+              <i class="fa-solid fa-user-shield"></i>
+              Ingresar al panel
+            </a>
+          </div>
+        </div>
 
-  <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
-</nav>
+        <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
+      </nav>
 
       <a href="contacto.html" class="btn btn-primary desktop-cta">Solicitar cotización</a>
     </div>
@@ -339,7 +455,9 @@
     <div class="container hero-content">
       <div class="hero-text">
         <span class="section-badge">Tecnología, orden y confianza</span>
+
         <h2>Catálogo moderno de dispositivos y componentes electrónicos</h2>
+
         <p>
           En Industrial Import NYM ofrecemos una propuesta comercial enfocada en
           soluciones electrónicas, marcas reconocidas, disponibilidad visible y
@@ -356,10 +474,12 @@
             <strong>+11</strong>
             <span>Categorías demo</span>
           </div>
+
           <div class="hero-stat">
             <strong>+15</strong>
             <span>Marcas referenciales</span>
           </div>
+
           <div class="hero-stat">
             <strong>3</strong>
             <span>Estados de stock</span>
@@ -368,7 +488,11 @@
       </div>
 
       <div class="hero-card hero-image-card">
-        <img src="imagenes/banners/banner-1.png" alt="Banner principal de componentes electrónicos" class="hero-main-image" />
+        <img
+          src="imagenes/banners/banner-1.png"
+          alt="Banner principal de componentes electrónicos"
+          class="hero-main-image"
+        />
       </div>
     </div>
   </section>
@@ -377,7 +501,11 @@
     <div class="container showcase-grid">
       <div class="showcase-panel">
         <span class="section-badge">Nuestra propuesta</span>
-        <h2 style="margin-bottom: 16px;">Una web pensada para vender mejor sin necesidad de carrito</h2>
+
+        <h2 style="margin-bottom: 16px;">
+          Una web pensada para vender mejor sin necesidad de carrito
+        </h2>
+
         <p>
           Apostamos por una estructura moderna donde el cliente pueda explorar
           productos, revisar marcas, validar stock y consultar con facilidad.
@@ -412,7 +540,10 @@
       </div>
 
       <div class="showcase-visual">
-        <img src="imagenes/general/general-1.png" alt="Visual de propuesta comercial y tecnológica" />
+        <img
+          src="imagenes/general/general-1.png"
+          alt="Visual de propuesta comercial y tecnológica"
+        />
       </div>
     </div>
   </section>
@@ -424,6 +555,7 @@
           <span class="section-badge">Categorías destacadas</span>
           <h2>Explora nuestras principales líneas de productos</h2>
         </div>
+
         <a href="productos.html" class="btn btn-secondary">Ver catálogo completo</a>
       </div>
 
@@ -456,6 +588,7 @@
           <span class="section-badge">Productos destacados</span>
           <h2>Una muestra visual del catálogo</h2>
         </div>
+
         <a href="productos.html" class="btn btn-secondary">Explorar productos</a>
       </div>
 
@@ -464,10 +597,12 @@
           <div class="product-image real-image">
             <img src="imagenes/productos/productos-1.png" alt="Producto destacado 1" />
           </div>
+
           <div class="product-body">
             <span class="product-brand">ABB</span>
             <h3>Controlador industrial demo</h3>
             <p>Solución orientada a procesos de control y automatización.</p>
+
             <div class="product-footer">
               <span class="stock available">Disponible</span>
               <a href="contacto.html" class="product-link">Consultar</a>
@@ -479,10 +614,12 @@
           <div class="product-image real-image">
             <img src="imagenes/productos/productos-2.png" alt="Producto destacado 2" />
           </div>
+
           <div class="product-body">
             <span class="product-brand">Schneider Electric</span>
             <h3>Componente modular demo</h3>
             <p>Producto de muestra con enfoque en instalación ordenada.</p>
+
             <div class="product-footer">
               <span class="stock preorder">Bajo pedido</span>
               <a href="contacto.html" class="product-link">Consultar</a>
@@ -494,10 +631,12 @@
           <div class="product-image real-image">
             <img src="imagenes/productos/productos-3.png" alt="Producto destacado 3" />
           </div>
+
           <div class="product-body">
             <span class="product-brand">CHINT</span>
             <h3>Interruptor automático demo</h3>
             <p>Equipo de protección y control para líneas técnicas.</p>
+
             <div class="product-footer">
               <span class="stock unavailable">Sin stock</span>
               <a href="contacto.html" class="product-link">Consultar</a>
@@ -512,7 +651,9 @@
     <div class="container">
       <div class="section-heading center">
         <span class="section-badge">Marcas destacadas</span>
+
         <h2>Respaldo comercial con marcas reconocidas</h2>
+
         <p>
           Una buena presentación también pasa por mostrar una línea de marcas sólida
           y alineada al tipo de cliente que quieres atraer.
@@ -520,9 +661,18 @@
       </div>
 
       <div class="brands-grid enhanced">
-        <div class="brand-box"><img src="imagenes/marcas/marcas-1.png" alt="Marca 1" /></div>
-        <div class="brand-box"><img src="imagenes/marcas/marcas-2.png" alt="Marca 2" /></div>
-        <div class="brand-box"><img src="imagenes/marcas/marcas-3.png" alt="Marca 3" /></div>
+        <div class="brand-box">
+          <img src="imagenes/marcas/marcas-1.png" alt="Marca 1" />
+        </div>
+
+        <div class="brand-box">
+          <img src="imagenes/marcas/marcas-2.png" alt="Marca 2" />
+        </div>
+
+        <div class="brand-box">
+          <img src="imagenes/marcas/marcas-3.png" alt="Marca 3" />
+        </div>
+
         <div class="brand-box">CHINT</div>
         <div class="brand-box">Legrand</div>
         <div class="brand-box">Schneider Electric</div>
@@ -534,12 +684,15 @@
     <div class="container">
       <div class="testimonial-box">
         <span class="section-badge dark">Atención moderna</span>
+
         <h2>Tu catálogo no tiene que vender solo. Tiene que abrir la conversación correcta.</h2>
+
         <p>
           Industrial Import NYM está pensado para mostrar una imagen seria, ordenada
           y técnicamente confiable, donde cada producto lleve a una consulta clara y
           cada consulta pueda convertirse en oportunidad comercial.
         </p>
+
         <a href="contacto.html" class="btn btn-light">Hablar con nosotros</a>
       </div>
     </div>
@@ -549,12 +702,15 @@
     <div class="container split-section">
       <div>
         <span class="section-badge">Clientes</span>
+
         <h2>Una experiencia enfocada en claridad, confianza y respuesta rápida</h2>
+
         <p>
           La web está diseñada para que tus clientes encuentren información útil,
           revisen disponibilidad y tengan canales visibles para avanzar con su consulta
           o cotización sin perder tiempo.
         </p>
+
         <ul class="check-list">
           <li>Atención comercial personalizada</li>
           <li>Consulta por producto o categoría</li>
@@ -565,10 +721,12 @@
 
       <div class="highlight-card">
         <h3>¿Por qué este enfoque funciona?</h3>
+
         <p>
           Porque para este tipo de negocio lo importante no es meter carrito por meter,
           sino facilitar una relación comercial más ordenada y profesional.
         </p>
+
         <a href="contacto.html" class="btn btn-primary full">Solicitar información</a>
       </div>
     </div>
@@ -578,12 +736,15 @@
     <div class="container cta-box">
       <div>
         <span class="section-badge dark">Cotización</span>
+
         <h2>¿Necesitas una consulta o una cotización personalizada?</h2>
+
         <p>
           Completa el formulario de contacto o escríbenos por WhatsApp para recibir
           atención comercial más directa.
         </p>
       </div>
+
       <div class="cta-buttons">
         <a href="contacto.html" class="btn btn-light">Solicitar cotización</a>
         <a href="contacto.html" class="btn btn-outline-light">Contactar ahora</a>
@@ -595,6 +756,7 @@
     <div class="container footer-grid">
       <div>
         <h3>Industrial Import NYM</h3>
+
         <p>
           Soluciones electrónicas para la industria moderna, con una propuesta
           comercial enfocada en confianza, orden y atención profesional.
@@ -603,6 +765,7 @@
 
       <div>
         <h4>Enlaces</h4>
+
         <ul>
           <li><a href="index.html">Inicio</a></li>
           <li><a href="nosotros.html">Nosotros</a></li>
@@ -615,6 +778,7 @@
 
       <div>
         <h4>Contacto</h4>
+
         <ul>
           <li>999 999 999</li>
           <li>contacto@industrialimportnym.com</li>
@@ -625,6 +789,7 @@
 
       <div>
         <h4>Redes</h4>
+
         <div class="footer-social">
           <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
           <a href="#"><i class="fa-brands fa-instagram"></i></a>
@@ -640,5 +805,24 @@
   </footer>
 
   <script src="js/script.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const dropdown = document.querySelector(".nav-dropdown");
+      const dropdownBtn = document.querySelector(".nav-dropdown-btn");
+
+      if (dropdown && dropdownBtn) {
+        dropdownBtn.addEventListener("click", () => {
+          dropdown.classList.toggle("active");
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove("active");
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

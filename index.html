@@ -49,6 +49,20 @@
       font-weight: 600;
     }
 
+    .hero-image-card {
+      padding: 14px;
+      overflow: hidden;
+    }
+
+    .hero-main-image {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      object-fit: cover;
+      border-radius: 22px;
+      display: block;
+    }
+
     .showcase-section {
       padding: 90px 0;
       background: var(--white);
@@ -111,6 +125,23 @@
       font-size: 1.02rem;
     }
 
+    .showcase-visual {
+      width: 100%;
+      min-height: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
+
+    .showcase-visual img {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+
     .section-topline {
       display: flex;
       justify-content: space-between;
@@ -122,6 +153,18 @@
 
     .product-grid.home-products {
       grid-template-columns: repeat(3, 1fr);
+    }
+
+    .product-image.real-image {
+      padding: 0;
+      background: #fff;
+    }
+
+    .product-image.real-image img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
     }
 
     .category-card .category-tag {
@@ -138,6 +181,14 @@
 
     .brands-grid.enhanced {
       grid-template-columns: repeat(6, 1fr);
+    }
+
+    .brand-box img {
+      max-width: 80%;
+      max-height: 56px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
     }
 
     .testimonial-strip {
@@ -215,6 +266,11 @@
 
       .hero-stats {
         flex-direction: column;
+      }
+
+      .hero-main-image,
+      .showcase-visual img {
+        min-height: 280px;
       }
     }
   </style>
@@ -296,29 +352,8 @@
         </div>
       </div>
 
-      <div class="hero-card">
-        <div class="hero-grid">
-          <div class="mini-card">
-            <i class="fa-solid fa-microchip"></i>
-            <h3>Componentes</h3>
-            <p>Productos orientados a soluciones técnicas, control y aplicaciones industriales.</p>
-          </div>
-          <div class="mini-card">
-            <i class="fa-solid fa-bolt"></i>
-            <h3>Automatización</h3>
-            <p>Equipos y líneas para procesos modernos con enfoque profesional.</p>
-          </div>
-          <div class="mini-card">
-            <i class="fa-solid fa-layer-group"></i>
-            <h3>Categorías claras</h3>
-            <p>Catálogo organizado para una consulta más rápida y mejor presentada.</p>
-          </div>
-          <div class="mini-card">
-            <i class="fa-solid fa-headset"></i>
-            <h3>Atención comercial</h3>
-            <p>Canales directos para resolver dudas, consultas y solicitudes de cotización.</p>
-          </div>
-        </div>
+      <div class="hero-card hero-image-card">
+        <img src="images/banners/banner-1.png" alt="Banner principal de componentes electrónicos" class="hero-main-image" />
       </div>
     </div>
   </section>
@@ -361,21 +396,8 @@
         </div>
       </div>
 
-      <div class="showcase-card">
-        <span class="section-badge">Qué obtiene el cliente</span>
-        <h2 style="margin-bottom: 14px;">Una experiencia más simple, clara y útil</h2>
-        <p>
-          El cliente no necesita perderse en una tienda saturada. Necesita
-          encontrar rápido lo que busca, verificar disponibilidad y tener una vía
-          clara para consultar o cotizar.
-        </p>
-        <ul class="check-list">
-          <li>Visualización limpia de productos</li>
-          <li>Filtros por categorías y marcas</li>
-          <li>Estados de stock visibles</li>
-          <li>Contacto inmediato por canales directos</li>
-          <li>Diseño responsive para móvil, tablet y PC</li>
-        </ul>
+      <div class="showcase-visual">
+        <img src="images/general/general-1.png" alt="Visual de propuesta comercial y tecnológica" />
       </div>
     </div>
   </section>
@@ -424,7 +446,9 @@
 
       <div class="product-grid home-products">
         <article class="product-card">
-          <div class="product-image">Producto 01</div>
+          <div class="product-image real-image">
+            <img src="images/productos/productos-1.png" alt="Producto destacado 1" />
+          </div>
           <div class="product-body">
             <span class="product-brand">ABB</span>
             <h3>Controlador industrial demo</h3>
@@ -437,7 +461,9 @@
         </article>
 
         <article class="product-card">
-          <div class="product-image">Producto 02</div>
+          <div class="product-image real-image">
+            <img src="images/productos/productos-2.png" alt="Producto destacado 2" />
+          </div>
           <div class="product-body">
             <span class="product-brand">Schneider Electric</span>
             <h3>Componente modular demo</h3>
@@ -450,7 +476,9 @@
         </article>
 
         <article class="product-card">
-          <div class="product-image">Producto 03</div>
+          <div class="product-image real-image">
+            <img src="images/productos/productos-3.png" alt="Producto destacado 3" />
+          </div>
           <div class="product-body">
             <span class="product-brand">CHINT</span>
             <h3>Interruptor automático demo</h3>
@@ -477,11 +505,11 @@
       </div>
 
       <div class="brands-grid enhanced">
-        <div class="brand-box">ABB</div>
+        <div class="brand-box"><img src="images/marcas/marcas-1.png" alt="Marca 1" /></div>
+        <div class="brand-box"><img src="images/marcas/marcas-2.png" alt="Marca 2" /></div>
+        <div class="brand-box"><img src="images/marcas/marcas-3.png" alt="Marca 3" /></div>
         <div class="brand-box">CHINT</div>
-        <div class="brand-box">Delta</div>
         <div class="brand-box">Legrand</div>
-        <div class="brand-box">LS</div>
         <div class="brand-box">Schneider Electric</div>
       </div>
     </div>

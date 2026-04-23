@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marcas | Industrial Import NYM</title>
+  <meta
+    name="description"
+    content="Marcas destacadas de Industrial Import NYM para soluciones electrónicas modernas."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero {
+      padding: 90px 0 60px;
+      background:
+        radial-gradient(circle at top left, rgba(49, 87, 255, 0.18), transparent 28%),
+        linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-hero-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .page-hero h2 {
+      font-size: clamp(2rem, 3.8vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      max-width: 70ch;
+    }
+
+    .breadcrumb {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 18px;
+    }
+
+    .brands-section {
+      padding: 75px 0 90px;
+      background: var(--light);
+    }
+
+    .intro-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 30px;
+      margin-bottom: 28px;
+    }
+
+    .intro-card p {
+      color: var(--muted);
+      max-width: 78ch;
+    }
+
+    .brands-showcase {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .brand-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 26px;
+      transition: 0.3s ease;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .brand-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(49, 87, 255, 0.25);
+    }
+
+    .brand-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .brand-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .brand-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: #eef3ff;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    .brand-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+    }
+
+    .brand-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .brand-tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #f5f7fb;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .brands-cta {
+      margin-top: 34px;
+      background: linear-gradient(135deg, #102a8c, #3157ff);
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 34px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .brands-cta p {
+      color: rgba(255, 255, 255, 0.84);
+      max-width: 60ch;
+    }
+
+    @media (max-width: 1100px) {
+      .brands-showcase {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .brands-showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .page-hero {
+        padding: 70px 0 45px;
+      }
+
+      .intro-card,
+      .brand-card,
+      .brands-cta {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container topbar-content">
+      <div class="topbar-left">
+        <span><i class="fa-solid fa-phone"></i> 999 999 999</span>
+        <span><i class="fa-solid fa-envelope"></i> contacto@industrialimportnym.com</span>
+        <span><i class="fa-solid fa-location-dot"></i> Av. Ejemplo 123, Lima, Perú</span>
+      </div>
+      <div class="topbar-right">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container nav">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">NYM</div>
+        <div class="logo-text">
+          <h1>Industrial Import NYM</h1>
+          <p>Soluciones electrónicas para la industria moderna</p>
+        </div>
+      </a>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <nav class="nav-menu" id="nav-menu">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="productos.html">Productos</a>
+        <a href="marcas.html" class="active">Marcas</a>
+        <a href="clientes.html">Clientes</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
+      </nav>
+
+      <a href="contacto.html" class="btn btn-primary desktop-cta">Solicitar cotización</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container page-hero-content">
+      <div>
+        <span class="section-badge">Marcas destacadas</span>
+        <h2>Trabajamos con marcas reconocidas para ofrecer una propuesta confiable</h2>
+        <p>
+          Nuestra selección de marcas fortalece la experiencia comercial y transmite
+          respaldo, variedad y enfoque profesional en cada consulta.
+        </p>
+        <div class="breadcrumb">
+          <span><a href="index.html">Inicio</a></span>
+          <span>/</span>
+          <span>Marcas</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="brands-section">
+    <div class="container">
+      <div class="intro-card">
+        <span class="section-badge">Confianza y variedad</span>
+        <h2 style="margin-bottom: 14px;">Marcas que impulsan una imagen sólida y moderna</h2>
+        <p>
+          Mostrar marcas reconocidas dentro del catálogo ayuda a transmitir confianza,
+          orden comercial y una propuesta más atractiva para clientes que valoran
+          respaldo, disponibilidad y soluciones alineadas a sus necesidades.
+        </p>
+      </div>
+
+      <div class="brands-showcase">
+        <article class="brand-card">
+          <div>
+            <div class="brand-top">
+              <h3 class="brand-name">ABB</h3>
+              <div class="brand-icon"><i class="fa-solid fa-bolt"></i></div>
+            </div>
+            <p>
+              Marca destacada para soluciones de automatización, control y entornos
+              industriales con enfoque técnico.
+            </p>
+          </div>
+          <div class="brand-tags">
+            <span class="brand-tag">Automatización</span>
+            <span class="brand-tag">Control</span>
+          </div>
+        </article>
+
+        <article class="brand-card">
+          <div>
+            <div class="brand-top">
+              <h3 class="brand-name">CHINT</h3>
+              <div class="brand-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            </div>
+            <p>
+              Propuesta orientada a componentes de protección, maniobra y líneas
+              técnicas para distintas aplicaciones.
+            </p>
+          </div>
+          <div class="brand-tags">
+            <span class="brand-tag">Protección</span>
+            <span class="brand-tag">Instalación</span>
+          </div>
+        </article>
+
+        <article class="brand-card">
+          <div>
+            <div class="brand-top">
+              <h3 class="brand-name">Delta</h3>
+              <div class="brand-icon"><i class="fa-solid fa-microchip"></i></div>
+            </div>
+            <p>
+              Marca vinculada a innovación tecnológica, automatización y dispositivos
+              orientados a procesos modernos.
+            </p>
+          </div>
+          <div class="brand-tags">
+            <span class="brand-tag">Tecnología</span>
+            <span class="brand-tag">Procesos</span>
+          </div>
+        </article>
+
+        <article class="brand-card">
+          <div>
+            <div class="brand-top">
+              <h3 class="brand-name">Legrand</h3>
+              <div class="brand-icon"><i class="fa-solid fa-plug-circle-bolt"></i></div>
+            </div>
+            <p>
+              Soluciones para instalaciones, componentes y líneas organizadas dentro
+              de una propuesta comercial seria.
+            </p>
+          </div>
+          <div class="brand-tags">
+            <span class="brand-tag">Montaje</span>
+            <span class="brand-tag">Conectividad</span>
+          </div>
+        </article>
+
+        <article class="brand-card">
+          <div>
+            <div class="brand-top">
+              <h3 class="brand-name">LS</h3>
+              <div class="brand-icon"><i class="fa-solid fa-wave-square"></i></div>
+            </div>
+            <p>
+              Marca presente en líneas orientadas a control, protección y componentes
+              técnicos para distintos usos.
+            </p>
+          </div>
+          <div class="brand-tags">
+            <span class="brand-tag">Relés</span>
+            <span class="brand-tag">Control</span>
+          </div>
+        </article>
+
+        <article class="brand-card">
+          <div>
+            <div class="brand-top">
+              <h3 class="brand-name">Schneider Electric</h3>
+              <div class="brand-icon"><i class="fa-solid fa-industry"></i></div>
+            </div>
+            <p>
+              Referente en líneas eléctricas, automatización y soluciones orientadas a
+              eficiencia operativa y continuidad.
+            </p>
+          </div>
+          <div class="brand-tags">
+            <span class="brand-tag">Eficiencia</span>
+            <span class="brand-tag">Industria</span>
+          </div>
+        </article>
+
+        <article class="brand-card">
+          <div>
+            <div class="brand-top">
+              <h3 class="brand-name">Autonics</h3>
+              <div class="brand-icon"><i class="fa-solid fa-gauge-high"></i></div>
+            </div>
+            <p>
+              Soluciones enfocadas en sensores, control y automatización para procesos
+              con enfoque técnico.
+            </p>
+          </div>
+          <div class="brand-tags">
+            <span class="brand-tag">Sensores</span>
+            <span class="brand-tag">Automatización</span>
+          </div>
+        </article>
+
+        <article class="brand-card">
+          <div>
+            <div class="brand-top">
+              <h3 class="brand-name">Eaton</h3>
+              <div class="brand-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+            </div>
+            <p>
+              Marca asociada a continuidad, energía, control y soluciones confiables
+              para distintos entornos.
+            </p>
+          </div>
+          <div class="brand-tags">
+            <span class="brand-tag">Energía</span>
+            <span class="brand-tag">Seguridad</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="brands-cta">
+        <div>
+          <span class="section-badge dark">Consulta</span>
+          <h2 style="margin-bottom: 12px;">¿Buscas una marca o línea específica?</h2>
+          <p>
+            Podemos ayudarte a identificar productos, validar disponibilidad y
+            orientarte con una atención comercial más directa.
+          </p>
+        </div>
+        <div>
+          <a href="contacto.html" class="btn btn-light">Solicitar información</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <h3>Industrial Import NYM</h3>
+        <p>
+          Soluciones electrónicas para la industria moderna, con una propuesta
+          comercial enfocada en confianza, orden y atención profesional.
+        </p>
+      </div>
+
+      <div>
+        <h4>Enlaces</h4>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="marcas.html">Marcas</a></li>
+          <li><a href="clientes.html">Clientes</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li>999 999 999</li>
+          <li>contacto@industrialimportnym.com</li>
+          <li>Av. Ejemplo 123, Lima, Perú</li>
+          <li>Lun - Sáb / 10:00 am - 5:00 pm</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Redes</h4>
+        <div class="footer-social">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Industrial Import NYM S.R.L. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

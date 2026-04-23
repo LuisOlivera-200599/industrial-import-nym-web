@@ -19,9 +19,207 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
   />
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .hero-stat {
+      min-width: 150px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(228, 231, 236, 0.9);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .hero-stat span {
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .showcase-section {
+      padding: 90px 0;
+      background: var(--white);
+    }
+
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .showcase-panel,
+    .showcase-card,
+    .mini-info-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .showcase-panel,
+    .showcase-card {
+      padding: 30px;
+    }
+
+    .showcase-panel p,
+    .showcase-card p,
+    .mini-info-box p {
+      color: var(--muted);
+    }
+
+    .showcase-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .mini-info-box {
+      padding: 22px;
+      transition: var(--transition);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+    }
+
+    .mini-info-box:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(47, 91, 255, 0.2);
+    }
+
+    .mini-info-box i {
+      color: var(--primary);
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+    }
+
+    .mini-info-box h3 {
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+    }
+
+    .section-topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 34px;
+      flex-wrap: wrap;
+    }
+
+    .product-grid.home-products {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .category-card .category-tag {
+      display: inline-flex;
+      margin-top: 16px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      width: fit-content;
+    }
+
+    .brands-grid.enhanced {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .testimonial-strip {
+      padding: 90px 0;
+      background: linear-gradient(180deg, var(--light) 0%, #f4f7fb 100%);
+    }
+
+    .testimonial-box {
+      background: linear-gradient(135deg, #102a8c, #3157ff);
+      color: var(--white);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .testimonial-box::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .testimonial-box p {
+      color: rgba(255, 255, 255, 0.88);
+      max-width: 75ch;
+      font-size: 1.05rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .testimonial-box h2 {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 14px;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      line-height: 1.1;
+    }
+
+    .testimonial-box .btn {
+      margin-top: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 1100px) {
+      .showcase-grid,
+      .product-grid.home-products,
+      .brands-grid.enhanced {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .showcase-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .showcase-card-grid,
+      .product-grid.home-products,
+      .brands-grid.enhanced {
+        grid-template-columns: 1fr;
+      }
+
+      .showcase-panel,
+      .showcase-card,
+      .testimonial-box {
+        padding: 24px;
+      }
+
+      .hero-stats {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
-  <!-- Top Bar -->
   <div class="topbar">
     <div class="container topbar-content">
       <div class="topbar-left">
@@ -38,7 +236,6 @@
     </div>
   </div>
 
-  <!-- Header -->
   <header class="header">
     <div class="container nav">
       <a href="index.html" class="logo">
@@ -67,20 +264,35 @@
     </div>
   </header>
 
-  <!-- Hero -->
   <section class="hero">
     <div class="container hero-content">
       <div class="hero-text">
-        <span class="section-badge">Tecnología y confianza</span>
-        <h2>Dispositivos y componentes electrónicos para soluciones modernas</h2>
+        <span class="section-badge">Tecnología, orden y confianza</span>
+        <h2>Catálogo moderno de dispositivos y componentes electrónicos</h2>
         <p>
-          En Industrial Import NYM ofrecemos productos electrónicos con una
-          propuesta profesional, moderna y orientada a la atención eficiente,
-          la calidad y la asesoría técnica.
+          En Industrial Import NYM ofrecemos una propuesta comercial enfocada en
+          soluciones electrónicas, marcas reconocidas, disponibilidad visible y
+          una experiencia profesional para consultas y cotizaciones.
         </p>
+
         <div class="hero-buttons">
           <a href="productos.html" class="btn btn-primary">Ver productos</a>
           <a href="contacto.html" class="btn btn-secondary">Solicitar cotización</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>+11</strong>
+            <span>Categorías demo</span>
+          </div>
+          <div class="hero-stat">
+            <strong>+15</strong>
+            <span>Marcas referenciales</span>
+          </div>
+          <div class="hero-stat">
+            <strong>3</strong>
+            <span>Estados de stock</span>
+          </div>
         </div>
       </div>
 
@@ -89,122 +301,134 @@
           <div class="mini-card">
             <i class="fa-solid fa-microchip"></i>
             <h3>Componentes</h3>
-            <p>Soluciones para diversas aplicaciones electrónicas.</p>
+            <p>Productos orientados a soluciones técnicas, control y aplicaciones industriales.</p>
           </div>
           <div class="mini-card">
             <i class="fa-solid fa-bolt"></i>
             <h3>Automatización</h3>
-            <p>Equipos y dispositivos para entornos técnicos exigentes.</p>
+            <p>Equipos y líneas para procesos modernos con enfoque profesional.</p>
           </div>
           <div class="mini-card">
             <i class="fa-solid fa-layer-group"></i>
-            <h3>Variedad</h3>
-            <p>Categorías, marcas y stock visible para cada consulta.</p>
+            <h3>Categorías claras</h3>
+            <p>Catálogo organizado para una consulta más rápida y mejor presentada.</p>
           </div>
           <div class="mini-card">
             <i class="fa-solid fa-headset"></i>
-            <h3>Asesoría</h3>
-            <p>Atención comercial con enfoque rápido y profesional.</p>
+            <h3>Atención comercial</h3>
+            <p>Canales directos para resolver dudas, consultas y solicitudes de cotización.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Benefits -->
-  <section class="section light-section">
-    <div class="container">
-      <div class="section-heading center">
-        <span class="section-badge">Nuestros beneficios</span>
-        <h2>Una experiencia comercial clara, moderna y confiable</h2>
+  <section class="showcase-section">
+    <div class="container showcase-grid">
+      <div class="showcase-panel">
+        <span class="section-badge">Nuestra propuesta</span>
+        <h2 style="margin-bottom: 16px;">Una web pensada para vender mejor sin necesidad de carrito</h2>
         <p>
-          Diseñamos una propuesta enfocada en productos de calidad, soporte y
-          una atención pensada para resolver necesidades reales.
+          Apostamos por una estructura moderna donde el cliente pueda explorar
+          productos, revisar marcas, validar stock y consultar con facilidad.
+          La prioridad no es llenar la pantalla de ruido, sino guiar mejor la atención.
         </p>
+
+        <div class="showcase-card-grid">
+          <div class="mini-info-box">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            <h3>Catálogo ordenado</h3>
+            <p>Productos organizados por categorías, marcas y disponibilidad.</p>
+          </div>
+
+          <div class="mini-info-box">
+            <i class="fa-solid fa-comments"></i>
+            <h3>Consulta directa</h3>
+            <p>Canales visibles para cotización y acompañamiento comercial.</p>
+          </div>
+
+          <div class="mini-info-box">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h3>Imagen sólida</h3>
+            <p>Una presencia digital más confiable y alineada al rubro técnico.</p>
+          </div>
+
+          <div class="mini-info-box">
+            <i class="fa-solid fa-chart-line"></i>
+            <h3>Escalable</h3>
+            <p>Base visual preparada para evolucionar luego al panel administrador.</p>
+          </div>
+        </div>
       </div>
 
-      <div class="cards-grid four">
-        <article class="info-card">
-          <div class="icon-circle"><i class="fa-solid fa-circle-check"></i></div>
-          <h3>Productos de calidad</h3>
-          <p>
-            Trabajamos con una propuesta orientada a brindar dispositivos y
-            componentes con respaldo y presentación profesional.
-          </p>
-        </article>
-
-        <article class="info-card">
-          <div class="icon-circle"><i class="fa-solid fa-user-gear"></i></div>
-          <h3>Asesoría especializada</h3>
-          <p>
-            Acompañamos al cliente con información clara para facilitar la
-            consulta y la cotización de productos.
-          </p>
-        </article>
-
-        <article class="info-card">
-          <div class="icon-circle"><i class="fa-solid fa-boxes-stacked"></i></div>
-          <h3>Gestión de stock</h3>
-          <p>
-            Mostramos el estado del producto para una experiencia más ordenada
-            y útil al momento de consultar.
-          </p>
-        </article>
-
-        <article class="info-card">
-          <div class="icon-circle"><i class="fa-solid fa-clock"></i></div>
-          <h3>Respuesta rápida</h3>
-          <p>
-            Priorizamos tiempos de atención ágiles y canales de contacto
-            directos para mejorar cada interacción.
-          </p>
-        </article>
+      <div class="showcase-card">
+        <span class="section-badge">Qué obtiene el cliente</span>
+        <h2 style="margin-bottom: 14px;">Una experiencia más simple, clara y útil</h2>
+        <p>
+          El cliente no necesita perderse en una tienda saturada. Necesita
+          encontrar rápido lo que busca, verificar disponibilidad y tener una vía
+          clara para consultar o cotizar.
+        </p>
+        <ul class="check-list">
+          <li>Visualización limpia de productos</li>
+          <li>Filtros por categorías y marcas</li>
+          <li>Estados de stock visibles</li>
+          <li>Contacto inmediato por canales directos</li>
+          <li>Diseño responsive para móvil, tablet y PC</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- Categories -->
-  <section class="section">
+  <section class="section light-section">
     <div class="container">
-      <div class="section-heading">
-        <span class="section-badge">Categorías destacadas</span>
-        <h2>Explora nuestras principales líneas de productos</h2>
+      <div class="section-topline">
+        <div class="section-heading" style="margin-bottom: 0;">
+          <span class="section-badge">Categorías destacadas</span>
+          <h2>Explora nuestras principales líneas de productos</h2>
+        </div>
+        <a href="productos.html" class="btn btn-secondary">Ver catálogo completo</a>
       </div>
 
       <div class="cards-grid three">
         <article class="category-card">
           <h3>Automatización</h3>
-          <p>Equipos y componentes para procesos, control y aplicaciones técnicas.</p>
+          <p>Equipos y soluciones para procesos, control y tareas técnicas modernas.</p>
+          <span class="category-tag">Procesos</span>
         </article>
 
         <article class="category-card">
           <h3>Montaje eléctrico</h3>
-          <p>Soluciones modulares y componentes orientados a instalación organizada.</p>
+          <p>Componentes modulares y líneas pensadas para instalación organizada.</p>
+          <span class="category-tag">Instalación</span>
         </article>
 
         <article class="category-card">
-          <h3>Control y protección</h3>
-          <p>Productos para maniobra, medición, seguridad y continuidad operativa.</p>
+          <h3>Protección y control</h3>
+          <p>Productos orientados a maniobra, continuidad y seguridad operativa.</p>
+          <span class="category-tag">Seguridad</span>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- Featured Products -->
-  <section class="section light-section">
+  <section class="section">
     <div class="container">
-      <div class="section-heading">
-        <span class="section-badge">Productos destacados</span>
-        <h2>Una muestra de nuestro catálogo</h2>
+      <div class="section-topline">
+        <div class="section-heading" style="margin-bottom: 0;">
+          <span class="section-badge">Productos destacados</span>
+          <h2>Una muestra visual del catálogo</h2>
+        </div>
+        <a href="productos.html" class="btn btn-secondary">Explorar productos</a>
       </div>
 
-      <div class="product-grid">
+      <div class="product-grid home-products">
         <article class="product-card">
-          <div class="product-image placeholder">Producto 01</div>
+          <div class="product-image">Producto 01</div>
           <div class="product-body">
             <span class="product-brand">ABB</span>
             <h3>Controlador industrial demo</h3>
-            <p>Dispositivo orientado a procesos de control y automatización.</p>
+            <p>Solución orientada a procesos de control y automatización.</p>
             <div class="product-footer">
               <span class="stock available">Disponible</span>
               <a href="contacto.html" class="product-link">Consultar</a>
@@ -213,11 +437,11 @@
         </article>
 
         <article class="product-card">
-          <div class="product-image placeholder">Producto 02</div>
+          <div class="product-image">Producto 02</div>
           <div class="product-body">
             <span class="product-brand">Schneider Electric</span>
             <h3>Componente modular demo</h3>
-            <p>Solución pensada para montaje técnico con estructura ordenada.</p>
+            <p>Producto de muestra con enfoque en instalación ordenada.</p>
             <div class="product-footer">
               <span class="stock preorder">Bajo pedido</span>
               <a href="contacto.html" class="product-link">Consultar</a>
@@ -226,26 +450,13 @@
         </article>
 
         <article class="product-card">
-          <div class="product-image placeholder">Producto 03</div>
+          <div class="product-image">Producto 03</div>
           <div class="product-body">
             <span class="product-brand">CHINT</span>
             <h3>Interruptor automático demo</h3>
-            <p>Equipo para aplicaciones de control y protección en instalación.</p>
+            <p>Equipo de protección y control para líneas técnicas.</p>
             <div class="product-footer">
               <span class="stock unavailable">Sin stock</span>
-              <a href="contacto.html" class="product-link">Consultar</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="product-card">
-          <div class="product-image placeholder">Producto 04</div>
-          <div class="product-body">
-            <span class="product-brand">Delta</span>
-            <h3>Dispositivo electrónico demo</h3>
-            <p>Producto de muestra para catálogo moderno y estructura comercial.</p>
-            <div class="product-footer">
-              <span class="stock available">Disponible</span>
               <a href="contacto.html" class="product-link">Consultar</a>
             </div>
           </div>
@@ -254,15 +465,18 @@
     </div>
   </section>
 
-  <!-- Brands -->
-  <section class="section">
+  <section class="section light-section">
     <div class="container">
       <div class="section-heading center">
-        <span class="section-badge">Marcas</span>
-        <h2>Trabajamos con marcas reconocidas</h2>
+        <span class="section-badge">Marcas destacadas</span>
+        <h2>Respaldo comercial con marcas reconocidas</h2>
+        <p>
+          Una buena presentación también pasa por mostrar una línea de marcas sólida
+          y alineada al tipo de cliente que quieres atraer.
+        </p>
       </div>
 
-      <div class="brands-grid">
+      <div class="brands-grid enhanced">
         <div class="brand-box">ABB</div>
         <div class="brand-box">CHINT</div>
         <div class="brand-box">Delta</div>
@@ -273,45 +487,58 @@
     </div>
   </section>
 
-  <!-- Clients -->
-  <section class="section light-section">
+  <section class="testimonial-strip">
+    <div class="container">
+      <div class="testimonial-box">
+        <span class="section-badge dark">Atención moderna</span>
+        <h2>Tu catálogo no tiene que vender solo. Tiene que abrir la conversación correcta.</h2>
+        <p>
+          Industrial Import NYM está pensado para mostrar una imagen seria, ordenada
+          y técnicamente confiable, donde cada producto lleve a una consulta clara y
+          cada consulta pueda convertirse en oportunidad comercial.
+        </p>
+        <a href="contacto.html" class="btn btn-light">Hablar con nosotros</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="container split-section">
       <div>
         <span class="section-badge">Clientes</span>
-        <h2>Atención orientada a la consulta, la confianza y la respuesta rápida</h2>
+        <h2>Una experiencia enfocada en claridad, confianza y respuesta rápida</h2>
         <p>
-          Nuestra propuesta está pensada para clientes que buscan una experiencia
-          profesional, clara y moderna al momento de revisar productos,
-          consultar disponibilidad y solicitar cotización.
+          La web está diseñada para que tus clientes encuentren información útil,
+          revisen disponibilidad y tengan canales visibles para avanzar con su consulta
+          o cotización sin perder tiempo.
         </p>
         <ul class="check-list">
           <li>Atención comercial personalizada</li>
-          <li>Soporte para consultas y cotizaciones</li>
-          <li>Información clara sobre categorías y marcas</li>
-          <li>Estado visible de disponibilidad del producto</li>
+          <li>Consulta por producto o categoría</li>
+          <li>Marcas visibles y mejor organizadas</li>
+          <li>Formulario y contacto directo</li>
         </ul>
       </div>
 
       <div class="highlight-card">
-        <h3>¿Por qué elegirnos?</h3>
+        <h3>¿Por qué este enfoque funciona?</h3>
         <p>
-          Porque un catálogo moderno no solo debe verse bien, también debe
-          transmitir orden, confianza y facilidad de contacto.
+          Porque para este tipo de negocio lo importante no es meter carrito por meter,
+          sino facilitar una relación comercial más ordenada y profesional.
         </p>
         <a href="contacto.html" class="btn btn-primary full">Solicitar información</a>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
   <section class="section cta-section">
     <div class="container cta-box">
       <div>
         <span class="section-badge dark">Cotización</span>
         <h2>¿Necesitas una consulta o una cotización personalizada?</h2>
         <p>
-          Completa el formulario de contacto o escríbenos directamente por
-          WhatsApp para brindarte atención más rápida.
+          Completa el formulario de contacto o escríbenos por WhatsApp para recibir
+          atención comercial más directa.
         </p>
       </div>
       <div class="cta-buttons">
@@ -321,7 +548,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="container footer-grid">
       <div>

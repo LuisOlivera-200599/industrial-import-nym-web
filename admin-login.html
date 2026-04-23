@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Acceso administrador | Industrial Import NYM</title>
+
+  <meta
+    name="description"
+    content="Acceso administrativo para gestionar productos, marcas y categorías de Industrial Import NYM."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(49, 87, 255, 0.25), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(16, 42, 140, 0.18), transparent 32%),
+        linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .login-shell {
+      width: min(100%, 1080px);
+      display: grid;
+      grid-template-columns: 1fr 0.95fr;
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(215, 225, 245, 0.9);
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(15, 23, 42, 0.14);
+      backdrop-filter: blur(18px);
+    }
+
+    .login-info {
+      padding: 46px;
+      background:
+        linear-gradient(135deg, rgba(16, 42, 140, 0.96), rgba(49, 87, 255, 0.92)),
+        url("imagenes/banner/banner-1.png") center/cover;
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-info::after {
+      content: "";
+      position: absolute;
+      inset: auto -80px -80px auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 52px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .admin-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: #ffffff;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .admin-brand h1 {
+      font-size: 1.05rem;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .admin-brand p {
+      margin: 3px 0 0;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 0.9rem;
+    }
+
+    .login-info-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-info-content span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .login-info h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      margin-bottom: 16px;
+      max-width: 11ch;
+    }
+
+    .login-info p {
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.75;
+      max-width: 54ch;
+    }
+
+    .login-benefits {
+      display: grid;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .benefit {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255, 255, 255, 0.88);
+      font-weight: 600;
+    }
+
+    .benefit i {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .login-form-area {
+      padding: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .login-card .section-badge {
+      margin-bottom: 16px;
+    }
+
+    .login-card h2 {
+      font-size: 2rem;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .login-card > p {
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 26px;
+    }
+
+    .login-form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+
+    .input-wrap input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 15px 15px 15px 44px;
+      font: inherit;
+      outline: none;
+      background: #fcfcfd;
+      transition: 0.3s ease;
+    }
+
+    .input-wrap input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
+    }
+
+    .login-btn {
+      margin-top: 8px;
+      width: 100%;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+    }
+
+    .login-message {
+      display: none;
+      padding: 13px 15px;
+      border-radius: 14px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .login-message.error {
+      display: block;
+      background: #fff1f2;
+      color: #be123c;
+      border: 1px solid #fecdd3;
+    }
+
+    .login-message.success {
+      display: block;
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #bbf7d0;
+    }
+
+    .demo-access {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .demo-access strong {
+      color: var(--text);
+    }
+
+    .back-link {
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 900px) {
+      .login-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .login-info {
+        padding: 34px;
+      }
+
+      .login-info h2 {
+        max-width: 14ch;
+      }
+
+      .login-form-area {
+        padding: 34px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        padding: 14px;
+      }
+
+      .login-shell {
+        border-radius: 24px;
+      }
+
+      .login-info,
+      .login-form-area {
+        padding: 24px;
+      }
+
+      .admin-brand {
+        margin-bottom: 34px;
+      }
+
+      .login-info h2 {
+        font-size: 2rem;
+      }
+
+      .login-card h2 {
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="login-shell">
+    <section class="login-info">
+      <div class="admin-brand">
+        <div class="admin-logo">NYM</div>
+        <div>
+          <h1>Industrial Import NYM</h1>
+          <p>Panel administrativo</p>
+        </div>
+      </div>
+
+      <div class="login-info-content">
+        <span><i class="fa-solid fa-shield-halved"></i> Acceso interno</span>
+
+        <h2>Gestiona el catálogo con orden y control</h2>
+
+        <p>
+          Desde este panel podrás administrar productos, categorías, marcas,
+          imágenes y estados de stock para mantener la web actualizada.
+        </p>
+
+        <div class="login-benefits">
+          <div class="benefit">
+            <i class="fa-solid fa-box"></i>
+            <span>Agregar y editar productos</span>
+          </div>
+
+          <div class="benefit">
+            <i class="fa-solid fa-tags"></i>
+            <span>Gestionar marcas y categorías</span>
+          </div>
+
+          <div class="benefit">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Preparado para crecimiento futuro</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="login-form-area">
+      <div class="login-card">
+        <span class="section-badge">Administrador</span>
+
+        <h2>Iniciar sesión</h2>
+
+        <p>
+          Ingresa tus credenciales para acceder al panel de gestión del catálogo.
+        </p>
+
+        <form class="login-form" id="admin-login-form">
+          <div class="field">
+            <label for="admin-user">Usuario</label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-user"></i>
+              <input
+                type="text"
+                id="admin-user"
+                placeholder="Ingresa tu usuario"
+                autocomplete="username"
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="admin-password">Contraseña</label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-lock"></i>
+              <input
+                type="password"
+                id="admin-password"
+                placeholder="Ingresa tu contraseña"
+                autocomplete="current-password"
+              />
+            </div>
+          </div>
+
+          <div class="login-message" id="login-message"></div>
+
+          <button type="submit" class="btn btn-primary login-btn">
+            Ingresar al panel
+          </button>
+        </form>
+
+        <div class="demo-access">
+          <strong>Acceso demo:</strong><br />
+          Usuario: <strong>admin</strong><br />
+          Contraseña: <strong>123456</strong>
+        </div>
+
+        <a href="index.html" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i>
+          Volver a la página principal
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("admin-login-form");
+      const userInput = document.getElementById("admin-user");
+      const passwordInput = document.getElementById("admin-password");
+      const message = document.getElementById("login-message");
+
+      const ADMIN_USER = "admin";
+      const ADMIN_PASSWORD = "123456";
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const user = userInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        message.className = "login-message";
+        message.textContent = "";
+
+        if (!user || !password) {
+          message.classList.add("error");
+          message.textContent = "Completa usuario y contraseña para continuar.";
+          return;
+        }
+
+        if (user === ADMIN_USER && password === ADMIN_PASSWORD) {
+          localStorage.setItem("nymAdminSession", "active");
+          localStorage.setItem("nymAdminUser", user);
+
+          message.classList.add("success");
+          message.textContent = "Acceso correcto. Redirigiendo al panel...";
+
+          setTimeout(() => {
+            window.location.href = "admin.html";
+          }, 700);
+
+          return;
+        }
+
+        message.classList.add("error");
+        message.textContent = "Usuario o contraseña incorrectos.";
+      });
+    });
+  </script>
+</body>
+</html>

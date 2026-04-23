@@ -1,267 +1,1399 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel Admin | NYM</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+  <title>Panel administrador | Industrial Import NYM</title>
 
-<style>
-body{
-  font-family: 'Inter', sans-serif;
-  background:#f6f8fc;
-  margin:0;
-}
+  <meta
+    name="description"
+    content="Panel administrador para gestionar productos, marcas, categorías y stock de Industrial Import NYM."
+  />
 
-.container{
-  width:min(1100px,90%);
-  margin:auto;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-.header{
-  background:#fff;
-  padding:20px;
-  display:flex;
-  justify-content:space-between;
-  border-bottom:1px solid #ddd;
-}
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
 
-.card{
-  background:#fff;
-  padding:20px;
-  border-radius:15px;
-  margin-top:20px;
-}
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
 
-input,select,textarea{
-  width:100%;
-  padding:10px;
-  border-radius:10px;
-  border:1px solid #ccc;
-}
+  <link rel="stylesheet" href="css/style.css" />
 
-button{
-  padding:10px 15px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(49, 87, 255, 0.12), transparent 28%),
+        linear-gradient(180deg, #f6f8fc 0%, #eef3fb 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-.btn-primary{
-  background:#3157ff;
-  color:white;
-}
+    .admin-topbar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.05);
+    }
 
-.btn-danger{
-  background:#ff4d4d;
-  color:white;
-}
+    .admin-container {
+      width: min(100% - 56px, 1240px);
+      margin-inline: auto;
+    }
 
-.grid{
-  display:grid;
-  grid-template-columns:350px 1fr;
-  gap:20px;
-}
+    .admin-nav {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
 
-.product{
-  display:flex;
-  gap:15px;
-  border:1px solid #ddd;
-  padding:10px;
-  border-radius:10px;
-  margin-bottom:10px;
-}
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-.product img{
-  width:80px;
-  height:80px;
-  object-fit:cover;
-}
+    .admin-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 17px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #102a8c, #3157ff);
+      color: #ffffff;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      box-shadow: 0 16px 35px rgba(49, 87, 255, 0.25);
+    }
 
-.actions{
-  display:flex;
-  gap:5px;
-}
-</style>
+    .admin-brand h1 {
+      font-size: 1.05rem;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .admin-brand p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .admin-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .admin-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: 0.25s ease;
+      text-decoration: none;
+    }
+
+    .admin-btn-primary {
+      background: linear-gradient(135deg, #3157ff, #1741d8);
+      color: #ffffff;
+      box-shadow: 0 16px 35px rgba(49, 87, 255, 0.24);
+    }
+
+    .admin-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(49, 87, 255, 0.32);
+    }
+
+    .admin-btn-light {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+
+    .admin-btn-light:hover {
+      background: #e2ebff;
+      transform: translateY(-2px);
+    }
+
+    .admin-btn-danger {
+      background: #fff1f2;
+      color: #be123c;
+    }
+
+    .admin-btn-danger:hover {
+      background: #ffe4e6;
+      transform: translateY(-2px);
+    }
+
+    .admin-page {
+      padding: 34px 0 74px;
+    }
+
+    .admin-hero {
+      background:
+        linear-gradient(135deg, rgba(16, 42, 140, 0.96), rgba(49, 87, 255, 0.94)),
+        url("imagenes/banners/banner-1.png") center/cover;
+      color: #ffffff;
+      border-radius: 30px;
+      padding: 34px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 26px;
+      align-items: center;
+      box-shadow: 0 26px 70px rgba(49, 87, 255, 0.22);
+      margin-bottom: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .admin-hero::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      right: -80px;
+      bottom: -90px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .admin-hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .admin-hero h2 {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+      margin: 0 0 14px;
+      max-width: 13ch;
+    }
+
+    .admin-hero p {
+      color: rgba(255, 255, 255, 0.84);
+      line-height: 1.7;
+      max-width: 72ch;
+      margin: 0;
+    }
+
+    .admin-hero-card {
+      position: relative;
+      z-index: 1;
+      width: 260px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 24px;
+      padding: 22px;
+      backdrop-filter: blur(16px);
+    }
+
+    .admin-hero-card h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      color: #ffffff;
+    }
+
+    .admin-hero-card p {
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .quick-guide {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .guide-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .guide-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: var(--primary);
+      background: #eef3ff;
+      flex: 0 0 auto;
+    }
+
+    .guide-card h3 {
+      margin: 0 0 6px;
+      font-size: 0.98rem;
+    }
+
+    .guide-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-card span {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .stat-card strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 1.9rem;
+      letter-spacing: -0.04em;
+      color: var(--text);
+    }
+
+    .stat-card i {
+      color: var(--primary);
+      float: right;
+      font-size: 1.2rem;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: minmax(340px, 400px) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .admin-panel {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+    }
+
+    .panel-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .panel-header h3 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+    }
+
+    .panel-header p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .panel-body {
+      padding: 24px;
+    }
+
+    .admin-form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .form-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+      font-weight: 900;
+      color: var(--text);
+      font-size: 0.92rem;
+    }
+
+    .form-step span {
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: #eef3ff;
+      color: var(--primary);
+      font-size: 0.82rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .field small {
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.45;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 14px 15px;
+      font: inherit;
+      outline: none;
+      background: #fcfcfd;
+      transition: 0.25s ease;
+      color: var(--text);
+    }
+
+    .field textarea {
+      min-height: 118px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
+      background: #ffffff;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .image-helper {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border: 1px dashed #cdd9f8;
+      border-radius: 18px;
+      background: #f8fbff;
+    }
+
+    .image-preview {
+      width: 96px;
+      height: 80px;
+      border-radius: 15px;
+      object-fit: cover;
+      background: #ffffff;
+      border: 1px solid var(--border);
+    }
+
+    .image-helper p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+
+    .admin-actions-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .admin-actions-row .admin-btn {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .notice {
+      display: none;
+      padding: 13px 15px;
+      border-radius: 15px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .notice.show {
+      display: block;
+    }
+
+    .notice.success {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #bbf7d0;
+    }
+
+    .notice.error {
+      background: #fff1f2;
+      color: #be123c;
+      border: 1px solid #fecdd3;
+    }
+
+    .tools-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .admin-search {
+      position: relative;
+      flex: 1;
+      min-width: min(100%, 280px);
+    }
+
+    .admin-search i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+
+    .admin-search input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 13px 15px 13px 43px;
+      font: inherit;
+      background: #fcfcfd;
+      outline: none;
+    }
+
+    .admin-search input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
+    }
+
+    .filter-select {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 13px 16px;
+      font: inherit;
+      background: #ffffff;
+      color: var(--text);
+      outline: none;
+      font-weight: 700;
+    }
+
+    .products-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .admin-product {
+      display: grid;
+      grid-template-columns: 104px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: #fcfcfd;
+      transition: 0.25s ease;
+    }
+
+    .admin-product:hover {
+      background: #ffffff;
+      border-color: rgba(49, 87, 255, 0.25);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-2px);
+    }
+
+    .admin-product img {
+      width: 104px;
+      height: 88px;
+      border-radius: 16px;
+      object-fit: cover;
+      background: #ffffff;
+      border: 1px solid var(--border);
+    }
+
+    .admin-product h4 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+    }
+
+    .admin-product p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+      max-width: 72ch;
+    }
+
+    .admin-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .admin-tag {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 0.77rem;
+      font-weight: 800;
+    }
+
+    .stock-tag {
+      border: none;
+    }
+
+    .stock-tag.available {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .stock-tag.preorder {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+
+    .stock-tag.unavailable {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .icon-action {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      border: none;
+      cursor: pointer;
+      transition: 0.25s ease;
+      background: #eef3ff;
+      color: var(--primary);
+    }
+
+    .icon-action:hover {
+      transform: translateY(-2px);
+      background: #e2ebff;
+    }
+
+    .icon-action.danger {
+      background: #fff1f2;
+      color: #be123c;
+    }
+
+    .icon-action.danger:hover {
+      background: #ffe4e6;
+    }
+
+    .empty-state-admin {
+      padding: 42px 24px;
+      border-radius: 22px;
+      border: 1px dashed #cdd9f8;
+      background: #f8fbff;
+      text-align: center;
+    }
+
+    .empty-state-admin i {
+      font-size: 2.2rem;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+
+    .empty-state-admin h3 {
+      margin: 0 0 8px;
+    }
+
+    .empty-state-admin p {
+      margin: 0 auto;
+      color: var(--muted);
+      max-width: 52ch;
+      line-height: 1.6;
+    }
+
+    .admin-help {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 20px;
+      background: #eef4ff;
+      border: 1px solid #d9e5ff;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.9rem;
+    }
+
+    .admin-help strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 1050px) {
+      .admin-grid,
+      .admin-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-hero-card {
+        width: 100%;
+      }
+
+      .quick-guide,
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .admin-product {
+        grid-template-columns: 92px 1fr;
+      }
+
+      .product-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .admin-container {
+        width: min(100% - 28px, 1240px);
+      }
+
+      .admin-nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px 0;
+      }
+
+      .admin-nav-actions {
+        width: 100%;
+      }
+
+      .admin-nav-actions .admin-btn {
+        flex: 1;
+      }
+
+      .admin-page {
+        padding: 24px 0 56px;
+      }
+
+      .admin-hero,
+      .panel-body,
+      .panel-header {
+        padding: 20px;
+      }
+
+      .admin-hero h2 {
+        font-size: 2rem;
+      }
+
+      .quick-guide,
+      .stats-grid,
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .image-helper {
+        grid-template-columns: 1fr;
+      }
+
+      .image-preview {
+        width: 100%;
+        height: 170px;
+      }
+
+      .admin-product {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-product img {
+        width: 100%;
+        height: 180px;
+      }
+
+      .tools-bar {
+        flex-direction: column;
+      }
+
+      .filter-select {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
-
-<div class="header container">
-  <h2>Panel Admin NYM</h2>
-  <button onclick="logout()">Cerrar sesión</button>
-</div>
-
-<div class="container grid">
-
-<!-- FORM -->
-<div class="card">
-<h3 id="form-title">Agregar producto</h3>
-
-<form id="form">
-
-<input type="hidden" id="id">
-
-<label>Nombre</label>
-<input id="name">
-
-<label>Marca</label>
-<input id="brand">
-
-<label>Categoría</label>
-<input id="category">
-
-<label>Imagen</label>
-<input id="image" placeholder="imagenes/productos/productos-1.png">
-
-<label>Stock</label>
-<select id="stock">
-<option>Disponible</option>
-<option>Bajo pedido</option>
-<option>Sin stock</option>
-</select>
-
-<label>Descripción</label>
-<textarea id="desc"></textarea>
-
-<br><br>
-
-<button class="btn-primary" type="submit">Guardar</button>
-<button type="button" onclick="resetForm()">Limpiar</button>
-
-</form>
-</div>
-
-<!-- LISTA -->
-<div class="card">
-<h3>Productos</h3>
-
-<input id="search" placeholder="Buscar...">
-
-<div id="list"></div>
-
-</div>
-
-</div>
-
-<script>
-
-if(localStorage.getItem("nymAdminSession")!=="active"){
-  location.href="admin-login.html"
-}
-
-const STORAGE="products"
-
-let products=JSON.parse(localStorage.getItem(STORAGE)||"[]")
-
-const form=document.getElementById("form")
-const list=document.getElementById("list")
-const search=document.getElementById("search")
-
-const fields={
-id:document.getElementById("id"),
-name:document.getElementById("name"),
-brand:document.getElementById("brand"),
-category:document.getElementById("category"),
-image:document.getElementById("image"),
-stock:document.getElementById("stock"),
-desc:document.getElementById("desc"),
-}
-
-function save(){
-  localStorage.setItem(STORAGE,JSON.stringify(products))
-}
-
-function render(){
-  let q=search.value.toLowerCase()
-
-  let filtered=products.filter(p=>
-    (p.name+p.brand+p.category+p.desc).toLowerCase().includes(q)
-  )
-
-  list.innerHTML=""
-
-  if(!filtered.length){
-    list.innerHTML="<p>No hay productos</p>"
-    return
-  }
-
-  filtered.forEach(p=>{
-    list.innerHTML+=`
-    <div class="product">
-      <img src="${p.image || 'imagenes/productos/productos-1.png'}">
-      <div>
-        <b>${p.name}</b><br>
-        ${p.brand} | ${p.category}<br>
-        <small>${p.stock}</small>
-
-        <div class="actions">
-          <button onclick="edit('${p.id}')">✏️</button>
-          <button class="btn-danger" onclick="del('${p.id}')">🗑</button>
+  <header class="admin-topbar">
+    <div class="admin-container admin-nav">
+      <div class="admin-brand">
+        <div class="admin-logo">NYM</div>
+        <div>
+          <h1>Industrial Import NYM</h1>
+          <p>Panel administrador del catálogo</p>
         </div>
       </div>
+
+      <div class="admin-nav-actions">
+        <a href="index.html" class="admin-btn admin-btn-light">
+          <i class="fa-solid fa-house"></i>
+          Inicio
+        </a>
+
+        <a href="productos.html" class="admin-btn admin-btn-light">
+          <i class="fa-solid fa-eye"></i>
+          Ver catálogo
+        </a>
+
+        <button type="button" class="admin-btn admin-btn-danger" id="logout-btn">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Cerrar sesión
+        </button>
+      </div>
     </div>
-    `
-  })
-}
+  </header>
 
-form.addEventListener("submit",e=>{
-  e.preventDefault()
+  <main class="admin-page">
+    <div class="admin-container">
+      <section class="admin-hero">
+        <div class="admin-hero-content">
+          <span class="admin-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            Gestión interna
+          </span>
 
-  let data={
-    id:fields.id.value || Date.now()+"",
-    name:fields.name.value,
-    brand:fields.brand.value,
-    category:fields.category.value,
-    image:fields.image.value,
-    stock:fields.stock.value,
-    desc:fields.desc.value
-  }
+          <h2>Control rápido del catálogo comercial</h2>
 
-  let i=products.findIndex(p=>p.id===data.id)
+          <p>
+            Desde aquí puedes agregar productos, editar información, cambiar el estado
+            de stock y eliminar registros. Todo lo que guardes aparecerá en la página
+            pública de productos usando esta demo con almacenamiento local.
+          </p>
+        </div>
 
-  if(i>=0){
-    products[i]=data
-  }else{
-    products.unshift(data)
-  }
+        <div class="admin-hero-card">
+          <h3>Modo demo activo</h3>
+          <p>
+            Los datos se guardan en este navegador. Para producción real, luego se puede
+            conectar con Firebase, Supabase o una base de datos propia.
+          </p>
+        </div>
+      </section>
 
-  save()
-  resetForm()
-  render()
-})
+      <section class="quick-guide">
+        <article class="guide-card">
+          <div class="guide-icon">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <div>
+            <h3>1. Agrega</h3>
+            <p>Completa nombre, marca, categoría, imagen, stock y descripción.</p>
+          </div>
+        </article>
 
-function edit(id){
-  let p=products.find(x=>x.id===id)
+        <article class="guide-card">
+          <div class="guide-icon">
+            <i class="fa-solid fa-floppy-disk"></i>
+          </div>
+          <div>
+            <h3>2. Guarda</h3>
+            <p>El producto se registra y queda listo para mostrarse en el catálogo.</p>
+          </div>
+        </article>
 
-  Object.keys(fields).forEach(k=>{
-    fields[k].value=p[k]
-  })
-}
+        <article class="guide-card">
+          <div class="guide-icon">
+            <i class="fa-solid fa-pen"></i>
+          </div>
+          <div>
+            <h3>3. Edita</h3>
+            <p>Usa el botón del lápiz para corregir datos o actualizar stock.</p>
+          </div>
+        </article>
 
-function del(id){
-  products=products.filter(p=>p.id!==id)
-  save()
-  render()
-}
+        <article class="guide-card">
+          <div class="guide-icon">
+            <i class="fa-solid fa-trash"></i>
+          </div>
+          <div>
+            <h3>4. Elimina</h3>
+            <p>Borra productos que ya no deben aparecer en la gestión local.</p>
+          </div>
+        </article>
+      </section>
 
-function resetForm(){
-  form.reset()
-  fields.id.value=""
-}
+      <section class="stats-grid">
+        <article class="stat-card">
+          <i class="fa-solid fa-box"></i>
+          <span>Productos registrados</span>
+          <strong id="stat-products">0</strong>
+        </article>
 
-search.addEventListener("input",render)
+        <article class="stat-card">
+          <i class="fa-solid fa-tags"></i>
+          <span>Marcas registradas</span>
+          <strong id="stat-brands">0</strong>
+        </article>
 
-function logout(){
-  localStorage.removeItem("nymAdminSession")
-  location.href="admin-login.html"
-}
+        <article class="stat-card">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Categorías registradas</span>
+          <strong id="stat-categories">0</strong>
+        </article>
 
-render()
+        <article class="stat-card">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Disponibles</span>
+          <strong id="stat-available">0</strong>
+        </article>
+      </section>
 
-</script>
+      <section class="admin-grid">
+        <aside class="admin-panel">
+          <div class="panel-header">
+            <div class="panel-header-row">
+              <div>
+                <h3 id="form-title">Agregar nuevo producto</h3>
+                <p>
+                  Llena los campos de forma clara. Mientras más ordenado esté el producto,
+                  mejor se verá en el catálogo.
+                </p>
+              </div>
+            </div>
+          </div>
 
+          <div class="panel-body">
+            <form class="admin-form" id="product-form">
+              <input type="hidden" id="product-id" />
+
+              <div>
+                <div class="form-step">
+                  <span>1</span>
+                  Información principal
+                </div>
+
+                <div class="field">
+                  <label for="product-name">Nombre del producto *</label>
+                  <input
+                    id="product-name"
+                    type="text"
+                    placeholder="Ej: Interruptor automático industrial"
+                  />
+                  <small>Usa un nombre corto, claro y fácil de reconocer.</small>
+                </div>
+              </div>
+
+              <div>
+                <div class="form-step">
+                  <span>2</span>
+                  Clasificación
+                </div>
+
+                <div class="form-row">
+                  <div class="field">
+                    <label for="product-brand">Marca *</label>
+                    <input
+                      id="product-brand"
+                      type="text"
+                      placeholder="Ej: ABB, CHINT, Schneider"
+                      list="brand-suggestions"
+                    />
+                    <datalist id="brand-suggestions">
+                      <option value="ABB"></option>
+                      <option value="CHINT"></option>
+                      <option value="Schneider Electric"></option>
+                      <option value="Delta"></option>
+                      <option value="Legrand"></option>
+                      <option value="LS"></option>
+                    </datalist>
+                  </div>
+
+                  <div class="field">
+                    <label for="product-category">Categoría *</label>
+                    <input
+                      id="product-category"
+                      type="text"
+                      placeholder="Ej: Automatización"
+                      list="category-suggestions"
+                    />
+                    <datalist id="category-suggestions">
+                      <option value="Arranque motor"></option>
+                      <option value="Automatización"></option>
+                      <option value="Montaje en riel DIN"></option>
+                      <option value="Montaje en panel"></option>
+                      <option value="Conectores industriales"></option>
+                      <option value="Relés y protección"></option>
+                      <option value="Mando y señalización"></option>
+                    </datalist>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="form-step">
+                  <span>3</span>
+                  Imagen y disponibilidad
+                </div>
+
+                <div class="field">
+                  <label for="product-image">Ruta de imagen</label>
+                  <input
+                    id="product-image"
+                    type="text"
+                    placeholder="imagenes/productos/productos-1.png"
+                  />
+                  <small>
+                    Por ahora escribe la ruta de una imagen ya subida en tu carpeta.
+                  </small>
+                </div>
+
+                <div class="image-helper">
+                  <img
+                    src="imagenes/productos/productos-1.png"
+                    alt="Vista previa del producto"
+                    class="image-preview"
+                    id="image-preview"
+                  />
+
+                  <p>
+                    <strong>Consejo:</strong> usa imágenes horizontales y limpias.
+                    Ejemplo: <br />
+                    <code>imagenes/productos/productos-1.png</code>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label for="product-stock">Estado de stock</label>
+                  <select id="product-stock">
+                    <option value="Disponible">Disponible</option>
+                    <option value="Bajo pedido">Bajo pedido</option>
+                    <option value="Sin stock">Sin stock</option>
+                  </select>
+                  <small>
+                    Este estado será visible para el cliente en el catálogo.
+                  </small>
+                </div>
+              </div>
+
+              <div>
+                <div class="form-step">
+                  <span>4</span>
+                  Descripción comercial
+                </div>
+
+                <div class="field">
+                  <label for="product-description">Descripción</label>
+                  <textarea
+                    id="product-description"
+                    placeholder="Ej: Producto orientado a control, protección y uso en aplicaciones industriales."
+                  ></textarea>
+                  <small>
+                    Escribe una descripción breve. No hace falta meter una novela técnica.
+                  </small>
+                </div>
+              </div>
+
+              <div class="notice" id="notice"></div>
+
+              <div class="admin-actions-row">
+                <button type="submit" class="admin-btn admin-btn-primary" id="save-btn">
+                  <i class="fa-solid fa-floppy-disk"></i>
+                  Guardar producto
+                </button>
+
+                <button type="button" class="admin-btn admin-btn-light" id="reset-btn">
+                  <i class="fa-solid fa-rotate-left"></i>
+                  Limpiar
+                </button>
+              </div>
+            </form>
+
+            <div class="admin-help">
+              <strong>Nota:</strong> este panel está diseñado para que el encargado
+              no se pierda. Primero registra el producto, luego revisa la lista de la
+              derecha y finalmente valida cómo se ve en la página pública.
+            </div>
+          </div>
+        </aside>
+
+        <section class="admin-panel">
+          <div class="panel-header">
+            <div class="panel-header-row">
+              <div>
+                <h3>Productos registrados</h3>
+                <p>
+                  Aquí puedes buscar, editar, eliminar y revisar rápidamente lo que
+                  se está cargando desde el panel.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div class="tools-bar">
+              <div class="admin-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                  id="admin-search"
+                  type="text"
+                  placeholder="Buscar por nombre, marca o categoría..."
+                />
+              </div>
+
+              <select id="stock-filter" class="filter-select">
+                <option value="all">Todos los estados</option>
+                <option value="Disponible">Disponible</option>
+                <option value="Bajo pedido">Bajo pedido</option>
+                <option value="Sin stock">Sin stock</option>
+              </select>
+            </div>
+
+            <div class="products-list" id="product-list"></div>
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (localStorage.getItem("nymAdminSession") !== "active") {
+        window.location.href = "admin-login.html";
+        return;
+      }
+
+      const STORAGE_KEY = "products";
+
+      let products = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+      const form = document.getElementById("product-form");
+      const list = document.getElementById("product-list");
+      const search = document.getElementById("admin-search");
+      const stockFilter = document.getElementById("stock-filter");
+      const notice = document.getElementById("notice");
+      const formTitle = document.getElementById("form-title");
+      const saveBtn = document.getElementById("save-btn");
+      const resetBtn = document.getElementById("reset-btn");
+      const logoutBtn = document.getElementById("logout-btn");
+      const imagePreview = document.getElementById("image-preview");
+
+      const statProducts = document.getElementById("stat-products");
+      const statBrands = document.getElementById("stat-brands");
+      const statCategories = document.getElementById("stat-categories");
+      const statAvailable = document.getElementById("stat-available");
+
+      const fields = {
+        id: document.getElementById("product-id"),
+        name: document.getElementById("product-name"),
+        brand: document.getElementById("product-brand"),
+        category: document.getElementById("product-category"),
+        image: document.getElementById("product-image"),
+        stock: document.getElementById("product-stock"),
+        desc: document.getElementById("product-description")
+      };
+
+      function escapeHTML(text) {
+        return String(text || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function saveProducts() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+      }
+
+      function showNotice(text, type = "success") {
+        notice.textContent = text;
+        notice.className = `notice show ${type}`;
+
+        setTimeout(() => {
+          notice.className = "notice";
+          notice.textContent = "";
+        }, 2600);
+      }
+
+      function resetForm() {
+        form.reset();
+        fields.id.value = "";
+        fields.image.value = "";
+        imagePreview.src = "imagenes/productos/productos-1.png";
+        formTitle.textContent = "Agregar nuevo producto";
+        saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar producto';
+      }
+
+      function getStockClass(stock) {
+        const value = String(stock || "").toLowerCase();
+
+        if (value.includes("sin")) return "unavailable";
+        if (value.includes("pedido")) return "preorder";
+        return "available";
+      }
+
+      function updateStats() {
+        const brands = new Set(products.map((p) => String(p.brand || "").trim()).filter(Boolean));
+        const categories = new Set(products.map((p) => String(p.category || "").trim()).filter(Boolean));
+        const available = products.filter((p) => p.stock === "Disponible").length;
+
+        statProducts.textContent = products.length;
+        statBrands.textContent = brands.size;
+        statCategories.textContent = categories.size;
+        statAvailable.textContent = available;
+      }
+
+      function renderProducts() {
+        const query = search.value.trim().toLowerCase();
+        const selectedStock = stockFilter.value;
+
+        const filtered = products.filter((product) => {
+          const text = `
+            ${product.name || ""}
+            ${product.brand || ""}
+            ${product.category || ""}
+            ${product.stock || ""}
+            ${product.desc || ""}
+          `.toLowerCase();
+
+          const matchesSearch = query === "" || text.includes(query);
+          const matchesStock = selectedStock === "all" || product.stock === selectedStock;
+
+          return matchesSearch && matchesStock;
+        });
+
+        if (!filtered.length) {
+          list.innerHTML = `
+            <div class="empty-state-admin">
+              <i class="fa-solid fa-box-open"></i>
+              <h3>No hay productos para mostrar</h3>
+              <p>
+                Agrega un producto desde el formulario izquierdo o cambia los filtros
+                de búsqueda para encontrar registros existentes.
+              </p>
+            </div>
+          `;
+          updateStats();
+          return;
+        }
+
+        list.innerHTML = filtered
+          .map((product) => {
+            const image = product.image || "imagenes/productos/productos-1.png";
+
+            return `
+              <article class="admin-product">
+                <img src="${escapeHTML(image)}" alt="${escapeHTML(product.name)}" />
+
+                <div>
+                  <h4>${escapeHTML(product.name || "Producto sin nombre")}</h4>
+
+                  <p>
+                    ${escapeHTML(product.desc || "Sin descripción registrada.")}
+                  </p>
+
+                  <div class="admin-tags">
+                    <span class="admin-tag">
+                      <i class="fa-solid fa-tag"></i>
+                      ${escapeHTML(product.brand || "Sin marca")}
+                    </span>
+
+                    <span class="admin-tag">
+                      <i class="fa-solid fa-layer-group"></i>
+                      ${escapeHTML(product.category || "Sin categoría")}
+                    </span>
+
+                    <span class="admin-tag stock-tag ${getStockClass(product.stock)}">
+                      ${escapeHTML(product.stock || "Disponible")}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="product-actions">
+                  <button class="icon-action" type="button" data-edit="${escapeHTML(product.id)}" title="Editar producto">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+
+                  <button class="icon-action danger" type="button" data-delete="${escapeHTML(product.id)}" title="Eliminar producto">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+
+        updateStats();
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const productData = {
+          id: fields.id.value || String(Date.now()),
+          name: fields.name.value.trim(),
+          brand: fields.brand.value.trim(),
+          category: fields.category.value.trim(),
+          image: fields.image.value.trim(),
+          stock: fields.stock.value,
+          desc: fields.desc.value.trim()
+        };
+
+        if (!productData.name || !productData.brand || !productData.category) {
+          showNotice("Completa los campos obligatorios: nombre, marca y categoría.", "error");
+          return;
+        }
+
+        const index = products.findIndex((product) => product.id === productData.id);
+
+        if (index >= 0) {
+          products[index] = productData;
+          showNotice("Producto actualizado correctamente.");
+        } else {
+          products.unshift(productData);
+          showNotice("Producto agregado correctamente.");
+        }
+
+        saveProducts();
+        resetForm();
+        renderProducts();
+      });
+
+      list.addEventListener("click", (event) => {
+        const editButton = event.target.closest("[data-edit]");
+        const deleteButton = event.target.closest("[data-delete]");
+
+        if (editButton) {
+          const product = products.find((item) => item.id === editButton.dataset.edit);
+
+          if (!product) return;
+
+          fields.id.value = product.id || "";
+          fields.name.value = product.name || "";
+          fields.brand.value = product.brand || "";
+          fields.category.value = product.category || "";
+          fields.image.value = product.image || "";
+          fields.stock.value = product.stock || "Disponible";
+          fields.desc.value = product.desc || "";
+
+          imagePreview.src = product.image || "imagenes/productos/productos-1.png";
+
+          formTitle.textContent = "Editar producto";
+          saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar producto';
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        }
+
+        if (deleteButton) {
+          const product = products.find((item) => item.id === deleteButton.dataset.delete);
+          const productName = product ? product.name : "este producto";
+
+          const confirmDelete = confirm(`¿Seguro que deseas eliminar "${productName}"?`);
+
+          if (!confirmDelete) return;
+
+          products = products.filter((item) => item.id !== deleteButton.dataset.delete);
+
+          saveProducts();
+          renderProducts();
+          showNotice("Producto eliminado correctamente.");
+        }
+      });
+
+      fields.image.addEventListener("input", () => {
+        const imagePath = fields.image.value.trim();
+
+        imagePreview.src = imagePath || "imagenes/productos/productos-1.png";
+      });
+
+      imagePreview.addEventListener("error", () => {
+        imagePreview.src = "imagenes/productos/productos-1.png";
+      });
+
+      search.addEventListener("input", renderProducts);
+      stockFilter.addEventListener("change", renderProducts);
+
+      resetBtn.addEventListener("click", resetForm);
+
+      logoutBtn.addEventListener("click", () => {
+        localStorage.removeItem("nymAdminSession");
+        localStorage.removeItem("nymAdminUser");
+        window.location.href = "admin-login.html";
+      });
+
+      renderProducts();
+      updateStats();
+    });
+  </script>
 </body>
 </html>

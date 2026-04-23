@@ -76,6 +76,39 @@
       max-width: 78ch;
     }
 
+    .logo-showcase {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-bottom: 30px;
+    }
+
+    .logo-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 26px;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .logo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(47, 91, 255, 0.22);
+    }
+
+    .logo-card img {
+      max-width: 80%;
+      max-height: 80px;
+      object-fit: contain;
+      display: block;
+    }
+
     .brands-showcase {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -86,9 +119,9 @@
       background: var(--white);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-sm);
       padding: 26px;
-      transition: 0.3s ease;
+      transition: var(--transition);
       min-height: 220px;
       display: flex;
       flex-direction: column;
@@ -97,7 +130,8 @@
 
     .brand-card:hover {
       transform: translateY(-5px);
-      border-color: rgba(49, 87, 255, 0.25);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(47, 91, 255, 0.22);
     }
 
     .brand-top {
@@ -158,6 +192,7 @@
       align-items: center;
       gap: 24px;
       flex-wrap: wrap;
+      box-shadow: var(--shadow-lg);
     }
 
     .brands-cta p {
@@ -166,12 +201,14 @@
     }
 
     @media (max-width: 1100px) {
+      .logo-showcase,
       .brands-showcase {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (max-width: 700px) {
+      .logo-showcase,
       .brands-showcase {
         grid-template-columns: 1fr;
       }
@@ -182,7 +219,8 @@
 
       .intro-card,
       .brand-card,
-      .brands-cta {
+      .brands-cta,
+      .logo-card {
         padding: 22px;
       }
     }
@@ -261,6 +299,18 @@
           orden comercial y una propuesta más atractiva para clientes que valoran
           respaldo, disponibilidad y soluciones alineadas a sus necesidades.
         </p>
+      </div>
+
+      <div class="logo-showcase">
+        <div class="logo-card">
+          <img src="images/marcas/marcas-1.png" alt="Marca destacada 1" />
+        </div>
+        <div class="logo-card">
+          <img src="images/marcas/marcas-2.png" alt="Marca destacada 2" />
+        </div>
+        <div class="logo-card">
+          <img src="images/marcas/marcas-3.png" alt="Marca destacada 3" />
+        </div>
       </div>
 
       <div class="brands-showcase">

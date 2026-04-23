@@ -456,6 +456,76 @@
       line-height: 1.55;
     }
 
+    .image-options {
+      display: grid;
+      gap: 12px;
+    }
+
+    .image-upload-box {
+      border: 1px dashed #b9c8f5;
+      background: #f8fbff;
+      border-radius: 18px;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .upload-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 54px;
+      border-radius: 15px;
+      background: #eef3ff;
+      color: var(--primary);
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.25s ease;
+      border: 1px solid #d9e5ff;
+      text-align: center;
+    }
+
+    .upload-label:hover {
+      background: #e2ebff;
+      transform: translateY(-2px);
+    }
+
+    .upload-label input {
+      display: none;
+    }
+
+    .upload-note {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .image-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 9px 13px;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      background: #ffffff;
+      color: var(--primary);
+      border: 1px solid #d9e5ff;
+      transition: 0.25s ease;
+    }
+
+    .mini-btn:hover {
+      background: #eef3ff;
+    }
+
     .admin-actions-row {
       display: flex;
       gap: 10px;
@@ -860,11 +930,11 @@
 
         <article class="guide-card">
           <div class="guide-icon">
-            <i class="fa-solid fa-floppy-disk"></i>
+            <i class="fa-solid fa-image"></i>
           </div>
           <div>
-            <h3>2. Guarda</h3>
-            <p>El producto se registra y queda listo para mostrarse en el catálogo.</p>
+            <h3>2. Sube foto</h3>
+            <p>Selecciona una imagen desde tu equipo o escribe una ruta manual.</p>
           </div>
         </article>
 
@@ -1002,16 +1072,45 @@
                   Imagen y disponibilidad
                 </div>
 
-                <div class="field">
-                  <label for="product-image">Ruta de imagen</label>
-                  <input
-                    id="product-image"
-                    type="text"
-                    placeholder="imagenes/productos/productos-1.png"
-                  />
-                  <small>
-                    Por ahora escribe la ruta de una imagen ya subida en tu carpeta.
-                  </small>
+                <div class="image-options">
+                  <div class="field">
+                    <label for="product-image">Ruta de imagen</label>
+                    <input
+                      id="product-image"
+                      type="text"
+                      placeholder="imagenes/productos/productos-1.png"
+                    />
+                    <small>
+                      Puedes escribir una ruta manual si la imagen ya está subida al proyecto.
+                    </small>
+                  </div>
+
+                  <div class="image-upload-box">
+                    <label class="upload-label" for="product-file">
+                      <i class="fa-solid fa-cloud-arrow-up"></i>
+                      Subir imagen desde mi equipo
+                      <input
+                        id="product-file"
+                        type="file"
+                        accept="image/png,image/jpeg,image/jpg,image/webp"
+                      />
+                    </label>
+
+                    <p class="upload-note">
+                      Ideal para el administrador: selecciona una foto del producto y se
+                      guardará en esta demo. Para web real, luego se conecta a almacenamiento.
+                    </p>
+
+                    <div class="image-actions">
+                      <button type="button" class="mini-btn" id="use-demo-image">
+                        Usar imagen demo
+                      </button>
+
+                      <button type="button" class="mini-btn" id="clear-image">
+                        Quitar imagen
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="image-helper">
@@ -1023,9 +1122,8 @@
                   />
 
                   <p>
-                    <strong>Consejo:</strong> usa imágenes horizontales y limpias.
-                    Ejemplo: <br />
-                    <code>imagenes/productos/productos-1.png</code>
+                    <strong>Vista previa:</strong> aquí verás la imagen antes de guardar.
+                    Recomendado: imagen horizontal, clara y con buen fondo.
                   </p>
                 </div>
 
@@ -1076,9 +1174,9 @@
             </form>
 
             <div class="admin-help">
-              <strong>Nota:</strong> este panel está diseñado para que el encargado
-              no se pierda. Primero registra el producto, luego revisa la lista de la
-              derecha y finalmente valida cómo se ve en la página pública.
+              <strong>Nota:</strong> si subes una foto desde tu equipo, esta demo la guarda
+              en el navegador. Si abres la web en otro celular o PC, esa foto no viajará
+              automáticamente hasta conectar una base de datos real.
             </div>
           </div>
         </aside>
@@ -1130,6 +1228,7 @@
       }
 
       const STORAGE_KEY = "products";
+      const DEFAULT_IMAGE = "imagenes/productos/productos-1.png";
 
       let products = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 
@@ -1143,6 +1242,9 @@
       const resetBtn = document.getElementById("reset-btn");
       const logoutBtn = document.getElementById("logout-btn");
       const imagePreview = document.getElementById("image-preview");
+      const productFile = document.getElementById("product-file");
+      const useDemoImage = document.getElementById("use-demo-image");
+      const clearImage = document.getElementById("clear-image");
 
       const statProducts = document.getElementById("stat-products");
       const statBrands = document.getElementById("stat-brands");
@@ -1179,14 +1281,15 @@
         setTimeout(() => {
           notice.className = "notice";
           notice.textContent = "";
-        }, 2600);
+        }, 3200);
       }
 
       function resetForm() {
         form.reset();
         fields.id.value = "";
         fields.image.value = "";
-        imagePreview.src = "imagenes/productos/productos-1.png";
+        productFile.value = "";
+        imagePreview.src = DEFAULT_IMAGE;
         formTitle.textContent = "Agregar nuevo producto";
         saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar producto';
       }
@@ -1246,7 +1349,7 @@
 
         list.innerHTML = filtered
           .map((product) => {
-            const image = product.image || "imagenes/productos/productos-1.png";
+            const image = product.image || DEFAULT_IMAGE;
 
             return `
               <article class="admin-product">
@@ -1311,6 +1414,10 @@
           return;
         }
 
+        if (!productData.image) {
+          productData.image = DEFAULT_IMAGE;
+        }
+
         const index = products.findIndex((product) => product.id === productData.id);
 
         if (index >= 0) {
@@ -1343,7 +1450,7 @@
           fields.stock.value = product.stock || "Disponible";
           fields.desc.value = product.desc || "";
 
-          imagePreview.src = product.image || "imagenes/productos/productos-1.png";
+          imagePreview.src = product.image || DEFAULT_IMAGE;
 
           formTitle.textContent = "Editar producto";
           saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar producto';
@@ -1372,12 +1479,61 @@
 
       fields.image.addEventListener("input", () => {
         const imagePath = fields.image.value.trim();
-
-        imagePreview.src = imagePath || "imagenes/productos/productos-1.png";
+        imagePreview.src = imagePath || DEFAULT_IMAGE;
       });
 
       imagePreview.addEventListener("error", () => {
-        imagePreview.src = "imagenes/productos/productos-1.png";
+        imagePreview.src = DEFAULT_IMAGE;
+      });
+
+      productFile.addEventListener("change", () => {
+        const file = productFile.files[0];
+
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+          showNotice("Selecciona un archivo de imagen válido.", "error");
+          productFile.value = "";
+          return;
+        }
+
+        const maxSizeMB = 2;
+        const maxSizeBytes = maxSizeMB * 1024 * 1024;
+
+        if (file.size > maxSizeBytes) {
+          showNotice(`La imagen pesa demasiado. Usa una imagen menor a ${maxSizeMB} MB.`, "error");
+          productFile.value = "";
+          return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+          const base64Image = reader.result;
+          fields.image.value = base64Image;
+          imagePreview.src = base64Image;
+          showNotice("Imagen cargada correctamente. Ahora guarda el producto.");
+        };
+
+        reader.onerror = () => {
+          showNotice("No se pudo cargar la imagen. Intenta con otra foto.", "error");
+        };
+
+        reader.readAsDataURL(file);
+      });
+
+      useDemoImage.addEventListener("click", () => {
+        fields.image.value = DEFAULT_IMAGE;
+        imagePreview.src = DEFAULT_IMAGE;
+        productFile.value = "";
+        showNotice("Imagen demo seleccionada.");
+      });
+
+      clearImage.addEventListener("click", () => {
+        fields.image.value = "";
+        imagePreview.src = DEFAULT_IMAGE;
+        productFile.value = "";
+        showNotice("Imagen retirada. Si guardas sin imagen, se usará la demo.");
       });
 
       search.addEventListener("input", renderProducts);

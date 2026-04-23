@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Admin | NYM</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+body{
+  font-family: 'Inter', sans-serif;
+  background:#f6f8fc;
+  margin:0;
+}
+
+.container{
+  width:min(1100px,90%);
+  margin:auto;
+}
+
+.header{
+  background:#fff;
+  padding:20px;
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid #ddd;
+}
+
+.card{
+  background:#fff;
+  padding:20px;
+  border-radius:15px;
+  margin-top:20px;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+
+button{
+  padding:10px 15px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.btn-primary{
+  background:#3157ff;
+  color:white;
+}
+
+.btn-danger{
+  background:#ff4d4d;
+  color:white;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:350px 1fr;
+  gap:20px;
+}
+
+.product{
+  display:flex;
+  gap:15px;
+  border:1px solid #ddd;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
+}
+
+.product img{
+  width:80px;
+  height:80px;
+  object-fit:cover;
+}
+
+.actions{
+  display:flex;
+  gap:5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header container">
+  <h2>Panel Admin NYM</h2>
+  <button onclick="logout()">Cerrar sesión</button>
+</div>
+
+<div class="container grid">
+
+<!-- FORM -->
+<div class="card">
+<h3 id="form-title">Agregar producto</h3>
+
+<form id="form">
+
+<input type="hidden" id="id">
+
+<label>Nombre</label>
+<input id="name">
+
+<label>Marca</label>
+<input id="brand">
+
+<label>Categoría</label>
+<input id="category">
+
+<label>Imagen</label>
+<input id="image" placeholder="imagenes/productos/productos-1.png">
+
+<label>Stock</label>
+<select id="stock">
+<option>Disponible</option>
+<option>Bajo pedido</option>
+<option>Sin stock</option>
+</select>
+
+<label>Descripción</label>
+<textarea id="desc"></textarea>
+
+<br><br>
+
+<button class="btn-primary" type="submit">Guardar</button>
+<button type="button" onclick="resetForm()">Limpiar</button>
+
+</form>
+</div>
+
+<!-- LISTA -->
+<div class="card">
+<h3>Productos</h3>
+
+<input id="search" placeholder="Buscar...">
+
+<div id="list"></div>
+
+</div>
+
+</div>
+
+<script>
+
+if(localStorage.getItem("nymAdminSession")!=="active"){
+  location.href="admin-login.html"
+}
+
+const STORAGE="products"
+
+let products=JSON.parse(localStorage.getItem(STORAGE)||"[]")
+
+const form=document.getElementById("form")
+const list=document.getElementById("list")
+const search=document.getElementById("search")
+
+const fields={
+id:document.getElementById("id"),
+name:document.getElementById("name"),
+brand:document.getElementById("brand"),
+category:document.getElementById("category"),
+image:document.getElementById("image"),
+stock:document.getElementById("stock"),
+desc:document.getElementById("desc"),
+}
+
+function save(){
+  localStorage.setItem(STORAGE,JSON.stringify(products))
+}
+
+function render(){
+  let q=search.value.toLowerCase()
+
+  let filtered=products.filter(p=>
+    (p.name+p.brand+p.category+p.desc).toLowerCase().includes(q)
+  )
+
+  list.innerHTML=""
+
+  if(!filtered.length){
+    list.innerHTML="<p>No hay productos</p>"
+    return
+  }
+
+  filtered.forEach(p=>{
+    list.innerHTML+=`
+    <div class="product">
+      <img src="${p.image || 'imagenes/productos/productos-1.png'}">
+      <div>
+        <b>${p.name}</b><br>
+        ${p.brand} | ${p.category}<br>
+        <small>${p.stock}</small>
+
+        <div class="actions">
+          <button onclick="edit('${p.id}')">✏️</button>
+          <button class="btn-danger" onclick="del('${p.id}')">🗑</button>
+        </div>
+      </div>
+    </div>
+    `
+  })
+}
+
+form.addEventListener("submit",e=>{
+  e.preventDefault()
+
+  let data={
+    id:fields.id.value || Date.now()+"",
+    name:fields.name.value,
+    brand:fields.brand.value,
+    category:fields.category.value,
+    image:fields.image.value,
+    stock:fields.stock.value,
+    desc:fields.desc.value
+  }
+
+  let i=products.findIndex(p=>p.id===data.id)
+
+  if(i>=0){
+    products[i]=data
+  }else{
+    products.unshift(data)
+  }
+
+  save()
+  resetForm()
+  render()
+})
+
+function edit(id){
+  let p=products.find(x=>x.id===id)
+
+  Object.keys(fields).forEach(k=>{
+    fields[k].value=p[k]
+  })
+}
+
+function del(id){
+  products=products.filter(p=>p.id!==id)
+  save()
+  render()
+}
+
+function resetForm(){
+  form.reset()
+  fields.id.value=""
+}
+
+search.addEventListener("input",render)
+
+function logout(){
+  localStorage.removeItem("nymAdminSession")
+  location.href="admin-login.html"
+}
+
+render()
+
+</script>
+
+</body>
+</html>

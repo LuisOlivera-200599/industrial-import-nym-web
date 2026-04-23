@@ -63,21 +63,29 @@
     }
 
     .catalog-section {
-      padding: 70px 0 90px;
+      padding: 74px 0 90px;
       background: var(--light);
       overflow: hidden;
+    }
+
+    .catalog-section .container,
+    .page-hero .container {
+      width: min(100% - 56px, var(--container));
+      margin-inline: auto;
     }
 
     .catalog-layout {
       display: grid;
       grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
-      gap: 28px;
+      gap: 32px;
       align-items: start;
       width: 100%;
     }
 
     .catalog-layout > * {
       min-width: 0;
+      align-self: start;
+      margin-top: 0;
     }
 
     .sidebar-panel,
@@ -88,6 +96,7 @@
       box-shadow: var(--shadow-sm);
       width: 100%;
       max-width: 100%;
+      margin-top: 0;
     }
 
     .sidebar-panel {
@@ -101,7 +110,7 @@
       align-items: center;
       gap: 10px;
       font-size: 1.1rem;
-      margin-bottom: 18px;
+      margin: 0 0 18px 0;
     }
 
     .panel-title i {
@@ -194,20 +203,28 @@
     .catalog-topbar {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 18px;
+      margin: 0 0 18px 0;
+    }
+
+    .catalog-topbar h3 {
+      margin: 0 0 8px 0;
     }
 
     .catalog-topbar p {
       color: var(--muted);
+      margin: 0;
     }
 
     .catalog-actions {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+      justify-content: flex-end;
+      align-self: flex-start;
+      margin-top: 0;
     }
 
     .catalog-chip {
@@ -375,12 +392,24 @@
         padding: 20px;
       }
 
+      .catalog-layout {
+        gap: 22px;
+      }
+
       .page-hero {
         padding: 70px 0 45px;
       }
 
       .page-hero h2 {
         max-width: 11ch;
+      }
+
+      .catalog-topbar {
+        align-items: flex-start;
+      }
+
+      .catalog-actions {
+        justify-content: flex-start;
       }
 
       .product-card.large .product-actions {
@@ -393,8 +422,9 @@
     }
 
     @media (max-width: 640px) {
-      .catalog-layout {
-        gap: 22px;
+      .catalog-section .container,
+      .page-hero .container {
+        width: min(100% - 28px, var(--container));
       }
 
       .page-hero h2 {
@@ -594,12 +624,7 @@
         <p class="result-summary" id="result-summary">Mostrando 6 productos.</p>
 
         <div class="catalog-grid" id="catalog-grid">
-          <article
-            class="product-card large catalog-product"
-            data-category="automatizacion"
-            data-brand="abb"
-            data-name="Controlador industrial demo"
-          >
+          <article class="product-card large catalog-product" data-category="automatizacion" data-brand="abb" data-name="Controlador industrial demo">
             <div class="product-image">
               <img src="imagenes/productos/productos-1.png" alt="Producto 1 del catálogo" />
             </div>
@@ -610,10 +635,7 @@
                 <span class="product-pill">Arranque motor</span>
               </div>
               <h3>Controlador industrial demo</h3>
-              <p>
-                Solución orientada a procesos técnicos y tareas de automatización
-                dentro de entornos modernos.
-              </p>
+              <p>Solución orientada a procesos técnicos y tareas de automatización dentro de entornos modernos.</p>
               <div class="product-footer">
                 <span class="stock available">Disponible</span>
               </div>
@@ -624,12 +646,7 @@
             </div>
           </article>
 
-          <article
-            class="product-card large catalog-product"
-            data-category="montaje-riel-din"
-            data-brand="schneider-electric"
-            data-name="Componente modular demo"
-          >
+          <article class="product-card large catalog-product" data-category="montaje-riel-din" data-brand="schneider-electric" data-name="Componente modular demo">
             <div class="product-image">
               <img src="imagenes/productos/productos-2.png" alt="Producto 2 del catálogo" />
             </div>
@@ -640,10 +657,7 @@
                 <span class="product-pill">Montaje en panel</span>
               </div>
               <h3>Componente modular demo</h3>
-              <p>
-                Producto de muestra para instalación ordenada y aplicaciones
-                técnicas con estructura profesional.
-              </p>
+              <p>Producto de muestra para instalación ordenada y aplicaciones técnicas con estructura profesional.</p>
               <div class="product-footer">
                 <span class="stock preorder">Bajo pedido</span>
               </div>
@@ -654,12 +668,7 @@
             </div>
           </article>
 
-          <article
-            class="product-card large catalog-product"
-            data-category="reles-proteccion"
-            data-brand="chint"
-            data-name="Interruptor automático demo"
-          >
+          <article class="product-card large catalog-product" data-category="reles-proteccion" data-brand="chint" data-name="Interruptor automático demo">
             <div class="product-image">
               <img src="imagenes/productos/productos-3.png" alt="Producto 3 del catálogo" />
             </div>
@@ -670,10 +679,7 @@
                 <span class="product-pill">Conectores industriales</span>
               </div>
               <h3>Interruptor automático demo</h3>
-              <p>
-                Equipo de protección y control para distintas aplicaciones dentro
-                del catálogo comercial.
-              </p>
+              <p>Equipo de protección y control para distintas aplicaciones dentro del catálogo comercial.</p>
               <div class="product-footer">
                 <span class="stock unavailable">Sin stock</span>
               </div>
@@ -684,12 +690,7 @@
             </div>
           </article>
 
-          <article
-            class="product-card large catalog-product"
-            data-category="conectores-industriales"
-            data-brand="delta"
-            data-name="Dispositivo electrónico demo"
-          >
+          <article class="product-card large catalog-product" data-category="conectores-industriales" data-brand="delta" data-name="Dispositivo electrónico demo">
             <div class="product-image">
               <img src="imagenes/productos/productos-4.png" alt="Producto 4 del catálogo" />
             </div>
@@ -700,10 +701,7 @@
                 <span class="product-pill">Mando y señalización</span>
               </div>
               <h3>Dispositivo electrónico demo</h3>
-              <p>
-                Solución de muestra para catálogo moderno, pensada para consulta y
-                cotización comercial.
-              </p>
+              <p>Solución de muestra para catálogo moderno, pensada para consulta y cotización comercial.</p>
               <div class="product-footer">
                 <span class="stock available">Disponible</span>
               </div>
@@ -714,12 +712,7 @@
             </div>
           </article>
 
-          <article
-            class="product-card large catalog-product"
-            data-category="montaje-panel"
-            data-brand="legrand"
-            data-name="Módulo para panel demo"
-          >
+          <article class="product-card large catalog-product" data-category="montaje-panel" data-brand="legrand" data-name="Módulo para panel demo">
             <div class="product-image">
               <img src="imagenes/productos/productos-1.png" alt="Producto 5 del catálogo" />
             </div>
@@ -730,10 +723,7 @@
                 <span class="product-pill">Mando y señalización</span>
               </div>
               <h3>Módulo para panel demo</h3>
-              <p>
-                Producto demo para visualización de catálogo, filtros y gestión de
-                stock visible.
-              </p>
+              <p>Producto demo para visualización de catálogo, filtros y gestión de stock visible.</p>
               <div class="product-footer">
                 <span class="stock preorder">Bajo pedido</span>
               </div>
@@ -744,12 +734,7 @@
             </div>
           </article>
 
-          <article
-            class="product-card large catalog-product"
-            data-category="mando-senalizacion"
-            data-brand="ls"
-            data-name="Relé de control demo"
-          >
+          <article class="product-card large catalog-product" data-category="mando-senalizacion" data-brand="ls" data-name="Relé de control demo">
             <div class="product-image">
               <img src="imagenes/productos/productos-2.png" alt="Producto 6 del catálogo" />
             </div>
@@ -760,10 +745,7 @@
                 <span class="product-pill">Relés y protección</span>
               </div>
               <h3>Relé de control demo</h3>
-              <p>
-                Componente de muestra para líneas técnicas, protección y uso en
-                aplicaciones organizadas.
-              </p>
+              <p>Componente de muestra para líneas técnicas, protección y uso en aplicaciones organizadas.</p>
               <div class="product-footer">
                 <span class="stock available">Disponible</span>
               </div>
@@ -881,14 +863,11 @@
 
       function updateTags() {
         const tags = [];
-
         tags.push(`<span class="active-filter-tag">Categoría: ${categoryLabels[currentCategory]}</span>`);
         tags.push(`<span class="active-filter-tag">Marca: ${brandLabels[currentBrand]}</span>`);
-
         if (currentSearch.trim() !== "") {
           tags.push(`<span class="active-filter-tag">Búsqueda: ${currentSearch}</span>`);
         }
-
         activeFilters.innerHTML = tags.join("");
       }
 
@@ -909,9 +888,7 @@
             content.includes(currentSearch);
 
           const shouldShow = matchesCategory && matchesBrand && matchesSearch;
-
           product.style.display = shouldShow ? "" : "none";
-
           if (shouldShow) visibleCount++;
         });
 

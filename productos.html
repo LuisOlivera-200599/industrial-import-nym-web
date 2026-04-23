@@ -40,15 +40,16 @@
 
     .page-hero h2 {
       font-size: clamp(2rem, 3.8vw, 3rem);
-      line-height: 1.1;
+      line-height: 1.08;
       margin-bottom: 12px;
       letter-spacing: -0.03em;
       word-break: break-word;
+      max-width: 18ch;
     }
 
     .page-hero p {
       color: var(--muted);
-      max-width: 70ch;
+      max-width: 78ch;
     }
 
     .breadcrumb {
@@ -358,6 +359,10 @@
       .catalog-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      .page-hero h2 {
+        max-width: 14ch;
+      }
     }
 
     @media (max-width: 700px) {
@@ -372,6 +377,10 @@
 
       .page-hero {
         padding: 70px 0 45px;
+      }
+
+      .page-hero h2 {
+        max-width: 11ch;
       }
 
       .product-card.large .product-actions {
@@ -390,6 +399,13 @@
 
       .page-hero h2 {
         font-size: 1.95rem;
+        line-height: 1.05;
+        max-width: 10.5ch;
+      }
+
+      .page-hero p {
+        font-size: 0.96rem;
+        line-height: 1.7;
       }
     }
   </style>

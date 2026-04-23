@@ -31,11 +31,16 @@
 
     .page-hero-content {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: end;
       gap: 24px;
       flex-wrap: wrap;
       width: 100%;
+    }
+
+    .page-hero-content > div {
+      width: 100%;
+      max-width: 100%;
     }
 
     .page-hero h2 {
@@ -44,6 +49,7 @@
       margin-bottom: 12px;
       letter-spacing: -0.03em;
       word-break: break-word;
+      max-width: 12ch;
     }
 
     .page-hero p {
@@ -328,8 +334,33 @@
     }
 
     @media (max-width: 640px) {
+      .page-hero {
+        padding: 58px 0 40px;
+      }
+
+      .page-hero-content {
+        justify-content: center;
+      }
+
+      .page-hero-content > div {
+        padding-inline: 2px;
+      }
+
       .page-hero h2 {
-        font-size: 1.95rem;
+        font-size: 1.72rem;
+        line-height: 1.08;
+        max-width: 9.5ch;
+        margin-inline: 0;
+      }
+
+      .page-hero p {
+        font-size: 0.96rem;
+        line-height: 1.7;
+        max-width: 100%;
+      }
+
+      .breadcrumb {
+        font-size: 0.92rem;
       }
 
       .contact-layout {

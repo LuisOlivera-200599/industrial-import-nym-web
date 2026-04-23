@@ -41,12 +41,12 @@
       line-height: 1.1;
       margin-bottom: 12px;
       letter-spacing: -0.03em;
-      max-width: 12ch;
+      max-width: 16ch;
     }
 
     .page-hero p {
       color: var(--muted);
-      max-width: 72ch;
+      max-width: 78ch;
     }
 
     .breadcrumb {
@@ -248,6 +248,17 @@
       padding: 14px 16px;
     }
 
+    .form-submit {
+      display: flex;
+      justify-content: center;
+      margin-top: 6px;
+    }
+
+    .form-submit .btn {
+      width: min(420px, 100%);
+      padding: 15px 24px;
+    }
+
     .map-panel {
       overflow: hidden;
     }
@@ -295,6 +306,10 @@
       .info-grid {
         grid-template-columns: 1fr;
       }
+
+      .page-hero h2 {
+        max-width: 13ch;
+      }
     }
 
     @media (max-width: 700px) {
@@ -340,6 +355,10 @@
 
       .contact-visual img {
         min-height: 250px;
+      }
+
+      .form-submit .btn {
+        width: 100%;
       }
     }
   </style>
@@ -538,7 +557,9 @@
             backend o a correo/WhatsApp para recepción real.
           </div>
 
-          <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+          <div class="form-submit">
+            <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+          </div>
         </form>
       </div>
 

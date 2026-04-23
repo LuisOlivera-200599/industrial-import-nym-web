@@ -85,6 +85,14 @@
     .catalog-layout > * {
       min-width: 0;
       align-self: start;
+      margin: 0;
+    }
+
+    .sidebar-wrap,
+    .catalog-main {
+      min-width: 0;
+      align-self: start;
+      margin: 0;
     }
 
     .sidebar-panel,
@@ -97,11 +105,15 @@
       max-width: 100%;
     }
 
-    .sidebar-panel {
-      padding: 22px;
+    .sidebar-wrap {
       position: sticky;
       top: 110px;
-      margin-top: -24px;
+    }
+
+    .sidebar-panel {
+      padding: 22px;
+      margin: 0;
+      transform: none;
     }
 
     .panel-title {
@@ -196,8 +208,8 @@
     }
 
     .catalog-main {
-      padding: 18px 28px 28px;
-      margin-top: 0;
+      padding: 22px 28px 28px;
+      margin: 0;
     }
 
     .catalog-topbar {
@@ -242,6 +254,8 @@
       flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 24px;
+      min-height: 46px;
+      align-items: center;
     }
 
     .active-filter-tag {
@@ -258,6 +272,7 @@
       color: var(--muted);
       margin-bottom: 22px;
       font-size: 0.95rem;
+      min-height: 24px;
     }
 
     .catalog-grid {
@@ -369,9 +384,8 @@
         grid-template-columns: 1fr;
       }
 
-      .sidebar-panel {
+      .sidebar-wrap {
         position: static;
-        margin-top: 0;
       }
 
       .catalog-grid {
@@ -389,7 +403,7 @@
       }
 
       .catalog-main {
-        padding: 18px 20px 20px;
+        padding: 20px;
       }
 
       .sidebar-panel {
@@ -509,102 +523,104 @@
 
   <section class="catalog-section">
     <div class="container catalog-layout">
-      <aside class="sidebar-panel">
-        <div class="panel-title">
-          <i class="fa-solid fa-sliders"></i>
-          <h3>Filtros del catálogo</h3>
-        </div>
-
-        <div class="search-box">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="product-search" placeholder="Buscar producto..." />
-        </div>
-
-        <div class="filter-group">
-          <h4>Categorías</h4>
-          <div class="filter-list" id="category-filters">
-            <button class="filter-btn active" type="button" data-filter-type="category" data-filter-value="all">
-              <span>Todas las categorías</span>
-              <i class="fa-solid fa-layer-group"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="arranque-motor">
-              <span>Arranque motor</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="automatizacion">
-              <span>Automatización</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="montaje-riel-din">
-              <span>Montaje en riel DIN</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="montaje-panel">
-              <span>Montaje en panel</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="conectores-industriales">
-              <span>Conectores industriales</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="reles-proteccion">
-              <span>Relés y protección</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="mando-senalizacion">
-              <span>Mando y señalización</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
+      <div class="sidebar-wrap">
+        <aside class="sidebar-panel">
+          <div class="panel-title">
+            <i class="fa-solid fa-sliders"></i>
+            <h3>Filtros del catálogo</h3>
           </div>
-        </div>
 
-        <div class="filter-group">
-          <h4>Marcas</h4>
-          <div class="filter-list" id="brand-filters">
-            <button class="filter-btn active" type="button" data-filter-type="brand" data-filter-value="all">
-              <span>Todas las marcas</span>
-              <i class="fa-solid fa-tags"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="abb">
-              <span>ABB</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="chint">
-              <span>CHINT</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="delta">
-              <span>Delta</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="legrand">
-              <span>Legrand</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="ls">
-              <span>LS</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="schneider-electric">
-              <span>Schneider Electric</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="product-search" placeholder="Buscar producto..." />
           </div>
-        </div>
-      </aside>
+
+          <div class="filter-group">
+            <h4>Categorías</h4>
+            <div class="filter-list" id="category-filters">
+              <button class="filter-btn active" type="button" data-filter-type="category" data-filter-value="all">
+                <span>Todas las categorías</span>
+                <i class="fa-solid fa-layer-group"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="arranque-motor">
+                <span>Arranque motor</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="automatizacion">
+                <span>Automatización</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="montaje-riel-din">
+                <span>Montaje en riel DIN</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="montaje-panel">
+                <span>Montaje en panel</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="conectores-industriales">
+                <span>Conectores industriales</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="reles-proteccion">
+                <span>Relés y protección</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="mando-senalizacion">
+                <span>Mando y señalización</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h4>Marcas</h4>
+            <div class="filter-list" id="brand-filters">
+              <button class="filter-btn active" type="button" data-filter-type="brand" data-filter-value="all">
+                <span>Todas las marcas</span>
+                <i class="fa-solid fa-tags"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="abb">
+                <span>ABB</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="chint">
+                <span>CHINT</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="delta">
+                <span>Delta</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="legrand">
+                <span>Legrand</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="ls">
+                <span>LS</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+
+              <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="schneider-electric">
+                <span>Schneider Electric</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
 
       <div class="catalog-main">
         <div class="catalog-topbar">

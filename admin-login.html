@@ -11,6 +11,8 @@
     content="Acceso administrativo para gestionar productos, marcas y categorías de Industrial Import NYM."
   />
 
+  <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -55,7 +57,7 @@
       padding: 46px;
       background:
         linear-gradient(135deg, rgba(16, 42, 140, 0.96), rgba(49, 87, 255, 0.92)),
-        url("imagenes/banner/banner-1.png") center/cover;
+        url("imagenes/banners/banner-1.png") center/cover;
       color: #ffffff;
       position: relative;
       overflow: hidden;
@@ -243,6 +245,12 @@
       cursor: pointer;
     }
 
+    .login-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .login-message {
       display: none;
       padding: 13px 15px;
@@ -250,6 +258,7 @@
       font-size: 0.92rem;
       font-weight: 700;
       margin-top: 4px;
+      line-height: 1.45;
     }
 
     .login-message.error {
@@ -371,8 +380,8 @@
           </div>
 
           <div class="benefit">
-            <i class="fa-solid fa-chart-line"></i>
-            <span>Preparado para crecimiento futuro</span>
+            <i class="fa-solid fa-database"></i>
+            <span>Conectado con Supabase en tiempo real</span>
           </div>
         </div>
       </div>
@@ -385,18 +394,18 @@
         <h2>Iniciar sesión</h2>
 
         <p>
-          Ingresa tus credenciales para acceder al panel de gestión del catálogo.
+          Ingresa con el correo y contraseña registrados en Supabase Auth.
         </p>
 
         <form class="login-form" id="admin-login-form">
           <div class="field">
-            <label for="admin-user">Usuario</label>
+            <label for="admin-email">Correo electrónico</label>
             <div class="input-wrap">
-              <i class="fa-solid fa-user"></i>
+              <i class="fa-solid fa-envelope"></i>
               <input
-                type="text"
-                id="admin-user"
-                placeholder="Ingresa tu usuario"
+                type="email"
+                id="admin-email"
+                placeholder="correo@ejemplo.com"
                 autocomplete="username"
               />
             </div>
@@ -417,15 +426,14 @@
 
           <div class="login-message" id="login-message"></div>
 
-          <button type="submit" class="btn btn-primary login-btn">
+          <button type="submit" class="btn btn-primary login-btn" id="login-btn">
             Ingresar al panel
           </button>
         </form>
 
         <div class="demo-access">
-          <strong>Acceso demo:</strong><br />
-          Usuario: <strong>admin</strong><br />
-          Contraseña: <strong>123456</strong>
+          <strong>Acceso real:</strong><br />
+          Usa el correo y contraseña creados en <strong>Supabase → Authentication → Users</strong>.
         </div>
 
         <a href="index.html" class="back-link">
@@ -436,47 +444,76 @@
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
       const form = document.getElementById("admin-login-form");
-      const userInput = document.getElementById("admin-user");
+      const emailInput = document.getElementById("admin-email");
       const passwordInput = document.getElementById("admin-password");
       const message = document.getElementById("login-message");
+      const loginBtn = document.getElementById("login-btn");
 
-      const ADMIN_USER = "admin";
-      const ADMIN_PASSWORD = "123456";
+      function showMessage(type, text) {
+        message.className = `login-message ${type}`;
+        message.textContent = text;
+      }
 
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        const user = userInput.value.trim();
-        const password = passwordInput.value.trim();
-
+      function clearMessage() {
         message.className = "login-message";
         message.textContent = "";
+      }
 
-        if (!user || !password) {
-          message.classList.add("error");
-          message.textContent = "Completa usuario y contraseña para continuar.";
-          return;
-        }
+      async function redirectIfLoggedIn() {
+        const { data } = await window.nymSupabase.auth.getSession();
 
-        if (user === ADMIN_USER && password === ADMIN_PASSWORD) {
+        if (data.session) {
           localStorage.setItem("nymAdminSession", "active");
-          localStorage.setItem("nymAdminUser", user);
+          localStorage.setItem("nymAdminUser", data.session.user.email || "admin");
+          window.location.href = "admin.html";
+        }
+      }
 
-          message.classList.add("success");
-          message.textContent = "Acceso correcto. Redirigiendo al panel...";
+      await redirectIfLoggedIn();
 
-          setTimeout(() => {
-            window.location.href = "admin.html";
-          }, 700);
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
 
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        clearMessage();
+
+        if (!email || !password) {
+          showMessage("error", "Completa correo y contraseña para continuar.");
           return;
         }
 
-        message.classList.add("error");
-        message.textContent = "Usuario o contraseña incorrectos.";
+        loginBtn.disabled = true;
+        loginBtn.textContent = "Validando acceso...";
+
+        const { data, error } = await window.nymSupabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Ingresar al panel";
+
+        if (error) {
+          showMessage("error", error.message || "No se pudo iniciar sesión.");
+          return;
+        }
+
+        localStorage.setItem("nymAdminSession", "active");
+        localStorage.setItem("nymAdminUser", data.user.email || email);
+
+        showMessage("success", "Acceso correcto. Redirigiendo al panel...");
+
+        setTimeout(() => {
+          window.location.href = "admin.html";
+        }, 700);
       });
     });
   </script>

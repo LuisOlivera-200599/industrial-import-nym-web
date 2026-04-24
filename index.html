@@ -139,7 +139,12 @@
       overflow: hidden;
     }
 
-    .hero-main-image {
+    .hero-video-card {
+      background: #ffffff;
+    }
+
+    .hero-main-image,
+    .hero-main-video {
       width: 100%;
       height: 100%;
       min-height: 420px;
@@ -383,6 +388,7 @@
       }
 
       .hero-main-image,
+      .hero-main-video,
       .showcase-visual img {
         min-height: 280px;
       }
@@ -487,12 +493,19 @@
         </div>
       </div>
 
-      <div class="hero-card hero-image-card">
-        <img
-          src="imagenes/banners/banner-1.png"
-          alt="Banner principal de componentes electrónicos"
-          class="hero-main-image"
-        />
+      <div class="hero-card hero-image-card hero-video-card">
+        <video
+          class="hero-main-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster="imagenes/banners/banner-1.png"
+        >
+          <source src="videos/hero-electronica.mp4" type="video/mp4" />
+          Tu navegador no soporta video HTML5.
+        </video>
       </div>
     </div>
   </section>

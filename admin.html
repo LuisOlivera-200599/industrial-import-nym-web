@@ -8,11 +8,10 @@
 
   <meta
     name="description"
-    content="Panel administrador para gestionar productos, marcas, categorías, stock y datos de contacto de Industrial Import NYM."
+    content="Panel administrador para gestionar productos de Industrial Import NYM."
   />
 
   <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
-  <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -121,12 +120,6 @@
       box-shadow: 0 16px 35px rgba(49, 87, 255, 0.24);
     }
 
-    .admin-btn-primary:hover,
-    .admin-btn-light:hover,
-    .admin-btn-danger:hover {
-      transform: translateY(-2px);
-    }
-
     .admin-btn-light {
       background: #eef3ff;
       color: var(--primary);
@@ -135,6 +128,16 @@
     .admin-btn-danger {
       background: #fff1f2;
       color: #be123c;
+    }
+
+    .admin-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .admin-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .admin-page {
@@ -378,12 +381,6 @@
       align-items: start;
     }
 
-    .section-grid-wide {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-
     .inner-card {
       background: #ffffff;
       border: 1px solid var(--border);
@@ -481,86 +478,15 @@
       gap: 14px;
     }
 
-    .image-options {
-      display: grid;
-      gap: 12px;
-    }
-
-    .image-upload-box,
-    .image-helper,
-    .admin-help {
-      border: 1px dashed #cdd9f8;
-      border-radius: 18px;
-      background: #f8fbff;
-    }
-
-    .image-upload-box {
-      padding: 16px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .upload-label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 54px;
-      border-radius: 15px;
-      background: #eef3ff;
-      color: var(--primary);
-      font-weight: 900;
-      cursor: pointer;
-      transition: 0.25s ease;
-      border: 1px solid #d9e5ff;
-      text-align: center;
-    }
-
-    .upload-label:hover {
-      background: #e2ebff;
-      transform: translateY(-2px);
-    }
-
-    .upload-label input {
-      display: none;
-    }
-
-    .upload-note {
-      color: var(--muted);
-      font-size: 0.82rem;
-      line-height: 1.5;
-      margin: 0;
-    }
-
-    .image-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .mini-btn {
-      border-radius: 999px;
-      padding: 9px 13px;
-      font: inherit;
-      font-size: 0.82rem;
-      font-weight: 800;
-      cursor: pointer;
-      background: #ffffff;
-      color: var(--primary);
-      border: 1px solid #d9e5ff;
-      transition: 0.25s ease;
-    }
-
-    .mini-btn:hover {
-      background: #eef3ff;
-    }
-
     .image-helper {
       display: grid;
       grid-template-columns: 96px 1fr;
       gap: 14px;
       align-items: center;
       padding: 14px;
+      border: 1px dashed #cdd9f8;
+      border-radius: 18px;
+      background: #f8fbff;
     }
 
     .image-preview {
@@ -570,19 +496,6 @@
       object-fit: cover;
       background: #ffffff;
       border: 1px solid var(--border);
-    }
-
-    .image-helper p,
-    .admin-help {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.86rem;
-      line-height: 1.6;
-    }
-
-    .admin-help {
-      padding: 18px;
-      margin-top: 18px;
     }
 
     .admin-actions-row {
@@ -665,8 +578,7 @@
       font-weight: 700;
     }
 
-    .products-list,
-    .simple-list {
+    .products-list {
       display: grid;
       gap: 14px;
     }
@@ -785,39 +697,6 @@
       font-weight: 800;
     }
 
-    .company-preview {
-      display: grid;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .company-preview-item {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      padding: 14px;
-      border-radius: 16px;
-      background: #fcfcfd;
-      border: 1px solid var(--border);
-    }
-
-    .company-preview-item i {
-      color: var(--primary);
-      margin-top: 4px;
-    }
-
-    .company-preview-item strong {
-      display: block;
-      margin-bottom: 3px;
-      font-size: 0.9rem;
-    }
-
-    .company-preview-item span {
-      color: var(--muted);
-      font-size: 0.9rem;
-      word-break: break-word;
-    }
-
     .empty-state-admin {
       padding: 42px 24px;
       border-radius: 22px;
@@ -840,6 +719,17 @@
       margin: 0 auto;
       color: var(--muted);
       max-width: 52ch;
+      line-height: 1.6;
+    }
+
+    .admin-help {
+      padding: 18px;
+      margin-top: 18px;
+      border: 1px dashed #cdd9f8;
+      border-radius: 18px;
+      background: #f8fbff;
+      color: var(--muted);
+      font-size: 0.86rem;
       line-height: 1.6;
     }
 
@@ -978,14 +868,15 @@
           <h2>Panel de control del catálogo</h2>
 
           <p>
-            Administra productos, categorías, marcas, imágenes, stock y datos de contacto desde una sola vista.
+            Administra productos reales conectados a Supabase. Lo que guardes aquí
+            se reflejará en la página pública de productos.
           </p>
         </div>
 
         <div class="admin-hero-card">
-          <h3>Modo demo activo</h3>
+          <h3>Supabase activo</h3>
           <p>
-            Los datos se guardan en este navegador usando localStorage.
+            Productos, stock y cambios se guardan en la base de datos real.
           </p>
         </div>
       </section>
@@ -1029,29 +920,14 @@
               <i class="fa-solid fa-box"></i>
             </button>
 
-            <button class="admin-menu-btn" type="button" data-section="categories">
-              <span>Categorías</span>
-              <i class="fa-solid fa-layer-group"></i>
-            </button>
-
-            <button class="admin-menu-btn" type="button" data-section="brands">
-              <span>Marcas</span>
-              <i class="fa-solid fa-tags"></i>
-            </button>
-
             <button class="admin-menu-btn" type="button" data-section="stock">
               <span>Stock</span>
               <i class="fa-solid fa-circle-check"></i>
             </button>
 
-            <button class="admin-menu-btn" type="button" data-section="images">
-              <span>Imágenes</span>
-              <i class="fa-solid fa-image"></i>
-            </button>
-
-            <button class="admin-menu-btn" type="button" data-section="company">
-              <span>Datos empresa</span>
-              <i class="fa-solid fa-building"></i>
+            <button class="admin-menu-btn" type="button" data-section="help">
+              <span>Ayuda</span>
+              <i class="fa-solid fa-circle-info"></i>
             </button>
 
             <a href="productos.html" class="admin-menu-btn">
@@ -1061,18 +937,17 @@
           </div>
 
           <div class="sidebar-help">
-            Edita productos y también los datos visibles de contacto de la empresa.
+            Primero dejamos productos funcionando con CRUD real. Luego conectamos
+            categorías, marcas, datos de empresa e imágenes con Storage.
           </div>
         </aside>
 
         <section class="admin-main-panel">
           <div class="main-panel-header">
-            <div>
-              <h3 id="section-title">Gestión de productos</h3>
-              <p id="section-description">
-                Agrega, edita, elimina y revisa los productos que aparecerán en el catálogo público.
-              </p>
-            </div>
+            <h3 id="section-title">Gestión de productos</h3>
+            <p id="section-description">
+              Agrega, edita, desactiva y revisa los productos que aparecerán en el catálogo público.
+            </p>
           </div>
 
           <div class="main-panel-body">
@@ -1080,7 +955,7 @@
               <div class="section-grid">
                 <div class="inner-card">
                   <h4 id="form-title">Agregar nuevo producto</h4>
-                  <p>Llena los campos principales. El producto se mostrará en el catálogo.</p>
+                  <p>Llena los campos principales. El producto se guardará en Supabase.</p>
 
                   <form class="admin-form" id="product-form">
                     <input type="hidden" id="product-id" />
@@ -1124,33 +999,19 @@
                         Imagen y disponibilidad
                       </div>
 
-                      <div class="image-options">
-                        <div class="field">
-                          <label for="product-image">Ruta de imagen</label>
-                          <input id="product-image" type="text" placeholder="imagenes/productos/productos-1.png" />
-                          <small>También puedes subir una imagen desde tu equipo.</small>
-                        </div>
-
-                        <div class="image-upload-box">
-                          <label class="upload-label" for="product-file">
-                            <i class="fa-solid fa-cloud-arrow-up"></i>
-                            Subir imagen desde mi equipo
-                            <input id="product-file" type="file" accept="image/png,image/jpeg,image/jpg,image/webp" />
-                          </label>
-
-                          <p class="upload-note">
-                            La imagen se guardará en esta demo dentro del navegador.
-                          </p>
-
-                          <div class="image-actions">
-                            <button type="button" class="mini-btn" id="use-demo-image">Usar imagen demo</button>
-                            <button type="button" class="mini-btn" id="clear-image">Quitar imagen</button>
-                          </div>
-                        </div>
+                      <div class="field">
+                        <label for="product-image">URL o ruta de imagen</label>
+                        <input id="product-image" type="text" placeholder="imagenes/productos/productos-1.png" />
+                        <small>Por ahora pega una ruta/URL. Luego conectamos subida con Storage.</small>
                       </div>
 
                       <div class="image-helper">
-                        <img src="imagenes/productos/productos-1.png" alt="Vista previa del producto" class="image-preview" id="image-preview" />
+                        <img
+                          src="imagenes/productos/productos-1.png"
+                          alt="Vista previa"
+                          class="image-preview"
+                          id="image-preview"
+                        />
 
                         <p>
                           <strong>Vista previa:</strong> aquí verás la imagen antes de guardar.
@@ -1197,7 +1058,7 @@
 
                 <div class="inner-card">
                   <h4>Productos registrados</h4>
-                  <p>Busca, edita o elimina productos del catálogo.</p>
+                  <p>Busca, edita o desactiva productos del catálogo.</p>
 
                   <div class="tools-bar">
                     <div class="admin-search">
@@ -1218,186 +1079,22 @@
               </div>
             </section>
 
-            <section class="admin-section" id="section-categories">
-              <div class="section-grid">
-                <div class="inner-card">
-                  <h4>Agregar categoría</h4>
-                  <p>Crea categorías para clasificar productos de forma más ordenada.</p>
-
-                  <form class="admin-form" id="category-form">
-                    <div class="field">
-                      <label for="category-name">Nombre de categoría</label>
-                      <input id="category-name" type="text" placeholder="Ej: Automatización" />
-                    </div>
-
-                    <button type="submit" class="admin-btn admin-btn-primary">
-                      <i class="fa-solid fa-plus"></i>
-                      Agregar categoría
-                    </button>
-                  </form>
-                </div>
-
-                <div class="inner-card">
-                  <h4>Categorías registradas</h4>
-                  <p>Estas categorías aparecen como sugerencias al crear productos.</p>
-                  <div class="simple-list" id="category-list"></div>
-                </div>
-              </div>
-            </section>
-
-            <section class="admin-section" id="section-brands">
-              <div class="section-grid">
-                <div class="inner-card">
-                  <h4>Agregar marca</h4>
-                  <p>Crea marcas para usarlas en el formulario de productos.</p>
-
-                  <form class="admin-form" id="brand-form">
-                    <div class="field">
-                      <label for="brand-name">Nombre de marca</label>
-                      <input id="brand-name" type="text" placeholder="Ej: ABB" />
-                    </div>
-
-                    <button type="submit" class="admin-btn admin-btn-primary">
-                      <i class="fa-solid fa-plus"></i>
-                      Agregar marca
-                    </button>
-                  </form>
-                </div>
-
-                <div class="inner-card">
-                  <h4>Marcas registradas</h4>
-                  <p>Estas marcas aparecen como sugerencias al crear productos.</p>
-                  <div class="simple-list" id="brand-list"></div>
-                </div>
-              </div>
-            </section>
-
             <section class="admin-section" id="section-stock">
               <div class="inner-card">
                 <h4>Gestión rápida de stock</h4>
-                <p>Usa el botón de editar en Productos para cambiar el estado de stock de cada artículo.</p>
+                <p>Usa el botón editar en Productos para cambiar disponibilidad.</p>
                 <div class="products-list" id="stock-list"></div>
               </div>
             </section>
 
-            <section class="admin-section" id="section-images">
+            <section class="admin-section" id="section-help">
               <div class="inner-card">
-                <h4>Gestión de imágenes</h4>
-                <p>
-                  Puedes subir una foto desde el formulario de Productos o escribir la ruta manual si ya está en la carpeta del proyecto.
-                </p>
+                <h4>Estado de conexión</h4>
+                <p>Este panel ya usa Supabase Auth y tabla products.</p>
 
                 <div class="admin-help">
-                  <strong>Importante:</strong> en GitHub Pages, esta demo guarda imágenes subidas como Base64 en el navegador.
-                  Para una web real con varios usuarios, se debe conectar a Firebase Storage, Supabase Storage o un backend.
-                </div>
-              </div>
-            </section>
-
-            <section class="admin-section" id="section-company">
-              <div class="section-grid">
-                <div class="inner-card">
-                  <h4>Editar datos de empresa</h4>
-                  <p>Estos datos se mostrarán en Inicio y Contacto cuando se guarden en este navegador.</p>
-
-                  <form class="admin-form" id="company-form">
-                    <div class="form-row">
-                      <div class="field">
-                        <label for="company-phone">Teléfono visible</label>
-                        <input id="company-phone" type="text" placeholder="966 441 035" />
-                      </div>
-
-                      <div class="field">
-                        <label for="company-phone-raw">WhatsApp sin espacios</label>
-                        <input id="company-phone-raw" type="text" placeholder="51966441035" />
-                        <small>Usa código país. Ejemplo Perú: 51 + número.</small>
-                      </div>
-                    </div>
-
-                    <div class="field">
-                      <label for="company-email">Correo electrónico</label>
-                      <input id="company-email" type="email" placeholder="correo@empresa.com" />
-                    </div>
-
-                    <div class="field">
-                      <label for="company-address">Dirección</label>
-                      <input id="company-address" type="text" placeholder="Av. Republica de Argentina 211, Lima 15079" />
-                    </div>
-
-                    <div class="field">
-                      <label for="company-hours">Horario de atención</label>
-                      <input id="company-hours" type="text" placeholder="Lun - Sáb / 10:00 am - 5:00 pm" />
-                    </div>
-
-                    <div class="field">
-                      <label for="company-maps-url">Enlace de Google Maps</label>
-                      <textarea id="company-maps-url" placeholder="Pega aquí el enlace de Google Maps"></textarea>
-                    </div>
-
-                    <div class="field">
-                      <label for="company-maps-embed">Enlace embebido del mapa</label>
-                      <textarea id="company-maps-embed" placeholder="https://www.google.com/maps?q=...&output=embed"></textarea>
-                      <small>Este es el enlace que usa el iframe. Puedes dejar el recomendado.</small>
-                    </div>
-
-                    <div class="notice" id="company-notice"></div>
-
-                    <div class="admin-actions-row">
-                      <button type="submit" class="admin-btn admin-btn-primary">
-                        <i class="fa-solid fa-floppy-disk"></i>
-                        Guardar datos
-                      </button>
-
-                      <button type="button" class="admin-btn admin-btn-light" id="reset-company-btn">
-                        <i class="fa-solid fa-rotate-left"></i>
-                        Restaurar datos base
-                      </button>
-                    </div>
-                  </form>
-                </div>
-
-                <div class="inner-card">
-                  <h4>Vista rápida de datos</h4>
-                  <p>Así quedarán los datos que verá el visitante en la web.</p>
-
-                  <div class="company-preview">
-                    <div class="company-preview-item">
-                      <i class="fa-solid fa-phone"></i>
-                      <div>
-                        <strong>Teléfono / WhatsApp</strong>
-                        <span id="preview-phone">966 441 035</span>
-                      </div>
-                    </div>
-
-                    <div class="company-preview-item">
-                      <i class="fa-solid fa-envelope"></i>
-                      <div>
-                        <strong>Correo</strong>
-                        <span id="preview-email">oliveravelasquezluis@gmail.com</span>
-                      </div>
-                    </div>
-
-                    <div class="company-preview-item">
-                      <i class="fa-solid fa-location-dot"></i>
-                      <div>
-                        <strong>Dirección</strong>
-                        <span id="preview-address">Av. Republica de Argentina 211, Lima 15079</span>
-                      </div>
-                    </div>
-
-                    <div class="company-preview-item">
-                      <i class="fa-regular fa-clock"></i>
-                      <div>
-                        <strong>Horario</strong>
-                        <span id="preview-hours">Lun - Sáb / 10:00 am - 5:00 pm</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="admin-help">
-                    <strong>Ojo:</strong> como estamos usando localStorage, estos cambios se guardan en el navegador actual.
-                    Para que todos los visitantes vean los mismos datos editados desde cualquier dispositivo, luego se debe conectar una base de datos real.
-                  </div>
+                  <strong>Siguiente mejora:</strong> crear edición real de categorías,
+                  marcas, datos de empresa y subida de imágenes con Supabase Storage.
                 </div>
               </div>
             </section>
@@ -1407,111 +1104,15 @@
     </div>
   </main>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      if (localStorage.getItem("nymAdminSession") !== "active") {
-        window.location.href = "admin-login.html";
-        return;
-      }
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
 
-      const PRODUCT_STORAGE = "products";
-      const BRAND_STORAGE = "nymAdminBrands";
-      const CATEGORY_STORAGE = "nymAdminCategories";
-      const COMPANY_STORAGE = "nymCompanyData";
-      const DEMO_FLAG = "nymDemoProductsLoaded";
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
       const DEFAULT_IMAGE = "imagenes/productos/productos-1.png";
 
-      const defaultCompanyData = {
-        phone: "966 441 035",
-        phoneRaw: "51966441035",
-        email: "oliveravelasquezluis@gmail.com",
-        address: "Av. Republica de Argentina 211, Lima 15079",
-        hours: "Lun - Sáb / 10:00 am - 5:00 pm",
-        mapsUrl: "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/@-12.043928,-77.045568,18z/data=!3m1!4b1!4m6!3m5!1s0x9105c8cd7e9526cf:0xdadd471adff69af0!8m2!3d-12.0439298!4d-77.0446731!16s%2Fg%2F11fn4l39yh?entry=ttu",
-        mapsEmbed: "https://www.google.com/maps?q=Av.%20Republica%20de%20Argentina%20211,%20Lima%2015079&output=embed"
-      };
-
-      let products = JSON.parse(localStorage.getItem(PRODUCT_STORAGE) || "[]");
-
-      if (!localStorage.getItem(DEMO_FLAG) && products.length === 0) {
-        products = [
-          {
-            id: "demo-1",
-            name: "Controlador industrial demo",
-            brand: "ABB",
-            category: "Automatización",
-            image: "imagenes/productos/productos-1.png",
-            stock: "Disponible",
-            desc: "Solución orientada a procesos técnicos y tareas de automatización dentro de entornos modernos."
-          },
-          {
-            id: "demo-2",
-            name: "Componente modular demo",
-            brand: "Schneider Electric",
-            category: "Montaje en riel DIN",
-            image: "imagenes/productos/productos-2.png",
-            stock: "Bajo pedido",
-            desc: "Producto de muestra para instalación ordenada y aplicaciones técnicas con estructura profesional."
-          },
-          {
-            id: "demo-3",
-            name: "Interruptor automático demo",
-            brand: "CHINT",
-            category: "Relés y protección",
-            image: "imagenes/productos/productos-3.png",
-            stock: "Sin stock",
-            desc: "Equipo de protección y control para distintas aplicaciones dentro del catálogo comercial."
-          },
-          {
-            id: "demo-4",
-            name: "Dispositivo electrónico demo",
-            brand: "Delta",
-            category: "Conectores industriales",
-            image: "imagenes/productos/productos-4.png",
-            stock: "Disponible",
-            desc: "Solución de muestra para catálogo moderno, pensada para consulta y cotización comercial."
-          },
-          {
-            id: "demo-5",
-            name: "Módulo para panel demo",
-            brand: "Legrand",
-            category: "Montaje en panel",
-            image: "imagenes/productos/productos-1.png",
-            stock: "Bajo pedido",
-            desc: "Producto demo para visualización de catálogo, filtros y gestión de stock visible."
-          },
-          {
-            id: "demo-6",
-            name: "Relé de control demo",
-            brand: "LS",
-            category: "Mando y señalización",
-            image: "imagenes/productos/productos-2.png",
-            stock: "Disponible",
-            desc: "Componente de muestra para líneas técnicas, protección y uso en aplicaciones organizadas."
-          }
-        ];
-
-        localStorage.setItem(PRODUCT_STORAGE, JSON.stringify(products));
-        localStorage.setItem(DEMO_FLAG, "true");
-      }
-
-      let brands = JSON.parse(
-        localStorage.getItem(BRAND_STORAGE) ||
-          '["ABB","CHINT","Schneider Electric","Delta","Legrand","LS"]'
-      );
-
-      let categories = JSON.parse(
-        localStorage.getItem(CATEGORY_STORAGE) ||
-          '["Arranque motor","Automatización","Montaje en riel DIN","Montaje en panel","Conectores industriales","Relés y protección","Mando y señalización"]'
-      );
-
-      products.forEach((product) => {
-        if (product.brand && !brands.includes(product.brand)) brands.push(product.brand);
-        if (product.category && !categories.includes(product.category)) categories.push(product.category);
-      });
-
-      localStorage.setItem(BRAND_STORAGE, JSON.stringify(brands));
-      localStorage.setItem(CATEGORY_STORAGE, JSON.stringify(categories));
+      let products = [];
+      let currentUser = null;
 
       const menuButtons = document.querySelectorAll("[data-section]");
       const sections = document.querySelectorAll(".admin-section");
@@ -1529,44 +1130,14 @@
       const resetBtn = document.getElementById("reset-btn");
       const logoutBtn = document.getElementById("logout-btn");
       const imagePreview = document.getElementById("image-preview");
-      const productFile = document.getElementById("product-file");
-      const useDemoImage = document.getElementById("use-demo-image");
-      const clearImage = document.getElementById("clear-image");
 
       const statProducts = document.getElementById("stat-products");
       const statBrands = document.getElementById("stat-brands");
       const statCategories = document.getElementById("stat-categories");
       const statAvailable = document.getElementById("stat-available");
 
-      const categoryForm = document.getElementById("category-form");
-      const brandForm = document.getElementById("brand-form");
-      const categoryName = document.getElementById("category-name");
-      const brandName = document.getElementById("brand-name");
-      const categoryList = document.getElementById("category-list");
-      const brandList = document.getElementById("brand-list");
       const categorySuggestions = document.getElementById("category-suggestions");
       const brandSuggestions = document.getElementById("brand-suggestions");
-
-      const companyForm = document.getElementById("company-form");
-      const companyNotice = document.getElementById("company-notice");
-      const resetCompanyBtn = document.getElementById("reset-company-btn");
-
-      const companyFields = {
-        phone: document.getElementById("company-phone"),
-        phoneRaw: document.getElementById("company-phone-raw"),
-        email: document.getElementById("company-email"),
-        address: document.getElementById("company-address"),
-        hours: document.getElementById("company-hours"),
-        mapsUrl: document.getElementById("company-maps-url"),
-        mapsEmbed: document.getElementById("company-maps-embed")
-      };
-
-      const companyPreview = {
-        phone: document.getElementById("preview-phone"),
-        email: document.getElementById("preview-email"),
-        address: document.getElementById("preview-address"),
-        hours: document.getElementById("preview-hours")
-      };
 
       const fields = {
         id: document.getElementById("product-id"),
@@ -1581,27 +1152,15 @@
       const sectionInfo = {
         products: {
           title: "Gestión de productos",
-          description: "Agrega, edita, elimina y revisa los productos que aparecerán en el catálogo público."
-        },
-        categories: {
-          title: "Gestión de categorías",
-          description: "Crea o elimina categorías para organizar mejor el catálogo."
-        },
-        brands: {
-          title: "Gestión de marcas",
-          description: "Crea o elimina marcas para mantener ordenado el catálogo."
+          description: "Agrega, edita, desactiva y revisa los productos que aparecerán en el catálogo público."
         },
         stock: {
           title: "Gestión rápida de stock",
           description: "Revisa el estado de disponibilidad de todos los productos."
         },
-        images: {
-          title: "Gestión de imágenes",
-          description: "Revisa cómo se cargan las imágenes y cómo se usarán en producción."
-        },
-        company: {
-          title: "Datos de empresa",
-          description: "Edita teléfono, WhatsApp, correo, dirección, horario y enlaces de mapa."
+        help: {
+          title: "Ayuda y estado",
+          description: "Resumen de conexión y próximos módulos."
         }
       };
 
@@ -1614,18 +1173,6 @@
           .replace(/'/g, "&#039;");
       }
 
-      function saveProducts() {
-        localStorage.setItem(PRODUCT_STORAGE, JSON.stringify(products));
-      }
-
-      function saveBrands() {
-        localStorage.setItem(BRAND_STORAGE, JSON.stringify(brands));
-      }
-
-      function saveCategories() {
-        localStorage.setItem(CATEGORY_STORAGE, JSON.stringify(categories));
-      }
-
       function showNotice(element, text, type = "success") {
         element.textContent = text;
         element.className = `notice show ${type}`;
@@ -1633,17 +1180,7 @@
         setTimeout(() => {
           element.className = "notice";
           element.textContent = "";
-        }, 3000);
-      }
-
-      function resetForm() {
-        form.reset();
-        fields.id.value = "";
-        fields.image.value = "";
-        productFile.value = "";
-        imagePreview.src = DEFAULT_IMAGE;
-        formTitle.textContent = "Agregar nuevo producto";
-        saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar producto';
+        }, 3500);
       }
 
       function getStockClass(stock) {
@@ -1654,129 +1191,13 @@
         return "available";
       }
 
-      function updateStats() {
-        const productBrands = new Set(products.map((p) => String(p.brand || "").trim()).filter(Boolean));
-        const productCategories = new Set(products.map((p) => String(p.category || "").trim()).filter(Boolean));
-        const available = products.filter((p) => p.stock === "Disponible").length;
-
-        statProducts.textContent = products.length;
-        statBrands.textContent = new Set([...brands, ...productBrands]).size;
-        statCategories.textContent = new Set([...categories, ...productCategories]).size;
-        statAvailable.textContent = available;
-      }
-
-      function renderSuggestions() {
-        brandSuggestions.innerHTML = brands
-          .map((brand) => `<option value="${escapeHTML(brand)}"></option>`)
-          .join("");
-
-        categorySuggestions.innerHTML = categories
-          .map((category) => `<option value="${escapeHTML(category)}"></option>`)
-          .join("");
-      }
-
-      function renderSimpleLists() {
-        categoryList.innerHTML = categories.length
-          ? categories.map((category) => `
-              <div class="simple-item">
-                <span>${escapeHTML(category)}</span>
-                <button class="icon-action danger" data-delete-category="${escapeHTML(category)}" type="button">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </div>
-            `).join("")
-          : `<div class="empty-state-admin"><i class="fa-solid fa-box-open"></i><h3>No hay categorías</h3><p>Agrega una categoría para empezar.</p></div>`;
-
-        brandList.innerHTML = brands.length
-          ? brands.map((brand) => `
-              <div class="simple-item">
-                <span>${escapeHTML(brand)}</span>
-                <button class="icon-action danger" data-delete-brand="${escapeHTML(brand)}" type="button">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </div>
-            `).join("")
-          : `<div class="empty-state-admin"><i class="fa-solid fa-box-open"></i><h3>No hay marcas</h3><p>Agrega una marca para empezar.</p></div>`;
-      }
-
-      function renderProductCard(product) {
-        const image = product.image || DEFAULT_IMAGE;
-
-        return `
-          <article class="admin-product">
-            <img src="${escapeHTML(image)}" alt="${escapeHTML(product.name)}" />
-
-            <div>
-              <h4>${escapeHTML(product.name || "Producto sin nombre")}</h4>
-              <p>${escapeHTML(product.desc || "Sin descripción registrada.")}</p>
-
-              <div class="admin-tags">
-                <span class="admin-tag"><i class="fa-solid fa-tag"></i> ${escapeHTML(product.brand || "Sin marca")}</span>
-                <span class="admin-tag"><i class="fa-solid fa-layer-group"></i> ${escapeHTML(product.category || "Sin categoría")}</span>
-                <span class="admin-tag stock-tag ${getStockClass(product.stock)}">${escapeHTML(product.stock || "Disponible")}</span>
-              </div>
-            </div>
-
-            <div class="product-actions">
-              <button class="icon-action" type="button" data-edit="${escapeHTML(product.id)}" title="Editar producto">
-                <i class="fa-solid fa-pen"></i>
-              </button>
-
-              <button class="icon-action danger" type="button" data-delete="${escapeHTML(product.id)}" title="Eliminar producto">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </article>
-        `;
-      }
-
-      function renderProducts() {
-        const query = search.value.trim().toLowerCase();
-        const selectedStock = stockFilter.value;
-
-        const filtered = products.filter((product) => {
-          const text = `${product.name || ""} ${product.brand || ""} ${product.category || ""} ${product.stock || ""} ${product.desc || ""}`.toLowerCase();
-          const matchesSearch = query === "" || text.includes(query);
-          const matchesStock = selectedStock === "all" || product.stock === selectedStock;
-          return matchesSearch && matchesStock;
-        });
-
-        if (!filtered.length) {
-          list.innerHTML = `
-            <div class="empty-state-admin">
-              <i class="fa-solid fa-box-open"></i>
-              <h3>No hay productos para mostrar</h3>
-              <p>Agrega un producto desde el formulario o cambia los filtros de búsqueda.</p>
-            </div>
-          `;
-          renderStockList();
-          updateStats();
-          return;
-        }
-
-        list.innerHTML = filtered.map(renderProductCard).join("");
-        renderStockList();
-        updateStats();
-      }
-
-      function renderStockList() {
-        if (!products.length) {
-          stockList.innerHTML = `
-            <div class="empty-state-admin">
-              <i class="fa-solid fa-box-open"></i>
-              <h3>No hay productos</h3>
-              <p>Cuando agregues productos, aquí verás su estado de stock.</p>
-            </div>
-          `;
-          return;
-        }
-
-        stockList.innerHTML = products.map((product) => `
-          <div class="simple-item">
-            <span>${escapeHTML(product.name || "Producto sin nombre")}</span>
-            <span class="admin-tag stock-tag ${getStockClass(product.stock)}">${escapeHTML(product.stock || "Disponible")}</span>
-          </div>
-        `).join("");
+      function resetForm() {
+        form.reset();
+        fields.id.value = "";
+        fields.image.value = "";
+        imagePreview.src = DEFAULT_IMAGE;
+        formTitle.textContent = "Agregar nuevo producto";
+        saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar producto';
       }
 
       function openSection(sectionName) {
@@ -1792,47 +1213,179 @@
         sectionDescription.textContent = sectionInfo[sectionName].description;
       }
 
-      function getCompanyData() {
-        return JSON.parse(localStorage.getItem(COMPANY_STORAGE) || "null") || defaultCompanyData;
+      function updateStats() {
+        const activeProducts = products.filter((product) => product.is_active !== false);
+
+        statProducts.textContent = activeProducts.length;
+        statBrands.textContent = new Set(activeProducts.map((product) => product.brand).filter(Boolean)).size;
+        statCategories.textContent = new Set(activeProducts.map((product) => product.category).filter(Boolean)).size;
+        statAvailable.textContent = activeProducts.filter((product) => product.stock_status === "Disponible").length;
       }
 
-      function setCompanyForm(data) {
-        companyFields.phone.value = data.phone || "";
-        companyFields.phoneRaw.value = data.phoneRaw || "";
-        companyFields.email.value = data.email || "";
-        companyFields.address.value = data.address || "";
-        companyFields.hours.value = data.hours || "";
-        companyFields.mapsUrl.value = data.mapsUrl || "";
-        companyFields.mapsEmbed.value = data.mapsEmbed || "";
-        updateCompanyPreview(data);
+      function renderSuggestions() {
+        const brands = [...new Set(products.map((product) => product.brand).filter(Boolean))].sort();
+        const categories = [...new Set(products.map((product) => product.category).filter(Boolean))].sort();
+
+        brandSuggestions.innerHTML = brands
+          .map((brand) => `<option value="${escapeHTML(brand)}"></option>`)
+          .join("");
+
+        categorySuggestions.innerHTML = categories
+          .map((category) => `<option value="${escapeHTML(category)}"></option>`)
+          .join("");
       }
 
-      function updateCompanyPreview(data) {
-        companyPreview.phone.textContent = data.phone || "-";
-        companyPreview.email.textContent = data.email || "-";
-        companyPreview.address.textContent = data.address || "-";
-        companyPreview.hours.textContent = data.hours || "-";
+      function renderProductCard(product) {
+        const image = product.image_url || DEFAULT_IMAGE;
+        const active = product.is_active !== false;
+
+        return `
+          <article class="admin-product">
+            <img src="${escapeHTML(image)}" alt="${escapeHTML(product.name)}" />
+
+            <div>
+              <h4>${escapeHTML(product.name || "Producto sin nombre")}</h4>
+              <p>${escapeHTML(product.description || "Sin descripción registrada.")}</p>
+
+              <div class="admin-tags">
+                <span class="admin-tag">
+                  <i class="fa-solid fa-tag"></i>
+                  ${escapeHTML(product.brand || "Sin marca")}
+                </span>
+
+                <span class="admin-tag">
+                  <i class="fa-solid fa-layer-group"></i>
+                  ${escapeHTML(product.category || "Sin categoría")}
+                </span>
+
+                <span class="admin-tag stock-tag ${getStockClass(product.stock_status)}">
+                  ${escapeHTML(product.stock_status || "Disponible")}
+                </span>
+
+                ${!active ? '<span class="admin-tag stock-tag unavailable">Desactivado</span>' : ""}
+              </div>
+            </div>
+
+            <div class="product-actions">
+              <button class="icon-action" type="button" data-edit="${escapeHTML(product.id)}" title="Editar">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+
+              <button class="icon-action danger" type="button" data-delete="${escapeHTML(product.id)}" title="Desactivar">
+                <i class="fa-solid fa-ban"></i>
+              </button>
+            </div>
+          </article>
+        `;
       }
 
-      function saveCompanyData() {
-        const data = {
-          phone: companyFields.phone.value.trim(),
-          phoneRaw: companyFields.phoneRaw.value.trim(),
-          email: companyFields.email.value.trim(),
-          address: companyFields.address.value.trim(),
-          hours: companyFields.hours.value.trim(),
-          mapsUrl: companyFields.mapsUrl.value.trim(),
-          mapsEmbed: companyFields.mapsEmbed.value.trim()
-        };
+      function renderProducts() {
+        const query = search.value.trim().toLowerCase();
+        const selectedStock = stockFilter.value;
 
-        if (!data.phone || !data.phoneRaw || !data.email || !data.address) {
-          showNotice(companyNotice, "Completa teléfono, WhatsApp, correo y dirección.", "error");
-          return;
+        const filtered = products.filter((product) => {
+          const text = `${product.name || ""} ${product.brand || ""} ${product.category || ""} ${product.stock_status || ""} ${product.description || ""}`.toLowerCase();
+
+          return (
+            product.is_active !== false &&
+            (query === "" || text.includes(query)) &&
+            (selectedStock === "all" || product.stock_status === selectedStock)
+          );
+        });
+
+        list.innerHTML = filtered.length
+          ? filtered.map(renderProductCard).join("")
+          : `
+            <div class="empty-state-admin">
+              <i class="fa-solid fa-box-open"></i>
+              <h3>No hay productos para mostrar</h3>
+              <p>Agrega un producto o cambia los filtros.</p>
+            </div>
+          `;
+
+        renderStockList();
+        updateStats();
+        renderSuggestions();
+      }
+
+      function renderStockList() {
+        const activeProducts = products.filter((product) => product.is_active !== false);
+
+        stockList.innerHTML = activeProducts.length
+          ? activeProducts.map((product) => `
+              <div class="simple-item">
+                <span>${escapeHTML(product.name || "Producto sin nombre")}</span>
+                <span class="admin-tag stock-tag ${getStockClass(product.stock_status)}">
+                  ${escapeHTML(product.stock_status || "Disponible")}
+                </span>
+              </div>
+            `).join("")
+          : `
+            <div class="empty-state-admin">
+              <i class="fa-solid fa-box-open"></i>
+              <h3>No hay productos</h3>
+              <p>Cuando agregues productos, aquí verás su stock.</p>
+            </div>
+          `;
+      }
+
+      async function requireSession() {
+        const { data, error } = await window.nymSupabase.auth.getSession();
+
+        if (error || !data.session) {
+          window.location.href = "admin-login.html";
+          return false;
         }
 
-        localStorage.setItem(COMPANY_STORAGE, JSON.stringify(data));
-        updateCompanyPreview(data);
-        showNotice(companyNotice, "Datos de empresa guardados correctamente.");
+        currentUser = data.session.user;
+
+        localStorage.setItem("nymAdminSession", "active");
+        localStorage.setItem("nymAdminUser", currentUser.email || "admin");
+
+        return true;
+      }
+
+      async function loadProducts() {
+        const { data, error } = await window.nymSupabase
+          .from("products")
+          .select("*")
+          .order("sort_order", { ascending: true })
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        products = data || [];
+        renderProducts();
+      }
+
+      async function saveProduct(payload, id) {
+        if (id) {
+          const { error } = await window.nymSupabase
+            .from("products")
+            .update(payload)
+            .eq("id", id);
+
+          if (error) throw error;
+
+          showNotice(notice, "Producto actualizado correctamente.");
+        } else {
+          const { error } = await window.nymSupabase
+            .from("products")
+            .insert([payload]);
+
+          if (error) throw error;
+
+          showNotice(notice, "Producto agregado correctamente.");
+        }
+      }
+
+      async function deactivateProduct(id) {
+        const { error } = await window.nymSupabase
+          .from("products")
+          .update({ is_active: false })
+          .eq("id", id);
+
+        if (error) throw error;
       }
 
       menuButtons.forEach((button) => {
@@ -1841,143 +1394,79 @@
         });
       });
 
-      form.addEventListener("submit", (event) => {
+      form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const productData = {
-          id: fields.id.value || String(Date.now()),
+        const payload = {
           name: fields.name.value.trim(),
           brand: fields.brand.value.trim(),
           category: fields.category.value.trim(),
-          image: fields.image.value.trim() || DEFAULT_IMAGE,
-          stock: fields.stock.value,
-          desc: fields.desc.value.trim()
+          image_url: fields.image.value.trim() || DEFAULT_IMAGE,
+          stock_status: fields.stock.value,
+          description: fields.desc.value.trim(),
+          is_active: true
         };
 
-        if (!productData.name || !productData.brand || !productData.category) {
+        if (!payload.name || !payload.brand || !payload.category) {
           showNotice(notice, "Completa nombre, marca y categoría.", "error");
           return;
         }
 
-        if (!brands.includes(productData.brand)) {
-          brands.push(productData.brand);
-          saveBrands();
+        saveBtn.disabled = true;
+
+        try {
+          await saveProduct(payload, fields.id.value);
+          resetForm();
+          await loadProducts();
+        } catch (error) {
+          console.error(error);
+          showNotice(notice, error.message || "No se pudo guardar el producto.", "error");
+        } finally {
+          saveBtn.disabled = false;
         }
-
-        if (!categories.includes(productData.category)) {
-          categories.push(productData.category);
-          saveCategories();
-        }
-
-        const index = products.findIndex((product) => product.id === productData.id);
-
-        if (index >= 0) {
-          products[index] = productData;
-          showNotice(notice, "Producto actualizado correctamente.");
-        } else {
-          products.unshift(productData);
-          showNotice(notice, "Producto agregado correctamente.");
-        }
-
-        saveProducts();
-        resetForm();
-        renderSuggestions();
-        renderSimpleLists();
-        renderProducts();
       });
 
-      list.addEventListener("click", (event) => {
+      list.addEventListener("click", async (event) => {
         const editButton = event.target.closest("[data-edit]");
         const deleteButton = event.target.closest("[data-delete]");
 
         if (editButton) {
           const product = products.find((item) => item.id === editButton.dataset.edit);
+
           if (!product) return;
 
-          fields.id.value = product.id || "";
+          fields.id.value = product.id;
           fields.name.value = product.name || "";
           fields.brand.value = product.brand || "";
           fields.category.value = product.category || "";
-          fields.image.value = product.image || "";
-          fields.stock.value = product.stock || "Disponible";
-          fields.desc.value = product.desc || "";
-          imagePreview.src = product.image || DEFAULT_IMAGE;
+          fields.image.value = product.image_url || "";
+          fields.stock.value = product.stock_status || "Disponible";
+          fields.desc.value = product.description || "";
+          imagePreview.src = product.image_url || DEFAULT_IMAGE;
 
           formTitle.textContent = "Editar producto";
           saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar producto';
-          openSection("products");
 
+          openSection("products");
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
 
         if (deleteButton) {
           const product = products.find((item) => item.id === deleteButton.dataset.delete);
-          const productName = product ? product.name : "este producto";
-          if (!confirm(`¿Seguro que deseas eliminar "${productName}"?`)) return;
 
-          products = products.filter((item) => item.id !== deleteButton.dataset.delete);
-          saveProducts();
-          renderProducts();
-          showNotice(notice, "Producto eliminado correctamente.");
+          if (!confirm(`¿Seguro que deseas desactivar "${product?.name || "este producto"}"?`)) {
+            return;
+          }
+
+          try {
+            await deactivateProduct(deleteButton.dataset.delete);
+            await loadProducts();
+            showNotice(notice, "Producto desactivado correctamente.");
+          } catch (error) {
+            console.error(error);
+            showNotice(notice, error.message || "No se pudo desactivar.", "error");
+          }
         }
-      });
-
-      categoryForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        const value = categoryName.value.trim();
-        if (!value) return;
-
-        if (!categories.includes(value)) {
-          categories.push(value);
-          saveCategories();
-        }
-
-        categoryName.value = "";
-        renderSuggestions();
-        renderSimpleLists();
-        updateStats();
-      });
-
-      brandForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        const value = brandName.value.trim();
-        if (!value) return;
-
-        if (!brands.includes(value)) {
-          brands.push(value);
-          saveBrands();
-        }
-
-        brandName.value = "";
-        renderSuggestions();
-        renderSimpleLists();
-        updateStats();
-      });
-
-      categoryList.addEventListener("click", (event) => {
-        const button = event.target.closest("[data-delete-category]");
-        if (!button) return;
-
-        const value = button.dataset.deleteCategory;
-        categories = categories.filter((category) => category !== value);
-        saveCategories();
-        renderSuggestions();
-        renderSimpleLists();
-        updateStats();
-      });
-
-      brandList.addEventListener("click", (event) => {
-        const button = event.target.closest("[data-delete-brand]");
-        if (!button) return;
-
-        const value = button.dataset.deleteBrand;
-        brands = brands.filter((brand) => brand !== value);
-        saveBrands();
-        renderSuggestions();
-        renderSimpleLists();
-        updateStats();
       });
 
       fields.image.addEventListener("input", () => {
@@ -1988,89 +1477,29 @@
         imagePreview.src = DEFAULT_IMAGE;
       });
 
-      productFile.addEventListener("change", () => {
-        const file = productFile.files[0];
-        if (!file) return;
-
-        if (!file.type.startsWith("image/")) {
-          showNotice(notice, "Selecciona una imagen válida.", "error");
-          productFile.value = "";
-          return;
-        }
-
-        const maxSizeBytes = 2 * 1024 * 1024;
-
-        if (file.size > maxSizeBytes) {
-          showNotice(notice, "La imagen pesa demasiado. Usa una menor a 2 MB.", "error");
-          productFile.value = "";
-          return;
-        }
-
-        const reader = new FileReader();
-
-        reader.onload = () => {
-          fields.image.value = reader.result;
-          imagePreview.src = reader.result;
-          showNotice(notice, "Imagen cargada correctamente. Ahora guarda el producto.");
-        };
-
-        reader.readAsDataURL(file);
-      });
-
-      useDemoImage.addEventListener("click", () => {
-        fields.image.value = DEFAULT_IMAGE;
-        imagePreview.src = DEFAULT_IMAGE;
-        productFile.value = "";
-        showNotice(notice, "Imagen demo seleccionada.");
-      });
-
-      clearImage.addEventListener("click", () => {
-        fields.image.value = "";
-        imagePreview.src = DEFAULT_IMAGE;
-        productFile.value = "";
-        showNotice(notice, "Imagen retirada. Si guardas sin imagen, se usará la demo.");
-      });
-
       search.addEventListener("input", renderProducts);
       stockFilter.addEventListener("change", renderProducts);
       resetBtn.addEventListener("click", resetForm);
 
-      companyForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        saveCompanyData();
-      });
+      logoutBtn.addEventListener("click", async () => {
+        await window.nymSupabase.auth.signOut();
 
-      Object.values(companyFields).forEach((field) => {
-        field.addEventListener("input", () => {
-          updateCompanyPreview({
-            phone: companyFields.phone.value,
-            email: companyFields.email.value,
-            address: companyFields.address.value,
-            hours: companyFields.hours.value
-          });
-        });
-      });
-
-      resetCompanyBtn.addEventListener("click", () => {
-        if (!confirm("¿Seguro que deseas restaurar los datos base de la empresa?")) return;
-
-        localStorage.setItem(COMPANY_STORAGE, JSON.stringify(defaultCompanyData));
-        setCompanyForm(defaultCompanyData);
-        showNotice(companyNotice, "Datos base restaurados correctamente.");
-      });
-
-      logoutBtn.addEventListener("click", () => {
         localStorage.removeItem("nymAdminSession");
         localStorage.removeItem("nymAdminUser");
+
         window.location.href = "admin-login.html";
       });
 
-      setCompanyForm(getCompanyData());
-      renderSuggestions();
-      renderSimpleLists();
-      renderProducts();
-      renderStockList();
-      updateStats();
+      try {
+        const sessionOk = await requireSession();
+
+        if (!sessionOk) return;
+
+        await loadProducts();
+      } catch (error) {
+        console.error(error);
+        alert("No se pudo cargar el admin: " + (error.message || error));
+      }
     });
   </script>
 </body>

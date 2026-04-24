@@ -342,11 +342,6 @@
       padding: 22px 26px;
       border-bottom: 1px solid var(--border);
       background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      align-items: flex-start;
     }
 
     .main-panel-header h3 {
@@ -1271,11 +1266,90 @@
       const PRODUCT_STORAGE = "products";
       const BRAND_STORAGE = "nymAdminBrands";
       const CATEGORY_STORAGE = "nymAdminCategories";
+      const DEMO_FLAG = "nymDemoProductsLoaded";
       const DEFAULT_IMAGE = "imagenes/productos/productos-1.png";
 
       let products = JSON.parse(localStorage.getItem(PRODUCT_STORAGE) || "[]");
-      let brands = JSON.parse(localStorage.getItem(BRAND_STORAGE) || '["ABB","CHINT","Schneider Electric","Delta","Legrand","LS"]');
-      let categories = JSON.parse(localStorage.getItem(CATEGORY_STORAGE) || '["Arranque motor","Automatización","Montaje en riel DIN","Montaje en panel","Conectores industriales","Relés y protección","Mando y señalización"]');
+
+      if (!localStorage.getItem(DEMO_FLAG) && products.length === 0) {
+        products = [
+          {
+            id: "demo-1",
+            name: "Controlador industrial demo",
+            brand: "ABB",
+            category: "Automatización",
+            image: "imagenes/productos/productos-1.png",
+            stock: "Disponible",
+            desc: "Solución orientada a procesos técnicos y tareas de automatización dentro de entornos modernos."
+          },
+          {
+            id: "demo-2",
+            name: "Componente modular demo",
+            brand: "Schneider Electric",
+            category: "Montaje en riel DIN",
+            image: "imagenes/productos/productos-2.png",
+            stock: "Bajo pedido",
+            desc: "Producto de muestra para instalación ordenada y aplicaciones técnicas con estructura profesional."
+          },
+          {
+            id: "demo-3",
+            name: "Interruptor automático demo",
+            brand: "CHINT",
+            category: "Relés y protección",
+            image: "imagenes/productos/productos-3.png",
+            stock: "Sin stock",
+            desc: "Equipo de protección y control para distintas aplicaciones dentro del catálogo comercial."
+          },
+          {
+            id: "demo-4",
+            name: "Dispositivo electrónico demo",
+            brand: "Delta",
+            category: "Conectores industriales",
+            image: "imagenes/productos/productos-4.png",
+            stock: "Disponible",
+            desc: "Solución de muestra para catálogo moderno, pensada para consulta y cotización comercial."
+          },
+          {
+            id: "demo-5",
+            name: "Módulo para panel demo",
+            brand: "Legrand",
+            category: "Montaje en panel",
+            image: "imagenes/productos/productos-1.png",
+            stock: "Bajo pedido",
+            desc: "Producto demo para visualización de catálogo, filtros y gestión de stock visible."
+          },
+          {
+            id: "demo-6",
+            name: "Relé de control demo",
+            brand: "LS",
+            category: "Mando y señalización",
+            image: "imagenes/productos/productos-2.png",
+            stock: "Disponible",
+            desc: "Componente de muestra para líneas técnicas, protección y uso en aplicaciones organizadas."
+          }
+        ];
+
+        localStorage.setItem(PRODUCT_STORAGE, JSON.stringify(products));
+        localStorage.setItem(DEMO_FLAG, "true");
+      }
+
+      let brands = JSON.parse(
+        localStorage.getItem(BRAND_STORAGE) ||
+          '["ABB","CHINT","Schneider Electric","Delta","Legrand","LS"]'
+      );
+
+      let categories = JSON.parse(
+        localStorage.getItem(CATEGORY_STORAGE) ||
+          '["Arranque motor","Automatización","Montaje en riel DIN","Montaje en panel","Conectores industriales","Relés y protección","Mando y señalización"]'
+      );
+
+      products.forEach((product) => {
+        if (product.brand && !brands.includes(product.brand)) brands.push(product.brand);
+        if (product.category && !categories.includes(product.category)) categories.push(product.category);
+      });
+
+      localStorage.setItem(BRAND_STORAGE, JSON.stringify(brands));
+      localStorage.setItem(CATEGORY_STORAGE, JSON.stringify(categories));
 
       const menuButtons = document.querySelectorAll("[data-section]");
       const sections = document.querySelectorAll(".admin-section");
@@ -1438,35 +1512,6 @@
           : `<div class="empty-state-admin"><i class="fa-solid fa-box-open"></i><h3>No hay marcas</h3><p>Agrega una marca para empezar.</p></div>`;
       }
 
-      function renderProducts() {
-        const query = search.value.trim().toLowerCase();
-        const selectedStock = stockFilter.value;
-
-        const filtered = products.filter((product) => {
-          const text = `${product.name || ""} ${product.brand || ""} ${product.category || ""} ${product.stock || ""} ${product.desc || ""}`.toLowerCase();
-          const matchesSearch = query === "" || text.includes(query);
-          const matchesStock = selectedStock === "all" || product.stock === selectedStock;
-          return matchesSearch && matchesStock;
-        });
-
-        if (!filtered.length) {
-          list.innerHTML = `
-            <div class="empty-state-admin">
-              <i class="fa-solid fa-box-open"></i>
-              <h3>No hay productos para mostrar</h3>
-              <p>Agrega un producto desde el formulario o cambia los filtros de búsqueda.</p>
-            </div>
-          `;
-          renderStockList();
-          updateStats();
-          return;
-        }
-
-        list.innerHTML = filtered.map(renderProductCard).join("");
-        renderStockList();
-        updateStats();
-      }
-
       function renderProductCard(product) {
         const image = product.image || DEFAULT_IMAGE;
 
@@ -1496,6 +1541,35 @@
             </div>
           </article>
         `;
+      }
+
+      function renderProducts() {
+        const query = search.value.trim().toLowerCase();
+        const selectedStock = stockFilter.value;
+
+        const filtered = products.filter((product) => {
+          const text = `${product.name || ""} ${product.brand || ""} ${product.category || ""} ${product.stock || ""} ${product.desc || ""}`.toLowerCase();
+          const matchesSearch = query === "" || text.includes(query);
+          const matchesStock = selectedStock === "all" || product.stock === selectedStock;
+          return matchesSearch && matchesStock;
+        });
+
+        if (!filtered.length) {
+          list.innerHTML = `
+            <div class="empty-state-admin">
+              <i class="fa-solid fa-box-open"></i>
+              <h3>No hay productos para mostrar</h3>
+              <p>Agrega un producto desde el formulario o cambia los filtros de búsqueda.</p>
+            </div>
+          `;
+          renderStockList();
+          updateStats();
+          return;
+        }
+
+        list.innerHTML = filtered.map(renderProductCard).join("");
+        renderStockList();
+        updateStats();
       }
 
       function renderStockList() {

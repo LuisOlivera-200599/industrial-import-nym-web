@@ -11,6 +11,8 @@
     content="Catálogo de productos electrónicos y componentes de Industrial Import NYM."
   />
 
+  <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -461,16 +463,18 @@
   <div class="topbar">
     <div class="container topbar-content">
       <div class="topbar-left">
-        <span><i class="fa-solid fa-phone"></i> 999 999 999</span>
-        <span><i class="fa-solid fa-envelope"></i> contacto@industrialimportnym.com</span>
-        <span><i class="fa-solid fa-location-dot"></i> Av. Ejemplo 123, Lima, Perú</span>
+        <span><i class="fa-solid fa-phone"></i> <span id="top-phone">966 441 035</span></span>
+        <span><i class="fa-solid fa-envelope"></i> <span id="top-email">oliveravelasquezluis@gmail.com</span></span>
+        <span><i class="fa-solid fa-location-dot"></i> <span id="top-address">Av. Republica de Argentina 211, Lima 15079</span></span>
       </div>
 
       <div class="topbar-right">
         <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
         <a href="#"><i class="fa-brands fa-instagram"></i></a>
         <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+        <a id="top-whatsapp" href="https://wa.me/51966441035" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
       </div>
     </div>
   </div>
@@ -509,8 +513,8 @@
         <span class="section-badge">Catálogo</span>
         <h2>Productos y componentes para distintas aplicaciones electrónicas</h2>
         <p>
-          Explora una muestra de nuestro catálogo con categorías, marcas y estado
-          de disponibilidad visible para una consulta más clara y profesional.
+          Explora nuestro catálogo conectado a Supabase con categorías, marcas y
+          estado de disponibilidad visible para una consulta más clara y profesional.
         </p>
 
         <div class="breadcrumb">
@@ -552,7 +556,7 @@
         <div class="catalog-topbar">
           <div>
             <h3>Catálogo general</h3>
-            <p>Mostrando productos del catálogo actualizado.</p>
+            <p>Mostrando productos desde Supabase.</p>
           </div>
 
           <div class="catalog-actions">
@@ -567,7 +571,7 @@
           <span class="active-filter-tag">Marca: Todas</span>
         </div>
 
-        <p class="result-summary" id="result-summary">Mostrando productos.</p>
+        <p class="result-summary" id="result-summary">Cargando productos...</p>
 
         <div class="catalog-grid" id="catalog-grid"></div>
 
@@ -578,7 +582,7 @@
         </div>
 
         <div class="mini-note">
-          Esta sección muestra los productos gestionados desde el panel administrador.
+          Esta sección muestra los productos gestionados desde Supabase.
         </div>
       </div>
     </div>
@@ -609,10 +613,10 @@
       <div>
         <h4>Contacto</h4>
         <ul>
-          <li>999 999 999</li>
-          <li>contacto@industrialimportnym.com</li>
-          <li>Av. Ejemplo 123, Lima, Perú</li>
-          <li>Lun - Sáb / 10:00 am - 5:00 pm</li>
+          <li id="footer-phone">966 441 035</li>
+          <li id="footer-email">oliveravelasquezluis@gmail.com</li>
+          <li id="footer-address">Av. Republica de Argentina 211, Lima 15079</li>
+          <li id="footer-hours">Lun - Sáb / 10:00 am - 5:00 pm</li>
         </ul>
       </div>
 
@@ -622,7 +626,9 @@
           <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
           <a href="#"><i class="fa-brands fa-instagram"></i></a>
           <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+          <a id="footer-whatsapp" href="https://wa.me/51966441035" target="_blank" rel="noopener">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
         </div>
       </div>
     </div>
@@ -632,10 +638,12 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
   <script src="js/script.js"></script>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
       const catalogGrid = document.getElementById("catalog-grid");
       const categoryFilters = document.getElementById("category-filters");
       const brandFilters = document.getElementById("brand-filters");
@@ -644,94 +652,10 @@
       const activeFilters = document.getElementById("active-filters");
       const emptyState = document.getElementById("empty-state");
 
-      const PRODUCT_STORAGE = "products";
-      const DEFAULT_PRODUCTS = [
-        {
-          id: "demo-1",
-          name: "Controlador industrial demo",
-          brand: "ABB",
-          category: "Automatización",
-          image: "imagenes/productos/productos-1.png",
-          stock: "Disponible",
-          desc: "Solución orientada a procesos técnicos y tareas de automatización dentro de entornos modernos."
-        },
-        {
-          id: "demo-2",
-          name: "Componente modular demo",
-          brand: "Schneider Electric",
-          category: "Montaje en riel DIN",
-          image: "imagenes/productos/productos-2.png",
-          stock: "Bajo pedido",
-          desc: "Producto de muestra para instalación ordenada y aplicaciones técnicas con estructura profesional."
-        },
-        {
-          id: "demo-3",
-          name: "Interruptor automático demo",
-          brand: "CHINT",
-          category: "Relés y protección",
-          image: "imagenes/productos/productos-3.png",
-          stock: "Sin stock",
-          desc: "Equipo de protección y control para distintas aplicaciones dentro del catálogo comercial."
-        },
-        {
-          id: "demo-4",
-          name: "Dispositivo electrónico demo",
-          brand: "Delta",
-          category: "Conectores industriales",
-          image: "imagenes/productos/productos-4.png",
-          stock: "Disponible",
-          desc: "Solución de muestra para catálogo moderno, pensada para consulta y cotización comercial."
-        },
-        {
-          id: "demo-5",
-          name: "Módulo para panel demo",
-          brand: "Legrand",
-          category: "Montaje en panel",
-          image: "imagenes/productos/productos-1.png",
-          stock: "Bajo pedido",
-          desc: "Producto demo para visualización de catálogo, filtros y gestión de stock visible."
-        },
-        {
-          id: "demo-6",
-          name: "Relé de control demo",
-          brand: "LS",
-          category: "Mando y señalización",
-          image: "imagenes/productos/productos-2.png",
-          stock: "Disponible",
-          desc: "Componente de muestra para líneas técnicas, protección y uso en aplicaciones organizadas."
-        }
-      ];
-
-      let products = getProducts();
-
+      let products = [];
       let currentCategory = "all";
       let currentBrand = "all";
       let currentSearch = "";
-
-      function getProducts() {
-        try {
-          const savedProducts = JSON.parse(localStorage.getItem(PRODUCT_STORAGE) || "[]");
-
-          if (Array.isArray(savedProducts) && savedProducts.length > 0) {
-            return removeDuplicatesById(savedProducts);
-          }
-
-          return DEFAULT_PRODUCTS;
-        } catch (error) {
-          return DEFAULT_PRODUCTS;
-        }
-      }
-
-      function removeDuplicatesById(items) {
-        const map = new Map();
-
-        items.forEach((item) => {
-          if (!item || !item.id) return;
-          map.set(item.id, item);
-        });
-
-        return Array.from(map.values());
-      }
 
       function slugify(text) {
         return String(text || "")
@@ -759,45 +683,44 @@
         return "available";
       }
 
+      function normalizeProduct(row) {
+        return {
+          id: row.id,
+          name: row.name || "Producto sin nombre",
+          brand: row.brand || "Marca no definida",
+          category: row.category || "Categoría no definida",
+          image: row.image_url || "imagenes/productos/productos-1.png",
+          stock: row.stock_status || "Disponible",
+          desc: row.description || "Producto disponible para consulta comercial."
+        };
+      }
+
       function createProductCard(product) {
-        const name = product.name || "Producto sin nombre";
-        const brand = product.brand || "Marca no definida";
-        const category = product.category || "Categoría no definida";
-        const image = product.image || "imagenes/productos/productos-1.png";
-        const stock = product.stock || "Disponible";
-        const description =
-          product.desc ||
-          product.description ||
-          "Producto disponible para consulta comercial.";
-
-        const categorySlug = slugify(category);
-        const brandSlug = slugify(brand);
-
         const article = document.createElement("article");
 
         article.className = "product-card large catalog-product";
-        article.dataset.category = categorySlug;
-        article.dataset.brand = brandSlug;
-        article.dataset.name = `${name} ${brand} ${category}`.toLowerCase();
+        article.dataset.category = slugify(product.category);
+        article.dataset.brand = slugify(product.brand);
+        article.dataset.name = `${product.name} ${product.brand} ${product.category} ${product.desc}`.toLowerCase();
 
         article.innerHTML = `
           <div class="product-image">
-            <img src="${escapeHTML(image)}" alt="${escapeHTML(name)}" />
+            <img src="${escapeHTML(product.image)}" alt="${escapeHTML(product.name)}" />
           </div>
 
           <div class="product-body">
-            <span class="product-brand">${escapeHTML(brand)}</span>
+            <span class="product-brand">${escapeHTML(product.brand)}</span>
 
             <div class="product-meta">
-              <span class="product-pill">${escapeHTML(category)}</span>
+              <span class="product-pill">${escapeHTML(product.category)}</span>
             </div>
 
-            <h3>${escapeHTML(name)}</h3>
+            <h3>${escapeHTML(product.name)}</h3>
 
-            <p>${escapeHTML(description)}</p>
+            <p>${escapeHTML(product.desc)}</p>
 
             <div class="product-footer">
-              <span class="stock ${getStockClass(stock)}">${escapeHTML(stock)}</span>
+              <span class="stock ${getStockClass(product.stock)}">${escapeHTML(product.stock)}</span>
             </div>
 
             <div class="product-actions">
@@ -818,24 +741,17 @@
         });
       }
 
-      function getProductCards() {
-        return document.querySelectorAll(".catalog-product");
-      }
-
       function updateDynamicFilters() {
         const categories = new Map();
         const brands = new Map();
 
         products.forEach((product) => {
-          const category = product.category || "Categoría no definida";
-          const brand = product.brand || "Marca no definida";
-
-          categories.set(slugify(category), category);
-          brands.set(slugify(brand), brand);
+          categories.set(slugify(product.category), product.category);
+          brands.set(slugify(product.brand), product.brand);
         });
 
         categoryFilters.innerHTML = `
-          <button class="filter-btn ${currentCategory === "all" ? "active" : ""}" type="button" data-filter-type="category" data-filter-value="all">
+          <button class="filter-btn active" type="button" data-filter-type="category" data-filter-value="all">
             <span>Todas las categorías</span>
             <i class="fa-solid fa-layer-group"></i>
           </button>
@@ -845,7 +761,7 @@
           .sort((a, b) => a[1].localeCompare(b[1]))
           .forEach(([value, label]) => {
             categoryFilters.innerHTML += `
-              <button class="filter-btn ${currentCategory === value ? "active" : ""}" type="button" data-filter-type="category" data-filter-value="${escapeHTML(value)}">
+              <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="${escapeHTML(value)}">
                 <span>${escapeHTML(label)}</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
@@ -853,7 +769,7 @@
           });
 
         brandFilters.innerHTML = `
-          <button class="filter-btn ${currentBrand === "all" ? "active" : ""}" type="button" data-filter-type="brand" data-filter-value="all">
+          <button class="filter-btn active" type="button" data-filter-type="brand" data-filter-value="all">
             <span>Todas las marcas</span>
             <i class="fa-solid fa-tags"></i>
           </button>
@@ -863,7 +779,7 @@
           .sort((a, b) => a[1].localeCompare(b[1]))
           .forEach(([value, label]) => {
             brandFilters.innerHTML += `
-              <button class="filter-btn ${currentBrand === value ? "active" : ""}" type="button" data-filter-type="brand" data-filter-value="${escapeHTML(value)}">
+              <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="${escapeHTML(value)}">
                 <span>${escapeHTML(label)}</span>
                 <i class="fa-solid fa-angle-right"></i>
               </button>
@@ -882,20 +798,13 @@
       }
 
       function updateTags() {
-        const tags = [];
-
-        tags.push(
-          `<span class="active-filter-tag">Categoría: ${escapeHTML(getFilterLabel("category", currentCategory))}</span>`
-        );
-
-        tags.push(
+        const tags = [
+          `<span class="active-filter-tag">Categoría: ${escapeHTML(getFilterLabel("category", currentCategory))}</span>`,
           `<span class="active-filter-tag">Marca: ${escapeHTML(getFilterLabel("brand", currentBrand))}</span>`
-        );
+        ];
 
-        if (currentSearch.trim() !== "") {
-          tags.push(
-            `<span class="active-filter-tag">Búsqueda: ${escapeHTML(currentSearch)}</span>`
-          );
+        if (currentSearch) {
+          tags.push(`<span class="active-filter-tag">Búsqueda: ${escapeHTML(currentSearch)}</span>`);
         }
 
         activeFilters.innerHTML = tags.join("");
@@ -904,22 +813,19 @@
       function filterProducts() {
         let visibleCount = 0;
 
-        getProductCards().forEach((product) => {
-          const category = product.dataset.category;
-          const brand = product.dataset.brand;
-          const name = product.dataset.name.toLowerCase();
-          const content = product.textContent.toLowerCase();
+        document.querySelectorAll(".catalog-product").forEach((card) => {
+          const matchesCategory =
+            currentCategory === "all" || card.dataset.category === currentCategory;
 
-          const matchesCategory = currentCategory === "all" || category === currentCategory;
-          const matchesBrand = currentBrand === "all" || brand === currentBrand;
+          const matchesBrand =
+            currentBrand === "all" || card.dataset.brand === currentBrand;
+
           const matchesSearch =
-            currentSearch.trim() === "" ||
-            name.includes(currentSearch) ||
-            content.includes(currentSearch);
+            currentSearch === "" || card.dataset.name.includes(currentSearch);
 
           const shouldShow = matchesCategory && matchesBrand && matchesSearch;
 
-          product.style.display = shouldShow ? "" : "none";
+          card.style.display = shouldShow ? "" : "none";
 
           if (shouldShow) visibleCount++;
         });
@@ -934,29 +840,81 @@
       }
 
       function bindFilters() {
-        document.querySelectorAll('[data-filter-type="category"]').forEach((button) => {
+        document.querySelectorAll("[data-filter-type]").forEach((button) => {
           button.addEventListener("click", () => {
-            currentCategory = button.dataset.filterValue;
+            const type = button.dataset.filterType;
 
-            document.querySelectorAll('[data-filter-type="category"]').forEach((btn) => {
-              btn.classList.toggle("active", btn.dataset.filterValue === currentCategory);
-            });
+            if (type === "category") {
+              currentCategory = button.dataset.filterValue;
+            }
+
+            if (type === "brand") {
+              currentBrand = button.dataset.filterValue;
+            }
+
+            document
+              .querySelectorAll(`[data-filter-type="${type}"]`)
+              .forEach((item) => {
+                item.classList.toggle("active", item === button);
+              });
 
             filterProducts();
           });
         });
+      }
 
-        document.querySelectorAll('[data-filter-type="brand"]').forEach((button) => {
-          button.addEventListener("click", () => {
-            currentBrand = button.dataset.filterValue;
+      async function loadCompanySettings() {
+        const { data, error } = await nymSupabase
+          .from("company_settings")
+          .select("*")
+          .limit(1)
+          .maybeSingle();
 
-            document.querySelectorAll('[data-filter-type="brand"]').forEach((btn) => {
-              btn.classList.toggle("active", btn.dataset.filterValue === currentBrand);
-            });
+        if (error || !data) return;
 
-            filterProducts();
-          });
-        });
+        document.getElementById("top-phone").textContent = data.phone;
+        document.getElementById("top-email").textContent = data.email;
+        document.getElementById("top-address").textContent = data.address;
+
+        document.getElementById("footer-phone").textContent = data.phone;
+        document.getElementById("footer-email").textContent = data.email;
+        document.getElementById("footer-address").textContent = data.address;
+        document.getElementById("footer-hours").textContent = data.hours;
+
+        document.getElementById("top-whatsapp").href =
+          data.whatsapp_url || `https://wa.me/${data.phone_raw}`;
+
+        document.getElementById("footer-whatsapp").href =
+          data.whatsapp_url || `https://wa.me/${data.phone_raw}`;
+      }
+
+      async function loadProducts() {
+        const { data, error } = await nymSupabase
+          .from("products")
+          .select("*")
+          .eq("is_active", true)
+          .order("sort_order", { ascending: true })
+          .order("created_at", { ascending: true });
+
+        if (error) throw error;
+
+        products = (data || []).map(normalizeProduct);
+      }
+
+      async function init() {
+        try {
+          await loadCompanySettings();
+          await loadProducts();
+
+          renderProducts();
+          updateDynamicFilters();
+          bindFilters();
+          filterProducts();
+        } catch (error) {
+          console.error(error);
+          resultSummary.textContent = "No se pudo cargar el catálogo desde Supabase.";
+          emptyState.classList.add("show");
+        }
       }
 
       searchInput.addEventListener("input", (event) => {
@@ -964,10 +922,7 @@
         filterProducts();
       });
 
-      renderProducts();
-      updateDynamicFilters();
-      bindFilters();
-      filterProducts();
+      init();
     });
   </script>
 </body>

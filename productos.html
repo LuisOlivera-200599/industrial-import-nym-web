@@ -463,16 +463,16 @@
   <div class="topbar">
     <div class="container topbar-content">
       <div class="topbar-left">
-        <span><i class="fa-solid fa-phone"></i> <span id="top-phone">966 441 035</span></span>
-        <span><i class="fa-solid fa-envelope"></i> <span id="top-email">oliveravelasquezluis@gmail.com</span></span>
-        <span><i class="fa-solid fa-location-dot"></i> <span id="top-address">Av. Republica de Argentina 211, Lima 15079</span></span>
+        <span><i class="fa-solid fa-phone"></i> <span data-company-phone>966 441 035</span></span>
+        <span><i class="fa-solid fa-envelope"></i> <span data-company-email>oliveravelasquezluis@gmail.com</span></span>
+        <span><i class="fa-solid fa-location-dot"></i> <span data-company-address>Av. Republica de Argentina 211, Lima 15079</span></span>
       </div>
 
       <div class="topbar-right">
         <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
         <a href="#"><i class="fa-brands fa-instagram"></i></a>
         <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a id="top-whatsapp" href="https://wa.me/51966441035" target="_blank" rel="noopener">
+        <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
           <i class="fa-brands fa-whatsapp"></i>
         </a>
       </div>
@@ -525,8 +525,7 @@
       </div>
     </div>
   </section>
-
-  <section class="catalog-section">
+    <section class="catalog-section">
     <div class="container catalog-layout">
       <div class="sidebar-wrap">
         <aside class="sidebar-panel">
@@ -613,10 +612,10 @@
       <div>
         <h4>Contacto</h4>
         <ul>
-          <li id="footer-phone">966 441 035</li>
-          <li id="footer-email">oliveravelasquezluis@gmail.com</li>
-          <li id="footer-address">Av. Republica de Argentina 211, Lima 15079</li>
-          <li id="footer-hours">Lun - Sáb / 10:00 am - 5:00 pm</li>
+          <li data-company-phone>966 441 035</li>
+          <li data-company-email>oliveravelasquezluis@gmail.com</li>
+          <li data-company-address>Av. Republica de Argentina 211, Lima 15079</li>
+          <li data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</li>
         </ul>
       </div>
 
@@ -626,7 +625,7 @@
           <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
           <a href="#"><i class="fa-brands fa-instagram"></i></a>
           <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a id="footer-whatsapp" href="https://wa.me/51966441035" target="_blank" rel="noopener">
+          <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
             <i class="fa-brands fa-whatsapp"></i>
           </a>
         </div>
@@ -641,6 +640,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/script.js"></script>
+  <script src="js/company-settings.js"></script>
 
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
@@ -863,66 +863,36 @@
         });
       }
 
-      async function loadCompanySettings() {
-        const { data, error } = await nymSupabase
-          .from("company_settings")
-          .select("*")
-          .limit(1)
-          .maybeSingle();
-
-        if (error || !data) return;
-
-        document.getElementById("top-phone").textContent = data.phone;
-        document.getElementById("top-email").textContent = data.email;
-        document.getElementById("top-address").textContent = data.address;
-
-        document.getElementById("footer-phone").textContent = data.phone;
-        document.getElementById("footer-email").textContent = data.email;
-        document.getElementById("footer-address").textContent = data.address;
-        document.getElementById("footer-hours").textContent = data.hours;
-
-        document.getElementById("top-whatsapp").href =
-          data.whatsapp_url || `https://wa.me/${data.phone_raw}`;
-
-        document.getElementById("footer-whatsapp").href =
-          data.whatsapp_url || `https://wa.me/${data.phone_raw}`;
-      }
-
       async function loadProducts() {
-        const { data, error } = await nymSupabase
+        const { data, error } = await window.nymSupabase
           .from("products")
           .select("*")
           .eq("is_active", true)
           .order("sort_order", { ascending: true })
-          .order("created_at", { ascending: true });
+          .order("created_at", { ascending: false });
 
         if (error) throw error;
 
         products = (data || []).map(normalizeProduct);
+
+        renderProducts();
+        updateDynamicFilters();
+        bindFilters();
+        filterProducts();
       }
 
-      async function init() {
-        try {
-          await loadCompanySettings();
-          await loadProducts();
-
-          renderProducts();
-          updateDynamicFilters();
-          bindFilters();
-          filterProducts();
-        } catch (error) {
-          console.error(error);
-          resultSummary.textContent = "No se pudo cargar el catálogo desde Supabase.";
-          emptyState.classList.add("show");
-        }
-      }
-
-      searchInput.addEventListener("input", (event) => {
-        currentSearch = event.target.value.trim().toLowerCase();
+      searchInput.addEventListener("input", () => {
+        currentSearch = searchInput.value.trim().toLowerCase();
         filterProducts();
       });
 
-      init();
+      try {
+        await loadProducts();
+      } catch (error) {
+        console.error(error);
+        resultSummary.textContent = "No se pudieron cargar los productos.";
+        emptyState.classList.add("show");
+      }
     });
   </script>
 </body>

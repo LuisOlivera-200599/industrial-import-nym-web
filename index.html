@@ -4,12 +4,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Industrial Import NYM | Soluciones electrónicas para la industria moderna</title>
+  <title>Industrial Import NYM | Componentes electrónicos y soluciones industriales</title>
 
   <meta
     name="description"
-    content="Industrial Import NYM ofrece dispositivos y componentes electrónicos con enfoque en calidad, asesoría técnica y atención moderna."
+    content="Industrial Import NYM ofrece componentes electrónicos, dispositivos industriales y atención comercial para consultas y cotizaciones en Lima, Perú."
   />
+
+  <meta name="keywords" content="componentes electrónicos, dispositivos electrónicos, automatización, productos industriales, Industrial Import NYM, Lima Perú" />
+  <meta name="author" content="Industrial Import NYM" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="Industrial Import NYM | Componentes electrónicos" />
+  <meta
+    property="og:description"
+    content="Catálogo moderno de dispositivos y componentes electrónicos para aplicaciones industriales."
+  />
+  <meta property="og:image" content="imagenes/banners/banner-1.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_PE" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Industrial Import NYM | Componentes electrónicos" />
+  <meta
+    name="twitter:description"
+    content="Soluciones electrónicas para la industria moderna con atención comercial directa."
+  />
+  <meta name="twitter:image" content="imagenes/banners/banner-1.png" />
+
+  <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
+  <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -144,6 +168,7 @@
     }
 
     .hero-main-image,
+    .hero-mobile-image,
     .hero-main-video {
       width: 100%;
       height: 100%;
@@ -151,6 +176,10 @@
       object-fit: cover;
       border-radius: 22px;
       display: block;
+    }
+
+    .hero-mobile-image {
+      display: none;
     }
 
     .showcase-section {
@@ -387,8 +416,16 @@
         flex-direction: column;
       }
 
+      .hero-main-video {
+        display: none;
+      }
+
+      .hero-mobile-image {
+        display: block;
+      }
+
       .hero-main-image,
-      .hero-main-video,
+      .hero-mobile-image,
       .showcase-visual img {
         min-height: 280px;
       }
@@ -400,16 +437,16 @@
   <div class="topbar">
     <div class="container topbar-content">
       <div class="topbar-left">
-        <span><i class="fa-solid fa-phone"></i> 999 999 999</span>
-        <span><i class="fa-solid fa-envelope"></i> contacto@industrialimportnym.com</span>
-        <span><i class="fa-solid fa-location-dot"></i> Av. Ejemplo 123, Lima, Perú</span>
+        <span><i class="fa-solid fa-phone"></i> <span data-company-phone>966 441 035</span></span>
+        <span><i class="fa-solid fa-envelope"></i> <span data-company-email>oliveravelasquezluis@gmail.com</span></span>
+        <span><i class="fa-solid fa-location-dot"></i> <span data-company-address>Av. Republica de Argentina 211, Lima 15079</span></span>
       </div>
 
       <div class="topbar-right">
         <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
         <a href="#"><i class="fa-brands fa-instagram"></i></a>
         <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://wa.me/51966441035" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i></a>
       </div>
     </div>
   </div>
@@ -506,6 +543,12 @@
           <source src="videos/hero-electronica.mp4" type="video/mp4" />
           Tu navegador no soporta video HTML5.
         </video>
+
+        <img
+          src="imagenes/banners/banner-1.png"
+          alt="Banner principal de componentes electrónicos"
+          class="hero-mobile-image"
+        />
       </div>
     </div>
   </section>
@@ -760,7 +803,7 @@
 
       <div class="cta-buttons">
         <a href="contacto.html" class="btn btn-light">Solicitar cotización</a>
-        <a href="contacto.html" class="btn btn-outline-light">Contactar ahora</a>
+        <a href="https://wa.me/51966441035" target="_blank" rel="noopener" class="btn btn-outline-light">Contactar ahora</a>
       </div>
     </div>
   </section>
@@ -793,10 +836,10 @@
         <h4>Contacto</h4>
 
         <ul>
-          <li>999 999 999</li>
-          <li>contacto@industrialimportnym.com</li>
-          <li>Av. Ejemplo 123, Lima, Perú</li>
-          <li>Lun - Sáb / 10:00 am - 5:00 pm</li>
+          <li data-company-phone>966 441 035</li>
+          <li data-company-email>oliveravelasquezluis@gmail.com</li>
+          <li data-company-address>Av. Republica de Argentina 211, Lima 15079</li>
+          <li data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</li>
         </ul>
       </div>
 
@@ -807,7 +850,7 @@
           <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
           <a href="#"><i class="fa-brands fa-instagram"></i></a>
           <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="https://wa.me/51966441035" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
       </div>
     </div>
@@ -835,6 +878,38 @@
           }
         });
       }
+
+      const defaultCompanyData = {
+        phone: "966 441 035",
+        phoneRaw: "51966441035",
+        email: "oliveravelasquezluis@gmail.com",
+        address: "Av. Republica de Argentina 211, Lima 15079",
+        hours: "Lun - Sáb / 10:00 am - 5:00 pm",
+        mapsUrl: "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/@-12.043928,-77.045568,18z/data=!3m1!4b1!4m6!3m5!1s0x9105c8cd7e9526cf:0xdadd471adff69af0!8m2!3d-12.0439298!4d-77.0446731!16s%2Fg%2F11fn4l39yh?entry=ttu"
+      };
+
+      const savedCompanyData = JSON.parse(localStorage.getItem("nymCompanyData") || "null");
+      const companyData = savedCompanyData || defaultCompanyData;
+
+      document.querySelectorAll("[data-company-phone]").forEach((item) => {
+        item.textContent = companyData.phone;
+      });
+
+      document.querySelectorAll("[data-company-email]").forEach((item) => {
+        item.textContent = companyData.email;
+      });
+
+      document.querySelectorAll("[data-company-address]").forEach((item) => {
+        item.textContent = companyData.address;
+      });
+
+      document.querySelectorAll("[data-company-hours]").forEach((item) => {
+        item.textContent = companyData.hours;
+      });
+
+      document.querySelectorAll('a[href^="https://wa.me/"]').forEach((link) => {
+        link.href = `https://wa.me/${companyData.phoneRaw || "51966441035"}`;
+      });
     });
   </script>
 </body>

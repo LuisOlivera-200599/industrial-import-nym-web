@@ -8,7 +8,7 @@
 
   <meta
     name="description"
-    content="Panel administrador para gestionar productos de Industrial Import NYM."
+    content="Panel administrador para gestionar productos y datos de empresa de Industrial Import NYM."
   />
 
   <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
@@ -826,6 +826,7 @@
     }
   </style>
 </head>
+
 <body>
   <header class="admin-topbar">
     <div class="admin-container admin-nav">
@@ -868,15 +869,15 @@
           <h2>Panel de control del catálogo</h2>
 
           <p>
-            Administra productos reales conectados a Supabase. Lo que guardes aquí
-            se reflejará en la página pública de productos.
+            Administra productos, stock y datos de empresa conectados a Supabase.
+            Lo que guardes aquí se reflejará en la web pública.
           </p>
         </div>
 
         <div class="admin-hero-card">
           <h3>Supabase activo</h3>
           <p>
-            Productos, stock y cambios se guardan en la base de datos real.
+            Productos, contacto y cambios se guardan en la base de datos real.
           </p>
         </div>
       </section>
@@ -925,6 +926,11 @@
               <i class="fa-solid fa-circle-check"></i>
             </button>
 
+            <button class="admin-menu-btn" type="button" data-section="company">
+              <span>Datos de empresa</span>
+              <i class="fa-solid fa-building"></i>
+            </button>
+
             <button class="admin-menu-btn" type="button" data-section="help">
               <span>Ayuda</span>
               <i class="fa-solid fa-circle-info"></i>
@@ -937,8 +943,7 @@
           </div>
 
           <div class="sidebar-help">
-            Primero dejamos productos funcionando con CRUD real. Luego conectamos
-            categorías, marcas, datos de empresa e imágenes con Storage.
+            Administra el catálogo y los datos principales de la empresa sin tocar código.
           </div>
         </aside>
 
@@ -1087,14 +1092,128 @@
               </div>
             </section>
 
+            <section class="admin-section" id="section-company">
+              <div class="section-grid">
+                <div class="inner-card">
+                  <h4>Editar datos de empresa</h4>
+                  <p>Actualiza la información de contacto que se mostrará en la web pública.</p>
+
+                  <form class="admin-form" id="company-form">
+                    <input type="hidden" id="company-id" />
+
+                    <div>
+                      <div class="form-step">
+                        <span>1</span>
+                        Contacto principal
+                      </div>
+
+                      <div class="form-row">
+                        <div class="field">
+                          <label for="company-phone">Teléfono visible</label>
+                          <input id="company-phone" type="text" placeholder="966 441 035" />
+                        </div>
+
+                        <div class="field">
+                          <label for="company-phone-raw">Teléfono para WhatsApp</label>
+                          <input id="company-phone-raw" type="text" placeholder="51966441035" />
+                          <small>Usa código de país. Ejemplo Perú: 51 + número.</small>
+                        </div>
+                      </div>
+
+                      <div class="field">
+                        <label for="company-email">Correo</label>
+                        <input id="company-email" type="email" placeholder="correo@empresa.com" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="form-step">
+                        <span>2</span>
+                        Ubicación y atención
+                      </div>
+
+                      <div class="field">
+                        <label for="company-address">Dirección</label>
+                        <input id="company-address" type="text" placeholder="Av. Republica de Argentina 211, Lima 15079" />
+                      </div>
+
+                      <div class="field">
+                        <label for="company-hours">Horario</label>
+                        <input id="company-hours" type="text" placeholder="Lun - Sáb / 10:00 am - 5:00 pm" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="form-step">
+                        <span>3</span>
+                        Enlaces
+                      </div>
+
+                      <div class="field">
+                        <label for="company-whatsapp-url">Link de WhatsApp</label>
+                        <input id="company-whatsapp-url" type="text" placeholder="https://wa.me/51966441035" />
+                      </div>
+
+                      <div class="field">
+                        <label for="company-map-url">Link de Google Maps</label>
+                        <input id="company-map-url" type="text" placeholder="https://www.google.com/maps/place/..." />
+                      </div>
+
+                      <div class="field">
+                        <label for="company-map-embed">Embed de Google Maps</label>
+                        <textarea id="company-map-embed" placeholder="Pega aquí el link embed o iframe del mapa"></textarea>
+                        <small>Luego usaremos este dato para mostrar el mapa en contacto.html.</small>
+                      </div>
+                    </div>
+
+                    <div class="notice" id="company-notice"></div>
+
+                    <div class="admin-actions-row">
+                      <button type="submit" class="admin-btn admin-btn-primary" id="company-save-btn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar datos
+                      </button>
+
+                      <button type="button" class="admin-btn admin-btn-light" id="company-reload-btn">
+                        <i class="fa-solid fa-rotate"></i>
+                        Recargar datos
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="inner-card">
+                  <h4>Vista rápida</h4>
+                  <p>Así quedarán guardados los datos principales de contacto.</p>
+
+                  <div class="admin-help">
+                    <strong>Teléfono:</strong>
+                    <span id="preview-company-phone">-</span>
+                    <br /><br />
+
+                    <strong>Correo:</strong>
+                    <span id="preview-company-email">-</span>
+                    <br /><br />
+
+                    <strong>Dirección:</strong>
+                    <span id="preview-company-address">-</span>
+                    <br /><br />
+
+                    <strong>Horario:</strong>
+                    <span id="preview-company-hours">-</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
             <section class="admin-section" id="section-help">
               <div class="inner-card">
                 <h4>Estado de conexión</h4>
-                <p>Este panel ya usa Supabase Auth y tabla products.</p>
+                <p>Este panel ya usa Supabase Auth, tabla products y company_settings.</p>
 
                 <div class="admin-help">
-                  <strong>Siguiente mejora:</strong> crear edición real de categorías,
-                  marcas, datos de empresa y subida de imágenes con Supabase Storage.
+                  <strong>Siguiente mejora:</strong> edición real de categorías,
+                  marcas y subida de imágenes con Supabase Storage.
                 </div>
               </div>
             </section>
@@ -1139,6 +1258,30 @@
       const categorySuggestions = document.getElementById("category-suggestions");
       const brandSuggestions = document.getElementById("brand-suggestions");
 
+      const companyForm = document.getElementById("company-form");
+      const companyNotice = document.getElementById("company-notice");
+      const companySaveBtn = document.getElementById("company-save-btn");
+      const companyReloadBtn = document.getElementById("company-reload-btn");
+
+      const companyFields = {
+        id: document.getElementById("company-id"),
+        phone: document.getElementById("company-phone"),
+        phoneRaw: document.getElementById("company-phone-raw"),
+        email: document.getElementById("company-email"),
+        address: document.getElementById("company-address"),
+        hours: document.getElementById("company-hours"),
+        whatsappUrl: document.getElementById("company-whatsapp-url"),
+        mapUrl: document.getElementById("company-map-url"),
+        mapEmbed: document.getElementById("company-map-embed")
+      };
+
+      const companyPreview = {
+        phone: document.getElementById("preview-company-phone"),
+        email: document.getElementById("preview-company-email"),
+        address: document.getElementById("preview-company-address"),
+        hours: document.getElementById("preview-company-hours")
+      };
+
       const fields = {
         id: document.getElementById("product-id"),
         name: document.getElementById("product-name"),
@@ -1157,6 +1300,10 @@
         stock: {
           title: "Gestión rápida de stock",
           description: "Revisa el estado de disponibilidad de todos los productos."
+        },
+        company: {
+          title: "Datos de empresa",
+          description: "Edita teléfono, correo, dirección, horarios y enlaces principales de la empresa."
         },
         help: {
           title: "Ayuda y estado",
@@ -1329,6 +1476,98 @@
           `;
       }
 
+      function updateCompanyPreview() {
+        companyPreview.phone.textContent = companyFields.phone.value || "-";
+        companyPreview.email.textContent = companyFields.email.value || "-";
+        companyPreview.address.textContent = companyFields.address.value || "-";
+        companyPreview.hours.textContent = companyFields.hours.value || "-";
+      }
+
+      async function loadCompanySettings() {
+        const { data, error } = await window.nymSupabase
+          .from("company_settings")
+          .select("*")
+          .limit(1)
+          .maybeSingle();
+
+        if (error) throw error;
+
+        if (!data) {
+          companyFields.id.value = "";
+          companyFields.phone.value = "966 441 035";
+          companyFields.phoneRaw.value = "51966441035";
+          companyFields.email.value = "oliveravelasquezluis@gmail.com";
+          companyFields.address.value = "Av. Republica de Argentina 211, Lima 15079";
+          companyFields.hours.value = "Lun - Sáb / 10:00 am - 5:00 pm";
+          companyFields.whatsappUrl.value = "https://wa.me/51966441035";
+          companyFields.mapUrl.value = "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/";
+          companyFields.mapEmbed.value = "";
+          updateCompanyPreview();
+          return;
+        }
+
+        companyFields.id.value = data.id || "";
+        companyFields.phone.value = data.phone || "";
+        companyFields.phoneRaw.value = data.phone_raw || "";
+        companyFields.email.value = data.email || "";
+        companyFields.address.value = data.address || "";
+        companyFields.hours.value = data.hours || "";
+        companyFields.whatsappUrl.value = data.whatsapp_url || "";
+        companyFields.mapUrl.value = data.map_url || "";
+        companyFields.mapEmbed.value = data.map_embed || "";
+
+        updateCompanyPreview();
+      }
+
+      async function saveCompanySettings() {
+        const payload = {
+          phone: companyFields.phone.value.trim(),
+          phone_raw: companyFields.phoneRaw.value.trim(),
+          email: companyFields.email.value.trim(),
+          address: companyFields.address.value.trim(),
+          hours: companyFields.hours.value.trim(),
+          whatsapp_url: companyFields.whatsappUrl.value.trim(),
+          map_url: companyFields.mapUrl.value.trim(),
+          map_embed: companyFields.mapEmbed.value.trim()
+        };
+
+        if (!payload.phone || !payload.email || !payload.address) {
+          showNotice(companyNotice, "Completa teléfono, correo y dirección.", "error");
+          return;
+        }
+
+        companySaveBtn.disabled = true;
+
+        try {
+          if (companyFields.id.value) {
+            const { error } = await window.nymSupabase
+              .from("company_settings")
+              .update(payload)
+              .eq("id", companyFields.id.value);
+
+            if (error) throw error;
+          } else {
+            const { data, error } = await window.nymSupabase
+              .from("company_settings")
+              .insert([payload])
+              .select()
+              .single();
+
+            if (error) throw error;
+
+            companyFields.id.value = data.id;
+          }
+
+          updateCompanyPreview();
+          showNotice(companyNotice, "Datos de empresa guardados correctamente.");
+        } catch (error) {
+          console.error(error);
+          showNotice(companyNotice, error.message || "No se pudieron guardar los datos.", "error");
+        } finally {
+          companySaveBtn.disabled = false;
+        }
+      }
+
       async function requireSession() {
         const { data, error } = await window.nymSupabase.auth.getSession();
 
@@ -1481,6 +1720,25 @@
       stockFilter.addEventListener("change", renderProducts);
       resetBtn.addEventListener("click", resetForm);
 
+      companyForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        await saveCompanySettings();
+      });
+
+      companyReloadBtn.addEventListener("click", async () => {
+        try {
+          await loadCompanySettings();
+          showNotice(companyNotice, "Datos recargados correctamente.");
+        } catch (error) {
+          console.error(error);
+          showNotice(companyNotice, "No se pudieron recargar los datos.", "error");
+        }
+      });
+
+      Object.values(companyFields).forEach((field) => {
+        field.addEventListener("input", updateCompanyPreview);
+      });
+
       logoutBtn.addEventListener("click", async () => {
         await window.nymSupabase.auth.signOut();
 
@@ -1496,6 +1754,7 @@
         if (!sessionOk) return;
 
         await loadProducts();
+        await loadCompanySettings();
       } catch (error) {
         console.error(error);
         alert("No se pudo cargar el admin: " + (error.message || error));

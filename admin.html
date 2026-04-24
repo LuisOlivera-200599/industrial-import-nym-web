@@ -8,8 +8,11 @@
 
   <meta
     name="description"
-    content="Panel administrador para gestionar productos, marcas, categorías y stock de Industrial Import NYM."
+    content="Panel administrador para gestionar productos, marcas, categorías, stock y datos de contacto de Industrial Import NYM."
   />
+
+  <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
+  <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -373,6 +376,12 @@
       grid-template-columns: minmax(320px, 400px) minmax(0, 1fr);
       gap: 24px;
       align-items: start;
+    }
+
+    .section-grid-wide {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
     }
 
     .inner-card {
@@ -776,6 +785,39 @@
       font-weight: 800;
     }
 
+    .company-preview {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .company-preview-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px;
+      border-radius: 16px;
+      background: #fcfcfd;
+      border: 1px solid var(--border);
+    }
+
+    .company-preview-item i {
+      color: var(--primary);
+      margin-top: 4px;
+    }
+
+    .company-preview-item strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 0.9rem;
+    }
+
+    .company-preview-item span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      word-break: break-word;
+    }
+
     .empty-state-admin {
       padding: 42px 24px;
       border-radius: 22px;
@@ -894,7 +936,6 @@
     }
   </style>
 </head>
-
 <body>
   <header class="admin-topbar">
     <div class="admin-container admin-nav">
@@ -937,8 +978,7 @@
           <h2>Panel de control del catálogo</h2>
 
           <p>
-            Administra productos, categorías, marcas, imágenes y stock desde una sola vista.
-            Todo lo que guardes se mostrará en el catálogo público de productos.
+            Administra productos, categorías, marcas, imágenes, stock y datos de contacto desde una sola vista.
           </p>
         </div>
 
@@ -1009,6 +1049,11 @@
               <i class="fa-solid fa-image"></i>
             </button>
 
+            <button class="admin-menu-btn" type="button" data-section="company">
+              <span>Datos empresa</span>
+              <i class="fa-solid fa-building"></i>
+            </button>
+
             <a href="productos.html" class="admin-menu-btn">
               <span>Ver catálogo</span>
               <i class="fa-solid fa-eye"></i>
@@ -1016,8 +1061,7 @@
           </div>
 
           <div class="sidebar-help">
-            Selecciona una opción para trabajar más rápido. El módulo principal es
-            <strong>Productos</strong>; desde ahí puedes agregar, editar y eliminar.
+            Edita productos y también los datos visibles de contacto de la empresa.
           </div>
         </aside>
 
@@ -1232,7 +1276,6 @@
               <div class="inner-card">
                 <h4>Gestión rápida de stock</h4>
                 <p>Usa el botón de editar en Productos para cambiar el estado de stock de cada artículo.</p>
-
                 <div class="products-list" id="stock-list"></div>
               </div>
             </section>
@@ -1247,6 +1290,114 @@
                 <div class="admin-help">
                   <strong>Importante:</strong> en GitHub Pages, esta demo guarda imágenes subidas como Base64 en el navegador.
                   Para una web real con varios usuarios, se debe conectar a Firebase Storage, Supabase Storage o un backend.
+                </div>
+              </div>
+            </section>
+
+            <section class="admin-section" id="section-company">
+              <div class="section-grid">
+                <div class="inner-card">
+                  <h4>Editar datos de empresa</h4>
+                  <p>Estos datos se mostrarán en Inicio y Contacto cuando se guarden en este navegador.</p>
+
+                  <form class="admin-form" id="company-form">
+                    <div class="form-row">
+                      <div class="field">
+                        <label for="company-phone">Teléfono visible</label>
+                        <input id="company-phone" type="text" placeholder="966 441 035" />
+                      </div>
+
+                      <div class="field">
+                        <label for="company-phone-raw">WhatsApp sin espacios</label>
+                        <input id="company-phone-raw" type="text" placeholder="51966441035" />
+                        <small>Usa código país. Ejemplo Perú: 51 + número.</small>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label for="company-email">Correo electrónico</label>
+                      <input id="company-email" type="email" placeholder="correo@empresa.com" />
+                    </div>
+
+                    <div class="field">
+                      <label for="company-address">Dirección</label>
+                      <input id="company-address" type="text" placeholder="Av. Republica de Argentina 211, Lima 15079" />
+                    </div>
+
+                    <div class="field">
+                      <label for="company-hours">Horario de atención</label>
+                      <input id="company-hours" type="text" placeholder="Lun - Sáb / 10:00 am - 5:00 pm" />
+                    </div>
+
+                    <div class="field">
+                      <label for="company-maps-url">Enlace de Google Maps</label>
+                      <textarea id="company-maps-url" placeholder="Pega aquí el enlace de Google Maps"></textarea>
+                    </div>
+
+                    <div class="field">
+                      <label for="company-maps-embed">Enlace embebido del mapa</label>
+                      <textarea id="company-maps-embed" placeholder="https://www.google.com/maps?q=...&output=embed"></textarea>
+                      <small>Este es el enlace que usa el iframe. Puedes dejar el recomendado.</small>
+                    </div>
+
+                    <div class="notice" id="company-notice"></div>
+
+                    <div class="admin-actions-row">
+                      <button type="submit" class="admin-btn admin-btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar datos
+                      </button>
+
+                      <button type="button" class="admin-btn admin-btn-light" id="reset-company-btn">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Restaurar datos base
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="inner-card">
+                  <h4>Vista rápida de datos</h4>
+                  <p>Así quedarán los datos que verá el visitante en la web.</p>
+
+                  <div class="company-preview">
+                    <div class="company-preview-item">
+                      <i class="fa-solid fa-phone"></i>
+                      <div>
+                        <strong>Teléfono / WhatsApp</strong>
+                        <span id="preview-phone">966 441 035</span>
+                      </div>
+                    </div>
+
+                    <div class="company-preview-item">
+                      <i class="fa-solid fa-envelope"></i>
+                      <div>
+                        <strong>Correo</strong>
+                        <span id="preview-email">oliveravelasquezluis@gmail.com</span>
+                      </div>
+                    </div>
+
+                    <div class="company-preview-item">
+                      <i class="fa-solid fa-location-dot"></i>
+                      <div>
+                        <strong>Dirección</strong>
+                        <span id="preview-address">Av. Republica de Argentina 211, Lima 15079</span>
+                      </div>
+                    </div>
+
+                    <div class="company-preview-item">
+                      <i class="fa-regular fa-clock"></i>
+                      <div>
+                        <strong>Horario</strong>
+                        <span id="preview-hours">Lun - Sáb / 10:00 am - 5:00 pm</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="admin-help">
+                    <strong>Ojo:</strong> como estamos usando localStorage, estos cambios se guardan en el navegador actual.
+                    Para que todos los visitantes vean los mismos datos editados desde cualquier dispositivo, luego se debe conectar una base de datos real.
+                  </div>
                 </div>
               </div>
             </section>
@@ -1266,8 +1417,19 @@
       const PRODUCT_STORAGE = "products";
       const BRAND_STORAGE = "nymAdminBrands";
       const CATEGORY_STORAGE = "nymAdminCategories";
+      const COMPANY_STORAGE = "nymCompanyData";
       const DEMO_FLAG = "nymDemoProductsLoaded";
       const DEFAULT_IMAGE = "imagenes/productos/productos-1.png";
+
+      const defaultCompanyData = {
+        phone: "966 441 035",
+        phoneRaw: "51966441035",
+        email: "oliveravelasquezluis@gmail.com",
+        address: "Av. Republica de Argentina 211, Lima 15079",
+        hours: "Lun - Sáb / 10:00 am - 5:00 pm",
+        mapsUrl: "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/@-12.043928,-77.045568,18z/data=!3m1!4b1!4m6!3m5!1s0x9105c8cd7e9526cf:0xdadd471adff69af0!8m2!3d-12.0439298!4d-77.0446731!16s%2Fg%2F11fn4l39yh?entry=ttu",
+        mapsEmbed: "https://www.google.com/maps?q=Av.%20Republica%20de%20Argentina%20211,%20Lima%2015079&output=embed"
+      };
 
       let products = JSON.parse(localStorage.getItem(PRODUCT_STORAGE) || "[]");
 
@@ -1385,6 +1547,27 @@
       const categorySuggestions = document.getElementById("category-suggestions");
       const brandSuggestions = document.getElementById("brand-suggestions");
 
+      const companyForm = document.getElementById("company-form");
+      const companyNotice = document.getElementById("company-notice");
+      const resetCompanyBtn = document.getElementById("reset-company-btn");
+
+      const companyFields = {
+        phone: document.getElementById("company-phone"),
+        phoneRaw: document.getElementById("company-phone-raw"),
+        email: document.getElementById("company-email"),
+        address: document.getElementById("company-address"),
+        hours: document.getElementById("company-hours"),
+        mapsUrl: document.getElementById("company-maps-url"),
+        mapsEmbed: document.getElementById("company-maps-embed")
+      };
+
+      const companyPreview = {
+        phone: document.getElementById("preview-phone"),
+        email: document.getElementById("preview-email"),
+        address: document.getElementById("preview-address"),
+        hours: document.getElementById("preview-hours")
+      };
+
       const fields = {
         id: document.getElementById("product-id"),
         name: document.getElementById("product-name"),
@@ -1415,6 +1598,10 @@
         images: {
           title: "Gestión de imágenes",
           description: "Revisa cómo se cargan las imágenes y cómo se usarán en producción."
+        },
+        company: {
+          title: "Datos de empresa",
+          description: "Edita teléfono, WhatsApp, correo, dirección, horario y enlaces de mapa."
         }
       };
 
@@ -1439,13 +1626,13 @@
         localStorage.setItem(CATEGORY_STORAGE, JSON.stringify(categories));
       }
 
-      function showNotice(text, type = "success") {
-        notice.textContent = text;
-        notice.className = `notice show ${type}`;
+      function showNotice(element, text, type = "success") {
+        element.textContent = text;
+        element.className = `notice show ${type}`;
 
         setTimeout(() => {
-          notice.className = "notice";
-          notice.textContent = "";
+          element.className = "notice";
+          element.textContent = "";
         }, 3000);
       }
 
@@ -1605,6 +1792,49 @@
         sectionDescription.textContent = sectionInfo[sectionName].description;
       }
 
+      function getCompanyData() {
+        return JSON.parse(localStorage.getItem(COMPANY_STORAGE) || "null") || defaultCompanyData;
+      }
+
+      function setCompanyForm(data) {
+        companyFields.phone.value = data.phone || "";
+        companyFields.phoneRaw.value = data.phoneRaw || "";
+        companyFields.email.value = data.email || "";
+        companyFields.address.value = data.address || "";
+        companyFields.hours.value = data.hours || "";
+        companyFields.mapsUrl.value = data.mapsUrl || "";
+        companyFields.mapsEmbed.value = data.mapsEmbed || "";
+        updateCompanyPreview(data);
+      }
+
+      function updateCompanyPreview(data) {
+        companyPreview.phone.textContent = data.phone || "-";
+        companyPreview.email.textContent = data.email || "-";
+        companyPreview.address.textContent = data.address || "-";
+        companyPreview.hours.textContent = data.hours || "-";
+      }
+
+      function saveCompanyData() {
+        const data = {
+          phone: companyFields.phone.value.trim(),
+          phoneRaw: companyFields.phoneRaw.value.trim(),
+          email: companyFields.email.value.trim(),
+          address: companyFields.address.value.trim(),
+          hours: companyFields.hours.value.trim(),
+          mapsUrl: companyFields.mapsUrl.value.trim(),
+          mapsEmbed: companyFields.mapsEmbed.value.trim()
+        };
+
+        if (!data.phone || !data.phoneRaw || !data.email || !data.address) {
+          showNotice(companyNotice, "Completa teléfono, WhatsApp, correo y dirección.", "error");
+          return;
+        }
+
+        localStorage.setItem(COMPANY_STORAGE, JSON.stringify(data));
+        updateCompanyPreview(data);
+        showNotice(companyNotice, "Datos de empresa guardados correctamente.");
+      }
+
       menuButtons.forEach((button) => {
         button.addEventListener("click", () => {
           openSection(button.dataset.section);
@@ -1625,7 +1855,7 @@
         };
 
         if (!productData.name || !productData.brand || !productData.category) {
-          showNotice("Completa nombre, marca y categoría.", "error");
+          showNotice(notice, "Completa nombre, marca y categoría.", "error");
           return;
         }
 
@@ -1643,10 +1873,10 @@
 
         if (index >= 0) {
           products[index] = productData;
-          showNotice("Producto actualizado correctamente.");
+          showNotice(notice, "Producto actualizado correctamente.");
         } else {
           products.unshift(productData);
-          showNotice("Producto agregado correctamente.");
+          showNotice(notice, "Producto agregado correctamente.");
         }
 
         saveProducts();
@@ -1688,7 +1918,7 @@
           products = products.filter((item) => item.id !== deleteButton.dataset.delete);
           saveProducts();
           renderProducts();
-          showNotice("Producto eliminado correctamente.");
+          showNotice(notice, "Producto eliminado correctamente.");
         }
       });
 
@@ -1763,7 +1993,7 @@
         if (!file) return;
 
         if (!file.type.startsWith("image/")) {
-          showNotice("Selecciona una imagen válida.", "error");
+          showNotice(notice, "Selecciona una imagen válida.", "error");
           productFile.value = "";
           return;
         }
@@ -1771,7 +2001,7 @@
         const maxSizeBytes = 2 * 1024 * 1024;
 
         if (file.size > maxSizeBytes) {
-          showNotice("La imagen pesa demasiado. Usa una menor a 2 MB.", "error");
+          showNotice(notice, "La imagen pesa demasiado. Usa una menor a 2 MB.", "error");
           productFile.value = "";
           return;
         }
@@ -1781,7 +2011,7 @@
         reader.onload = () => {
           fields.image.value = reader.result;
           imagePreview.src = reader.result;
-          showNotice("Imagen cargada correctamente. Ahora guarda el producto.");
+          showNotice(notice, "Imagen cargada correctamente. Ahora guarda el producto.");
         };
 
         reader.readAsDataURL(file);
@@ -1791,19 +2021,43 @@
         fields.image.value = DEFAULT_IMAGE;
         imagePreview.src = DEFAULT_IMAGE;
         productFile.value = "";
-        showNotice("Imagen demo seleccionada.");
+        showNotice(notice, "Imagen demo seleccionada.");
       });
 
       clearImage.addEventListener("click", () => {
         fields.image.value = "";
         imagePreview.src = DEFAULT_IMAGE;
         productFile.value = "";
-        showNotice("Imagen retirada. Si guardas sin imagen, se usará la demo.");
+        showNotice(notice, "Imagen retirada. Si guardas sin imagen, se usará la demo.");
       });
 
       search.addEventListener("input", renderProducts);
       stockFilter.addEventListener("change", renderProducts);
       resetBtn.addEventListener("click", resetForm);
+
+      companyForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        saveCompanyData();
+      });
+
+      Object.values(companyFields).forEach((field) => {
+        field.addEventListener("input", () => {
+          updateCompanyPreview({
+            phone: companyFields.phone.value,
+            email: companyFields.email.value,
+            address: companyFields.address.value,
+            hours: companyFields.hours.value
+          });
+        });
+      });
+
+      resetCompanyBtn.addEventListener("click", () => {
+        if (!confirm("¿Seguro que deseas restaurar los datos base de la empresa?")) return;
+
+        localStorage.setItem(COMPANY_STORAGE, JSON.stringify(defaultCompanyData));
+        setCompanyForm(defaultCompanyData);
+        showNotice(companyNotice, "Datos base restaurados correctamente.");
+      });
 
       logoutBtn.addEventListener("click", () => {
         localStorage.removeItem("nymAdminSession");
@@ -1811,6 +2065,7 @@
         window.location.href = "admin-login.html";
       });
 
+      setCompanyForm(getCompanyData());
       renderSuggestions();
       renderSimpleLists();
       renderProducts();

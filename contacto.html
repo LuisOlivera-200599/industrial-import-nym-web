@@ -3,22 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Contacto | Industrial Import NYM</title>
+
   <meta
     name="description"
-    content="Contáctanos para consultas y cotizaciones de productos electrónicos y componentes."
+    content="Contáctanos para consultas y cotizaciones de componentes electrónicos, dispositivos industriales y soluciones electrónicas en Lima, Perú."
   />
+
+  <meta name="keywords" content="contacto Industrial Import NYM, cotización electrónica, componentes electrónicos Lima, productos industriales Perú" />
+  <meta name="author" content="Industrial Import NYM" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="Contacto | Industrial Import NYM" />
+  <meta
+    property="og:description"
+    content="Solicita información o cotización de productos electrónicos e industriales."
+  />
+  <meta property="og:image" content="imagenes/banners/banner-1.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_PE" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contacto | Industrial Import NYM" />
+  <meta
+    name="twitter:description"
+    content="Atención comercial para consultas y cotizaciones de productos electrónicos."
+  />
+  <meta name="twitter:image" content="imagenes/banners/banner-1.png" />
+
+  <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
+  <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
+
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
   />
+
   <link rel="stylesheet" href="css/style.css" />
+
   <style>
     .page-hero {
       padding: 90px 0 60px;
@@ -271,16 +302,22 @@
       margin-top: 8px;
     }
 
-    .map-placeholder {
+    .map-frame {
       margin-top: 20px;
-      min-height: 280px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #eaf0ff, #dce7ff);
-      color: #344054;
-      font-weight: 700;
-      text-align: center;
-      padding: 24px;
+      width: 100%;
+      min-height: 360px;
+      border: 0;
+      display: block;
+    }
+
+    .map-actions {
+      padding: 18px 24px 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .map-actions .btn {
+      width: min(340px, 100%);
     }
 
     .cta-contact {
@@ -336,8 +373,8 @@
         padding: 20px 20px 0;
       }
 
-      .map-placeholder {
-        min-height: 220px;
+      .map-frame {
+        min-height: 280px;
       }
     }
 
@@ -363,19 +400,23 @@
     }
   </style>
 </head>
+
 <body>
   <div class="topbar">
     <div class="container topbar-content">
       <div class="topbar-left">
-        <span><i class="fa-solid fa-phone"></i> 999 999 999</span>
-        <span><i class="fa-solid fa-envelope"></i> contacto@industrialimportnym.com</span>
-        <span><i class="fa-solid fa-location-dot"></i> Av. Ejemplo 123, Lima, Perú</span>
+        <span><i class="fa-solid fa-phone"></i> <span data-company-phone>966 441 035</span></span>
+        <span><i class="fa-solid fa-envelope"></i> <span data-company-email>oliveravelasquezluis@gmail.com</span></span>
+        <span><i class="fa-solid fa-location-dot"></i> <span data-company-address>Av. Republica de Argentina 211, Lima 15079</span></span>
       </div>
+
       <div class="topbar-right">
         <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
         <a href="#"><i class="fa-brands fa-instagram"></i></a>
         <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
       </div>
     </div>
   </div>
@@ -417,6 +458,7 @@
           Ponte en contacto con nosotros para recibir atención comercial,
           información sobre productos y acompañamiento en tus requerimientos.
         </p>
+
         <div class="breadcrumb">
           <span><a href="index.html">Inicio</a></span>
           <span>/</span>
@@ -464,25 +506,29 @@
           <article class="contact-box">
             <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
             <h4>Teléfono / WhatsApp</h4>
-            <p>999 999 999</p>
+            <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link data-company-phone>
+              966 441 035
+            </a>
           </article>
 
           <article class="contact-box">
             <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
             <h4>Correo electrónico</h4>
-            <a href="mailto:contacto@industrialimportnym.com">contacto@industrialimportnym.com</a>
+            <a href="mailto:oliveravelasquezluis@gmail.com" data-company-email-link>
+              <span data-company-email>oliveravelasquezluis@gmail.com</span>
+            </a>
           </article>
 
           <article class="contact-box">
             <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
             <h4>Dirección</h4>
-            <p>Av. Ejemplo 123, Lima, Perú</p>
+            <p data-company-address>Av. Republica de Argentina 211, Lima 15079</p>
           </article>
 
           <article class="contact-box">
             <div class="contact-icon"><i class="fa-regular fa-clock"></i></div>
             <h4>Horario de atención</h4>
-            <p>Lunes a sábado / 10:00 am - 5:00 pm</p>
+            <p data-company-hours>Lunes a sábado / 10:00 am - 5:00 pm</p>
           </article>
         </div>
       </div>
@@ -491,16 +537,17 @@
         <span class="section-badge">Formulario</span>
         <h3>Envíanos tu consulta</h3>
         <p>
-          Completa el formulario con tus datos para que podamos contactarte y
-          orientarte mejor según tu necesidad.
+          Completa el formulario con tus datos y se abrirá WhatsApp con el mensaje listo.
+          Rápido, directo y sin drama tecnológico.
         </p>
 
-        <form>
+        <form id="contact-form">
           <div class="form-row">
             <div class="field">
               <label for="nombre">Nombre completo</label>
               <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" />
             </div>
+
             <div class="field">
               <label for="empresa">Empresa</label>
               <input type="text" id="empresa" name="empresa" placeholder="Nombre de tu empresa" />
@@ -512,6 +559,7 @@
               <label for="correo">Correo electrónico</label>
               <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" />
             </div>
+
             <div class="field">
               <label for="telefono">Teléfono</label>
               <input type="text" id="telefono" name="telefono" placeholder="999 999 999" />
@@ -529,6 +577,7 @@
                 <option>Consulta por marca</option>
               </select>
             </div>
+
             <div class="field">
               <label for="categoria">Categoría de interés</label>
               <select id="categoria" name="categoria">
@@ -553,12 +602,14 @@
           </div>
 
           <div class="form-note">
-            Este formulario es visual por ahora. Más adelante lo conectaremos al
-            backend o a correo/WhatsApp para recepción real.
+            Al enviar, se abrirá WhatsApp con tu solicitud armada automáticamente.
           </div>
 
           <div class="form-submit">
-            <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-brands fa-whatsapp"></i>
+              Enviar solicitud por WhatsApp
+            </button>
           </div>
         </form>
       </div>
@@ -566,13 +617,29 @@
       <div class="map-panel">
         <div class="map-panel-head">
           <span class="section-badge">Ubicación</span>
-          <h3>Ubicación referencial</h3>
-          <p>Espacio de prueba para integrar mapa o ubicación real más adelante.</p>
+          <h3>Estamos ubicados en Lima</h3>
+          <p data-company-address>Av. Republica de Argentina 211, Lima 15079</p>
         </div>
 
-        <div class="map-placeholder">
-          Mapa de ubicación demo<br />
-          Av. Ejemplo 123, Lima, Perú
+        <iframe
+          class="map-frame"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Av.%20Republica%20de%20Argentina%20211,%20Lima%2015079&output=embed"
+        ></iframe>
+
+        <div class="map-actions">
+          <a
+            href="https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/@-12.043928,-77.045568,18z/data=!3m1!4b1!4m6!3m5!1s0x9105c8cd7e9526cf:0xdadd471adff69af0!8m2!3d-12.0439298!4d-77.0446731!16s%2Fg%2F11fn4l39yh?entry=ttu"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-secondary"
+            data-company-maps-link
+          >
+            <i class="fa-solid fa-location-arrow"></i>
+            Abrir en Google Maps
+          </a>
         </div>
       </div>
 
@@ -585,8 +652,11 @@
             alineada a la experiencia visual del sitio.
           </p>
         </div>
+
         <div>
-          <a href="#" class="btn btn-light">Escríbenos ahora</a>
+          <a href="https://wa.me/51966441035" target="_blank" rel="noopener" class="btn btn-light" data-whatsapp-link>
+            Escríbenos ahora
+          </a>
         </div>
       </div>
     </div>
@@ -617,10 +687,10 @@
       <div>
         <h4>Contacto</h4>
         <ul>
-          <li>999 999 999</li>
-          <li>contacto@industrialimportnym.com</li>
-          <li>Av. Ejemplo 123, Lima, Perú</li>
-          <li>Lun - Sáb / 10:00 am - 5:00 pm</li>
+          <li data-company-phone>966 441 035</li>
+          <li data-company-email>oliveravelasquezluis@gmail.com</li>
+          <li data-company-address>Av. Republica de Argentina 211, Lima 15079</li>
+          <li data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</li>
         </ul>
       </div>
 
@@ -630,7 +700,9 @@
           <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
           <a href="#"><i class="fa-brands fa-instagram"></i></a>
           <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
         </div>
       </div>
     </div>
@@ -641,5 +713,89 @@
   </footer>
 
   <script src="js/script.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const defaultCompanyData = {
+        phone: "966 441 035",
+        phoneRaw: "51966441035",
+        email: "oliveravelasquezluis@gmail.com",
+        address: "Av. Republica de Argentina 211, Lima 15079",
+        hours: "Lun - Sáb / 10:00 am - 5:00 pm",
+        mapsUrl: "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/@-12.043928,-77.045568,18z/data=!3m1!4b1!4m6!3m5!1s0x9105c8cd7e9526cf:0xdadd471adff69af0!8m2!3d-12.0439298!4d-77.0446731!16s%2Fg%2F11fn4l39yh?entry=ttu",
+        mapsEmbed: "https://www.google.com/maps?q=Av.%20Republica%20de%20Argentina%20211,%20Lima%2015079&output=embed"
+      };
+
+      const savedCompanyData = JSON.parse(localStorage.getItem("nymCompanyData") || "null");
+      const companyData = savedCompanyData || defaultCompanyData;
+
+      document.querySelectorAll("[data-company-phone]").forEach((item) => {
+        item.textContent = companyData.phone;
+      });
+
+      document.querySelectorAll("[data-company-email]").forEach((item) => {
+        item.textContent = companyData.email;
+      });
+
+      document.querySelectorAll("[data-company-address]").forEach((item) => {
+        item.textContent = companyData.address;
+      });
+
+      document.querySelectorAll("[data-company-hours]").forEach((item) => {
+        item.textContent = companyData.hours;
+      });
+
+      document.querySelectorAll("[data-whatsapp-link]").forEach((link) => {
+        link.href = `https://wa.me/${companyData.phoneRaw || "51966441035"}`;
+      });
+
+      document.querySelectorAll("[data-company-email-link]").forEach((link) => {
+        link.href = `mailto:${companyData.email}`;
+      });
+
+      document.querySelectorAll("[data-company-maps-link]").forEach((link) => {
+        link.href = companyData.mapsUrl;
+      });
+
+      const mapFrame = document.querySelector(".map-frame");
+      if (mapFrame && companyData.mapsEmbed) {
+        mapFrame.src = companyData.mapsEmbed;
+      }
+
+      const contactForm = document.getElementById("contact-form");
+
+      if (contactForm) {
+        contactForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          const nombre = document.getElementById("nombre").value.trim();
+          const empresa = document.getElementById("empresa").value.trim();
+          const correo = document.getElementById("correo").value.trim();
+          const telefono = document.getElementById("telefono").value.trim();
+          const tipo = document.getElementById("tipo").value.trim();
+          const categoria = document.getElementById("categoria").value.trim();
+          const mensaje = document.getElementById("mensaje").value.trim();
+
+          const whatsappMessage = `
+Hola, deseo realizar una consulta desde la web de Industrial Import NYM.
+
+Nombre: ${nombre || "No indicado"}
+Empresa: ${empresa || "No indicada"}
+Correo: ${correo || "No indicado"}
+Teléfono: ${telefono || "No indicado"}
+Tipo de solicitud: ${tipo || "No indicado"}
+Categoría de interés: ${categoria || "No indicada"}
+
+Mensaje:
+${mensaje || "No indicado"}
+          `.trim();
+
+          const whatsappUrl = `https://wa.me/${companyData.phoneRaw || "51966441035"}?text=${encodeURIComponent(whatsappMessage)}`;
+
+          window.open(whatsappUrl, "_blank", "noopener");
+        });
+      }
+    });
+  </script>
 </body>
 </html>

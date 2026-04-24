@@ -446,7 +446,9 @@
         <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
         <a href="#"><i class="fa-brands fa-instagram"></i></a>
         <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="https://wa.me/51966441035" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
       </div>
     </div>
   </div>
@@ -567,8 +569,7 @@
           productos, revisar marcas, validar stock y consultar con facilidad.
           La prioridad no es llenar la pantalla de ruido, sino guiar mejor la atención.
         </p>
-
-        <div class="showcase-card-grid">
+                <div class="showcase-card-grid">
           <div class="mini-info-box">
             <i class="fa-solid fa-boxes-stacked"></i>
             <h3>Catálogo ordenado</h3>
@@ -803,7 +804,15 @@
 
       <div class="cta-buttons">
         <a href="contacto.html" class="btn btn-light">Solicitar cotización</a>
-        <a href="https://wa.me/51966441035" target="_blank" rel="noopener" class="btn btn-outline-light">Contactar ahora</a>
+        <a
+          href="https://wa.me/51966441035"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-outline-light"
+          data-whatsapp-link
+        >
+          Contactar ahora
+        </a>
       </div>
     </div>
   </section>
@@ -850,7 +859,9 @@
           <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
           <a href="#"><i class="fa-brands fa-instagram"></i></a>
           <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a href="https://wa.me/51966441035" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
         </div>
       </div>
     </div>
@@ -860,57 +871,9 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
   <script src="js/script.js"></script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const dropdown = document.querySelector(".nav-dropdown");
-      const dropdownBtn = document.querySelector(".nav-dropdown-btn");
-
-      if (dropdown && dropdownBtn) {
-        dropdownBtn.addEventListener("click", () => {
-          dropdown.classList.toggle("active");
-        });
-
-        document.addEventListener("click", (event) => {
-          if (!dropdown.contains(event.target)) {
-            dropdown.classList.remove("active");
-          }
-        });
-      }
-
-      const defaultCompanyData = {
-        phone: "966 441 035",
-        phoneRaw: "51966441035",
-        email: "oliveravelasquezluis@gmail.com",
-        address: "Av. Republica de Argentina 211, Lima 15079",
-        hours: "Lun - Sáb / 10:00 am - 5:00 pm",
-        mapsUrl: "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/@-12.043928,-77.045568,18z/data=!3m1!4b1!4m6!3m5!1s0x9105c8cd7e9526cf:0xdadd471adff69af0!8m2!3d-12.0439298!4d-77.0446731!16s%2Fg%2F11fn4l39yh?entry=ttu"
-      };
-
-      const savedCompanyData = JSON.parse(localStorage.getItem("nymCompanyData") || "null");
-      const companyData = savedCompanyData || defaultCompanyData;
-
-      document.querySelectorAll("[data-company-phone]").forEach((item) => {
-        item.textContent = companyData.phone;
-      });
-
-      document.querySelectorAll("[data-company-email]").forEach((item) => {
-        item.textContent = companyData.email;
-      });
-
-      document.querySelectorAll("[data-company-address]").forEach((item) => {
-        item.textContent = companyData.address;
-      });
-
-      document.querySelectorAll("[data-company-hours]").forEach((item) => {
-        item.textContent = companyData.hours;
-      });
-
-      document.querySelectorAll('a[href^="https://wa.me/"]').forEach((link) => {
-        link.href = `https://wa.me/${companyData.phoneRaw || "51966441035"}`;
-      });
-    });
-  </script>
+  <script src="js/company-settings.js"></script>
 </body>
 </html>

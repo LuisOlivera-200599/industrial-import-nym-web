@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
+
   const defaultCompanyData = {
     phone: "966 441 035",
     phone_raw: "51966441035",
@@ -22,49 +23,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     const mapUrl = data.map_url || defaultCompanyData.map_url;
     const mapEmbed = data.map_embed || defaultCompanyData.map_embed;
 
-    document.querySelectorAll("[data-company-phone]").forEach((item) => {
-      item.textContent = phone;
-    });
+    document.querySelectorAll("[data-company-phone]").forEach(el => el.textContent = phone);
+    document.querySelectorAll("[data-company-email]").forEach(el => el.textContent = email);
+    document.querySelectorAll("[data-company-address]").forEach(el => el.textContent = address);
+    document.querySelectorAll("[data-company-hours]").forEach(el => el.textContent = hours);
 
-    document.querySelectorAll("[data-company-email]").forEach((item) => {
-      item.textContent = email;
-    });
-
-    document.querySelectorAll("[data-company-address]").forEach((item) => {
-      item.textContent = address;
-    });
-
-    document.querySelectorAll("[data-company-hours]").forEach((item) => {
-      item.textContent = hours;
-    });
-
-    document.querySelectorAll("[data-whatsapp-link]").forEach((link) => {
-      link.href = whatsappUrl;
-    });
-
-    document.querySelectorAll("[data-company-email-link]").forEach((link) => {
-      link.href = `mailto:${email}`;
-    });
-
-    document.querySelectorAll("[data-company-maps-link]").forEach((link) => {
-      link.href = mapUrl;
-    });
+    document.querySelectorAll("[data-whatsapp-link]").forEach(el => el.href = whatsappUrl);
+    document.querySelectorAll("[data-company-email-link]").forEach(el => el.href = `mailto:${email}`);
+    document.querySelectorAll("[data-company-maps-link]").forEach(el => el.href = mapUrl);
 
     const mapFrame = document.querySelector(".map-frame");
-
     if (mapFrame) {
       if (mapEmbed.includes("<iframe")) {
         const match = mapEmbed.match(/src="([^"]+)"/);
-
-        if (match && match[1]) {
-          mapFrame.src = match[1];
-        }
+        if (match && match[1]) mapFrame.src = match[1];
       } else {
         mapFrame.src = mapEmbed;
       }
     }
 
-    window.nymCompanyData = {
+    companyData = {
       phone,
       phone_raw: phoneRaw,
       email,
@@ -74,8 +52,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       map_url: mapUrl,
       map_embed: mapEmbed
     };
-
-    companyData = window.nymCompanyData;
   }
 
   async function loadCompanySettings() {
@@ -94,48 +70,44 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (error) throw error;
 
       applyCompanyData(data || defaultCompanyData);
-    } catch (error) {
-      console.error("No se pudo cargar company_settings:", error);
+
+    } catch (err) {
+      console.error("Error cargando configuración:", err);
       applyCompanyData(defaultCompanyData);
     }
   }
 
   await loadCompanySettings();
 
-  const contactForm = document.getElementById("contact-form");
+  // FORMULARIO → WHATSAPP
+  const form = document.getElementById("contact-form");
 
-  if (contactForm) {
-    contactForm.addEventListener("submit", (event) => {
-      event.preventDefault();
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-      const nombre = document.getElementById("nombre")?.value.trim() || "";
-      const empresa = document.getElementById("empresa")?.value.trim() || "";
-      const correo = document.getElementById("correo")?.value.trim() || "";
-      const telefono = document.getElementById("telefono")?.value.trim() || "";
-      const tipo = document.getElementById("tipo")?.value.trim() || "";
-      const categoria = document.getElementById("categoria")?.value.trim() || "";
-      const mensaje = document.getElementById("mensaje")?.value.trim() || "";
+      const nombre = document.getElementById("nombre")?.value || "";
+      const empresa = document.getElementById("empresa")?.value || "";
+      const correo = document.getElementById("correo")?.value || "";
+      const telefono = document.getElementById("telefono")?.value || "";
+      const mensaje = document.getElementById("mensaje")?.value || "";
 
-      const whatsappMessage = `
-Hola, deseo realizar una consulta desde la web de Industrial Import NYM.
+      const text = `
+Hola, quiero una cotización:
 
-Nombre: ${nombre || "No indicado"}
-Empresa: ${empresa || "No indicada"}
-Correo: ${correo || "No indicado"}
-Teléfono: ${telefono || "No indicado"}
-Tipo de solicitud: ${tipo || "No indicado"}
-Categoría de interés: ${categoria || "No indicada"}
+Nombre: ${nombre}
+Empresa: ${empresa}
+Correo: ${correo}
+Teléfono: ${telefono}
 
 Mensaje:
-${mensaje || "No indicado"}
-      `.trim();
+${mensaje}
+      `;
 
-      const phoneRaw = companyData.phone_raw || defaultCompanyData.phone_raw;
-      const whatsappBase = companyData.whatsapp_url || `https://wa.me/${phoneRaw}`;
-      const separator = whatsappBase.includes("?") ? "&" : "?";
-      const whatsappUrl = `${whatsappBase}${separator}text=${encodeURIComponent(whatsappMessage)}`;
+      const url = `https://wa.me/${companyData.phone_raw}?text=${encodeURIComponent(text)}`;
 
-      window.open(whatsappUrl, "_blank", "noopener");
+      window.open(url, "_blank");
     });
   }
+
 });

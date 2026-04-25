@@ -525,7 +525,8 @@
       </div>
     </div>
   </section>
-    <section class="catalog-section">
+
+  <section class="catalog-section">
     <div class="container catalog-layout">
       <div class="sidebar-wrap">
         <aside class="sidebar-panel">
@@ -555,7 +556,7 @@
         <div class="catalog-topbar">
           <div>
             <h3>Catálogo general</h3>
-            <p>Mostrando productos desde Supabase.</p>
+            <p>Mostrando productos desde Supabase con relaciones de marcas y categorías.</p>
           </div>
 
           <div class="catalog-actions">
@@ -586,8 +587,7 @@
       </div>
     </div>
   </section>
-
-  <footer class="footer">
+    <footer class="footer">
     <div class="container footer-grid">
       <div>
         <h3>Industrial Import NYM</h3>
@@ -684,11 +684,16 @@
       }
 
       function normalizeProduct(row) {
+        const brandName = row.brands?.name || row.brand || "Marca no definida";
+        const categoryName = row.categories?.name || row.category || "Categoría no definida";
+
         return {
           id: row.id,
           name: row.name || "Producto sin nombre",
-          brand: row.brand || "Marca no definida",
-          category: row.category || "Categoría no definida",
+          brand: brandName,
+          category: categoryName,
+          brandLogo: row.brands?.logo_url || "",
+          categoryIcon: row.categories?.icon || "",
           image: row.image_url || "imagenes/productos/productos-1.png",
           stock: row.stock_status || "Disponible",
           desc: row.description || "Producto disponible para consulta comercial."
@@ -712,7 +717,10 @@
             <span class="product-brand">${escapeHTML(product.brand)}</span>
 
             <div class="product-meta">
-              <span class="product-pill">${escapeHTML(product.category)}</span>
+              <span class="product-pill">
+                ${product.categoryIcon ? `<i class="${escapeHTML(product.categoryIcon)}"></i>&nbsp;` : ""}
+                ${escapeHTML(product.category)}
+              </span>
             </div>
 
             <h3>${escapeHTML(product.name)}</h3>
@@ -864,21 +872,62 @@
       }
 
       async function loadProducts() {
-        const { data, error } = await window.nymSupabase
-          .from("products")
-          .select("*")
-          .eq("is_active", true)
-          .order("sort_order", { ascending: true })
-          .order("created_at", { ascending: false });
+        try {
+          if (!window.nymSupabase) {
+            throw new Error("Supabase no está configurado.");
+          }
 
-        if (error) throw error;
+          const { data, error } = await window.nymSupabase
+            .from("products")
+            .select(`
+              *,
+              brands:brand_id (
+                name,
+                logo_url
+              ),
+              categories:category_id (
+                name,
+                icon
+              )
+            `)
+            .eq("is_active", true)
+            .order("sort_order", { ascending: true })
+            .order("created_at", { ascending: false });
 
-        products = (data || []).map(normalizeProduct);
+          if (error) throw error;
 
-        renderProducts();
-        updateDynamicFilters();
-        bindFilters();
-        filterProducts();
+          products = (data || []).map(normalizeProduct);
+
+          if (!products.length) {
+            resultSummary.textContent = "Mostrando 0 productos.";
+            catalogGrid.innerHTML = "";
+            categoryFilters.innerHTML = `
+              <button class="filter-btn active" type="button" data-filter-type="category" data-filter-value="all">
+                <span>Todas las categorías</span>
+                <i class="fa-solid fa-layer-group"></i>
+              </button>
+            `;
+            brandFilters.innerHTML = `
+              <button class="filter-btn active" type="button" data-filter-type="brand" data-filter-value="all">
+                <span>Todas las marcas</span>
+                <i class="fa-solid fa-tags"></i>
+              </button>
+            `;
+            emptyState.classList.add("show");
+            updateTags();
+            return;
+          }
+
+          renderProducts();
+          updateDynamicFilters();
+          bindFilters();
+          filterProducts();
+        } catch (error) {
+          console.error("Error cargando productos:", error);
+          resultSummary.textContent = "No se pudieron cargar los productos.";
+          catalogGrid.innerHTML = "";
+          emptyState.classList.add("show");
+        }
       }
 
       searchInput.addEventListener("input", () => {
@@ -886,13 +935,7 @@
         filterProducts();
       });
 
-      try {
-        await loadProducts();
-      } catch (error) {
-        console.error(error);
-        resultSummary.textContent = "No se pudieron cargar los productos.";
-        emptyState.classList.add("show");
-      }
+      await loadProducts();
     });
   </script>
 </body>

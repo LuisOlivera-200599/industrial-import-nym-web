@@ -735,7 +735,7 @@
         return match ? match[1] : "51966441035";
       }
 
-      contactForm.addEventListener("submit", (event) => {
+      contactForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         const nombre = getCleanValue("nombre");
@@ -745,6 +745,28 @@
         const tipo = getCleanValue("tipo");
         const categoria = getCleanValue("categoria");
         const mensaje = getCleanValue("mensaje");
+
+        const leadPayload = {
+          nombre,
+          empresa,
+          correo,
+          telefono,
+          tipo,
+          categoria,
+          mensaje,
+          origen: "contacto_web",
+          estado: "nuevo"
+        };
+
+        if (window.nymSupabase) {
+          const { error } = await window.nymSupabase
+            .from("contact_leads")
+            .insert([leadPayload]);
+
+          if (error) {
+            console.error("Error guardando lead:", error);
+          }
+        }
 
         const whatsappNumber = getCompanyWhatsapp();
 

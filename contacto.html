@@ -715,5 +715,58 @@
   <script src="js/supabase-config.js"></script>
   <script src="js/script.js"></script>
   <script src="js/company-settings.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const contactForm = document.getElementById("contact-form");
+
+      if (!contactForm) return;
+
+      function getCleanValue(id) {
+        const field = document.getElementById(id);
+        return field ? field.value.trim() : "";
+      }
+
+      function getCompanyWhatsapp() {
+        const whatsappLink = document.querySelector("[data-whatsapp-link]");
+        const href = whatsappLink ? whatsappLink.getAttribute("href") : "";
+        const match = href.match(/wa\.me\/(\d+)/);
+
+        return match ? match[1] : "51966441035";
+      }
+
+      contactForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const nombre = getCleanValue("nombre");
+        const empresa = getCleanValue("empresa");
+        const correo = getCleanValue("correo");
+        const telefono = getCleanValue("telefono");
+        const tipo = getCleanValue("tipo");
+        const categoria = getCleanValue("categoria");
+        const mensaje = getCleanValue("mensaje");
+
+        const whatsappNumber = getCompanyWhatsapp();
+
+        const finalMessage = [
+          "Hola, deseo realizar una consulta desde la web de Industrial Import NYM.",
+          "",
+          nombre ? `Nombre: ${nombre}` : "",
+          empresa ? `Empresa: ${empresa}` : "",
+          correo ? `Correo: ${correo}` : "",
+          telefono ? `Teléfono: ${telefono}` : "",
+          tipo ? `Tipo de solicitud: ${tipo}` : "",
+          categoria ? `Categoría de interés: ${categoria}` : "",
+          mensaje ? `Mensaje: ${mensaje}` : ""
+        ]
+          .filter(Boolean)
+          .join("\n");
+
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(finalMessage)}`;
+
+        window.open(whatsappUrl, "_blank", "noopener");
+      });
+    });
+  </script>
 </body>
 </html>

@@ -829,7 +829,7 @@
 </head>
 
 <body>
-  <header class="admin-topbar">
+    <header class="admin-topbar">
     <div class="admin-container admin-nav">
       <div class="admin-brand">
         <div class="admin-logo">NYM</div>
@@ -997,14 +997,16 @@
                       <div class="form-row">
                         <div class="field">
                           <label for="product-brand">Marca *</label>
-                          <input id="product-brand" type="text" placeholder="Ej: ABB" list="brand-suggestions" />
-                          <datalist id="brand-suggestions"></datalist>
+                          <select id="product-brand">
+                            <option value="">Selecciona una marca</option>
+                          </select>
                         </div>
 
                         <div class="field">
                           <label for="product-category">Categoría *</label>
-                          <input id="product-category" type="text" placeholder="Ej: Automatización" list="category-suggestions" />
-                          <datalist id="category-suggestions"></datalist>
+                          <select id="product-category">
+                            <option value="">Selecciona una categoría</option>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -1221,15 +1223,15 @@
                 </div>
               </div>
             </section>
-                        <section class="admin-section" id="section-stock">
+
+            <section class="admin-section" id="section-stock">
               <div class="inner-card">
                 <h4>Gestión rápida de stock</h4>
                 <p>Usa el botón editar en Productos para cambiar disponibilidad.</p>
                 <div class="products-list" id="stock-list"></div>
               </div>
             </section>
-
-            <section class="admin-section" id="section-company">
+                        <section class="admin-section" id="section-company">
               <div class="section-grid">
                 <div class="inner-card">
                   <h4>Editar datos de empresa</h4>
@@ -1346,11 +1348,11 @@
             <section class="admin-section" id="section-help">
               <div class="inner-card">
                 <h4>Estado de conexión</h4>
-                <p>Este panel usa Supabase Auth, tabla products, brands, categories y company_settings.</p>
+                <p>Este panel usa Supabase Auth, products, brands, categories y company_settings.</p>
 
                 <div class="admin-help">
-                  <strong>Siguiente mejora:</strong> relacionar productos con brand_id y category_id,
-                  y subir imágenes con Supabase Storage.
+                  <strong>Siguiente mejora:</strong> actualizar productos.html para leer relaciones
+                  brand_id y category_id directamente desde Supabase.
                 </div>
               </div>
             </section>
@@ -1395,9 +1397,6 @@
       const statBrands = document.getElementById("stat-brands");
       const statCategories = document.getElementById("stat-categories");
       const statAvailable = document.getElementById("stat-available");
-
-      const categorySuggestions = document.getElementById("category-suggestions");
-      const brandSuggestions = document.getElementById("brand-suggestions");
 
       const brandForm = document.getElementById("brand-form");
       const brandNotice = document.getElementById("brand-notice");
@@ -1517,6 +1516,11 @@
         return "available";
       }
 
+      function getSelectedOptionText(selectElement) {
+        const option = selectElement.options[selectElement.selectedIndex];
+        return option ? option.textContent.trim() : "";
+      }
+
       function resetForm() {
         form.reset();
         fields.id.value = "";
@@ -1524,6 +1528,7 @@
         imagePreview.src = DEFAULT_IMAGE;
         formTitle.textContent = "Agregar nuevo producto";
         saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar producto';
+        renderProductSelectors();
       }
 
       function resetBrandForm() {
@@ -1566,22 +1571,37 @@
         statAvailable.textContent = activeProducts.filter((product) => product.stock_status === "Disponible").length;
       }
 
-      function renderSuggestions() {
-        const brandNames = brands.length
-          ? brands.filter((brand) => brand.is_active !== false).map((brand) => brand.name).filter(Boolean).sort()
-          : [...new Set(products.map((product) => product.brand).filter(Boolean))].sort();
+      function renderProductSelectors(selectedBrandId = "", selectedCategoryId = "") {
+        const activeBrands = brands
+          .filter((brand) => brand.is_active !== false)
+          .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 
-        const categoryNames = categories.length
-          ? categories.filter((category) => category.is_active !== false).map((category) => category.name).filter(Boolean).sort()
-          : [...new Set(products.map((product) => product.category).filter(Boolean))].sort();
+        const activeCategories = categories
+          .filter((category) => category.is_active !== false)
+          .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 
-        brandSuggestions.innerHTML = brandNames
-          .map((brand) => `<option value="${escapeHTML(brand)}"></option>`)
-          .join("");
+        fields.brand.innerHTML =
+          '<option value="">Selecciona una marca</option>' +
+          activeBrands
+            .map((brand) => `
+              <option value="${escapeHTML(brand.id)}">
+                ${escapeHTML(brand.name)}
+              </option>
+            `)
+            .join("");
 
-        categorySuggestions.innerHTML = categoryNames
-          .map((category) => `<option value="${escapeHTML(category)}"></option>`)
-          .join("");
+        fields.category.innerHTML =
+          '<option value="">Selecciona una categoría</option>' +
+          activeCategories
+            .map((category) => `
+              <option value="${escapeHTML(category.id)}">
+                ${escapeHTML(category.name)}
+              </option>
+            `)
+            .join("");
+
+        fields.brand.value = selectedBrandId || "";
+        fields.category.value = selectedCategoryId || "";
       }
 
       function renderBrandsList() {
@@ -1653,7 +1673,7 @@
 
         brands = data || [];
         renderBrandsList();
-        renderSuggestions();
+        renderProductSelectors(fields.brand.value, fields.category.value);
         updateStats();
       }
 
@@ -1668,7 +1688,7 @@
 
         categories = data || [];
         renderCategoriesList();
-        renderSuggestions();
+        renderProductSelectors(fields.brand.value, fields.category.value);
         updateStats();
       }
 
@@ -1804,7 +1824,6 @@
         renderBrandsList();
         renderCategoriesList();
         updateStats();
-        renderSuggestions();
       }
 
       function renderStockList() {
@@ -1988,17 +2007,22 @@
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
+        const selectedBrand = brands.find((brand) => brand.id === fields.brand.value);
+        const selectedCategory = categories.find((category) => category.id === fields.category.value);
+
         const payload = {
           name: fields.name.value.trim(),
-          brand: fields.brand.value.trim(),
-          category: fields.category.value.trim(),
+          brand_id: selectedBrand?.id || null,
+          category_id: selectedCategory?.id || null,
+          brand: selectedBrand?.name || "",
+          category: selectedCategory?.name || "",
           image_url: fields.image.value.trim() || DEFAULT_IMAGE,
           stock_status: fields.stock.value,
           description: fields.desc.value.trim(),
           is_active: true
         };
 
-        if (!payload.name || !payload.brand || !payload.category) {
+        if (!payload.name || !payload.brand_id || !payload.category_id) {
           showNotice(notice, "Completa nombre, marca y categoría.", "error");
           return;
         }
@@ -2026,14 +2050,17 @@
 
           if (!product) return;
 
+          const brandId = product.brand_id || brands.find((brand) => brand.name === product.brand)?.id || "";
+          const categoryId = product.category_id || categories.find((category) => category.name === product.category)?.id || "";
+
           fields.id.value = product.id;
           fields.name.value = product.name || "";
-          fields.brand.value = product.brand || "";
-          fields.category.value = product.category || "";
           fields.image.value = product.image_url || "";
           fields.stock.value = product.stock_status || "Disponible";
           fields.desc.value = product.description || "";
           imagePreview.src = product.image_url || DEFAULT_IMAGE;
+
+          renderProductSelectors(brandId, categoryId);
 
           formTitle.textContent = "Editar producto";
           saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar producto';
@@ -2090,74 +2117,6 @@
         }
       });
 
-      categoriesList.addEventListener("click", async (event) => {
-        const editButton = event.target.closest("[data-category-edit]");
-        const deleteButton = event.target.closest("[data-category-delete]");
-
-        if (editButton) {
-          const category = categories.find((item) => item.id === editButton.dataset.categoryEdit);
-
-          if (!category) return;
-
-          categoryFields.id.value = category.id;
-          categoryFields.name.value = category.name || "";
-          categoryFields.description.value = category.description || "";
-          categoryFields.icon.value = category.icon || "";
-          categoryFields.sort.value = category.sort_order || 0;
-          categoryFields.active.value = String(category.is_active !== false);
-
-          categoryFormTitle.textContent = "Editar categoría";
-          categorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar categoría';
-        }
-
-        if (deleteButton) {
-          const category = categories.find((item) => item.id === deleteButton.dataset.categoryDelete);
-
-          if (!confirm(`¿Seguro que deseas desactivar "${category?.name || "esta categoría"}"?`)) {
-            return;
-          }
-
-          try {
-            await deactivateCategory(deleteButton.dataset.categoryDelete);
-            await loadCategories();
-            showNotice(categoryNotice, "Categoría desactivada correctamente.");
-          } catch (error) {
-            console.error(error);
-            showNotice(categoryNotice, error.message || "No se pudo desactivar la categoría.", "error");
-          }
-        }
-      });
-
-      categoryForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        const payload = {
-          name: categoryFields.name.value.trim(),
-          description: categoryFields.description.value.trim(),
-          icon: categoryFields.icon.value.trim(),
-          sort_order: Number(categoryFields.sort.value || 0),
-          is_active: categoryFields.active.value === "true"
-        };
-
-        if (!payload.name) {
-          showNotice(categoryNotice, "Completa el nombre de la categoría.", "error");
-          return;
-        }
-
-        categorySaveBtn.disabled = true;
-
-        try {
-          await saveCategory(payload, categoryFields.id.value);
-          resetCategoryForm();
-          await loadCategories();
-        } catch (error) {
-          console.error(error);
-          showNotice(categoryNotice, error.message || "No se pudo guardar la categoría.", "error");
-        } finally {
-          categorySaveBtn.disabled = false;
-        }
-      });
-
       brandsList.addEventListener("click", async (event) => {
         const editButton = event.target.closest("[data-brand-edit]");
         const deleteButton = event.target.closest("[data-brand-delete]");
@@ -2192,6 +2151,74 @@
           } catch (error) {
             console.error(error);
             showNotice(brandNotice, error.message || "No se pudo desactivar la marca.", "error");
+          }
+        }
+      });
+
+      categoryForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const payload = {
+          name: categoryFields.name.value.trim(),
+          description: categoryFields.description.value.trim(),
+          icon: categoryFields.icon.value.trim(),
+          sort_order: Number(categoryFields.sort.value || 0),
+          is_active: categoryFields.active.value === "true"
+        };
+
+        if (!payload.name) {
+          showNotice(categoryNotice, "Completa el nombre de la categoría.", "error");
+          return;
+        }
+
+        categorySaveBtn.disabled = true;
+
+        try {
+          await saveCategory(payload, categoryFields.id.value);
+          resetCategoryForm();
+          await loadCategories();
+        } catch (error) {
+          console.error(error);
+          showNotice(categoryNotice, error.message || "No se pudo guardar la categoría.", "error");
+        } finally {
+          categorySaveBtn.disabled = false;
+        }
+      });
+
+      categoriesList.addEventListener("click", async (event) => {
+        const editButton = event.target.closest("[data-category-edit]");
+        const deleteButton = event.target.closest("[data-category-delete]");
+
+        if (editButton) {
+          const category = categories.find((item) => item.id === editButton.dataset.categoryEdit);
+
+          if (!category) return;
+
+          categoryFields.id.value = category.id;
+          categoryFields.name.value = category.name || "";
+          categoryFields.description.value = category.description || "";
+          categoryFields.icon.value = category.icon || "";
+          categoryFields.sort.value = category.sort_order || 0;
+          categoryFields.active.value = String(category.is_active !== false);
+
+          categoryFormTitle.textContent = "Editar categoría";
+          categorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar categoría';
+        }
+
+        if (deleteButton) {
+          const category = categories.find((item) => item.id === deleteButton.dataset.categoryDelete);
+
+          if (!confirm(`¿Seguro que deseas desactivar "${category?.name || "esta categoría"}"?`)) {
+            return;
+          }
+
+          try {
+            await deactivateCategory(deleteButton.dataset.categoryDelete);
+            await loadCategories();
+            showNotice(categoryNotice, "Categoría desactivada correctamente.");
+          } catch (error) {
+            console.error(error);
+            showNotice(categoryNotice, error.message || "No se pudo desactivar la categoría.", "error");
           }
         }
       });

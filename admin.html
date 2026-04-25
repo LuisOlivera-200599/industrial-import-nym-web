@@ -296,309 +296,849 @@
       display: grid;
       gap: 10px;
     }
-    <!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Panel administrador | Industrial Import NYM</title>
-
-  <meta
-    name="description"
-    content="Panel administrador para gestionar productos, marcas, categorías, stock y datos de empresa de Industrial Import NYM."
-  />
-
-  <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  />
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  />
-
-  <link rel="stylesheet" href="css/style.css" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: "Inter", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(49, 87, 255, 0.12), transparent 28%),
-        linear-gradient(180deg, #f6f8fc 0%, #eef3fb 100%);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    .admin-topbar {
-      background: #ffffff;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.05);
-    }
-
-    .admin-container {
-      width: min(100% - 56px, 1280px);
-      margin-inline: auto;
-    }
-
-    .admin-nav {
-      min-height: 82px;
+    .admin-menu-btn {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #fcfcfd;
+      border-radius: 14px;
+      padding: 13px 14px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 18px;
-    }
-
-    .admin-brand {
-      display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+      font: inherit;
+      color: var(--text);
+      font-weight: 800;
+      cursor: pointer;
+      text-align: left;
+      text-decoration: none;
+      transition: 0.25s ease;
     }
 
-    .admin-logo {
-      width: 52px;
-      height: 52px;
-      border-radius: 17px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #102a8c, #3157ff);
-      color: #ffffff;
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      box-shadow: 0 16px 35px rgba(49, 87, 255, 0.25);
+    .admin-menu-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateX(2px);
     }
 
-    .admin-brand h1 {
-      font-size: 1.05rem;
-      margin: 0;
-      line-height: 1.2;
+    .admin-menu-btn.active {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #eef3ff;
+      box-shadow: 0 0 0 3px rgba(49, 87, 255, 0.08);
     }
 
-    .admin-brand p {
-      margin: 3px 0 0;
+    .sidebar-help {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #f8fbff;
+      border: 1px dashed #cdd9f8;
       color: var(--muted);
       font-size: 0.86rem;
+      line-height: 1.55;
     }
 
-    .admin-nav-actions {
+    .admin-main-panel {
+      overflow: hidden;
+    }
+
+    .main-panel-header {
+      padding: 22px 26px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+    }
+
+    .main-panel-header h3 {
+      margin: 0 0 8px;
+      font-size: 1.25rem;
+    }
+
+    .main-panel-header p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 75ch;
+    }
+
+    .main-panel-body {
+      padding: 26px;
+    }
+
+    .admin-section {
+      display: none;
+    }
+
+    .admin-section.active {
+      display: block;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(320px, 400px) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+        .inner-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .inner-card h4 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .inner-card p {
+      color: var(--muted);
+      margin: 0 0 16px;
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .admin-form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .form-step {
       display: flex;
       align-items: center;
       gap: 10px;
-      flex-wrap: wrap;
+      margin-bottom: 4px;
+      font-weight: 900;
+      color: var(--text);
+      font-size: 0.92rem;
     }
 
-    .admin-btn {
-      border: none;
-      border-radius: 999px;
-      padding: 12px 18px;
-      font: inherit;
+    .form-step span {
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: #eef3ff;
+      color: var(--primary);
+      font-size: 0.82rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
       font-weight: 800;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .field small {
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.45;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 14px 15px;
+      font: inherit;
+      outline: none;
+      background: #fcfcfd;
       transition: 0.25s ease;
-      text-decoration: none;
+      color: var(--text);
     }
 
-    .admin-btn-primary {
-      background: linear-gradient(135deg, #3157ff, #1741d8);
-      color: #ffffff;
-      box-shadow: 0 16px 35px rgba(49, 87, 255, 0.24);
+    .field textarea {
+      min-height: 110px;
+      resize: vertical;
     }
 
-    .admin-btn-light {
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
+      background: #ffffff;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .image-helper {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border: 1px dashed #cdd9f8;
+      border-radius: 18px;
+      background: #f8fbff;
+    }
+
+    .image-preview {
+      width: 96px;
+      height: 80px;
+      border-radius: 15px;
+      object-fit: cover;
+      background: #ffffff;
+      border: 1px solid var(--border);
+    }
+
+    .file-input-wrap {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px dashed #cdd9f8;
+      border-radius: 18px;
+      background: #f8fbff;
+    }
+
+    .file-input-wrap input[type="file"] {
+      background: #ffffff;
+      cursor: pointer;
+    }
+
+    .upload-status {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .upload-status.success {
+      color: #047857;
+    }
+
+    .upload-status.error {
+      color: #be123c;
+    }
+
+    .admin-actions-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .admin-actions-row .admin-btn {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .notice {
+      display: none;
+      padding: 13px 15px;
+      border-radius: 15px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .notice.show {
+      display: block;
+    }
+
+    .notice.success {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #bbf7d0;
+    }
+
+    .notice.error {
+      background: #fff1f2;
+      color: #be123c;
+      border: 1px solid #fecdd3;
+    }
+
+    .tools-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .admin-search {
+      position: relative;
+      flex: 1;
+      min-width: min(100%, 280px);
+    }
+
+    .admin-search i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+
+    .admin-search input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 13px 15px 13px 43px;
+      font: inherit;
+      background: #fcfcfd;
+      outline: none;
+    }
+
+    .filter-select {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 13px 16px;
+      font: inherit;
+      background: #ffffff;
+      color: var(--text);
+      outline: none;
+      font-weight: 700;
+    }
+
+    .products-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .admin-product {
+      display: grid;
+      grid-template-columns: 104px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: #fcfcfd;
+      transition: 0.25s ease;
+    }
+
+    .admin-product:hover {
+      background: #ffffff;
+      border-color: rgba(49, 87, 255, 0.25);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-2px);
+    }
+
+    .admin-product img {
+      width: 104px;
+      height: 88px;
+      border-radius: 16px;
+      object-fit: cover;
+      background: #ffffff;
+      border: 1px solid var(--border);
+    }
+
+    .admin-product h4 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+    }
+
+    .admin-product p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+      max-width: 72ch;
+    }
+
+    .admin-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .admin-tag {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 0.77rem;
+      font-weight: 800;
+    }
+
+    .stock-tag {
+      border: none;
+    }
+
+    .stock-tag.available {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .stock-tag.preorder {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+
+    .stock-tag.unavailable {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .product-actions,
+    .brand-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .icon-action {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      border: none;
+      cursor: pointer;
+      transition: 0.25s ease;
       background: #eef3ff;
       color: var(--primary);
     }
 
-    .admin-btn-danger {
+    .icon-action.danger {
       background: #fff1f2;
       color: #be123c;
     }
 
-    .admin-btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .admin-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .admin-page {
-      padding: 34px 0 74px;
-    }
-
-    .admin-hero {
-      background:
-        linear-gradient(135deg, rgba(16, 42, 140, 0.96), rgba(49, 87, 255, 0.94)),
-        url("imagenes/banners/banner-1.png") center/cover;
-      color: #ffffff;
-      border-radius: 30px;
-      padding: 34px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 26px;
-      align-items: center;
-      box-shadow: 0 26px 70px rgba(49, 87, 255, 0.22);
-      margin-bottom: 24px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .admin-hero::after {
-      content: "";
-      position: absolute;
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
-      right: -80px;
-      bottom: -90px;
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    .admin-hero-content,
-    .admin-hero-card {
-      position: relative;
-      z-index: 1;
-    }
-
-    .admin-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 13px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.14);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      color: #ffffff;
-      font-size: 0.88rem;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
-
-    .admin-hero h2 {
-      font-size: clamp(2rem, 4vw, 3.1rem);
-      line-height: 1.02;
-      letter-spacing: -0.055em;
-      margin: 0 0 14px;
-      max-width: 13ch;
-    }
-
-    .admin-hero p {
-      color: rgba(255, 255, 255, 0.84);
-      line-height: 1.7;
-      max-width: 72ch;
-      margin: 0;
-    }
-
-    .admin-hero-card {
-      width: 270px;
-      background: rgba(255, 255, 255, 0.14);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 24px;
-      padding: 22px;
-      backdrop-filter: blur(16px);
-    }
-
-    .admin-hero-card h3 {
-      margin: 0 0 10px;
-      font-size: 1rem;
-      color: #ffffff;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 20px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .stat-card span {
-      color: var(--muted);
-      font-size: 0.88rem;
-      font-weight: 700;
-    }
-
-    .stat-card strong {
-      display: block;
-      margin-top: 8px;
-      font-size: 1.9rem;
-      letter-spacing: -0.04em;
-      color: var(--text);
-    }
-
-    .stat-card i {
-      color: var(--primary);
-      float: right;
-      font-size: 1.2rem;
-    }
-
-    .admin-workspace {
-      display: grid;
-      grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
-      gap: 32px;
-      align-items: start;
-    }
-
-    .admin-sidebar,
-    .admin-main-panel {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 26px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .admin-sidebar {
-      padding: 22px;
-    }
-
-    .panel-title {
+    .simple-item {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: #fcfcfd;
+      font-weight: 800;
     }
 
-    .panel-title i {
+    .empty-state-admin {
+      padding: 42px 24px;
+      border-radius: 22px;
+      border: 1px dashed #cdd9f8;
+      background: #f8fbff;
+      text-align: center;
+    }
+
+    .empty-state-admin i {
+      font-size: 2.2rem;
       color: var(--primary);
+      margin-bottom: 14px;
     }
 
-    .panel-title h3 {
-      margin: 0;
-      font-size: 1.1rem;
+    .empty-state-admin h3 {
+      margin: 0 0 8px;
     }
 
-    .admin-menu-list {
-      display: grid;
-      gap: 10px;
+    .empty-state-admin p {
+      margin: 0 auto;
+      color: var(--muted);
+      max-width: 52ch;
+      line-height: 1.6;
     }
-                <section class="admin-section" id="section-brands">
+
+    .admin-help {
+      padding: 18px;
+      margin-top: 18px;
+      border: 1px dashed #cdd9f8;
+      border-radius: 18px;
+      background: #f8fbff;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1100px) {
+      .admin-hero,
+      .admin-workspace,
+      .section-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-hero-card {
+        width: 100%;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .admin-product {
+        grid-template-columns: 92px 1fr;
+      }
+
+      .product-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .admin-container {
+        width: min(100% - 28px, 1280px);
+      }
+
+      .admin-nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px 0;
+      }
+
+      .admin-nav-actions {
+        width: 100%;
+      }
+
+      .admin-nav-actions .admin-btn {
+        flex: 1;
+      }
+
+      .admin-page {
+        padding: 24px 0 56px;
+      }
+
+      .admin-hero,
+      .main-panel-header,
+      .main-panel-body,
+      .inner-card,
+      .admin-sidebar {
+        padding: 20px;
+      }
+
+      .admin-hero h2 {
+        font-size: 2rem;
+      }
+
+      .stats-grid,
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .image-helper {
+        grid-template-columns: 1fr;
+      }
+
+      .image-preview {
+        width: 100%;
+        height: 170px;
+      }
+
+      .admin-product {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-product img {
+        width: 100%;
+        height: 180px;
+      }
+
+      .tools-bar {
+        flex-direction: column;
+      }
+
+      .filter-select {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="admin-topbar">
+    <div class="admin-container admin-nav">
+      <div class="admin-brand">
+        <div class="admin-logo">NYM</div>
+        <div>
+          <h1>Industrial Import NYM</h1>
+          <p>Panel administrador del catálogo</p>
+        </div>
+      </div>
+
+      <div class="admin-nav-actions">
+        <a href="index.html" class="admin-btn admin-btn-light">
+          <i class="fa-solid fa-house"></i>
+          Inicio
+        </a>
+
+        <a href="productos.html" class="admin-btn admin-btn-light">
+          <i class="fa-solid fa-eye"></i>
+          Ver catálogo
+        </a>
+
+        <button type="button" class="admin-btn admin-btn-danger" id="logout-btn">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-page">
+    <div class="admin-container">
+      <section class="admin-hero">
+        <div class="admin-hero-content">
+          <span class="admin-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            Gestión interna
+          </span>
+
+          <h2>Panel de control del catálogo</h2>
+
+          <p>
+            Administra productos, marcas, categorías, stock y datos de empresa conectados a Supabase.
+            Lo que guardes aquí se reflejará en la web pública.
+          </p>
+        </div>
+
+        <div class="admin-hero-card">
+          <h3>Storage activo</h3>
+          <p>
+            Ahora puedes subir imágenes desde tu PC y guardarlas en Supabase Storage.
+          </p>
+        </div>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <i class="fa-solid fa-box"></i>
+          <span>Productos registrados</span>
+          <strong id="stat-products">0</strong>
+        </article>
+
+        <article class="stat-card">
+          <i class="fa-solid fa-tags"></i>
+          <span>Marcas registradas</span>
+          <strong id="stat-brands">0</strong>
+        </article>
+
+        <article class="stat-card">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Categorías registradas</span>
+          <strong id="stat-categories">0</strong>
+        </article>
+
+        <article class="stat-card">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Disponibles</span>
+          <strong id="stat-available">0</strong>
+        </article>
+      </section>
+            <section class="admin-workspace">
+        <aside class="admin-sidebar">
+          <div class="panel-title">
+            <i class="fa-solid fa-sliders"></i>
+            <h3>Opciones admin</h3>
+          </div>
+
+          <div class="admin-menu-list">
+            <button class="admin-menu-btn active" type="button" data-section="products">
+              <span>Productos</span>
+              <i class="fa-solid fa-box"></i>
+            </button>
+
+            <button class="admin-menu-btn" type="button" data-section="brands">
+              <span>Marcas</span>
+              <i class="fa-solid fa-tags"></i>
+            </button>
+
+            <button class="admin-menu-btn" type="button" data-section="categories">
+              <span>Categorías</span>
+              <i class="fa-solid fa-layer-group"></i>
+            </button>
+
+            <button class="admin-menu-btn" type="button" data-section="stock">
+              <span>Stock</span>
+              <i class="fa-solid fa-circle-check"></i>
+            </button>
+
+            <button class="admin-menu-btn" type="button" data-section="company">
+              <span>Datos de empresa</span>
+              <i class="fa-solid fa-building"></i>
+            </button>
+
+            <button class="admin-menu-btn" type="button" data-section="help">
+              <span>Ayuda</span>
+              <i class="fa-solid fa-circle-info"></i>
+            </button>
+
+            <a href="productos.html" class="admin-menu-btn">
+              <span>Ver catálogo</span>
+              <i class="fa-solid fa-eye"></i>
+            </a>
+          </div>
+
+          <div class="sidebar-help">
+            Administra catálogo, imágenes, marcas, categorías, stock y datos principales sin tocar código.
+          </div>
+        </aside>
+
+        <section class="admin-main-panel">
+          <div class="main-panel-header">
+            <h3 id="section-title">Gestión de productos</h3>
+            <p id="section-description">
+              Agrega, edita, desactiva y revisa los productos que aparecerán en el catálogo público.
+            </p>
+          </div>
+
+          <div class="main-panel-body">
+            <section class="admin-section active" id="section-products">
+              <div class="section-grid">
+                <div class="inner-card">
+                  <h4 id="form-title">Agregar nuevo producto</h4>
+                  <p>Llena los campos principales. Puedes subir una imagen desde tu PC o pegar una URL manual.</p>
+
+                  <form class="admin-form" id="product-form">
+                    <input type="hidden" id="product-id" />
+
+                    <div>
+                      <div class="form-step">
+                        <span>1</span>
+                        Información principal
+                      </div>
+
+                      <div class="field">
+                        <label for="product-name">Nombre del producto *</label>
+                        <input id="product-name" type="text" placeholder="Ej: Interruptor automático industrial" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="form-step">
+                        <span>2</span>
+                        Clasificación
+                      </div>
+
+                      <div class="form-row">
+                        <div class="field">
+                          <label for="product-brand">Marca *</label>
+                          <select id="product-brand">
+                            <option value="">Selecciona una marca</option>
+                          </select>
+                        </div>
+
+                        <div class="field">
+                          <label for="product-category">Categoría *</label>
+                          <select id="product-category">
+                            <option value="">Selecciona una categoría</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="form-step">
+                        <span>3</span>
+                        Imagen y disponibilidad
+                      </div>
+
+                      <div class="field">
+                        <label for="product-file">Subir imagen desde PC</label>
+                        <div class="file-input-wrap">
+                          <input id="product-file" type="file" accept="image/*" />
+                          <span class="upload-status" id="upload-status">
+                            Selecciona una imagen. Se subirá al guardar el producto.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="field">
+                        <label for="product-image">URL o ruta de imagen</label>
+                        <input id="product-image" type="text" placeholder="Se llenará automáticamente al subir imagen" />
+                        <small>También puedes pegar una URL externa o ruta manual.</small>
+                      </div>
+
+                      <div class="image-helper">
+                        <img
+                          src="imagenes/productos/productos-1.png"
+                          alt="Vista previa"
+                          class="image-preview"
+                          id="image-preview"
+                        />
+
+                        <p>
+                          <strong>Vista previa:</strong> aquí verás la imagen antes de guardar.
+                        </p>
+                      </div>
+
+                      <div class="field">
+                        <label for="product-stock">Estado de stock</label>
+                        <select id="product-stock">
+                          <option value="Disponible">Disponible</option>
+                          <option value="Bajo pedido">Bajo pedido</option>
+                          <option value="Sin stock">Sin stock</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="form-step">
+                        <span>4</span>
+                        Descripción comercial
+                      </div>
+
+                      <div class="field">
+                        <label for="product-description">Descripción</label>
+                        <textarea id="product-description" placeholder="Ej: Producto orientado a control y protección industrial."></textarea>
+                      </div>
+                    </div>
+
+                    <div class="notice" id="notice"></div>
+
+                    <div class="admin-actions-row">
+                      <button type="submit" class="admin-btn admin-btn-primary" id="save-btn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar producto
+                      </button>
+
+                      <button type="button" class="admin-btn admin-btn-light" id="reset-btn">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Limpiar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="inner-card">
+                  <h4>Productos registrados</h4>
+                  <p>Busca, edita o desactiva productos del catálogo.</p>
+
+                  <div class="tools-bar">
+                    <div class="admin-search">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                      <input id="admin-search" type="text" placeholder="Buscar por nombre, marca o categoría..." />
+                    </div>
+
+                    <select id="stock-filter" class="filter-select">
+                      <option value="all">Todos los estados</option>
+                      <option value="Disponible">Disponible</option>
+                      <option value="Bajo pedido">Bajo pedido</option>
+                      <option value="Sin stock">Sin stock</option>
+                    </select>
+                  </div>
+
+                  <div class="products-list" id="product-list"></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="admin-section" id="section-brands">
               <div class="section-grid">
                 <div class="inner-card">
                   <h4 id="brand-form-title">Agregar nueva marca</h4>
-                  <p>Registra marcas reales en Supabase y sube su logo desde tu PC.</p>
+                  <p>Registra marcas reales en Supabase para usarlas en el catálogo.</p>
 
                   <form class="admin-form" id="brand-form">
                     <input type="hidden" id="brand-id" />
@@ -609,19 +1149,8 @@
                     </div>
 
                     <div class="field">
-                      <label for="brand-file">Subir logo desde PC</label>
-                      <div class="file-input-wrap">
-                        <input id="brand-file" type="file" accept="image/*" />
-                        <span class="upload-status" id="brand-upload-status">
-                          Selecciona un logo. Se subirá al guardar la marca.
-                        </span>
-                      </div>
-                    </div>
-
-                    <div class="field">
                       <label for="brand-logo">URL o ruta del logo</label>
-                      <input id="brand-logo" type="text" placeholder="Se llenará automáticamente al subir logo" />
-                      <small>También puedes pegar una URL externa o ruta manual.</small>
+                      <input id="brand-logo" type="text" placeholder="imagenes/marcas/marcas-1.png" />
                     </div>
 
                     <div class="field">
@@ -739,8 +1268,7 @@
                 <div class="products-list" id="stock-list"></div>
               </div>
             </section>
-
-            <section class="admin-section" id="section-company">
+                        <section class="admin-section" id="section-company">
               <div class="section-grid">
                 <div class="inner-card">
                   <h4>Editar datos de empresa</h4>
@@ -859,8 +1387,8 @@
                 <p>Este panel usa Supabase Auth, products, brands, categories, company_settings y Storage.</p>
 
                 <div class="admin-help">
-                  <strong>Storage:</strong>
-                  productos usan <strong>product-images</strong> y marcas usan <strong>brand-logos</strong>.
+                  <strong>Storage:</strong> las imágenes se suben al bucket <strong>product-images</strong>
+                  y se guarda la URL pública en <strong>products.image_url</strong>.
                 </div>
               </div>
             </section>
@@ -869,21 +1397,20 @@
       </section>
     </div>
   </main>
-      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js"></script>
 
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       const DEFAULT_IMAGE = "imagenes/productos/productos-1.png";
       const PRODUCT_IMAGES_BUCKET = "product-images";
-      const BRAND_LOGOS_BUCKET = "brand-logos";
 
       let products = [];
       let brands = [];
       let categories = [];
       let currentUser = null;
       let selectedProductFile = null;
-      let selectedBrandFile = null;
 
       const menuButtons = document.querySelectorAll("[data-section]");
       const sections = document.querySelectorAll(".admin-section");
@@ -905,9 +1432,6 @@
       const imagePreview = document.getElementById("image-preview");
       const productFileInput = document.getElementById("product-file");
       const uploadStatus = document.getElementById("upload-status");
-
-      const brandFileInput = document.getElementById("brand-file");
-      const brandUploadStatus = document.getElementById("brand-upload-status");
 
       const statProducts = document.getElementById("stat-products");
       const statBrands = document.getElementById("stat-brands");
@@ -985,7 +1509,7 @@
         },
         brands: {
           title: "Gestión de marcas",
-          description: "Agrega, edita y desactiva marcas con logo en Supabase Storage."
+          description: "Agrega, edita y desactiva marcas guardadas en Supabase."
         },
         categories: {
           title: "Gestión de categorías",
@@ -1029,11 +1553,6 @@
         uploadStatus.className = type ? `upload-status ${type}` : "upload-status";
       }
 
-      function setBrandUploadStatus(text, type = "") {
-        brandUploadStatus.textContent = text;
-        brandUploadStatus.className = type ? `upload-status ${type}` : "upload-status";
-      }
-
       function getStockClass(stock) {
         const value = String(stock || "").toLowerCase();
 
@@ -1060,9 +1579,6 @@
         brandFields.id.value = "";
         brandFields.sort.value = 0;
         brandFields.active.value = "true";
-        selectedBrandFile = null;
-        brandFileInput.value = "";
-        setBrandUploadStatus("Selecciona un logo. Se subirá al guardar la marca.");
         brandFormTitle.textContent = "Agregar nueva marca";
         brandSaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar marca';
       }
@@ -1157,43 +1673,6 @@
         }
 
         setUploadStatus("Imagen subida correctamente.", "success");
-        return data.publicUrl;
-      }
-
-      async function uploadBrandLogo(file) {
-        if (!file) return brandFields.logo.value.trim();
-
-        const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
-        const cleanName = file.name
-          .replace(/\.[^/.]+$/, "")
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/(^-|-$)+/g, "");
-
-        const filePath = `logos/${Date.now()}-${cleanName || "marca"}.${extension}`;
-
-        setBrandUploadStatus("Subiendo logo a Supabase Storage...");
-
-        const { error: uploadError } = await window.nymSupabase.storage
-          .from(BRAND_LOGOS_BUCKET)
-          .upload(filePath, file, {
-            cacheControl: "3600",
-            upsert: false
-          });
-
-        if (uploadError) throw uploadError;
-
-        const { data } = window.nymSupabase.storage
-          .from(BRAND_LOGOS_BUCKET)
-          .getPublicUrl(filePath);
-
-        if (!data?.publicUrl) {
-          throw new Error("No se pudo obtener la URL pública del logo.");
-        }
-
-        setBrandUploadStatus("Logo subido correctamente.", "success");
         return data.publicUrl;
       }
 
@@ -1564,26 +2043,6 @@
         setUploadStatus(`Imagen lista: ${file.name}`);
       });
 
-      brandFileInput.addEventListener("change", () => {
-        const file = brandFileInput.files?.[0];
-
-        if (!file) {
-          selectedBrandFile = null;
-          setBrandUploadStatus("Selecciona un logo. Se subirá al guardar la marca.");
-          return;
-        }
-
-        if (!file.type.startsWith("image/")) {
-          selectedBrandFile = null;
-          brandFileInput.value = "";
-          setBrandUploadStatus("El archivo seleccionado no es una imagen.", "error");
-          return;
-        }
-
-        selectedBrandFile = file;
-        setBrandUploadStatus(`Logo listo: ${file.name}`);
-      });
-
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
@@ -1673,7 +2132,15 @@
       brandForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        if (!brandFields.name.value.trim()) {
+        const payload = {
+          name: brandFields.name.value.trim(),
+          logo_url: brandFields.logo.value.trim(),
+          description: brandFields.description.value.trim(),
+          sort_order: Number(brandFields.sort.value || 0),
+          is_active: brandFields.active.value === "true"
+        };
+
+        if (!payload.name) {
           showNotice(brandNotice, "Completa el nombre de la marca.", "error");
           return;
         }
@@ -1681,22 +2148,11 @@
         brandSaveBtn.disabled = true;
 
         try {
-          const uploadedLogoUrl = await uploadBrandLogo(selectedBrandFile);
-
-          const payload = {
-            name: brandFields.name.value.trim(),
-            logo_url: uploadedLogoUrl,
-            description: brandFields.description.value.trim(),
-            sort_order: Number(brandFields.sort.value || 0),
-            is_active: brandFields.active.value === "true"
-          };
-
           await saveBrand(payload, brandFields.id.value);
           resetBrandForm();
           await loadBrands();
         } catch (error) {
           console.error(error);
-          setBrandUploadStatus(error.message || "No se pudo subir el logo.", "error");
           showNotice(brandNotice, error.message || "No se pudo guardar la marca.", "error");
         } finally {
           brandSaveBtn.disabled = false;
@@ -1717,10 +2173,6 @@
           brandFields.description.value = brand.description || "";
           brandFields.sort.value = brand.sort_order || 0;
           brandFields.active.value = String(brand.is_active !== false);
-
-          selectedBrandFile = null;
-          brandFileInput.value = "";
-          setBrandUploadStatus("Puedes mantener el logo actual o seleccionar uno nuevo.");
 
           brandFormTitle.textContent = "Editar marca";
           brandSaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar marca';

@@ -513,8 +513,8 @@
         <span class="section-badge">Catálogo</span>
         <h2>Productos y componentes para distintas aplicaciones electrónicas</h2>
         <p>
-          Explora nuestro catálogo conectado a Supabase con categorías, marcas y
-          estado de disponibilidad visible para una consulta más clara y profesional.
+          Explora nuestro catálogo de productos por categorías, marcas y
+          estado de disponibilidad para una consulta más clara y profesional.
         </p>
 
         <div class="breadcrumb">
@@ -556,7 +556,7 @@
         <div class="catalog-topbar">
           <div>
             <h3>Catálogo general</h3>
-            <p>Mostrando productos desde Supabase con relaciones de marcas y categorías.</p>
+            <p>Explora productos disponibles por categoría, marca y estado de stock.</p>
           </div>
 
           <div class="catalog-actions">
@@ -581,9 +581,6 @@
           <p>Prueba con otra categoría, otra marca o cambia el texto de búsqueda.</p>
         </div>
 
-        <div class="mini-note">
-          Esta sección muestra los productos gestionados desde Supabase.
-        </div>
       </div>
     </div>
   </section>
@@ -874,7 +871,7 @@
       async function loadProducts() {
         try {
           if (!window.nymSupabase) {
-            throw new Error("Supabase no está configurado.");
+            throw new Error("Servicio de catálogo no configurado.");
           }
 
           const { data, error } = await window.nymSupabase

@@ -869,7 +869,7 @@
           <h2>Panel de control del catálogo</h2>
 
           <p>
-            Administra productos, stock y datos de empresa conectados a Supabase.
+            Administra productos, stock, marcas y datos de empresa conectados a Supabase.
             Lo que guardes aquí se reflejará en la web pública.
           </p>
         </div>
@@ -921,6 +921,11 @@
               <i class="fa-solid fa-box"></i>
             </button>
 
+            <button class="admin-menu-btn" type="button" data-section="brands">
+              <span>Marcas</span>
+              <i class="fa-solid fa-tags"></i>
+            </button>
+
             <button class="admin-menu-btn" type="button" data-section="stock">
               <span>Stock</span>
               <i class="fa-solid fa-circle-check"></i>
@@ -943,7 +948,7 @@
           </div>
 
           <div class="sidebar-help">
-            Administra el catálogo y los datos principales de la empresa sin tocar código.
+            Administra el catálogo, marcas, stock y los datos principales de la empresa sin tocar código.
           </div>
         </aside>
 
@@ -997,8 +1002,7 @@
                         </div>
                       </div>
                     </div>
-
-                    <div>
+                                        <div>
                       <div class="form-step">
                         <span>3</span>
                         Imagen y disponibilidad
@@ -1080,6 +1084,23 @@
                   </div>
 
                   <div class="products-list" id="product-list"></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="admin-section" id="section-brands">
+              <div class="inner-card">
+                <h4>Marcas registradas</h4>
+                <p>
+                  Aquí puedes revisar las marcas que existen actualmente en los productos registrados.
+                  Por ahora las marcas se gestionan desde el campo Marca al agregar o editar productos.
+                </p>
+
+                <div class="products-list" id="brands-list"></div>
+
+                <div class="admin-help">
+                  <strong>Nota:</strong> si deseas una gestión avanzada de marcas con logo, descripción
+                  y orden personalizado, el siguiente paso es crear una tabla independiente de marcas en Supabase.
                 </div>
               </div>
             </section>
@@ -1241,6 +1262,7 @@
       const form = document.getElementById("product-form");
       const list = document.getElementById("product-list");
       const stockList = document.getElementById("stock-list");
+      const brandsList = document.getElementById("brands-list");
       const search = document.getElementById("admin-search");
       const stockFilter = document.getElementById("stock-filter");
       const notice = document.getElementById("notice");
@@ -1296,6 +1318,10 @@
         products: {
           title: "Gestión de productos",
           description: "Agrega, edita, desactiva y revisa los productos que aparecerán en el catálogo público."
+        },
+        brands: {
+          title: "Gestión de marcas",
+          description: "Revisa las marcas usadas en los productos registrados."
         },
         stock: {
           title: "Gestión rápida de stock",
@@ -1382,6 +1408,32 @@
           .join("");
       }
 
+      function renderBrandsList() {
+        const activeProducts = products.filter((product) => product.is_active !== false);
+        const brands = [...new Set(activeProducts.map((product) => product.brand).filter(Boolean))].sort();
+
+        brandsList.innerHTML = brands.length
+          ? brands.map((brand) => {
+              const count = activeProducts.filter((product) => product.brand === brand).length;
+
+              return `
+                <div class="simple-item">
+                  <span>${escapeHTML(brand)}</span>
+                  <span class="admin-tag">
+                    ${count} producto${count === 1 ? "" : "s"}
+                  </span>
+                </div>
+              `;
+            }).join("")
+          : `
+            <div class="empty-state-admin">
+              <i class="fa-solid fa-tags"></i>
+              <h3>No hay marcas registradas</h3>
+              <p>Cuando agregues productos con marca, aquí aparecerán automáticamente.</p>
+            </div>
+          `;
+      }
+
       function renderProductCard(product) {
         const image = product.image_url || DEFAULT_IMAGE;
         const active = product.is_active !== false;
@@ -1451,6 +1503,7 @@
           `;
 
         renderStockList();
+        renderBrandsList();
         updateStats();
         renderSuggestions();
       }

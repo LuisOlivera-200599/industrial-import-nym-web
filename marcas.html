@@ -39,7 +39,8 @@
       overflow: hidden;
     }
 
-    .page-hero .container {
+    .page-hero .container,
+    .brands-section .container {
       width: min(100% - 56px, var(--container));
       margin-inline: auto;
     }
@@ -82,23 +83,12 @@
       overflow: hidden;
     }
 
-    .brands-section .container {
-      width: min(100% - 56px, var(--container));
-      margin-inline: auto;
-    }
-
     .brands-layout {
       display: grid;
       grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
       gap: 32px;
       align-items: start;
       width: 100%;
-    }
-
-    .brands-layout > * {
-      min-width: 0;
-      align-self: start;
-      margin: 0;
     }
 
     .brand-filter-panel,
@@ -305,6 +295,12 @@
       display: block;
     }
 
+    .logo-card span {
+      font-weight: 900;
+      color: var(--primary);
+      text-align: center;
+    }
+
     .brands-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -363,6 +359,15 @@
       color: var(--primary);
       font-size: 1.2rem;
       flex: 0 0 auto;
+      overflow: hidden;
+    }
+
+    .brand-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 8px;
+      background: #fff;
     }
 
     .brand-card p {
@@ -516,7 +521,6 @@
     }
   </style>
 </head>
-
 <body>
   <div class="topbar">
     <div class="container topbar-content">
@@ -599,69 +603,24 @@
 
         <div class="filter-group">
           <h4>Marcas</h4>
-
-          <div class="filter-list" id="brand-filters">
-            <button class="filter-btn active" type="button" data-filter-value="all">
-              <span>Todas las marcas</span>
-              <i class="fa-solid fa-layer-group"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-value="abb">
-              <span>ABB</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-value="autonics">
-              <span>Autonics</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-value="chint">
-              <span>CHINT</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-value="delta">
-              <span>Delta</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-value="eaton">
-              <span>Eaton</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-value="legrand">
-              <span>Legrand</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-value="ls">
-              <span>LS</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-
-            <button class="filter-btn" type="button" data-filter-value="schneider-electric">
-              <span>Schneider Electric</span>
-              <i class="fa-solid fa-angle-right"></i>
-            </button>
-          </div>
+          <div class="filter-list" id="brand-filters"></div>
         </div>
       </aside>
-            <main class="brand-main">
+
+      <main class="brand-main">
         <div class="brand-main-top">
           <div>
             <h3>Aliados estratégicos</h3>
             <p>
-              Marcas disponibles en nuestro catálogo visual para consultas, cotizaciones
-              y presentación comercial.
+              Marcas disponibles desde nuestra base de datos para consultas,
+              cotizaciones y presentación comercial.
             </p>
           </div>
 
           <div class="brand-actions">
-            <span class="brand-chip">Sin precios visibles</span>
+            <span class="brand-chip">Desde Supabase</span>
             <span class="brand-chip">Consulta directa</span>
-            <span class="brand-chip">Gestión futura desde admin</span>
+            <span class="brand-chip">Administrable</span>
           </div>
         </div>
 
@@ -669,267 +628,28 @@
           <span class="active-filter-tag">Marca: Todas</span>
         </div>
 
-        <p class="brand-summary" id="brand-summary">Mostrando 8 marcas.</p>
+        <p class="brand-summary" id="brand-summary">Cargando marcas...</p>
 
-        <div class="brand-logo-row">
-          <div class="logo-card">
-            <img src="imagenes/marcas/marcas-1.png" alt="Marca destacada 1" />
-          </div>
+        <div class="brand-logo-row" id="brand-logo-row"></div>
 
-          <div class="logo-card">
-            <img src="imagenes/marcas/marcas-2.png" alt="Marca destacada 2" />
-          </div>
-
-          <div class="logo-card">
-            <img src="imagenes/marcas/marcas-3.png" alt="Marca destacada 3" />
-          </div>
-        </div>
-
-        <div class="brands-grid" id="brands-grid">
-          <article class="brand-card catalog-brand" data-brand="abb" data-name="ABB automatización control">
-            <div>
-              <div class="brand-top">
-                <div>
-                  <h3 class="brand-name">ABB</h3>
-                  <span class="brand-category">Automatización y control</span>
-                </div>
-                <div class="brand-icon"><i class="fa-solid fa-bolt"></i></div>
-              </div>
-
-              <p>
-                Marca destacada para soluciones de automatización, control y entornos
-                industriales con enfoque técnico.
-              </p>
-
-              <div class="brand-tags">
-                <span class="brand-tag">Automatización</span>
-                <span class="brand-tag">Control</span>
-                <span class="brand-tag">Industria</span>
-              </div>
-            </div>
-
-            <div class="brand-card-footer">
-              <span class="brand-status">Disponible</span>
-              <a href="contacto.html" class="brand-link">Consultar</a>
-            </div>
-          </article>
-
-          <article class="brand-card catalog-brand" data-brand="chint" data-name="CHINT protección instalación">
-            <div>
-              <div class="brand-top">
-                <div>
-                  <h3 class="brand-name">CHINT</h3>
-                  <span class="brand-category">Protección eléctrica</span>
-                </div>
-                <div class="brand-icon"><i class="fa-solid fa-shield-halved"></i></div>
-              </div>
-
-              <p>
-                Propuesta orientada a componentes de protección, maniobra y líneas
-                técnicas para distintas aplicaciones.
-              </p>
-
-              <div class="brand-tags">
-                <span class="brand-tag">Protección</span>
-                <span class="brand-tag">Instalación</span>
-                <span class="brand-tag">Maniobra</span>
-              </div>
-            </div>
-
-            <div class="brand-card-footer">
-              <span class="brand-status">Disponible</span>
-              <a href="contacto.html" class="brand-link">Consultar</a>
-            </div>
-          </article>
-
-          <article class="brand-card catalog-brand" data-brand="delta" data-name="Delta tecnología procesos automatización">
-            <div>
-              <div class="brand-top">
-                <div>
-                  <h3 class="brand-name">Delta</h3>
-                  <span class="brand-category">Tecnología y procesos</span>
-                </div>
-                <div class="brand-icon"><i class="fa-solid fa-microchip"></i></div>
-              </div>
-
-              <p>
-                Marca vinculada a innovación tecnológica, automatización y dispositivos
-                orientados a procesos modernos.
-              </p>
-
-              <div class="brand-tags">
-                <span class="brand-tag">Tecnología</span>
-                <span class="brand-tag">Procesos</span>
-                <span class="brand-tag">Automatización</span>
-              </div>
-            </div>
-
-            <div class="brand-card-footer">
-              <span class="brand-status">Disponible</span>
-              <a href="contacto.html" class="brand-link">Consultar</a>
-            </div>
-          </article>
-
-          <article class="brand-card catalog-brand" data-brand="legrand" data-name="Legrand montaje conectividad instalación">
-            <div>
-              <div class="brand-top">
-                <div>
-                  <h3 class="brand-name">Legrand</h3>
-                  <span class="brand-category">Montaje y conectividad</span>
-                </div>
-                <div class="brand-icon"><i class="fa-solid fa-plug-circle-bolt"></i></div>
-              </div>
-
-              <p>
-                Soluciones para instalaciones, componentes y líneas organizadas dentro
-                de una propuesta comercial seria.
-              </p>
-
-              <div class="brand-tags">
-                <span class="brand-tag">Montaje</span>
-                <span class="brand-tag">Conectividad</span>
-                <span class="brand-tag">Componentes</span>
-              </div>
-            </div>
-
-            <div class="brand-card-footer">
-              <span class="brand-status">Disponible</span>
-              <a href="contacto.html" class="brand-link">Consultar</a>
-            </div>
-          </article>
-
-          <article class="brand-card catalog-brand" data-brand="ls" data-name="LS relés control protección">
-            <div>
-              <div class="brand-top">
-                <div>
-                  <h3 class="brand-name">LS</h3>
-                  <span class="brand-category">Control y protección</span>
-                </div>
-                <div class="brand-icon"><i class="fa-solid fa-wave-square"></i></div>
-              </div>
-
-              <p>
-                Marca presente en líneas orientadas a control, protección y componentes
-                técnicos para distintos usos.
-              </p>
-
-              <div class="brand-tags">
-                <span class="brand-tag">Relés</span>
-                <span class="brand-tag">Control</span>
-                <span class="brand-tag">Protección</span>
-              </div>
-            </div>
-
-            <div class="brand-card-footer">
-              <span class="brand-status">Disponible</span>
-              <a href="contacto.html" class="brand-link">Consultar</a>
-            </div>
-          </article>
-
-          <article class="brand-card catalog-brand" data-brand="schneider-electric" data-name="Schneider Electric eficiencia industria energía">
-            <div>
-              <div class="brand-top">
-                <div>
-                  <h3 class="brand-name">Schneider Electric</h3>
-                  <span class="brand-category">Eficiencia e industria</span>
-                </div>
-                <div class="brand-icon"><i class="fa-solid fa-industry"></i></div>
-              </div>
-
-              <p>
-                Referente en líneas eléctricas, automatización y soluciones orientadas a
-                eficiencia operativa y continuidad.
-              </p>
-
-              <div class="brand-tags">
-                <span class="brand-tag">Eficiencia</span>
-                <span class="brand-tag">Industria</span>
-                <span class="brand-tag">Energía</span>
-              </div>
-            </div>
-
-            <div class="brand-card-footer">
-              <span class="brand-status">Disponible</span>
-              <a href="contacto.html" class="brand-link">Consultar</a>
-            </div>
-          </article>
-
-          <article class="brand-card catalog-brand" data-brand="autonics" data-name="Autonics sensores automatización control">
-            <div>
-              <div class="brand-top">
-                <div>
-                  <h3 class="brand-name">Autonics</h3>
-                  <span class="brand-category">Sensores y automatización</span>
-                </div>
-                <div class="brand-icon"><i class="fa-solid fa-gauge-high"></i></div>
-              </div>
-
-              <p>
-                Soluciones enfocadas en sensores, control y automatización para procesos
-                con enfoque técnico.
-              </p>
-
-              <div class="brand-tags">
-                <span class="brand-tag">Sensores</span>
-                <span class="brand-tag">Control</span>
-                <span class="brand-tag">Automatización</span>
-              </div>
-            </div>
-
-            <div class="brand-card-footer">
-              <span class="brand-status">Disponible</span>
-              <a href="contacto.html" class="brand-link">Consultar</a>
-            </div>
-          </article>
-
-          <article class="brand-card catalog-brand" data-brand="eaton" data-name="Eaton energía protección industria">
-            <div>
-              <div class="brand-top">
-                <div>
-                  <h3 class="brand-name">Eaton</h3>
-                  <span class="brand-category">Energía y protección</span>
-                </div>
-                <div class="brand-icon"><i class="fa-solid fa-plug"></i></div>
-              </div>
-
-              <p>
-                Marca orientada a soluciones de energía, protección eléctrica y
-                continuidad para aplicaciones industriales.
-              </p>
-
-              <div class="brand-tags">
-                <span class="brand-tag">Energía</span>
-                <span class="brand-tag">Protección</span>
-                <span class="brand-tag">Industria</span>
-              </div>
-            </div>
-
-            <div class="brand-card-footer">
-              <span class="brand-status">Disponible</span>
-              <a href="contacto.html" class="brand-link">Consultar</a>
-            </div>
-          </article>
-        </div>
+        <div class="brands-grid" id="brands-grid"></div>
 
         <div class="empty-state" id="empty-state">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <h3>No encontramos marcas con ese filtro</h3>
-          <p>Prueba con otra búsqueda o selecciona todas las marcas.</p>
+          <i class="fa-solid fa-tags"></i>
+          <h3>No encontramos marcas</h3>
+          <p>Agrega marcas desde el panel administrador o cambia tu búsqueda.</p>
         </div>
 
         <div class="brands-cta">
           <div>
-            <span class="section-badge dark">Cotización por marca</span>
-            <h2>¿Buscas una marca o línea específica?</h2>
+            <span class="section-badge dark">Consulta por marca</span>
+            <h2>¿Buscas una marca específica?</h2>
             <p>
-              Escríbenos para revisar disponibilidad, alternativas o productos
-              relacionados según tu necesidad.
+              Escríbenos para revisar disponibilidad, productos relacionados y opciones de cotización.
             </p>
           </div>
 
-          <div>
-            <a href="contacto.html" class="btn btn-light">Solicitar información</a>
-          </div>
+          <a href="contacto.html" class="btn btn-light">Solicitar información</a>
         </div>
       </main>
     </div>
@@ -991,76 +711,219 @@
   <script src="js/company-settings.js"></script>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const searchInput = document.getElementById("brand-search");
-      const filterButtons = document.querySelectorAll("[data-filter-value]");
-      const brandCards = document.querySelectorAll(".catalog-brand");
+    document.addEventListener("DOMContentLoaded", async () => {
+      const brandFilters = document.getElementById("brand-filters");
+      const brandSearch = document.getElementById("brand-search");
+      const brandsGrid = document.getElementById("brands-grid");
+      const brandLogoRow = document.getElementById("brand-logo-row");
       const brandSummary = document.getElementById("brand-summary");
-      const activeFilters = document.getElementById("active-brand-filters");
+      const activeBrandFilters = document.getElementById("active-brand-filters");
       const emptyState = document.getElementById("empty-state");
 
+      let brands = [];
       let currentBrand = "all";
       let currentSearch = "";
 
-      function getCurrentBrandLabel() {
-        if (currentBrand === "all") return "Todas";
+      function slugify(text) {
+        return String(text || "")
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)+/g, "");
+      }
 
-        const activeButton = document.querySelector(`[data-filter-value="${currentBrand}"] span`);
-        return activeButton ? activeButton.textContent.trim() : currentBrand;
+      function escapeHTML(text) {
+        return String(text || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function normalizeBrand(row) {
+        return {
+          id: row.id,
+          name: row.name || "Marca sin nombre",
+          slug: slugify(row.name || "marca"),
+          logo: row.logo_url || "",
+          description:
+            row.description ||
+            "Marca disponible para consultas comerciales, productos relacionados y cotización.",
+          sort: row.sort_order || 0
+        };
+      }
+
+      function createFilterButton(value, label, active = false) {
+        return `
+          <button class="filter-btn ${active ? "active" : ""}" type="button" data-filter-value="${escapeHTML(value)}">
+            <span>${escapeHTML(label)}</span>
+            <i class="fa-solid ${value === "all" ? "fa-layer-group" : "fa-angle-right"}"></i>
+          </button>
+        `;
+      }
+
+      function renderFilters() {
+        brandFilters.innerHTML =
+          createFilterButton("all", "Todas las marcas", true) +
+          brands.map((brand) => createFilterButton(brand.slug, brand.name)).join("");
+
+        brandFilters.querySelectorAll("[data-filter-value]").forEach((button) => {
+          button.addEventListener("click", () => {
+            currentBrand = button.dataset.filterValue;
+
+            brandFilters.querySelectorAll(".filter-btn").forEach((item) => {
+              item.classList.toggle("active", item === button);
+            });
+
+            filterBrands();
+          });
+        });
+      }
+
+      function renderLogos() {
+        const withLogo = brands.filter((brand) => brand.logo).slice(0, 6);
+        const source = withLogo.length ? withLogo : brands.slice(0, 6);
+
+        brandLogoRow.innerHTML = source
+          .map((brand) => `
+            <div class="logo-card">
+              ${
+                brand.logo
+                  ? `<img src="${escapeHTML(brand.logo)}" alt="${escapeHTML(brand.name)}" />`
+                  : `<span>${escapeHTML(brand.name)}</span>`
+              }
+            </div>
+          `)
+          .join("");
+      }
+
+      function renderCards() {
+        brandsGrid.innerHTML = brands
+          .map((brand) => `
+            <article class="brand-card catalog-brand"
+              data-brand="${escapeHTML(brand.slug)}"
+              data-name="${escapeHTML(`${brand.name} ${brand.description}`.toLowerCase())}">
+              <div>
+                <div class="brand-top">
+                  <div>
+                    <h3 class="brand-name">${escapeHTML(brand.name)}</h3>
+                    <span class="brand-category">Marca registrada</span>
+                  </div>
+
+                  <div class="brand-icon">
+                    ${
+                      brand.logo
+                        ? `<img src="${escapeHTML(brand.logo)}" alt="${escapeHTML(brand.name)}" />`
+                        : `<i class="fa-solid fa-tags"></i>`
+                    }
+                  </div>
+                </div>
+
+                <p>${escapeHTML(brand.description)}</p>
+
+                <div class="brand-tags">
+                  <span class="brand-tag">Industrial</span>
+                  <span class="brand-tag">Catálogo</span>
+                  <span class="brand-tag">Cotización</span>
+                </div>
+              </div>
+
+              <div class="brand-card-footer">
+                <span class="brand-status">Disponible</span>
+                <a href="contacto.html" class="brand-link">Consultar</a>
+              </div>
+            </article>
+          `)
+          .join("");
+      }
+
+      function getBrandLabel() {
+        if (currentBrand === "all") return "Todas";
+        const found = brands.find((brand) => brand.slug === currentBrand);
+        return found ? found.name : currentBrand;
       }
 
       function updateTags() {
         const tags = [
-          `<span class="active-filter-tag">Marca: ${getCurrentBrandLabel()}</span>`
+          `<span class="active-filter-tag">Marca: ${escapeHTML(getBrandLabel())}</span>`
         ];
 
         if (currentSearch) {
-          tags.push(`<span class="active-filter-tag">Búsqueda: ${currentSearch}</span>`);
+          tags.push(`<span class="active-filter-tag">Búsqueda: ${escapeHTML(currentSearch)}</span>`);
         }
 
-        activeFilters.innerHTML = tags.join("");
+        activeBrandFilters.innerHTML = tags.join("");
       }
 
       function filterBrands() {
         let visibleCount = 0;
 
-        brandCards.forEach((card) => {
-          const matchesBrand = currentBrand === "all" || card.dataset.brand === currentBrand;
-          const matchesSearch = currentSearch === "" || card.dataset.name.includes(currentSearch);
-          const shouldShow = matchesBrand && matchesSearch;
+        document.querySelectorAll(".catalog-brand").forEach((card) => {
+          const matchesBrand =
+            currentBrand === "all" || card.dataset.brand === currentBrand;
 
-          card.style.display = shouldShow ? "" : "none";
+          const matchesSearch =
+            currentSearch === "" || card.dataset.name.includes(currentSearch);
 
-          if (shouldShow) visibleCount++;
+          const show = matchesBrand && matchesSearch;
+
+          card.style.display = show ? "" : "none";
+
+          if (show) visibleCount++;
         });
 
         brandSummary.textContent =
-          visibleCount === 1
-            ? "Mostrando 1 marca."
-            : `Mostrando ${visibleCount} marcas.`;
+          visibleCount === 1 ? "Mostrando 1 marca." : `Mostrando ${visibleCount} marcas.`;
 
         emptyState.classList.toggle("show", visibleCount === 0);
         updateTags();
       }
 
-      filterButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          currentBrand = button.dataset.filterValue;
+      async function loadBrands() {
+        try {
+          if (!window.nymSupabase) {
+            throw new Error("Supabase no está configurado.");
+          }
 
-          filterButtons.forEach((item) => {
-            item.classList.toggle("active", item === button);
-          });
+          const { data, error } = await window.nymSupabase
+            .from("brands")
+            .select("*")
+            .eq("is_active", true)
+            .order("sort_order", { ascending: true })
+            .order("name", { ascending: true });
 
+          if (error) throw error;
+
+          brands = (data || []).map(normalizeBrand);
+
+          if (!brands.length) {
+            brandFilters.innerHTML = createFilterButton("all", "Todas las marcas", true);
+            brandLogoRow.innerHTML = "";
+            brandsGrid.innerHTML = "";
+            brandSummary.textContent = "Mostrando 0 marcas.";
+            emptyState.classList.add("show");
+            return;
+          }
+
+          renderFilters();
+          renderLogos();
+          renderCards();
           filterBrands();
-        });
-      });
+        } catch (error) {
+          console.error("Error cargando marcas:", error);
+          brandSummary.textContent = "No se pudieron cargar las marcas.";
+          emptyState.classList.add("show");
+        }
+      }
 
-      searchInput.addEventListener("input", () => {
-        currentSearch = searchInput.value.trim().toLowerCase();
+      brandSearch.addEventListener("input", () => {
+        currentSearch = brandSearch.value.trim().toLowerCase();
         filterBrands();
       });
 
-      filterBrands();
+      await loadBrands();
     });
   </script>
 </body>

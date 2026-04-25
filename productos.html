@@ -728,11 +728,17 @@
               <span class="stock ${getStockClass(product.stock)}">${escapeHTML(product.stock)}</span>
             </div>
 
-            <div class="product-actions">
-              <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
-              <a href="contacto.html" class="btn btn-whatsapp btn-sm">Consultar</a>
-            </div>
-          </div>
+<div class="product-actions">
+  <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
+  <a
+    href="https://wa.me/51966441035?text=${encodeURIComponent(`Hola, quiero consultar por el producto: ${product.name} - Marca: ${product.brand}`)}"
+    class="btn btn-whatsapp btn-sm"
+    target="_blank"
+    rel="noopener"
+  >
+    Consultar
+  </a>
+</div>
         `;
 
         return article;

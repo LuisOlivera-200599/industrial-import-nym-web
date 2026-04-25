@@ -667,6 +667,13 @@
       justify-content: flex-end;
     }
 
+    .brand-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
     .icon-action {
       width: 42px;
       height: 42px;
@@ -869,7 +876,7 @@
           <h2>Panel de control del catálogo</h2>
 
           <p>
-            Administra productos, stock, marcas y datos de empresa conectados a Supabase.
+            Administra productos, stock y datos de empresa conectados a Supabase.
             Lo que guardes aquí se reflejará en la web pública.
           </p>
         </div>
@@ -1002,7 +1009,8 @@
                         </div>
                       </div>
                     </div>
-                                        <div>
+
+                    <div>
                       <div class="form-step">
                         <span>3</span>
                         Imagen y disponibilidad
@@ -1089,18 +1097,64 @@
             </section>
 
             <section class="admin-section" id="section-brands">
-              <div class="inner-card">
-                <h4>Marcas registradas</h4>
-                <p>
-                  Aquí puedes revisar las marcas que existen actualmente en los productos registrados.
-                  Por ahora las marcas se gestionan desde el campo Marca al agregar o editar productos.
-                </p>
+              <div class="section-grid">
+                <div class="inner-card">
+                  <h4 id="brand-form-title">Agregar nueva marca</h4>
+                  <p>Registra marcas reales en Supabase para usarlas en el catálogo.</p>
 
-                <div class="products-list" id="brands-list"></div>
+                  <form class="admin-form" id="brand-form">
+                    <input type="hidden" id="brand-id" />
 
-                <div class="admin-help">
-                  <strong>Nota:</strong> si deseas una gestión avanzada de marcas con logo, descripción
-                  y orden personalizado, el siguiente paso es crear una tabla independiente de marcas en Supabase.
+                    <div class="field">
+                      <label for="brand-name">Nombre de la marca *</label>
+                      <input id="brand-name" type="text" placeholder="Ej: Schneider Electric" />
+                    </div>
+
+                    <div class="field">
+                      <label for="brand-logo">URL o ruta del logo</label>
+                      <input id="brand-logo" type="text" placeholder="imagenes/marcas/marcas-1.png" />
+                    </div>
+
+                    <div class="field">
+                      <label for="brand-description">Descripción</label>
+                      <textarea id="brand-description" placeholder="Ej: Marca especializada en soluciones eléctricas industriales."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="field">
+                        <label for="brand-sort">Orden</label>
+                        <input id="brand-sort" type="number" min="0" value="0" />
+                      </div>
+
+                      <div class="field">
+                        <label for="brand-active">Estado</label>
+                        <select id="brand-active">
+                          <option value="true">Activo</option>
+                          <option value="false">Inactivo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="notice" id="brand-notice"></div>
+
+                    <div class="admin-actions-row">
+                      <button type="submit" class="admin-btn admin-btn-primary" id="brand-save-btn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar marca
+                      </button>
+
+                      <button type="button" class="admin-btn admin-btn-light" id="brand-reset-btn">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Limpiar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="inner-card">
+                  <h4>Marcas registradas</h4>
+                  <p>Agrega, edita o desactiva marcas guardadas en Supabase.</p>
+                  <div class="products-list" id="brands-list"></div>
                 </div>
               </div>
             </section>
@@ -1252,6 +1306,7 @@
       const DEFAULT_IMAGE = "imagenes/productos/productos-1.png";
 
       let products = [];
+      let brands = [];
       let currentUser = null;
 
       const menuButtons = document.querySelectorAll("[data-section]");
@@ -1279,6 +1334,20 @@
 
       const categorySuggestions = document.getElementById("category-suggestions");
       const brandSuggestions = document.getElementById("brand-suggestions");
+
+      const brandForm = document.getElementById("brand-form");
+      const brandNotice = document.getElementById("brand-notice");
+      const brandFormTitle = document.getElementById("brand-form-title");
+      const brandSaveBtn = document.getElementById("brand-save-btn");
+      const brandResetBtn = document.getElementById("brand-reset-btn");
+      const brandFields = {
+        id: document.getElementById("brand-id"),
+        name: document.getElementById("brand-name"),
+        logo: document.getElementById("brand-logo"),
+        description: document.getElementById("brand-description"),
+        sort: document.getElementById("brand-sort"),
+        active: document.getElementById("brand-active")
+      };
 
       const companyForm = document.getElementById("company-form");
       const companyNotice = document.getElementById("company-notice");
@@ -1321,7 +1390,7 @@
         },
         brands: {
           title: "Gestión de marcas",
-          description: "Revisa las marcas usadas en los productos registrados."
+          description: "Agrega, edita y desactiva marcas guardadas en Supabase."
         },
         stock: {
           title: "Gestión rápida de stock",
@@ -1396,10 +1465,12 @@
       }
 
       function renderSuggestions() {
-        const brands = [...new Set(products.map((product) => product.brand).filter(Boolean))].sort();
+        const brandNames = brands.length
+          ? brands.filter((brand) => brand.is_active !== false).map((brand) => brand.name).filter(Boolean).sort()
+          : [...new Set(products.map((product) => product.brand).filter(Boolean))].sort();
         const categories = [...new Set(products.map((product) => product.category).filter(Boolean))].sort();
 
-        brandSuggestions.innerHTML = brands
+        brandSuggestions.innerHTML = brandNames
           .map((brand) => `<option value="${escapeHTML(brand)}"></option>`)
           .join("");
 
@@ -1408,30 +1479,86 @@
           .join("");
       }
 
+      function resetBrandForm() {
+        brandForm.reset();
+        brandFields.id.value = "";
+        brandFields.sort.value = 0;
+        brandFields.active.value = "true";
+        brandFormTitle.textContent = "Agregar nueva marca";
+        brandSaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar marca';
+      }
+
       function renderBrandsList() {
-        const activeProducts = products.filter((product) => product.is_active !== false);
-        const brands = [...new Set(activeProducts.map((product) => product.brand).filter(Boolean))].sort();
-
         brandsList.innerHTML = brands.length
-          ? brands.map((brand) => {
-              const count = activeProducts.filter((product) => product.brand === brand).length;
+          ? brands.map((brand) => `
+              <div class="simple-item">
+                <span>
+                  ${escapeHTML(brand.name || "Marca sin nombre")}
+                  ${brand.is_active === false ? '<span class="admin-tag stock-tag unavailable">Inactivo</span>' : ''}
+                </span>
 
-              return `
-                <div class="simple-item">
-                  <span>${escapeHTML(brand)}</span>
-                  <span class="admin-tag">
-                    ${count} producto${count === 1 ? "" : "s"}
-                  </span>
+                <div class="brand-actions">
+                  <button class="icon-action" type="button" data-brand-edit="${escapeHTML(brand.id)}" title="Editar marca">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+
+                  <button class="icon-action danger" type="button" data-brand-delete="${escapeHTML(brand.id)}" title="Desactivar marca">
+                    <i class="fa-solid fa-ban"></i>
+                  </button>
                 </div>
-              `;
-            }).join("")
+              </div>
+            `).join("")
           : `
             <div class="empty-state-admin">
               <i class="fa-solid fa-tags"></i>
               <h3>No hay marcas registradas</h3>
-              <p>Cuando agregues productos con marca, aquí aparecerán automáticamente.</p>
+              <p>Agrega tu primera marca desde el formulario.</p>
             </div>
           `;
+      }
+
+      async function loadBrands() {
+        const { data, error } = await window.nymSupabase
+          .from("brands")
+          .select("*")
+          .order("sort_order", { ascending: true })
+          .order("name", { ascending: true });
+
+        if (error) throw error;
+
+        brands = data || [];
+        renderBrandsList();
+        renderSuggestions();
+      }
+
+      async function saveBrand(payload, id) {
+        if (id) {
+          const { error } = await window.nymSupabase
+            .from("brands")
+            .update(payload)
+            .eq("id", id);
+
+          if (error) throw error;
+
+          showNotice(brandNotice, "Marca actualizada correctamente.");
+        } else {
+          const { error } = await window.nymSupabase
+            .from("brands")
+            .insert([payload]);
+
+          if (error) throw error;
+
+          showNotice(brandNotice, "Marca agregada correctamente.");
+        }
+      }
+
+      async function deactivateBrand(id) {
+        const { error } = await window.nymSupabase
+          .from("brands")
+          .update({ is_active: false })
+          .eq("id", id);
+
+        if (error) throw error;
       }
 
       function renderProductCard(product) {
@@ -1773,6 +1900,76 @@
       stockFilter.addEventListener("change", renderProducts);
       resetBtn.addEventListener("click", resetForm);
 
+      brandForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const payload = {
+          name: brandFields.name.value.trim(),
+          logo_url: brandFields.logo.value.trim(),
+          description: brandFields.description.value.trim(),
+          sort_order: Number(brandFields.sort.value || 0),
+          is_active: brandFields.active.value === "true"
+        };
+
+        if (!payload.name) {
+          showNotice(brandNotice, "Completa el nombre de la marca.", "error");
+          return;
+        }
+
+        brandSaveBtn.disabled = true;
+
+        try {
+          await saveBrand(payload, brandFields.id.value);
+          resetBrandForm();
+          await loadBrands();
+        } catch (error) {
+          console.error(error);
+          showNotice(brandNotice, error.message || "No se pudo guardar la marca.", "error");
+        } finally {
+          brandSaveBtn.disabled = false;
+        }
+      });
+
+      brandsList.addEventListener("click", async (event) => {
+        const editButton = event.target.closest("[data-brand-edit]");
+        const deleteButton = event.target.closest("[data-brand-delete]");
+
+        if (editButton) {
+          const brand = brands.find((item) => item.id === editButton.dataset.brandEdit);
+
+          if (!brand) return;
+
+          brandFields.id.value = brand.id;
+          brandFields.name.value = brand.name || "";
+          brandFields.logo.value = brand.logo_url || "";
+          brandFields.description.value = brand.description || "";
+          brandFields.sort.value = brand.sort_order || 0;
+          brandFields.active.value = String(brand.is_active !== false);
+
+          brandFormTitle.textContent = "Editar marca";
+          brandSaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar marca';
+        }
+
+        if (deleteButton) {
+          const brand = brands.find((item) => item.id === deleteButton.dataset.brandDelete);
+
+          if (!confirm(`¿Seguro que deseas desactivar "${brand?.name || "esta marca"}"?`)) {
+            return;
+          }
+
+          try {
+            await deactivateBrand(deleteButton.dataset.brandDelete);
+            await loadBrands();
+            showNotice(brandNotice, "Marca desactivada correctamente.");
+          } catch (error) {
+            console.error(error);
+            showNotice(brandNotice, error.message || "No se pudo desactivar la marca.", "error");
+          }
+        }
+      });
+
+      brandResetBtn.addEventListener("click", resetBrandForm);
+
       companyForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         await saveCompanySettings();
@@ -1806,6 +2003,7 @@
 
         if (!sessionOk) return;
 
+        await loadBrands();
         await loadProducts();
         await loadCompanySettings();
       } catch (error) {

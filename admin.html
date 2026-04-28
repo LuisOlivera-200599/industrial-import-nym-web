@@ -1,482 +1,2810 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>Panel Admin | Industrial Import NYM</title>
+  <title>Panel administrador | Industrial Import NYM</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <meta
+    name="description"
+    content="Panel administrador para gestionar productos, marcas, categorías, subcategorías, stock y datos de empresa de Industrial Import NYM."
+  />
 
-<style>
+  <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
 
-/* RESET */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Inter;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-/* LAYOUT */
-body{
-display:flex;
-height:100vh;
-background:#f5f7fb;
-}
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
 
-/* SIDEBAR */
-.sidebar{
-width:260px;
-background:#111827;
-color:#fff;
-padding:20px;
-display:flex;
-flex-direction:column;
-}
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
 
-.sidebar h2{
-margin-bottom:25px;
-}
+  <link rel="stylesheet" href="css/style.css" />
 
-.menu-btn{
-background:none;
-border:none;
-color:#cbd5e1;
-padding:12px;
-text-align:left;
-cursor:pointer;
-border-radius:8px;
-margin-bottom:5px;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(49, 87, 255, 0.12), transparent 28%),
+        linear-gradient(180deg, #f6f8fc 0%, #eef3fb 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-.menu-btn:hover{
-background:#1f2937;
-color:#fff;
-}
+    .admin-topbar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.05);
+    }
 
-.menu-btn.active{
-background:#3b82f6;
-color:#fff;
-}
+    .admin-container {
+      width: min(100% - 56px, 1280px);
+      margin-inline: auto;
+    }
 
-/* MAIN */
-.main{
-flex:1;
-display:flex;
-flex-direction:column;
-}
+    .admin-nav {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
 
-/* TOPBAR */
-.topbar{
-background:#fff;
-padding:15px 20px;
-border-bottom:1px solid #ddd;
-display:flex;
-justify-content:space-between;
-}
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-/* CONTENT */
-.content{
-padding:20px;
-overflow:auto;
-}
+    .admin-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 17px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #102a8c, #3157ff);
+      color: #ffffff;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      box-shadow: 0 16px 35px rgba(49, 87, 255, 0.25);
+    }
 
-/* DASHBOARD */
-.cards{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-}
+    .admin-brand h1 {
+      font-size: 1.05rem;
+      margin: 0;
+      line-height: 1.2;
+    }
 
-.card{
-padding:20px;
-border-radius:10px;
-color:#fff;
-font-weight:700;
-}
+    .admin-brand p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
 
-.blue{background:#3b82f6;}
-.green{background:#22c55e;}
-.yellow{background:#facc15;color:#000;}
-.red{background:#ef4444;}
+    .admin-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-/* SECTIONS */
-.section{
-display:none;
-}
+    .admin-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: 0.25s ease;
+      text-decoration: none;
+    }
 
-.section.active{
-display:block;
-}
+    .admin-btn-primary {
+      background: linear-gradient(135deg, #3157ff, #1741d8);
+      color: #ffffff;
+      box-shadow: 0 16px 35px rgba(49, 87, 255, 0.24);
+    }
 
-/* FORM */
-input, select, textarea{
-width:100%;
-padding:10px;
-margin-bottom:10px;
-border:1px solid #ddd;
-border-radius:6px;
-}
+    .admin-btn-light {
+      background: #eef3ff;
+      color: var(--primary);
+    }
 
-button.save{
-background:#3b82f6;
-color:#fff;
-border:none;
-padding:10px;
-border-radius:6px;
-cursor:pointer;
-}
+    .admin-btn-danger {
+      background: #fff1f2;
+      color: #be123c;
+    }
 
-button.delete{
-background:#ef4444;
-color:#fff;
-border:none;
-padding:5px 8px;
-border-radius:6px;
-cursor:pointer;
-}
+    .admin-btn:hover {
+      transform: translateY(-2px);
+    }
 
-</style>
+    .admin-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .admin-page {
+      padding: 34px 0 74px;
+    }
+
+    .admin-hero {
+      background:
+        linear-gradient(135deg, rgba(16, 42, 140, 0.96), rgba(49, 87, 255, 0.94)),
+        url("imagenes/banners/banner-1.png") center/cover;
+      color: #ffffff;
+      border-radius: 30px;
+      padding: 34px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 26px;
+      align-items: center;
+      box-shadow: 0 26px 70px rgba(49, 87, 255, 0.22);
+      margin-bottom: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .admin-hero::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      right: -80px;
+      bottom: -90px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .admin-hero-content,
+    .admin-hero-card {
+      position: relative;
+      z-index: 1;
+    }
+
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .admin-hero h2 {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+      margin: 0 0 14px;
+      max-width: 13ch;
+    }
+
+    .admin-hero p {
+      color: rgba(255, 255, 255, 0.84);
+      line-height: 1.7;
+      max-width: 72ch;
+      margin: 0;
+    }
+
+    .admin-hero-card {
+      width: 270px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 24px;
+      padding: 22px;
+      backdrop-filter: blur(16px);
+    }
+
+    .admin-hero-card h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      color: #ffffff;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-card span {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .stat-card strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 1.9rem;
+      letter-spacing: -0.04em;
+      color: var(--text);
+    }
+
+    .stat-card i {
+      color: var(--primary);
+      float: right;
+      font-size: 1.2rem;
+    }
+
+    .admin-workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+
+    .admin-sidebar,
+    .admin-main-panel {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .admin-sidebar {
+      padding: 22px;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .panel-title i {
+      color: var(--primary);
+    }
+
+    .panel-title h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .admin-menu-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .admin-menu-btn {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #fcfcfd;
+      border-radius: 14px;
+      padding: 13px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font: inherit;
+      color: var(--text);
+      font-weight: 800;
+      cursor: pointer;
+      text-align: left;
+      text-decoration: none;
+      transition: 0.25s ease;
+    }
+
+    .admin-menu-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateX(2px);
+    }
+
+    .admin-menu-btn.active {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #eef3ff;
+      box-shadow: 0 0 0 3px rgba(49, 87, 255, 0.08);
+    }
+
+    .sidebar-help {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #f8fbff;
+      border: 1px dashed #cdd9f8;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    .admin-main-panel {
+      overflow: hidden;
+    }
+
+    .main-panel-header {
+      padding: 22px 26px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+    }
+
+    .main-panel-header h3 {
+      margin: 0 0 8px;
+      font-size: 1.25rem;
+    }
+
+    .main-panel-header p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 75ch;
+    }
+
+    .main-panel-body {
+      padding: 26px;
+    }
+
+    .admin-section {
+      display: none;
+    }
+
+    .admin-section.active {
+      display: block;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(320px, 400px) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .inner-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .inner-card h4 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .inner-card p {
+      color: var(--muted);
+      margin: 0 0 16px;
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .admin-form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .form-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+      font-weight: 900;
+      color: var(--text);
+      font-size: 0.92rem;
+    }
+
+    .form-step span {
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: #eef3ff;
+      color: var(--primary);
+      font-size: 0.82rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .field small {
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.45;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 14px 15px;
+      font: inherit;
+      outline: none;
+      background: #fcfcfd;
+      transition: 0.25s ease;
+      color: var(--text);
+    }
+
+    .field textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
+      background: #ffffff;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .image-helper {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border: 1px dashed #cdd9f8;
+      border-radius: 18px;
+      background: #f8fbff;
+    }
+
+    .image-preview {
+      width: 96px;
+      height: 80px;
+      border-radius: 15px;
+      object-fit: cover;
+      background: #ffffff;
+      border: 1px solid var(--border);
+    }
+
+    .file-input-wrap {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px dashed #cdd9f8;
+      border-radius: 18px;
+      background: #f8fbff;
+    }
+
+    .file-input-wrap input[type="file"] {
+      background: #ffffff;
+      cursor: pointer;
+    }
+
+    .upload-status {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .upload-status.success {
+      color: #047857;
+    }
+
+    .upload-status.error {
+      color: #be123c;
+    }
+
+    .admin-actions-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .admin-actions-row .admin-btn {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .notice {
+      display: none;
+      padding: 13px 15px;
+      border-radius: 15px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .notice.show {
+      display: block;
+    }
+
+    .notice.success {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #bbf7d0;
+    }
+
+    .notice.error {
+      background: #fff1f2;
+      color: #be123c;
+      border: 1px solid #fecdd3;
+    }
+
+    .tools-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .admin-search {
+      position: relative;
+      flex: 1;
+      min-width: min(100%, 280px);
+    }
+
+    .admin-search i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+
+    .admin-search input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 13px 15px 13px 43px;
+      font: inherit;
+      background: #fcfcfd;
+      outline: none;
+    }
+
+    .filter-select {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 13px 16px;
+      font: inherit;
+      background: #ffffff;
+      color: var(--text);
+      outline: none;
+      font-weight: 700;
+    }
+
+    .products-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .admin-product {
+      display: grid;
+      grid-template-columns: 104px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: #fcfcfd;
+      transition: 0.25s ease;
+    }
+
+    .admin-product:hover {
+      background: #ffffff;
+      border-color: rgba(49, 87, 255, 0.25);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-2px);
+    }
+
+    .admin-product img {
+      width: 104px;
+      height: 88px;
+      border-radius: 16px;
+      object-fit: cover;
+      background: #ffffff;
+      border: 1px solid var(--border);
+    }
+
+    .admin-product h4 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+    }
+
+    .admin-product p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+      max-width: 72ch;
+    }
+
+    .admin-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .admin-tag {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 0.77rem;
+      font-weight: 800;
+    }
+
+    .stock-tag {
+      border: none;
+    }
+
+    .stock-tag.available {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .stock-tag.preorder {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+
+    .stock-tag.unavailable {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .product-actions,
+    .brand-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .icon-action {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      border: none;
+      cursor: pointer;
+      transition: 0.25s ease;
+      background: #eef3ff;
+      color: var(--primary);
+    }
+
+    .icon-action.danger {
+      background: #fff1f2;
+      color: #be123c;
+    }
+
+    .simple-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: #fcfcfd;
+      font-weight: 800;
+    }
+
+    .simple-item small {
+      display: block;
+      color: var(--muted);
+      font-weight: 700;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .empty-state-admin {
+      padding: 42px 24px;
+      border-radius: 22px;
+      border: 1px dashed #cdd9f8;
+      background: #f8fbff;
+      text-align: center;
+    }
+
+    .empty-state-admin i {
+      font-size: 2.2rem;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+
+    .empty-state-admin h3 {
+      margin: 0 0 8px;
+    }
+
+    .empty-state-admin p {
+      margin: 0 auto;
+      color: var(--muted);
+      max-width: 52ch;
+      line-height: 1.6;
+    }
+
+    .admin-help {
+      padding: 18px;
+      margin-top: 18px;
+      border: 1px dashed #cdd9f8;
+      border-radius: 18px;
+      background: #f8fbff;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1100px) {
+      .admin-hero,
+      .admin-workspace,
+      .section-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-hero-card {
+        width: 100%;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .admin-product {
+        grid-template-columns: 92px 1fr;
+      }
+
+      .product-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .admin-container {
+        width: min(100% - 28px, 1280px);
+      }
+
+      .admin-nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px 0;
+      }
+
+      .admin-nav-actions {
+        width: 100%;
+      }
+
+      .admin-nav-actions .admin-btn {
+        flex: 1;
+      }
+
+      .admin-page {
+        padding: 24px 0 56px;
+      }
+
+      .admin-hero,
+      .main-panel-header,
+      .main-panel-body,
+      .inner-card,
+      .admin-sidebar {
+        padding: 20px;
+      }
+
+      .admin-hero h2 {
+        font-size: 2rem;
+      }
+
+      .stats-grid,
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .image-helper {
+        grid-template-columns: 1fr;
+      }
+
+      .image-preview {
+        width: 100%;
+        height: 170px;
+      }
+
+      .admin-product {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-product img {
+        width: 100%;
+        height: 180px;
+      }
+
+      .tools-bar {
+        flex-direction: column;
+      }
+
+      .filter-select {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-
 <body>
-
-<!-- SIDEBAR -->
-<div class="sidebar">
-
-<h2>Admin Panel</h2>
-
-<button class="menu-btn active" onclick="openSection('dashboard')">Dashboard</button>
-<button class="menu-btn" onclick="openSection('productos')">Productos</button>
-<button class="menu-btn" onclick="openSection('marcas')">Marcas</button>
-<button class="menu-btn" onclick="openSection('categorias')">Categorías</button>
-<button class="menu-btn" onclick="openSection('subcategorias')">Subcategorías</button>
-
-<button class="menu-btn" onclick="logout()">Salir</button>
-
-</div>
-
-<!-- MAIN -->
-<div class="main">
-
-<div class="topbar">
-<strong id="title">Dashboard</strong>
-</div>
-
-<div class="content">
-
-<!-- DASHBOARD -->
-<div id="dashboard" class="section active">
-<div class="cards">
-<div class="card blue">Productos <span id="statProducts">0</span></div>
-<div class="card green">Marcas <span id="statBrands">0</span></div>
-<div class="card yellow">Categorías <span id="statCategories">0</span></div>
-<div class="card red">Subcategorías <span id="statSubcategories">0</span></div>
-</div>
-</div>
-<!-- PRODUCTOS -->
-<div id="productos" class="section">
-
-<h2>Gestión de Productos</h2>
-
-<input id="prodNombre" placeholder="Nombre producto">
-<select id="prodMarca"></select>
-<select id="prodCategoria"></select>
-<select id="prodSubcategoria"></select>
-
-<input type="file" id="prodImagen">
-
-<img id="previewImg" style="width:120px;margin:10px 0;display:block;">
-
-<textarea id="prodDesc" placeholder="Descripción"></textarea>
-
-<button class="save" onclick="guardarProducto()">Guardar producto</button>
-
-<hr>
-
-<div id="listaProductos"></div>
-
-</div>
-<!-- MARCAS -->
-<div id="marcas" class="section">
-<h2>Marcas</h2>
-
-<input id="marcaNombre" placeholder="Nombre marca">
-<button class="save" onclick="guardarMarca()">Guardar</button>
-
-<div id="listaMarcas"></div>
-</div>
-
-<!-- CATEGORÍAS -->
-<div id="categorias" class="section">
-<h2>Categorías</h2>
-
-<input id="catNombre" placeholder="Nombre categoría">
-<button class="save" onclick="guardarCategoria()">Guardar</button>
-
-<div id="listaCategorias"></div>
-</div>
-
-<!-- SUBCATEGORÍAS -->
-<div id="subcategorias" class="section">
-<h2>Subcategorías</h2>
-
-<input id="subNombre" placeholder="Nombre subcategoría">
-<select id="subCategoria"></select>
-
-<button class="save" onclick="guardarSubcategoria()">Guardar</button>
-
-<div id="listaSubcategorias"></div>
-</div>
-
-</div> <!-- cierre content -->
-</div> <!-- cierre main -->
-  <!-- SUPABASE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js"></script>
-
-<script>
-
-const supabase = window.nymSupabase;
-
-let productos = [];
-let marcas = [];
-let categorias = [];
-let subcategorias = [];
-
-let imagenFile = null;
-
-/* =============================
-   NAVEGACIÓN
-============================= */
-
-function openSection(id){
-  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  document.getElementById("title").innerText = id.toUpperCase();
-}
-
-/* =============================
-   AUTH
-============================= */
-
-async function logout(){
-  await supabase.auth.signOut();
-  location.href="admin-login.html";
-}
-
-async function checkAuth(){
-  const { data } = await supabase.auth.getSession();
-  if(!data.session) location.href="admin-login.html";
-}
-
-/* =============================
-   UPLOAD IMAGEN (SUPABASE)
-============================= */
-
-document.getElementById("prodImagen").addEventListener("change", e=>{
-  imagenFile = e.target.files[0];
-
-  const reader = new FileReader();
-  reader.onload = () => {
-    document.getElementById("previewImg").src = reader.result;
-  };
-  reader.readAsDataURL(imagenFile);
-});
-
-async function subirImagen(){
-  if(!imagenFile) return "";
-
-  const path = "productos/" + Date.now() + "_" + imagenFile.name;
-
-  await supabase.storage
-    .from("product-images")
-    .upload(path, imagenFile);
-
-  const { data } = supabase.storage
-    .from("product-images")
-    .getPublicUrl(path);
-
-  return data.publicUrl;
-}
-
-/* =============================
-   CRUD PRODUCTOS
-============================= */
-
-async function guardarProducto(){
-
-  const nombre = document.getElementById("prodNombre").value;
-  const marca = document.getElementById("prodMarca").value;
-  const categoria = document.getElementById("prodCategoria").value;
-  const subcategoria = document.getElementById("prodSubcategoria").value;
-  const desc = document.getElementById("prodDesc").value;
-
-  if(!nombre) return alert("Nombre requerido");
-
-  const imagenUrl = await subirImagen();
-
-  await supabase.from("products").insert([{
-    name:nombre,
-    brand_id:marca,
-    category_id:categoria,
-    subcategory_id:subcategoria,
-    description:desc,
-    image_url:imagenUrl
-  }]);
-
-  alert("Producto guardado");
-  loadAll();
-}
-
-async function eliminarProducto(id){
-  if(!confirm("Eliminar producto?")) return;
-
-  await supabase.from("products").delete().eq("id",id);
-  loadAll();
-}
-
-/* =============================
-   CRUD MARCAS
-============================= */
-
-async function guardarMarca(){
-  const nombre = document.getElementById("marcaNombre").value;
-
-  await supabase.from("brands").insert([{name:nombre}]);
-  loadAll();
-}
-
-async function eliminarMarca(id){
-  await supabase.from("brands").delete().eq("id",id);
-  loadAll();
-}
-
-/* =============================
-   CRUD CATEGORIAS
-============================= */
-
-async function guardarCategoria(){
-  const nombre = document.getElementById("catNombre").value;
-
-  await supabase.from("categories").insert([{name:nombre}]);
-  loadAll();
-}
-
-async function eliminarCategoria(id){
-  await supabase.from("categories").delete().eq("id",id);
-  loadAll();
-}
-
-/* =============================
-   CRUD SUBCATEGORIAS
-============================= */
-
-async function guardarSubcategoria(){
-  const nombre = document.getElementById("subNombre").value;
-  const categoria = document.getElementById("subCategoria").value;
-
-  await supabase.from("subcategories").insert([{
-    name:nombre,
-    category_id:categoria
-  }]);
-
-  loadAll();
-}
-
-async function eliminarSubcategoria(id){
-  await supabase.from("subcategories").delete().eq("id",id);
-  loadAll();
-}
-
-/* =============================
-   LOAD DATA
-============================= */
-
-async function loadAll(){
-
-  const { data:p } = await supabase.from("products").select("*");
-  const { data:m } = await supabase.from("brands").select("*");
-  const { data:c } = await supabase.from("categories").select("*");
-  const { data:s } = await supabase.from("subcategories").select("*");
-
-  productos = p || [];
-  marcas = m || [];
-  categorias = c || [];
-  subcategorias = s || [];
-
-  renderAll();
-}
-
-/* =============================
-   RENDER
-============================= */
-
-function renderAll(){
-
-  document.getElementById("statProducts").innerText = productos.length;
-  document.getElementById("statBrands").innerText = marcas.length;
-  document.getElementById("statCategories").innerText = categorias.length;
-  document.getElementById("statSubcategories").innerText = subcategorias.length;
-
-  document.getElementById("listaProductos").innerHTML = productos.map(p=>`
-    <div style="background:#fff;padding:10px;margin:5px;border-radius:6px">
-      ${p.name}
-      <button class="delete" onclick="eliminarProducto('${p.id}')">X</button>
+  <header class="admin-topbar">
+    <div class="admin-container admin-nav">
+      <div class="admin-brand">
+        <div class="admin-logo">NYM</div>
+        <div>
+          <h1>Industrial Import NYM</h1>
+          <p>Panel administrador del catálogo</p>
+        </div>
+      </div>
+
+      <div class="admin-nav-actions">
+        <a href="index.html" class="admin-btn admin-btn-light">
+          <i class="fa-solid fa-house"></i>
+          Inicio
+        </a>
+
+        <a href="productos.html" class="admin-btn admin-btn-light">
+          <i class="fa-solid fa-eye"></i>
+          Ver catálogo
+        </a>
+
+        <button type="button" class="admin-btn admin-btn-danger" id="logout-btn">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Cerrar sesión
+        </button>
+      </div>
     </div>
-  `).join("");
+  </header>
 
-  document.getElementById("listaMarcas").innerHTML = marcas.map(m=>`
-    <div>${m.name}
-    <button onclick="eliminarMarca('${m.id}')">X</button></div>
-  `).join("");
+  <main class="admin-page">
+    <div class="admin-container">
+      <section class="admin-hero">
+        <div class="admin-hero-content">
+          <span class="admin-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            Gestión interna
+          </span>
 
-  document.getElementById("listaCategorias").innerHTML = categorias.map(c=>`
-    <div>${c.name}
-    <button onclick="eliminarCategoria('${c.id}')">X</button></div>
-  `).join("");
+          <h2>Panel de control del catálogo</h2>
 
-  document.getElementById("listaSubcategorias").innerHTML = subcategorias.map(s=>`
-    <div>${s.name}
-    <button onclick="eliminarSubcategoria('${s.id}')">X</button></div>
-  `).join("");
+          <p>
+            Administra productos, marcas, categorías, subcategorías, stock y datos de empresa conectados a Supabase.
+            Lo que guardes aquí se reflejará en la web pública.
+          </p>
+        </div>
 
-  llenarSelects();
-}
+        <div class="admin-hero-card">
+          <h3>Storage activo</h3>
+          <p>
+            Puedes subir imágenes desde tu PC y guardarlas en Supabase Storage.
+          </p>
+        </div>
+      </section>
 
-/* =============================
-   SELECTS
-============================= */
+      <section class="stats-grid">
+        <article class="stat-card">
+          <i class="fa-solid fa-box"></i>
+          <span>Productos registrados</span>
+          <strong id="stat-products">0</strong>
+        </article>
 
-function llenarSelects(){
+        <article class="stat-card">
+          <i class="fa-solid fa-tags"></i>
+          <span>Marcas registradas</span>
+          <strong id="stat-brands">0</strong>
+        </article>
 
-  document.getElementById("prodMarca").innerHTML =
-    marcas.map(m=>`<option value="${m.id}">${m.name}</option>`).join("");
+        <article class="stat-card">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Categorías registradas</span>
+          <strong id="stat-categories">0</strong>
+        </article>
 
-  document.getElementById("prodCategoria").innerHTML =
-    categorias.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
+        <article class="stat-card">
+          <i class="fa-solid fa-sitemap"></i>
+          <span>Subcategorías registradas</span>
+          <strong id="stat-subcategories">0</strong>
+        </article>
+      </section>
 
-  document.getElementById("subCategoria").innerHTML =
-    categorias.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
+      <section class="admin-workspace">
+        <aside class="admin-sidebar">
+          <div class="panel-title">
+            <i class="fa-solid fa-sliders"></i>
+            <h3>Opciones admin</h3>
+          </div>
 
-  document.getElementById("prodSubcategoria").innerHTML =
-    subcategorias.map(s=>`<option value="${s.id}">${s.name}</option>`).join("");
-}
+          <div class="admin-menu-list">
+            <button class="admin-menu-btn active" type="button" data-section="products">
+              <span>Productos</span>
+              <i class="fa-solid fa-box"></i>
+            </button>
 
-/* =============================
-   INIT
-============================= */
+            <button class="admin-menu-btn" type="button" data-section="brands">
+              <span>Marcas</span>
+              <i class="fa-solid fa-tags"></i>
+            </button>
 
-async function init(){
-  await checkAuth();
-  await loadAll();
-}
+            <button class="admin-menu-btn" type="button" data-section="categories">
+              <span>Categorías</span>
+              <i class="fa-solid fa-layer-group"></i>
+            </button>
 
-init();
+            <button class="admin-menu-btn" type="button" data-section="subcategories">
+              <span>Subcategorías</span>
+              <i class="fa-solid fa-sitemap"></i>
+            </button>
 
-</script>
+            <button class="admin-menu-btn" type="button" data-section="stock">
+              <span>Stock</span>
+              <i class="fa-solid fa-circle-check"></i>
+            </button>
 
+            <button class="admin-menu-btn" type="button" data-section="company">
+              <span>Datos de empresa</span>
+              <i class="fa-solid fa-building"></i>
+            </button>
+
+            <button class="admin-menu-btn" type="button" data-section="help">
+              <span>Ayuda</span>
+              <i class="fa-solid fa-circle-info"></i>
+            </button>
+
+            <a href="productos.html" class="admin-menu-btn">
+              <span>Ver catálogo</span>
+              <i class="fa-solid fa-eye"></i>
+            </a>
+          </div>
+
+          <div class="sidebar-help">
+            Administra catálogo, imágenes, marcas, categorías, subcategorías, stock y datos principales sin tocar código.
+          </div>
+        </aside>
+
+        <section class="admin-main-panel">
+          <div class="main-panel-header">
+            <h3 id="section-title">Gestión de productos</h3>
+            <p id="section-description">
+              Agrega, edita, elimina y revisa los productos que aparecerán en el catálogo público.
+            </p>
+          </div>
+
+          <div class="main-panel-body">
+            <section class="admin-section active" id="section-products">
+              <div class="section-grid">
+                <div class="inner-card">
+                  <h4 id="form-title">Agregar nuevo producto</h4>
+                  <p>Llena los campos principales. Puedes subir una imagen desde tu PC o pegar una URL manual.</p>
+
+                  <form class="admin-form" id="product-form">
+                    <input type="hidden" id="product-id" />
+
+                    <div>
+                      <div class="form-step">
+                        <span>1</span>
+                        Información principal
+                      </div>
+
+                      <div class="field">
+                        <label for="product-name">Nombre del producto *</label>
+                        <input id="product-name" type="text" placeholder="Ej: Interruptor automático industrial" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="form-step">
+                        <span>2</span>
+                        Clasificación
+                      </div>
+
+                      <div class="form-row">
+                        <div class="field">
+                          <label for="product-brand">Marca *</label>
+                          <select id="product-brand">
+                            <option value="">Selecciona una marca</option>
+                          </select>
+                        </div>
+
+                        <div class="field">
+                          <label for="product-category">Categoría *</label>
+                          <select id="product-category">
+                            <option value="">Selecciona una categoría</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="field" style="margin-top: 14px;">
+                        <label for="product-subcategory">Subcategoría</label>
+                        <select id="product-subcategory">
+                          <option value="">Selecciona una subcategoría</option>
+                        </select>
+                        <small>La lista cambia según la categoría seleccionada.</small>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="form-step">
+                        <span>3</span>
+                        Imagen y disponibilidad
+                      </div>
+
+                      <div class="field">
+                        <label for="product-file">Subir imagen desde PC</label>
+                        <div class="file-input-wrap">
+                          <input id="product-file" type="file" accept="image/*" />
+                          <span class="upload-status" id="upload-status">
+                            Selecciona una imagen. Se subirá al guardar el producto.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="field">
+                        <label for="product-image">URL o ruta de imagen</label>
+                        <input id="product-image" type="text" placeholder="Se llenará automáticamente al subir imagen" />
+                        <small>También puedes pegar una URL externa o ruta manual.</small>
+                      </div>
+
+                      <div class="image-helper">
+                        <img
+                          src="imagenes/productos/productos-1.png"
+                          alt="Vista previa"
+                          class="image-preview"
+                          id="image-preview"
+                        />
+                        <p>
+                          <strong>Vista previa:</strong> aquí verás la imagen antes de guardar.
+                        </p>
+                      </div>
+
+                      <div class="field">
+                        <label for="product-stock">Estado de stock</label>
+                        <select id="product-stock">
+                          <option value="Disponible">Disponible</option>
+                          <option value="Bajo pedido">Bajo pedido</option>
+                          <option value="Sin stock">Sin stock</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="form-step">
+                        <span>4</span>
+                        Descripción comercial
+                      </div>
+
+                      <div class="field">
+                        <label for="product-description">Descripción</label>
+                        <textarea id="product-description" placeholder="Ej: Producto orientado a control y protección industrial."></textarea>
+                      </div>
+                    </div>
+
+                    <div class="notice" id="notice"></div>
+
+                    <div class="admin-actions-row">
+                      <button type="submit" class="admin-btn admin-btn-primary" id="save-btn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar producto
+                      </button>
+
+                      <button type="button" class="admin-btn admin-btn-light" id="reset-btn">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Limpiar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="inner-card">
+                  <h4>Productos registrados</h4>
+                  <p>Busca, edita o elimina productos del catálogo.</p>
+
+                  <div class="tools-bar">
+                    <div class="admin-search">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                      <input id="admin-search" type="text" placeholder="Buscar por nombre, marca, categoría o subcategoría..." />
+                    </div>
+
+                    <select id="stock-filter" class="filter-select">
+                      <option value="all">Todos los estados</option>
+                      <option value="Disponible">Disponible</option>
+                      <option value="Bajo pedido">Bajo pedido</option>
+                      <option value="Sin stock">Sin stock</option>
+                    </select>
+                  </div>
+
+                  <div class="products-list" id="product-list"></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="admin-section" id="section-brands">
+              <div class="section-grid">
+                <div class="inner-card">
+                  <h4 id="brand-form-title">Agregar nueva marca</h4>
+                  <p>Registra marcas reales en Supabase para usarlas en el catálogo.</p>
+
+                  <form class="admin-form" id="brand-form">
+                    <input type="hidden" id="brand-id" />
+
+                    <div class="field">
+                      <label for="brand-name">Nombre de la marca *</label>
+                      <input id="brand-name" type="text" placeholder="Ej: Schneider Electric" />
+                    </div>
+
+                    <div class="field">
+                      <label for="brand-file">Subir logo desde PC</label>
+                      <div class="file-input-wrap">
+                        <input id="brand-file" type="file" accept="image/*" />
+                        <span class="upload-status" id="brand-upload-status">
+                          Selecciona un logo. Se subirá al guardar la marca.
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label for="brand-logo">URL o ruta del logo</label>
+                      <input id="brand-logo" type="text" placeholder="Se llenará automáticamente al subir logo" />
+                      <small>También puedes pegar una URL externa o ruta manual.</small>
+                    </div>
+
+                    <div class="field">
+                      <label for="brand-description">Descripción</label>
+                      <textarea id="brand-description" placeholder="Ej: Marca especializada en soluciones eléctricas industriales."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="field">
+                        <label for="brand-sort">Orden</label>
+                        <input id="brand-sort" type="number" min="0" value="0" />
+                      </div>
+
+                      <div class="field">
+                        <label for="brand-active">Estado</label>
+                        <select id="brand-active">
+                          <option value="true">Activo</option>
+                          <option value="false">Inactivo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="notice" id="brand-notice"></div>
+
+                    <div class="admin-actions-row">
+                      <button type="submit" class="admin-btn admin-btn-primary" id="brand-save-btn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar marca
+                      </button>
+
+                      <button type="button" class="admin-btn admin-btn-light" id="brand-reset-btn">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Limpiar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="inner-card">
+                  <h4>Marcas registradas</h4>
+                  <p>Agrega, edita o elimina marcas guardadas en Supabase.</p>
+                  <div class="products-list" id="brands-list"></div>
+                </div>
+              </div>
+            </section>
+                        <section class="admin-section" id="section-categories">
+              <div class="section-grid">
+                <div class="inner-card">
+                  <h4 id="category-form-title">Agregar nueva categoría</h4>
+                  <p>Registra categorías reales en Supabase para organizar el catálogo.</p>
+
+                  <form class="admin-form" id="category-form">
+                    <input type="hidden" id="category-id" />
+
+                    <div class="field">
+                      <label for="category-name">Nombre de la categoría *</label>
+                      <input id="category-name" type="text" placeholder="Ej: Automatización" />
+                    </div>
+
+                    <div class="field">
+                      <label for="category-description">Descripción</label>
+                      <textarea id="category-description" placeholder="Ej: Productos orientados a control, procesos y automatización industrial."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="field">
+                        <label for="category-icon">Ícono FontAwesome</label>
+                        <input id="category-icon" type="text" placeholder="fa-solid fa-microchip" />
+                        <small>Ejemplo: fa-solid fa-bolt, fa-solid fa-plug, fa-solid fa-layer-group.</small>
+                      </div>
+
+                      <div class="field">
+                        <label for="category-sort">Orden</label>
+                        <input id="category-sort" type="number" min="0" value="0" />
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label for="category-active">Estado</label>
+                      <select id="category-active">
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                      </select>
+                    </div>
+
+                    <div class="notice" id="category-notice"></div>
+
+                    <div class="admin-actions-row">
+                      <button type="submit" class="admin-btn admin-btn-primary" id="category-save-btn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar categoría
+                      </button>
+
+                      <button type="button" class="admin-btn admin-btn-light" id="category-reset-btn">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Limpiar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="inner-card">
+                  <h4>Categorías registradas</h4>
+                  <p>Agrega, edita o elimina categorías guardadas en Supabase.</p>
+                  <div class="products-list" id="categories-list"></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="admin-section" id="section-subcategories">
+              <div class="section-grid">
+                <div class="inner-card">
+                  <h4 id="subcategory-form-title">Agregar nueva subcategoría</h4>
+                  <p>Registra subcategorías relacionadas a una categoría principal.</p>
+
+                  <form class="admin-form" id="subcategory-form">
+                    <input type="hidden" id="subcategory-id" />
+
+                    <div class="field">
+                      <label for="subcategory-name">Nombre de la subcategoría *</label>
+                      <input id="subcategory-name" type="text" placeholder="Ej: Interruptores, Contactores, Sensores" />
+                    </div>
+
+                    <div class="field">
+                      <label for="subcategory-category">Categoría principal *</label>
+                      <select id="subcategory-category">
+                        <option value="">Selecciona una categoría</option>
+                      </select>
+                    </div>
+
+                    <div class="field">
+                      <label for="subcategory-description">Descripción</label>
+                      <textarea id="subcategory-description" placeholder="Ej: Productos eléctricos de protección y control."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="field">
+                        <label for="subcategory-sort">Orden</label>
+                        <input id="subcategory-sort" type="number" min="0" value="0" />
+                      </div>
+
+                      <div class="field">
+                        <label for="subcategory-active">Estado</label>
+                        <select id="subcategory-active">
+                          <option value="true">Activo</option>
+                          <option value="false">Inactivo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="notice" id="subcategory-notice"></div>
+
+                    <div class="admin-actions-row">
+                      <button type="submit" class="admin-btn admin-btn-primary" id="subcategory-save-btn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar subcategoría
+                      </button>
+
+                      <button type="button" class="admin-btn admin-btn-light" id="subcategory-reset-btn">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Limpiar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="inner-card">
+                  <h4>Subcategorías registradas</h4>
+                  <p>Agrega, edita o elimina subcategorías guardadas en Supabase.</p>
+                  <div class="products-list" id="subcategories-list"></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="admin-section" id="section-stock">
+              <div class="inner-card">
+                <h4>Gestión rápida de stock</h4>
+                <p>Usa el botón editar en Productos para cambiar disponibilidad.</p>
+                <div class="products-list" id="stock-list"></div>
+              </div>
+            </section>
+
+            <section class="admin-section" id="section-company">
+              <div class="section-grid">
+                <div class="inner-card">
+                  <h4>Editar datos de empresa</h4>
+                  <p>Actualiza la información de contacto que se mostrará en la web pública.</p>
+
+                  <form class="admin-form" id="company-form">
+                    <input type="hidden" id="company-id" />
+
+                    <div>
+                      <div class="form-step">
+                        <span>1</span>
+                        Contacto principal
+                      </div>
+
+                      <div class="form-row">
+                        <div class="field">
+                          <label for="company-phone">Teléfono visible</label>
+                          <input id="company-phone" type="text" placeholder="966 441 035" />
+                        </div>
+
+                        <div class="field">
+                          <label for="company-phone-raw">Teléfono para WhatsApp</label>
+                          <input id="company-phone-raw" type="text" placeholder="51966441035" />
+                          <small>Usa código de país. Ejemplo Perú: 51 + número.</small>
+                        </div>
+                      </div>
+
+                      <div class="field">
+                        <label for="company-email">Correo</label>
+                        <input id="company-email" type="email" placeholder="correo@empresa.com" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="form-step">
+                        <span>2</span>
+                        Ubicación y atención
+                      </div>
+
+                      <div class="field">
+                        <label for="company-address">Dirección</label>
+                        <input id="company-address" type="text" placeholder="Av. Republica de Argentina 211, Lima 15079" />
+                      </div>
+
+                      <div class="field">
+                        <label for="company-hours">Horario</label>
+                        <input id="company-hours" type="text" placeholder="Lun - Sáb / 10:00 am - 5:00 pm" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="form-step">
+                        <span>3</span>
+                        Enlaces
+                      </div>
+
+                      <div class="field">
+                        <label for="company-whatsapp-url">Link de WhatsApp</label>
+                        <input id="company-whatsapp-url" type="text" placeholder="https://wa.me/51966441035" />
+                      </div>
+
+                      <div class="field">
+                        <label for="company-map-url">Link de Google Maps</label>
+                        <input id="company-map-url" type="text" placeholder="https://www.google.com/maps/place/..." />
+                      </div>
+
+                      <div class="field">
+                        <label for="company-map-embed">Embed de Google Maps</label>
+                        <textarea id="company-map-embed" placeholder="Pega aquí el link embed o iframe del mapa"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="notice" id="company-notice"></div>
+
+                    <div class="admin-actions-row">
+                      <button type="submit" class="admin-btn admin-btn-primary" id="company-save-btn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar datos
+                      </button>
+
+                      <button type="button" class="admin-btn admin-btn-light" id="company-reload-btn">
+                        <i class="fa-solid fa-rotate"></i>
+                        Recargar datos
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="inner-card">
+                  <h4>Vista rápida</h4>
+                  <p>Así quedarán guardados los datos principales de contacto.</p>
+
+                  <div class="admin-help">
+                    <strong>Teléfono:</strong>
+                    <span id="preview-company-phone">-</span>
+
+                    <br /><br />
+
+                    <strong>Correo:</strong>
+                    <span id="preview-company-email">-</span>
+
+                    <br /><br />
+
+                    <strong>Dirección:</strong>
+                    <span id="preview-company-address">-</span>
+
+                    <br /><br />
+
+                    <strong>Horario:</strong>
+                    <span id="preview-company-hours">-</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="admin-section" id="section-help">
+              <div class="inner-card">
+                <h4>Estado de conexión</h4>
+                <p>Este panel usa Supabase Auth, products, brands, categories, subcategories, company_settings y Storage.</p>
+
+                <div class="admin-help">
+                  <strong>Storage:</strong> las imágenes se suben al bucket <strong>product-images</strong>
+                  y se guarda la URL pública en <strong>products.image_url</strong>.
+                  <br /><br />
+                  <strong>Subcategorías:</strong> cada subcategoría depende de una categoría principal.
+                  Si una marca, categoría o subcategoría está siendo usada por productos, el sistema bloqueará su eliminación.
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const DEFAULT_IMAGE = "imagenes/productos/productos-1.png";
+      const PRODUCT_IMAGES_BUCKET = "product-images";
+      const BRAND_LOGOS_BUCKET = "brand-logos";
+
+      let products = [];
+      let brands = [];
+      let categories = [];
+      let subcategories = [];
+      let currentUser = null;
+      let selectedProductFile = null;
+      let selectedBrandFile = null;
+
+      const menuButtons = document.querySelectorAll("[data-section]");
+      const sections = document.querySelectorAll(".admin-section");
+      const sectionTitle = document.getElementById("section-title");
+      const sectionDescription = document.getElementById("section-description");
+
+      const form = document.getElementById("product-form");
+      const list = document.getElementById("product-list");
+      const stockList = document.getElementById("stock-list");
+      const brandsList = document.getElementById("brands-list");
+      const categoriesList = document.getElementById("categories-list");
+      const subcategoriesList = document.getElementById("subcategories-list");
+
+      const search = document.getElementById("admin-search");
+      const stockFilter = document.getElementById("stock-filter");
+      const notice = document.getElementById("notice");
+      const formTitle = document.getElementById("form-title");
+      const saveBtn = document.getElementById("save-btn");
+      const resetBtn = document.getElementById("reset-btn");
+      const logoutBtn = document.getElementById("logout-btn");
+
+      const imagePreview = document.getElementById("image-preview");
+      const productFileInput = document.getElementById("product-file");
+      const uploadStatus = document.getElementById("upload-status");
+
+      const brandFileInput = document.getElementById("brand-file");
+      const brandUploadStatus = document.getElementById("brand-upload-status");
+
+      const statProducts = document.getElementById("stat-products");
+      const statBrands = document.getElementById("stat-brands");
+      const statCategories = document.getElementById("stat-categories");
+      const statSubcategories = document.getElementById("stat-subcategories");
+
+      const fields = {
+        id: document.getElementById("product-id"),
+        name: document.getElementById("product-name"),
+        brand: document.getElementById("product-brand"),
+        category: document.getElementById("product-category"),
+        subcategory: document.getElementById("product-subcategory"),
+        image: document.getElementById("product-image"),
+        stock: document.getElementById("product-stock"),
+        desc: document.getElementById("product-description")
+      };
+
+      const brandForm = document.getElementById("brand-form");
+      const brandNotice = document.getElementById("brand-notice");
+      const brandFormTitle = document.getElementById("brand-form-title");
+      const brandSaveBtn = document.getElementById("brand-save-btn");
+      const brandResetBtn = document.getElementById("brand-reset-btn");
+
+      const brandFields = {
+        id: document.getElementById("brand-id"),
+        name: document.getElementById("brand-name"),
+        logo: document.getElementById("brand-logo"),
+        description: document.getElementById("brand-description"),
+        sort: document.getElementById("brand-sort"),
+        active: document.getElementById("brand-active")
+      };
+
+      const categoryForm = document.getElementById("category-form");
+      const categoryNotice = document.getElementById("category-notice");
+      const categoryFormTitle = document.getElementById("category-form-title");
+      const categorySaveBtn = document.getElementById("category-save-btn");
+      const categoryResetBtn = document.getElementById("category-reset-btn");
+
+      const categoryFields = {
+        id: document.getElementById("category-id"),
+        name: document.getElementById("category-name"),
+        description: document.getElementById("category-description"),
+        icon: document.getElementById("category-icon"),
+        sort: document.getElementById("category-sort"),
+        active: document.getElementById("category-active")
+      };
+
+      const subcategoryForm = document.getElementById("subcategory-form");
+      const subcategoryNotice = document.getElementById("subcategory-notice");
+      const subcategoryFormTitle = document.getElementById("subcategory-form-title");
+      const subcategorySaveBtn = document.getElementById("subcategory-save-btn");
+      const subcategoryResetBtn = document.getElementById("subcategory-reset-btn");
+
+      const subcategoryFields = {
+        id: document.getElementById("subcategory-id"),
+        name: document.getElementById("subcategory-name"),
+        category: document.getElementById("subcategory-category"),
+        description: document.getElementById("subcategory-description"),
+        sort: document.getElementById("subcategory-sort"),
+        active: document.getElementById("subcategory-active")
+      };
+
+      const companyForm = document.getElementById("company-form");
+      const companyNotice = document.getElementById("company-notice");
+      const companySaveBtn = document.getElementById("company-save-btn");
+      const companyReloadBtn = document.getElementById("company-reload-btn");
+
+      const companyFields = {
+        id: document.getElementById("company-id"),
+        phone: document.getElementById("company-phone"),
+        phoneRaw: document.getElementById("company-phone-raw"),
+        email: document.getElementById("company-email"),
+        address: document.getElementById("company-address"),
+        hours: document.getElementById("company-hours"),
+        whatsappUrl: document.getElementById("company-whatsapp-url"),
+        mapUrl: document.getElementById("company-map-url"),
+        mapEmbed: document.getElementById("company-map-embed")
+      };
+
+      const companyPreview = {
+        phone: document.getElementById("preview-company-phone"),
+        email: document.getElementById("preview-company-email"),
+        address: document.getElementById("preview-company-address"),
+        hours: document.getElementById("preview-company-hours")
+      };
+            const sectionInfo = {
+        products: {
+          title: "Gestión de productos",
+          description: "Agrega, edita, elimina y revisa productos con imágenes en Supabase Storage."
+        },
+        brands: {
+          title: "Gestión de marcas",
+          description: "Agrega, edita y elimina marcas guardadas en Supabase."
+        },
+        categories: {
+          title: "Gestión de categorías",
+          description: "Agrega, edita y elimina categorías guardadas en Supabase."
+        },
+        subcategories: {
+          title: "Gestión de subcategorías",
+          description: "Agrega, edita y elimina subcategorías relacionadas a cada categoría."
+        },
+        stock: {
+          title: "Gestión rápida de stock",
+          description: "Revisa el estado de disponibilidad de todos los productos."
+        },
+        company: {
+          title: "Datos de empresa",
+          description: "Edita teléfono, correo, dirección, horarios y enlaces principales de la empresa."
+        },
+        help: {
+          title: "Ayuda y estado",
+          description: "Resumen de conexión, base de datos y Storage."
+        }
+      };
+
+      function escapeHTML(text) {
+        return String(text || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function showNotice(element, text, type = "success") {
+        element.textContent = text;
+        element.className = `notice show ${type}`;
+
+        setTimeout(() => {
+          element.className = "notice";
+          element.textContent = "";
+        }, 3500);
+      }
+
+      function setUploadStatus(text, type = "") {
+        uploadStatus.textContent = text;
+        uploadStatus.className = type ? `upload-status ${type}` : "upload-status";
+      }
+
+      function setBrandUploadStatus(text, type = "") {
+        brandUploadStatus.textContent = text;
+        brandUploadStatus.className = type ? `upload-status ${type}` : "upload-status";
+      }
+
+      function getStockClass(stock) {
+        const value = String(stock || "").toLowerCase();
+        if (value.includes("sin")) return "unavailable";
+        if (value.includes("pedido")) return "preorder";
+        return "available";
+      }
+
+      function openSection(sectionName) {
+        menuButtons.forEach((button) => {
+          button.classList.toggle("active", button.dataset.section === sectionName);
+        });
+
+        sections.forEach((section) => {
+          section.classList.toggle("active", section.id === `section-${sectionName}`);
+        });
+
+        sectionTitle.textContent = sectionInfo[sectionName].title;
+        sectionDescription.textContent = sectionInfo[sectionName].description;
+      }
+
+      function updateStats() {
+        const activeProducts = products.filter((product) => product.is_active !== false);
+
+        statProducts.textContent = activeProducts.length;
+        statBrands.textContent = brands.filter((brand) => brand.is_active !== false).length;
+        statCategories.textContent = categories.filter((category) => category.is_active !== false).length;
+        statSubcategories.textContent = subcategories.filter((subcategory) => subcategory.is_active !== false).length;
+      }
+
+      function renderProductSelectors(selectedBrandId = "", selectedCategoryId = "", selectedSubcategoryId = "") {
+        const activeBrands = brands
+          .filter((brand) => brand.is_active !== false)
+          .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+
+        const activeCategories = categories
+          .filter((category) => category.is_active !== false)
+          .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+
+        fields.brand.innerHTML =
+          '<option value="">Selecciona una marca</option>' +
+          activeBrands
+            .map((brand) => `<option value="${escapeHTML(brand.id)}">${escapeHTML(brand.name)}</option>`)
+            .join("");
+
+        fields.category.innerHTML =
+          '<option value="">Selecciona una categoría</option>' +
+          activeCategories
+            .map((category) => `<option value="${escapeHTML(category.id)}">${escapeHTML(category.name)}</option>`)
+            .join("");
+
+        fields.brand.value = selectedBrandId || "";
+        fields.category.value = selectedCategoryId || "";
+
+        renderSubcategoryProductSelector(selectedCategoryId, selectedSubcategoryId);
+      }
+
+      function renderSubcategoryProductSelector(categoryId = "", selectedSubcategoryId = "") {
+        const filteredSubcategories = subcategories
+          .filter((subcategory) => subcategory.is_active !== false)
+          .filter((subcategory) => !categoryId || subcategory.category_id === categoryId)
+          .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+
+        fields.subcategory.innerHTML =
+          '<option value="">Selecciona una subcategoría</option>' +
+          filteredSubcategories
+            .map((subcategory) => `<option value="${escapeHTML(subcategory.id)}">${escapeHTML(subcategory.name)}</option>`)
+            .join("");
+
+        fields.subcategory.value = selectedSubcategoryId || "";
+      }
+
+      function renderSubcategoryCategorySelector(selectedCategoryId = "") {
+        const activeCategories = categories
+          .filter((category) => category.is_active !== false)
+          .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+
+        subcategoryFields.category.innerHTML =
+          '<option value="">Selecciona una categoría</option>' +
+          activeCategories
+            .map((category) => `<option value="${escapeHTML(category.id)}">${escapeHTML(category.name)}</option>`)
+            .join("");
+
+        subcategoryFields.category.value = selectedCategoryId || "";
+      }
+
+      function resetForm() {
+        form.reset();
+        fields.id.value = "";
+        fields.image.value = "";
+        selectedProductFile = null;
+        productFileInput.value = "";
+        imagePreview.src = DEFAULT_IMAGE;
+        setUploadStatus("Selecciona una imagen. Se subirá al guardar el producto.");
+        formTitle.textContent = "Agregar nuevo producto";
+        saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar producto';
+        renderProductSelectors();
+      }
+
+      function resetBrandForm() {
+        brandForm.reset();
+        brandFields.id.value = "";
+        brandFields.sort.value = 0;
+        brandFields.active.value = "true";
+        selectedBrandFile = null;
+        brandFileInput.value = "";
+        setBrandUploadStatus("Selecciona un logo. Se subirá al guardar la marca.");
+        brandFormTitle.textContent = "Agregar nueva marca";
+        brandSaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar marca';
+      }
+
+      function resetCategoryForm() {
+        categoryForm.reset();
+        categoryFields.id.value = "";
+        categoryFields.sort.value = 0;
+        categoryFields.active.value = "true";
+        categoryFormTitle.textContent = "Agregar nueva categoría";
+        categorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar categoría';
+      }
+
+      function resetSubcategoryForm() {
+        subcategoryForm.reset();
+        subcategoryFields.id.value = "";
+        subcategoryFields.sort.value = 0;
+        subcategoryFields.active.value = "true";
+        subcategoryFormTitle.textContent = "Agregar nueva subcategoría";
+        subcategorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar subcategoría';
+        renderSubcategoryCategorySelector();
+      }
+
+      async function uploadProductImage(file) {
+        if (!file) return fields.image.value.trim() || DEFAULT_IMAGE;
+
+        const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
+        const cleanName = file.name
+          .replace(/\.[^/.]+$/, "")
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)+/g, "");
+
+        const filePath = `products/${Date.now()}-${cleanName || "producto"}.${extension}`;
+
+        setUploadStatus("Subiendo imagen a Supabase Storage...");
+
+        const { error: uploadError } = await window.nymSupabase.storage
+          .from(PRODUCT_IMAGES_BUCKET)
+          .upload(filePath, file, {
+            cacheControl: "3600",
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data } = window.nymSupabase.storage
+          .from(PRODUCT_IMAGES_BUCKET)
+          .getPublicUrl(filePath);
+
+        if (!data?.publicUrl) {
+          throw new Error("No se pudo obtener la URL pública de la imagen.");
+        }
+
+        setUploadStatus("Imagen subida correctamente.", "success");
+        return data.publicUrl;
+      }
+
+      async function uploadBrandLogo(file) {
+        if (!file) return brandFields.logo.value.trim();
+
+        const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
+        const cleanName = file.name
+          .replace(/\.[^/.]+$/, "")
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)+/g, "");
+
+        const filePath = `logos/${Date.now()}-${cleanName || "marca"}.${extension}`;
+
+        setBrandUploadStatus("Subiendo logo a Supabase Storage...");
+
+        const { error: uploadError } = await window.nymSupabase.storage
+          .from(BRAND_LOGOS_BUCKET)
+          .upload(filePath, file, {
+            cacheControl: "3600",
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data } = window.nymSupabase.storage
+          .from(BRAND_LOGOS_BUCKET)
+          .getPublicUrl(filePath);
+
+        if (!data?.publicUrl) {
+          throw new Error("No se pudo obtener la URL pública del logo.");
+        }
+
+        setBrandUploadStatus("Logo subido correctamente.", "success");
+        return data.publicUrl;
+      }
+
+      function renderBrandsList() {
+        brandsList.innerHTML = brands.length
+          ? brands.map((brand) => `
+              <div class="simple-item">
+                <span>
+                  ${escapeHTML(brand.name || "Marca sin nombre")}
+                  ${brand.is_active === false ? '<span class="admin-tag stock-tag unavailable">Inactivo</span>' : ""}
+                </span>
+
+                <div class="brand-actions">
+                  <button class="icon-action" type="button" data-brand-edit="${escapeHTML(brand.id)}" title="Editar marca">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+
+                  <button class="icon-action danger" type="button" data-brand-delete="${escapeHTML(brand.id)}" title="Eliminar marca">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            `).join("")
+          : `
+            <div class="empty-state-admin">
+              <i class="fa-solid fa-tags"></i>
+              <h3>No hay marcas registradas</h3>
+              <p>Agrega tu primera marca desde el formulario.</p>
+            </div>
+          `;
+      }
+
+      function renderCategoriesList() {
+        categoriesList.innerHTML = categories.length
+          ? categories.map((category) => `
+              <div class="simple-item">
+                <span>
+                  ${escapeHTML(category.name || "Categoría sin nombre")}
+                  ${category.is_active === false ? '<span class="admin-tag stock-tag unavailable">Inactivo</span>' : ""}
+                </span>
+
+                <div class="brand-actions">
+                  <button class="icon-action" type="button" data-category-edit="${escapeHTML(category.id)}" title="Editar categoría">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+
+                  <button class="icon-action danger" type="button" data-category-delete="${escapeHTML(category.id)}" title="Eliminar categoría">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            `).join("")
+          : `
+            <div class="empty-state-admin">
+              <i class="fa-solid fa-layer-group"></i>
+              <h3>No hay categorías registradas</h3>
+              <p>Agrega tu primera categoría desde el formulario.</p>
+            </div>
+          `;
+      }
+
+      function renderSubcategoriesList() {
+        subcategoriesList.innerHTML = subcategories.length
+          ? subcategories.map((subcategory) => {
+              const parentCategory = categories.find((category) => category.id === subcategory.category_id);
+
+              return `
+                <div class="simple-item">
+                  <span>
+                    ${escapeHTML(subcategory.name || "Subcategoría sin nombre")}
+                    <small>Categoría: ${escapeHTML(parentCategory?.name || "Sin categoría")}</small>
+                    ${subcategory.is_active === false ? '<span class="admin-tag stock-tag unavailable">Inactivo</span>' : ""}
+                  </span>
+
+                  <div class="brand-actions">
+                    <button class="icon-action" type="button" data-subcategory-edit="${escapeHTML(subcategory.id)}" title="Editar subcategoría">
+                      <i class="fa-solid fa-pen"></i>
+                    </button>
+
+                    <button class="icon-action danger" type="button" data-subcategory-delete="${escapeHTML(subcategory.id)}" title="Eliminar subcategoría">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              `;
+            }).join("")
+          : `
+            <div class="empty-state-admin">
+              <i class="fa-solid fa-sitemap"></i>
+              <h3>No hay subcategorías registradas</h3>
+              <p>Agrega tu primera subcategoría desde el formulario.</p>
+            </div>
+          `;
+      }
+
+      function renderProductCard(product) {
+        const image = product.image_url || DEFAULT_IMAGE;
+
+        return `
+          <article class="admin-product">
+            <img src="${escapeHTML(image)}" alt="${escapeHTML(product.name)}" />
+
+            <div>
+              <h4>${escapeHTML(product.name || "Producto sin nombre")}</h4>
+              <p>${escapeHTML(product.description || "Sin descripción registrada.")}</p>
+
+              <div class="admin-tags">
+                <span class="admin-tag">
+                  <i class="fa-solid fa-tag"></i>
+                  ${escapeHTML(product.brand || "Sin marca")}
+                </span>
+
+                <span class="admin-tag">
+                  <i class="fa-solid fa-layer-group"></i>
+                  ${escapeHTML(product.category || "Sin categoría")}
+                </span>
+
+                ${
+                  product.subcategory
+                    ? `<span class="admin-tag"><i class="fa-solid fa-sitemap"></i> ${escapeHTML(product.subcategory)}</span>`
+                    : ""
+                }
+
+                <span class="admin-tag stock-tag ${getStockClass(product.stock_status)}">
+                  ${escapeHTML(product.stock_status || "Disponible")}
+                </span>
+              </div>
+            </div>
+
+            <div class="product-actions">
+              <button class="icon-action" type="button" data-edit="${escapeHTML(product.id)}" title="Editar producto">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+
+              <button class="icon-action danger" type="button" data-delete="${escapeHTML(product.id)}" title="Eliminar producto">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </article>
+        `;
+      }
+
+      function renderProducts() {
+        const query = search.value.trim().toLowerCase();
+        const selectedStock = stockFilter.value;
+
+        const filtered = products.filter((product) => {
+          const text = `
+            ${product.name || ""}
+            ${product.brand || ""}
+            ${product.category || ""}
+            ${product.subcategory || ""}
+            ${product.stock_status || ""}
+            ${product.description || ""}
+          `.toLowerCase();
+
+          return (
+            product.is_active !== false &&
+            (query === "" || text.includes(query)) &&
+            (selectedStock === "all" || product.stock_status === selectedStock)
+          );
+        });
+
+        list.innerHTML = filtered.length
+          ? filtered.map(renderProductCard).join("")
+          : `
+            <div class="empty-state-admin">
+              <i class="fa-solid fa-box-open"></i>
+              <h3>No hay productos para mostrar</h3>
+              <p>Agrega un producto o cambia los filtros.</p>
+            </div>
+          `;
+
+        renderStockList();
+        renderBrandsList();
+        renderCategoriesList();
+        renderSubcategoriesList();
+        updateStats();
+      }
+
+      function renderStockList() {
+        const activeProducts = products.filter((product) => product.is_active !== false);
+
+        stockList.innerHTML = activeProducts.length
+          ? activeProducts.map((product) => `
+              <div class="simple-item">
+                <span>
+                  ${escapeHTML(product.name || "Producto sin nombre")}
+                  <small>
+                    ${escapeHTML(product.brand || "Sin marca")} /
+                    ${escapeHTML(product.category || "Sin categoría")}
+                    ${product.subcategory ? " / " + escapeHTML(product.subcategory) : ""}
+                  </small>
+                </span>
+
+                <span class="admin-tag stock-tag ${getStockClass(product.stock_status)}">
+                  ${escapeHTML(product.stock_status || "Disponible")}
+                </span>
+              </div>
+            `).join("")
+          : `
+            <div class="empty-state-admin">
+              <i class="fa-solid fa-box-open"></i>
+              <h3>No hay productos</h3>
+              <p>Cuando agregues productos, aquí verás su stock.</p>
+            </div>
+          `;
+      }
+
+      async function loadBrands() {
+        const { data, error } = await window.nymSupabase
+          .from("brands")
+          .select("*")
+          .order("sort_order", { ascending: true })
+          .order("name", { ascending: true });
+
+        if (error) throw error;
+
+        brands = data || [];
+        renderBrandsList();
+        renderProductSelectors(fields.brand.value, fields.category.value, fields.subcategory.value);
+        updateStats();
+      }
+
+      async function loadCategories() {
+        const { data, error } = await window.nymSupabase
+          .from("categories")
+          .select("*")
+          .order("sort_order", { ascending: true })
+          .order("name", { ascending: true });
+
+        if (error) throw error;
+
+        categories = data || [];
+        renderCategoriesList();
+        renderSubcategoryCategorySelector(subcategoryFields.category.value);
+        renderProductSelectors(fields.brand.value, fields.category.value, fields.subcategory.value);
+        updateStats();
+      }
+
+      async function loadSubcategories() {
+        const { data, error } = await window.nymSupabase
+          .from("subcategories")
+          .select("*")
+          .order("sort_order", { ascending: true })
+          .order("name", { ascending: true });
+
+        if (error) throw error;
+
+        subcategories = data || [];
+        renderSubcategoriesList();
+        renderSubcategoryCategorySelector(subcategoryFields.category.value);
+        renderSubcategoryProductSelector(fields.category.value, fields.subcategory.value);
+        updateStats();
+      }
+
+      async function loadProducts() {
+        const { data, error } = await window.nymSupabase
+          .from("products")
+          .select("*")
+          .order("sort_order", { ascending: true })
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        products = data || [];
+        renderProducts();
+      }
+
+      async function saveProduct(payload, id) {
+        if (id) {
+          const { error } = await window.nymSupabase
+            .from("products")
+            .update(payload)
+            .eq("id", id);
+
+          if (error) throw error;
+
+          showNotice(notice, "Producto actualizado correctamente.");
+        } else {
+          const { error } = await window.nymSupabase
+            .from("products")
+            .insert([payload]);
+
+          if (error) throw error;
+
+          showNotice(notice, "Producto agregado correctamente.");
+        }
+      }
+
+      async function saveBrand(payload, id) {
+        if (id) {
+          const { error } = await window.nymSupabase
+            .from("brands")
+            .update(payload)
+            .eq("id", id);
+
+          if (error) throw error;
+
+          showNotice(brandNotice, "Marca actualizada correctamente.");
+        } else {
+          const { error } = await window.nymSupabase
+            .from("brands")
+            .insert([payload]);
+
+          if (error) throw error;
+
+          showNotice(brandNotice, "Marca agregada correctamente.");
+        }
+      }
+
+      async function saveCategory(payload, id) {
+        if (id) {
+          const { error } = await window.nymSupabase
+            .from("categories")
+            .update(payload)
+            .eq("id", id);
+
+          if (error) throw error;
+
+          showNotice(categoryNotice, "Categoría actualizada correctamente.");
+        } else {
+          const { error } = await window.nymSupabase
+            .from("categories")
+            .insert([payload]);
+
+          if (error) throw error;
+
+          showNotice(categoryNotice, "Categoría agregada correctamente.");
+        }
+      }
+
+      async function saveSubcategory(payload, id) {
+        if (id) {
+          const { error } = await window.nymSupabase
+            .from("subcategories")
+            .update(payload)
+            .eq("id", id);
+
+          if (error) throw error;
+
+          showNotice(subcategoryNotice, "Subcategoría actualizada correctamente.");
+        } else {
+          const { error } = await window.nymSupabase
+            .from("subcategories")
+            .insert([payload]);
+
+          if (error) throw error;
+
+          showNotice(subcategoryNotice, "Subcategoría agregada correctamente.");
+        }
+      }
+
+      async function deleteProduct(id) {
+        const { error } = await window.nymSupabase
+          .from("products")
+          .delete()
+          .eq("id", id);
+
+        if (error) throw error;
+      }
+
+      async function deleteBrand(id) {
+        const inUse = products.some((product) => product.brand_id === id);
+
+        if (inUse) {
+          throw new Error("No puedes eliminar esta marca porque está asignada a uno o más productos.");
+        }
+
+        const { error } = await window.nymSupabase
+          .from("brands")
+          .delete()
+          .eq("id", id);
+
+        if (error) throw error;
+      }
+
+      async function deleteCategory(id) {
+        const categoryHasProducts = products.some((product) => product.category_id === id);
+        const categoryHasSubcategories = subcategories.some((subcategory) => subcategory.category_id === id);
+
+        if (categoryHasProducts || categoryHasSubcategories) {
+          throw new Error("No puedes eliminar esta categoría porque tiene productos o subcategorías relacionadas.");
+        }
+
+        const { error } = await window.nymSupabase
+          .from("categories")
+          .delete()
+          .eq("id", id);
+
+        if (error) throw error;
+      }
+
+      async function deleteSubcategory(id) {
+        const inUse = products.some((product) => product.subcategory_id === id);
+
+        if (inUse) {
+          throw new Error("No puedes eliminar esta subcategoría porque está asignada a uno o más productos.");
+        }
+
+        const { error } = await window.nymSupabase
+          .from("subcategories")
+          .delete()
+          .eq("id", id);
+
+        if (error) throw error;
+      }
+
+      function updateCompanyPreview() {
+        companyPreview.phone.textContent = companyFields.phone.value || "-";
+        companyPreview.email.textContent = companyFields.email.value || "-";
+        companyPreview.address.textContent = companyFields.address.value || "-";
+        companyPreview.hours.textContent = companyFields.hours.value || "-";
+      }
+
+      async function loadCompanySettings() {
+        const { data, error } = await window.nymSupabase
+          .from("company_settings")
+          .select("*")
+          .limit(1)
+          .maybeSingle();
+
+        if (error) throw error;
+
+        if (!data) {
+          companyFields.id.value = "";
+          companyFields.phone.value = "966 441 035";
+          companyFields.phoneRaw.value = "51966441035";
+          companyFields.email.value = "oliveravelasquezluis@gmail.com";
+          companyFields.address.value = "Av. Republica de Argentina 211, Lima 15079";
+          companyFields.hours.value = "Lun - Sáb / 10:00 am - 5:00 pm";
+          companyFields.whatsappUrl.value = "https://wa.me/51966441035";
+          companyFields.mapUrl.value = "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/";
+          companyFields.mapEmbed.value = "";
+          updateCompanyPreview();
+          return;
+        }
+
+        companyFields.id.value = data.id || "";
+        companyFields.phone.value = data.phone || "";
+        companyFields.phoneRaw.value = data.phone_raw || "";
+        companyFields.email.value = data.email || "";
+        companyFields.address.value = data.address || "";
+        companyFields.hours.value = data.hours || "";
+        companyFields.whatsappUrl.value = data.whatsapp_url || "";
+        companyFields.mapUrl.value = data.map_url || "";
+        companyFields.mapEmbed.value = data.map_embed || "";
+        updateCompanyPreview();
+      }
+
+      async function saveCompanySettings() {
+        const payload = {
+          phone: companyFields.phone.value.trim(),
+          phone_raw: companyFields.phoneRaw.value.trim(),
+          email: companyFields.email.value.trim(),
+          address: companyFields.address.value.trim(),
+          hours: companyFields.hours.value.trim(),
+          whatsapp_url: companyFields.whatsappUrl.value.trim(),
+          map_url: companyFields.mapUrl.value.trim(),
+          map_embed: companyFields.mapEmbed.value.trim()
+        };
+
+        if (!payload.phone || !payload.email || !payload.address) {
+          showNotice(companyNotice, "Completa teléfono, correo y dirección.", "error");
+          return;
+        }
+
+        companySaveBtn.disabled = true;
+
+        try {
+          if (companyFields.id.value) {
+            const { error } = await window.nymSupabase
+              .from("company_settings")
+              .update(payload)
+              .eq("id", companyFields.id.value);
+
+            if (error) throw error;
+          } else {
+            const { data, error } = await window.nymSupabase
+              .from("company_settings")
+              .insert([payload])
+              .select()
+              .single();
+
+            if (error) throw error;
+
+            companyFields.id.value = data.id;
+          }
+
+          updateCompanyPreview();
+          showNotice(companyNotice, "Datos de empresa guardados correctamente.");
+        } catch (error) {
+          console.error(error);
+          showNotice(companyNotice, error.message || "No se pudieron guardar los datos.", "error");
+        } finally {
+          companySaveBtn.disabled = false;
+        }
+      }
+
+      async function requireSession() {
+        const { data, error } = await window.nymSupabase.auth.getSession();
+
+        if (error || !data.session) {
+          window.location.href = "admin-login.html";
+          return false;
+        }
+
+        currentUser = data.session.user;
+        localStorage.setItem("nymAdminSession", "active");
+        localStorage.setItem("nymAdminUser", currentUser.email || "admin");
+        return true;
+      }
+
+      menuButtons.forEach((button) => {
+        button.addEventListener("click", () => openSection(button.dataset.section));
+      });
+
+      productFileInput.addEventListener("change", () => {
+        const file = productFileInput.files?.[0];
+
+        if (!file) {
+          selectedProductFile = null;
+          setUploadStatus("Selecciona una imagen. Se subirá al guardar el producto.");
+          return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+          selectedProductFile = null;
+          productFileInput.value = "";
+          setUploadStatus("El archivo seleccionado no es una imagen.", "error");
+          return;
+        }
+
+        selectedProductFile = file;
+        imagePreview.src = URL.createObjectURL(file);
+        setUploadStatus(`Imagen lista: ${file.name}`);
+      });
+
+      brandFileInput.addEventListener("change", () => {
+        const file = brandFileInput.files?.[0];
+
+        if (!file) {
+          selectedBrandFile = null;
+          setBrandUploadStatus("Selecciona un logo. Se subirá al guardar la marca.");
+          return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+          selectedBrandFile = null;
+          brandFileInput.value = "";
+          setBrandUploadStatus("El archivo seleccionado no es una imagen.", "error");
+          return;
+        }
+
+        selectedBrandFile = file;
+        setBrandUploadStatus(`Logo listo: ${file.name}`);
+      });
+
+      fields.category.addEventListener("change", () => {
+        renderSubcategoryProductSelector(fields.category.value);
+      });
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const selectedBrand = brands.find((brand) => brand.id === fields.brand.value);
+        const selectedCategory = categories.find((category) => category.id === fields.category.value);
+        const selectedSubcategory = subcategories.find((subcategory) => subcategory.id === fields.subcategory.value);
+
+        if (!fields.name.value.trim() || !selectedBrand || !selectedCategory) {
+          showNotice(notice, "Completa nombre, marca y categoría.", "error");
+          return;
+        }
+
+        saveBtn.disabled = true;
+
+        try {
+          const finalImageUrl = await uploadProductImage(selectedProductFile);
+
+          const payload = {
+            name: fields.name.value.trim(),
+            brand_id: selectedBrand.id,
+            category_id: selectedCategory.id,
+            subcategory_id: selectedSubcategory?.id || null,
+            brand: selectedBrand.name || "",
+            category: selectedCategory.name || "",
+            subcategory: selectedSubcategory?.name || "",
+            image_url: finalImageUrl,
+            stock_status: fields.stock.value,
+            description: fields.desc.value.trim(),
+            is_active: true
+          };
+
+          await saveProduct(payload, fields.id.value);
+          resetForm();
+          await loadProducts();
+        } catch (error) {
+          console.error(error);
+          setUploadStatus(error.message || "No se pudo subir la imagen.", "error");
+          showNotice(notice, error.message || "No se pudo guardar el producto.", "error");
+        } finally {
+          saveBtn.disabled = false;
+        }
+      });
+
+      list.addEventListener("click", async (event) => {
+        const editButton = event.target.closest("[data-edit]");
+        const deleteButton = event.target.closest("[data-delete]");
+
+        if (editButton) {
+          const product = products.find((item) => item.id === editButton.dataset.edit);
+          if (!product) return;
+
+          const brandId = product.brand_id || brands.find((brand) => brand.name === product.brand)?.id || "";
+          const categoryId = product.category_id || categories.find((category) => category.name === product.category)?.id || "";
+          const subcategoryId = product.subcategory_id || subcategories.find((subcategory) => subcategory.name === product.subcategory)?.id || "";
+
+          fields.id.value = product.id;
+          fields.name.value = product.name || "";
+          fields.image.value = product.image_url || "";
+          fields.stock.value = product.stock_status || "Disponible";
+          fields.desc.value = product.description || "";
+          imagePreview.src = product.image_url || DEFAULT_IMAGE;
+
+          selectedProductFile = null;
+          productFileInput.value = "";
+
+          setUploadStatus("Puedes mantener la imagen actual o seleccionar una nueva.");
+          renderProductSelectors(brandId, categoryId, subcategoryId);
+
+          formTitle.textContent = "Editar producto";
+          saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar producto';
+
+          openSection("products");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        if (deleteButton) {
+          const product = products.find((item) => item.id === deleteButton.dataset.delete);
+
+          if (!confirm(`¿Seguro que deseas eliminar "${product?.name || "este producto"}"? Esta acción no se puede deshacer.`)) return;
+
+          try {
+            await deleteProduct(deleteButton.dataset.delete);
+            await loadProducts();
+            showNotice(notice, "Producto eliminado correctamente.");
+          } catch (error) {
+            console.error(error);
+            showNotice(notice, error.message || "No se pudo eliminar el producto.", "error");
+          }
+        }
+      });
+
+      brandForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!brandFields.name.value.trim()) {
+          showNotice(brandNotice, "Completa el nombre de la marca.", "error");
+          return;
+        }
+
+        brandSaveBtn.disabled = true;
+
+        try {
+          const uploadedLogoUrl = await uploadBrandLogo(selectedBrandFile);
+
+          const payload = {
+            name: brandFields.name.value.trim(),
+            logo_url: uploadedLogoUrl,
+            description: brandFields.description.value.trim(),
+            sort_order: Number(brandFields.sort.value || 0),
+            is_active: brandFields.active.value === "true"
+          };
+
+          await saveBrand(payload, brandFields.id.value);
+          resetBrandForm();
+          await loadBrands();
+        } catch (error) {
+          console.error(error);
+          setBrandUploadStatus(error.message || "No se pudo subir el logo.", "error");
+          showNotice(brandNotice, error.message || "No se pudo guardar la marca.", "error");
+        } finally {
+          brandSaveBtn.disabled = false;
+        }
+      });
+
+      brandsList.addEventListener("click", async (event) => {
+        const editButton = event.target.closest("[data-brand-edit]");
+        const deleteButton = event.target.closest("[data-brand-delete]");
+
+        if (editButton) {
+          const brand = brands.find((item) => item.id === editButton.dataset.brandEdit);
+          if (!brand) return;
+
+          brandFields.id.value = brand.id;
+          brandFields.name.value = brand.name || "";
+          brandFields.logo.value = brand.logo_url || "";
+          brandFields.description.value = brand.description || "";
+          brandFields.sort.value = brand.sort_order || 0;
+          brandFields.active.value = String(brand.is_active !== false);
+
+          selectedBrandFile = null;
+          brandFileInput.value = "";
+
+          setBrandUploadStatus("Puedes mantener el logo actual o seleccionar uno nuevo.");
+          brandFormTitle.textContent = "Editar marca";
+          brandSaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar marca';
+        }
+
+        if (deleteButton) {
+          const brand = brands.find((item) => item.id === deleteButton.dataset.brandDelete);
+
+          if (!confirm(`¿Seguro que deseas eliminar "${brand?.name || "esta marca"}"?`)) return;
+
+          try {
+            await deleteBrand(deleteButton.dataset.brandDelete);
+            await loadBrands();
+            showNotice(brandNotice, "Marca eliminada correctamente.");
+          } catch (error) {
+            console.error(error);
+            showNotice(brandNotice, error.message || "No se pudo eliminar la marca.", "error");
+          }
+        }
+      });
+
+      categoryForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const payload = {
+          name: categoryFields.name.value.trim(),
+          description: categoryFields.description.value.trim(),
+          icon: categoryFields.icon.value.trim(),
+          sort_order: Number(categoryFields.sort.value || 0),
+          is_active: categoryFields.active.value === "true"
+        };
+
+        if (!payload.name) {
+          showNotice(categoryNotice, "Completa el nombre de la categoría.", "error");
+          return;
+        }
+
+        categorySaveBtn.disabled = true;
+
+        try {
+          await saveCategory(payload, categoryFields.id.value);
+          resetCategoryForm();
+          await loadCategories();
+        } catch (error) {
+          console.error(error);
+          showNotice(categoryNotice, error.message || "No se pudo guardar la categoría.", "error");
+        } finally {
+          categorySaveBtn.disabled = false;
+        }
+      });
+
+      categoriesList.addEventListener("click", async (event) => {
+        const editButton = event.target.closest("[data-category-edit]");
+        const deleteButton = event.target.closest("[data-category-delete]");
+
+        if (editButton) {
+          const category = categories.find((item) => item.id === editButton.dataset.categoryEdit);
+          if (!category) return;
+
+          categoryFields.id.value = category.id;
+          categoryFields.name.value = category.name || "";
+          categoryFields.description.value = category.description || "";
+          categoryFields.icon.value = category.icon || "";
+          categoryFields.sort.value = category.sort_order || 0;
+          categoryFields.active.value = String(category.is_active !== false);
+
+          categoryFormTitle.textContent = "Editar categoría";
+          categorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar categoría';
+        }
+
+        if (deleteButton) {
+          const category = categories.find((item) => item.id === deleteButton.dataset.categoryDelete);
+
+          if (!confirm(`¿Seguro que deseas eliminar "${category?.name || "esta categoría"}"?`)) return;
+
+          try {
+            await deleteCategory(deleteButton.dataset.categoryDelete);
+            await loadCategories();
+            await loadSubcategories();
+            showNotice(categoryNotice, "Categoría eliminada correctamente.");
+          } catch (error) {
+            console.error(error);
+            showNotice(categoryNotice, error.message || "No se pudo eliminar la categoría.", "error");
+          }
+        }
+      });
+
+      subcategoryForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const selectedCategory = categories.find((category) => category.id === subcategoryFields.category.value);
+
+        const payload = {
+          name: subcategoryFields.name.value.trim(),
+          category_id: selectedCategory?.id || null,
+          description: subcategoryFields.description.value.trim(),
+          sort_order: Number(subcategoryFields.sort.value || 0),
+          is_active: subcategoryFields.active.value === "true"
+        };
+
+        if (!payload.name || !payload.category_id) {
+          showNotice(subcategoryNotice, "Completa nombre y categoría principal.", "error");
+          return;
+        }
+
+        subcategorySaveBtn.disabled = true;
+
+        try {
+          await saveSubcategory(payload, subcategoryFields.id.value);
+          resetSubcategoryForm();
+          await loadSubcategories();
+        } catch (error) {
+          console.error(error);
+          showNotice(subcategoryNotice, error.message || "No se pudo guardar la subcategoría.", "error");
+        } finally {
+          subcategorySaveBtn.disabled = false;
+        }
+      });
+
+      subcategoriesList.addEventListener("click", async (event) => {
+        const editButton = event.target.closest("[data-subcategory-edit]");
+        const deleteButton = event.target.closest("[data-subcategory-delete]");
+
+        if (editButton) {
+          const subcategory = subcategories.find((item) => item.id === editButton.dataset.subcategoryEdit);
+          if (!subcategory) return;
+
+          subcategoryFields.id.value = subcategory.id;
+          subcategoryFields.name.value = subcategory.name || "";
+          subcategoryFields.category.value = subcategory.category_id || "";
+          subcategoryFields.description.value = subcategory.description || "";
+          subcategoryFields.sort.value = subcategory.sort_order || 0;
+          subcategoryFields.active.value = String(subcategory.is_active !== false);
+
+          subcategoryFormTitle.textContent = "Editar subcategoría";
+          subcategorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar subcategoría';
+        }
+
+        if (deleteButton) {
+          const subcategory = subcategories.find((item) => item.id === deleteButton.dataset.subcategoryDelete);
+
+          if (!confirm(`¿Seguro que deseas eliminar "${subcategory?.name || "esta subcategoría"}"?`)) return;
+
+          try {
+            await deleteSubcategory(deleteButton.dataset.subcategoryDelete);
+            await loadSubcategories();
+            showNotice(subcategoryNotice, "Subcategoría eliminada correctamente.");
+          } catch (error) {
+            console.error(error);
+            showNotice(subcategoryNotice, error.message || "No se pudo eliminar la subcategoría.", "error");
+          }
+        }
+      });
+
+      fields.image.addEventListener("input", () => {
+        if (!selectedProductFile) {
+          imagePreview.src = fields.image.value.trim() || DEFAULT_IMAGE;
+        }
+      });
+
+      imagePreview.addEventListener("error", () => {
+        imagePreview.src = DEFAULT_IMAGE;
+      });
+
+      search.addEventListener("input", renderProducts);
+      stockFilter.addEventListener("change", renderProducts);
+
+      resetBtn.addEventListener("click", resetForm);
+      brandResetBtn.addEventListener("click", resetBrandForm);
+      categoryResetBtn.addEventListener("click", resetCategoryForm);
+      subcategoryResetBtn.addEventListener("click", resetSubcategoryForm);
+
+      companyForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        await saveCompanySettings();
+      });
+
+      companyReloadBtn.addEventListener("click", async () => {
+        try {
+          await loadCompanySettings();
+          showNotice(companyNotice, "Datos recargados correctamente.");
+        } catch (error) {
+          console.error(error);
+          showNotice(companyNotice, "No se pudieron recargar los datos.", "error");
+        }
+      });
+
+      Object.values(companyFields).forEach((field) => {
+        field.addEventListener("input", updateCompanyPreview);
+      });
+
+      logoutBtn.addEventListener("click", async () => {
+        await window.nymSupabase.auth.signOut();
+        localStorage.removeItem("nymAdminSession");
+        localStorage.removeItem("nymAdminUser");
+        window.location.href = "admin-login.html";
+      });
+
+      try {
+        const sessionOk = await requireSession();
+        if (!sessionOk) return;
+
+        await loadBrands();
+        await loadCategories();
+        await loadSubcategories();
+        await loadProducts();
+        await loadCompanySettings();
+      } catch (error) {
+        console.error(error);
+        alert("No se pudo cargar el admin: " + (error.message || error));
+      }
+    });
+  </script>
 </body>
 </html>

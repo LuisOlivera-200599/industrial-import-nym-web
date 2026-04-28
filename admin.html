@@ -1,317 +1,171 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Admin Panel | Industrial Import NYM</title>
+<title>Admin | Industrial Import NYM</title>
 
-  <link rel="icon" href="imagenes/banners/banner-1.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+body{
+  margin:0;
+  font-family:Inter;
+  display:flex;
+  height:100vh;
+  background:#f5f7fb;
+}
 
-  <!-- Icons -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+/* SIDEBAR */
+.sidebar{
+  width:240px;
+  background:#111827;
+  color:#fff;
+  padding:20px;
+}
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family: "Inter", sans-serif;
-    }
+.sidebar h2{
+  margin-bottom:20px;
+}
 
-    body{
-      background:#f4f6fb;
-      display:flex;
-      height:100vh;
-      overflow:hidden;
-    }
+.sidebar button{
+  width:100%;
+  background:none;
+  border:none;
+  color:#ccc;
+  padding:10px;
+  text-align:left;
+  cursor:pointer;
+}
 
-    /* SIDEBAR */
-    .sidebar{
-      width:260px;
-      background:#1f2937;
-      color:#fff;
-      display:flex;
-      flex-direction:column;
-      padding:20px;
-    }
+.sidebar button:hover{
+  background:#1f2937;
+  color:#fff;
+}
 
-    .sidebar h2{
-      font-size:18px;
-      margin-bottom:20px;
-    }
+/* MAIN */
+.main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
 
-    .menu{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
+/* TOP */
+.top{
+  background:#fff;
+  padding:15px;
+  border-bottom:1px solid #ddd;
+  display:flex;
+  justify-content:space-between;
+}
 
-    .menu button{
-      background:none;
-      border:none;
-      color:#cbd5e1;
-      padding:10px;
-      text-align:left;
-      border-radius:8px;
-      cursor:pointer;
-      transition:.2s;
-      font-weight:600;
-    }
+/* CONTENT */
+.content{
+  padding:20px;
+  overflow:auto;
+}
 
-    .menu button:hover{
-      background:#374151;
-      color:#fff;
-    }
+/* DASHBOARD */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
 
-    .menu button.active{
-      background:#3b82f6;
-      color:#fff;
-    }
+.card{
+  padding:20px;
+  border-radius:10px;
+  color:#fff;
+}
 
-    .submenu{
-      margin-left:15px;
-      display:none;
-      flex-direction:column;
-    }
-
-    .submenu button{
-      font-size:14px;
-    }
-
-    /* MAIN */
-    .main{
-      flex:1;
-      display:flex;
-      flex-direction:column;
-    }
-
-    /* TOPBAR */
-    .topbar{
-      background:#fff;
-      padding:15px 20px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      border-bottom:1px solid #e5e7eb;
-    }
-
-    .topbar h1{
-      font-size:18px;
-    }
-
-    /* DASHBOARD */
-    .content{
-      padding:20px;
-      overflow:auto;
-    }
-
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:15px;
-    }
-
-    .card{
-      padding:20px;
-      border-radius:10px;
-      color:#fff;
-      font-weight:700;
-    }
-
-    .blue{background:#3b82f6;}
-    .green{background:#22c55e;}
-    .yellow{background:#facc15; color:#000;}
-    .red{background:#ef4444;}
-
-    .card span{
-      display:block;
-      font-size:26px;
-      margin-top:5px;
-    }
-
-    /* SECTIONS */
-    .section{
-      display:none;
-    }
-
-    .section.active{
-      display:block;
-    }
-
-  </style>
+.blue{background:#3b82f6;}
+.green{background:#22c55e;}
+.yellow{background:#facc15;color:#000;}
+.red{background:#ef4444;}
+</style>
 </head>
+
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
+  <h2>Admin</h2>
 
-  <h2>Panel Admin</h2>
-
-  <div class="menu">
-
-    <button class="active" onclick="showSection('dashboard')">
-      <i class="fa-solid fa-chart-line"></i> Dashboard
-    </button>
-
-    <button onclick="toggleMenu('productosMenu')">
-      <i class="fa-solid fa-box"></i> Productos
-    </button>
-
-    <div class="submenu" id="productosMenu">
-      <button onclick="showSection('productos')">Lista de Productos</button>
-      <button onclick="showSection('crearProducto')">Crear Producto</button>
-      <button onclick="showSection('categorias')">Categorías</button>
-      <button onclick="showSection('subcategorias')">Subcategorías</button>
-    </div>
-
-    <button onclick="showSection('marcas')">
-      <i class="fa-solid fa-tags"></i> Marcas
-    </button>
-
-    <button onclick="showSection('empresa')">
-      <i class="fa-solid fa-building"></i> Empresa
-    </button>
-
-    <button onclick="showSection('reportes')">
-      <i class="fa-solid fa-chart-pie"></i> Reportes
-    </button>
-
-    <button onclick="logout()">
-      <i class="fa-solid fa-right-from-bracket"></i> Salir
-    </button>
-
-  </div>
-
+  <button onclick="show('dashboard')">Dashboard</button>
+  <button onclick="show('productos')">Productos</button>
+  <button onclick="show('marcas')">Marcas</button>
+  <button onclick="show('categorias')">Categorías</button>
+  <button onclick="logout()">Salir</button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <h1 id="title">Dashboard</h1>
-    <span id="user">Admin</span>
+  <div class="top">
+    <strong id="title">Dashboard</strong>
   </div>
 
-  <!-- CONTENT -->
   <div class="content">
 
     <!-- DASHBOARD -->
-    <div id="dashboard" class="section active">
-
+    <div id="dashboard">
       <div class="cards">
-
-        <div class="card blue">
-          Productos
-          <span id="totalProductos">0</span>
-        </div>
-
-        <div class="card green">
-          Marcas
-          <span id="totalMarcas">0</span>
-        </div>
-
-        <div class="card yellow">
-          Categorías
-          <span id="totalCategorias">0</span>
-        </div>
-
-        <div class="card red">
-          Subcategorías
-          <span id="totalSubcategorias">0</span>
-        </div>
-
+        <div class="card blue">Productos <br><span id="pCount">0</span></div>
+        <div class="card green">Marcas <br><span id="mCount">0</span></div>
+        <div class="card yellow">Categorías <br><span id="cCount">0</span></div>
+        <div class="card red">Subcategorías <br><span id="sCount">0</span></div>
       </div>
-
     </div>
 
     <!-- PRODUCTOS -->
-    <div id="productos" class="section">
-      <h2>Lista de productos</h2>
-      <div id="listaProductos"></div>
-    </div>
-
-    <!-- CREAR PRODUCTO -->
-    <div id="crearProducto" class="section">
-      <h2>Crear producto</h2>
-
-      <input id="nombreProducto" placeholder="Nombre"><br><br>
-      <select id="marcaProducto"></select><br><br>
-      <select id="categoriaProducto"></select><br><br>
-      <select id="subcategoriaProducto"></select><br><br>
-
-      <button onclick="guardarProducto()">Guardar</button>
-    </div>
-
-    <!-- CATEGORIAS -->
-    <div id="categorias" class="section">
-      <h2>Categorías</h2>
-      <div id="listaCategorias"></div>
-    </div>
-
-    <!-- SUBCATEGORIAS -->
-    <div id="subcategorias" class="section">
-      <h2>Subcategorías</h2>
-      <div id="listaSubcategorias"></div>
-    </div>
-
-    <!-- MARCAS -->
-    <div id="marcas" class="section">
-      <h2>Marcas</h2>
-      <div id="listaMarcas"></div>
-    </div>
-
-    <!-- EMPRESA -->
-    <div id="empresa" class="section">
-      <h2>Datos de empresa</h2>
-    </div>
-
-    <!-- REPORTES -->
-    <div id="reportes" class="section">
-      <h2>Reportes</h2>
+    <div id="productos" style="display:none">
+      <h2>Productos</h2>
+      <div id="listProductos"></div>
     </div>
 
   </div>
 
 </div>
-<!-- SUPABASE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- SUPABASE CONFIG (EL TUYO, NO CAMBIAR) -->
+<script src="js/supabase-config.js"></script>
 
 <script>
 
-const SUPABASE_URL = "TU_URL_SUPABASE";
-const SUPABASE_KEY = "TU_ANON_KEY";
+const supabase = window.nymSupabase;
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// DATA
+/* =============================
+   VARIABLES
+============================= */
 let productos = [];
 let marcas = [];
 let categorias = [];
 let subcategorias = [];
 
 /* =============================
-   NAVEGACIÓN
+   NAVEGACIÓN (ARREGLADO)
 ============================= */
 
-function showSection(id){
-  document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+function show(id){
 
+  document.querySelectorAll(".content > div").forEach(sec=>{
+    sec.style.display="none";
+  });
+
+  document.getElementById(id).style.display="block";
   document.getElementById("title").innerText = id.toUpperCase();
 }
 
-function toggleMenu(id){
-  const menu = document.getElementById(id);
-  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+/* =============================
+   LOGOUT (ARREGLADO)
+============================= */
+
+async function logout(){
+  await supabase.auth.signOut();
+  window.location.href = "admin-login.html";
 }
 
 /* =============================
-   AUTH
+   AUTH CHECK
 ============================= */
 
 async function checkAuth(){
@@ -322,166 +176,60 @@ async function checkAuth(){
   }
 }
 
-async function logout(){
-  await supabase.auth.signOut();
-  window.location.href = "admin-login.html";
-}
-
 /* =============================
    LOAD DATA
 ============================= */
 
-async function loadProductos(){
-  const { data } = await supabase.from("products").select("*");
-  productos = data || [];
-  renderProductos();
-}
+async function loadAll(){
 
-async function loadMarcas(){
-  const { data } = await supabase.from("brands").select("*");
-  marcas = data || [];
-  renderMarcas();
-}
+  const { data: p } = await supabase.from("products").select("*");
+  const { data: m } = await supabase.from("brands").select("*");
+  const { data: c } = await supabase.from("categories").select("*");
+  const { data: s } = await supabase.from("subcategories").select("*");
 
-async function loadCategorias(){
-  const { data } = await supabase.from("categories").select("*");
-  categorias = data || [];
-  renderCategorias();
-}
+  productos = p || [];
+  marcas = m || [];
+  categorias = c || [];
+  subcategorias = s || [];
 
-async function loadSubcategorias(){
-  const { data } = await supabase.from("subcategories").select("*");
-  subcategorias = data || [];
-  renderSubcategorias();
+  renderAll();
 }
 
 /* =============================
-   RENDER DASHBOARD
+   RENDER GENERAL
 ============================= */
 
-function renderDashboard(){
-  document.getElementById("totalProductos").innerText = productos.length;
-  document.getElementById("totalMarcas").innerText = marcas.length;
-  document.getElementById("totalCategorias").innerText = categorias.length;
-  document.getElementById("totalSubcategorias").innerText = subcategorias.length;
-}
+function renderAll(){
 
-/* =============================
-   RENDER PRODUCTOS
-============================= */
+  // DASHBOARD
+  document.getElementById("pCount").innerText = productos.length;
+  document.getElementById("mCount").innerText = marcas.length;
+  document.getElementById("cCount").innerText = categorias.length;
+  document.getElementById("sCount").innerText = subcategorias.length;
 
-function renderProductos(){
-  const cont = document.getElementById("listaProductos");
+  // PRODUCTOS
+  const cont = document.getElementById("listProductos");
 
   cont.innerHTML = productos.map(p => `
-    <div style="padding:10px;border:1px solid #ccc;margin:5px;border-radius:6px;">
-      ${p.name}
-      <button onclick="eliminarProducto('${p.id}')">Eliminar</button>
+    <div style="
+      background:#fff;
+      padding:10px;
+      margin:5px;
+      border-radius:8px;
+      display:flex;
+      justify-content:space-between;
+    ">
+
+      <div>
+        <strong>${p.name}</strong>
+      </div>
+
+      <div>
+        <button onclick="eliminarProducto('${p.id}')">🗑️</button>
+      </div>
+
     </div>
   `).join("");
-
-  renderDashboard();
-}
-
-/* =============================
-   RENDER MARCAS
-============================= */
-
-function renderMarcas(){
-  const cont = document.getElementById("listaMarcas");
-
-  cont.innerHTML = marcas.map(m => `
-    <div>${m.name}</div>
-  `).join("");
-
-  llenarSelectMarcas();
-  renderDashboard();
-}
-
-/* =============================
-   RENDER CATEGORIAS
-============================= */
-
-function renderCategorias(){
-  const cont = document.getElementById("listaCategorias");
-
-  cont.innerHTML = categorias.map(c => `
-    <div>${c.name}</div>
-  `).join("");
-
-  llenarSelectCategorias();
-  renderDashboard();
-}
-
-/* =============================
-   RENDER SUBCATEGORIAS
-============================= */
-
-function renderSubcategorias(){
-  const cont = document.getElementById("listaSubcategorias");
-
-  cont.innerHTML = subcategorias.map(s => `
-    <div>${s.name}</div>
-  `).join("");
-
-  llenarSelectSubcategorias();
-  renderDashboard();
-}
-
-/* =============================
-   SELECTS DINÁMICOS
-============================= */
-
-function llenarSelectMarcas(){
-  const select = document.getElementById("marcaProducto");
-
-  select.innerHTML = marcas.map(m =>
-    `<option value="${m.id}">${m.name}</option>`
-  ).join("");
-}
-
-function llenarSelectCategorias(){
-  const select = document.getElementById("categoriaProducto");
-
-  select.innerHTML = categorias.map(c =>
-    `<option value="${c.id}">${c.name}</option>`
-  ).join("");
-}
-
-function llenarSelectSubcategorias(){
-  const select = document.getElementById("subcategoriaProducto");
-
-  select.innerHTML = subcategorias.map(s =>
-    `<option value="${s.id}">${s.name}</option>`
-  ).join("");
-}
-
-/* =============================
-   GUARDAR PRODUCTO
-============================= */
-
-async function guardarProducto(){
-
-  const nombre = document.getElementById("nombreProducto").value;
-  const marca = document.getElementById("marcaProducto").value;
-  const categoria = document.getElementById("categoriaProducto").value;
-  const subcategoria = document.getElementById("subcategoriaProducto").value;
-
-  if(!nombre){
-    alert("Nombre requerido");
-    return;
-  }
-
-  await supabase.from("products").insert([{
-    name: nombre,
-    brand_id: marca,
-    category_id: categoria,
-    subcategory_id: subcategoria
-  }]);
-
-  alert("Producto guardado");
-
-  loadProductos();
 }
 
 /* =============================
@@ -494,7 +242,7 @@ async function eliminarProducto(id){
 
   await supabase.from("products").delete().eq("id", id);
 
-  loadProductos();
+  loadAll();
 }
 
 /* =============================
@@ -504,246 +252,10 @@ async function eliminarProducto(id){
 async function init(){
 
   await checkAuth();
-
-  await loadMarcas();
-  await loadCategorias();
-  await loadSubcategorias();
-  await loadProductos();
+  await loadAll();
 
 }
 
 init();
-
-</script>
-<script>
-
-/* =============================
-   EDITAR PRODUCTO
-============================= */
-
-let editandoId = null;
-
-function editarProducto(id){
-
-  const p = productos.find(x => x.id === id);
-
-  document.getElementById("nombreProducto").value = p.name;
-  document.getElementById("marcaProducto").value = p.brand_id;
-  document.getElementById("categoriaProducto").value = p.category_id;
-  document.getElementById("subcategoriaProducto").value = p.subcategory_id;
-
-  editandoId = id;
-
-  showSection("crearProducto");
-}
-
-/* =============================
-   GUARDAR (CREATE / UPDATE)
-============================= */
-
-async function guardarProducto(){
-
-  const nombre = document.getElementById("nombreProducto").value;
-  const marca = document.getElementById("marcaProducto").value;
-  const categoria = document.getElementById("categoriaProducto").value;
-  const subcategoria = document.getElementById("subcategoriaProducto").value;
-
-  if(!nombre){
-    alert("Nombre requerido");
-    return;
-  }
-
-  if(editandoId){
-
-    await supabase.from("products")
-      .update({
-        name: nombre,
-        brand_id: marca,
-        category_id: categoria,
-        subcategory_id: subcategoria
-      })
-      .eq("id", editandoId);
-
-    alert("Producto actualizado");
-    editandoId = null;
-
-  }else{
-
-    await supabase.from("products").insert([{
-      name: nombre,
-      brand_id: marca,
-      category_id: categoria,
-      subcategory_id: subcategoria
-    }]);
-
-    alert("Producto creado");
-  }
-
-  limpiarFormulario();
-  loadProductos();
-}
-
-/* =============================
-   LIMPIAR FORM
-============================= */
-
-function limpiarFormulario(){
-  document.getElementById("nombreProducto").value = "";
-  editandoId = null;
-}
-
-/* =============================
-   RENDER PRODUCTOS PRO
-============================= */
-
-function renderProductos(){
-
-  const cont = document.getElementById("listaProductos");
-
-  cont.innerHTML = productos.map(p => `
-
-    <div style="
-      padding:12px;
-      border:1px solid #ddd;
-      margin:6px;
-      border-radius:8px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    ">
-
-      <div>
-        <strong>${p.name}</strong><br>
-        <small>ID: ${p.id}</small>
-      </div>
-
-      <div>
-        <button onclick="editarProducto('${p.id}')">✏️</button>
-        <button onclick="eliminarProducto('${p.id}')">🗑️</button>
-      </div>
-
-    </div>
-
-  `).join("");
-
-  renderDashboard();
-}
-
-/* =============================
-   ELIMINAR MARCA
-============================= */
-
-async function eliminarMarca(id){
-
-  const usado = productos.some(p => p.brand_id === id);
-
-  if(usado){
-    alert("No puedes eliminar esta marca, tiene productos.");
-    return;
-  }
-
-  if(!confirm("Eliminar marca?")) return;
-
-  await supabase.from("brands").delete().eq("id", id);
-
-  loadMarcas();
-}
-
-/* =============================
-   ELIMINAR CATEGORIA
-============================= */
-
-async function eliminarCategoria(id){
-
-  const usado = productos.some(p => p.category_id === id);
-
-  if(usado){
-    alert("Tiene productos asociados.");
-    return;
-  }
-
-  if(!confirm("Eliminar categoría?")) return;
-
-  await supabase.from("categories").delete().eq("id", id);
-
-  loadCategorias();
-}
-
-/* =============================
-   ELIMINAR SUBCATEGORIA
-============================= */
-
-async function eliminarSubcategoria(id){
-
-  const usado = productos.some(p => p.subcategory_id === id);
-
-  if(usado){
-    alert("Tiene productos asociados.");
-    return;
-  }
-
-  if(!confirm("Eliminar subcategoría?")) return;
-
-  await supabase.from("subcategories").delete().eq("id", id);
-
-  loadSubcategorias();
-}
-
-/* =============================
-   RENDER MARCAS PRO
-============================= */
-
-function renderMarcas(){
-
-  const cont = document.getElementById("listaMarcas");
-
-  cont.innerHTML = marcas.map(m => `
-    <div>
-      ${m.name}
-      <button onclick="eliminarMarca('${m.id}')">🗑️</button>
-    </div>
-  `).join("");
-
-  llenarSelectMarcas();
-  renderDashboard();
-}
-
-/* =============================
-   RENDER CATEGORIAS PRO
-============================= */
-
-function renderCategorias(){
-
-  const cont = document.getElementById("listaCategorias");
-
-  cont.innerHTML = categorias.map(c => `
-    <div>
-      ${c.name}
-      <button onclick="eliminarCategoria('${c.id}')">🗑️</button>
-    </div>
-  `).join("");
-
-  llenarSelectCategorias();
-  renderDashboard();
-}
-
-/* =============================
-   RENDER SUBCATEGORIAS PRO
-============================= */
-
-function renderSubcategorias(){
-
-  const cont = document.getElementById("listaSubcategorias");
-
-  cont.innerHTML = subcategorias.map(s => `
-    <div>
-      ${s.name}
-      <button onclick="eliminarSubcategoria('${s.id}')">🗑️</button>
-    </div>
-  `).join("");
-
-  llenarSelectSubcategorias();
-  renderDashboard();
-}
 
 </script>

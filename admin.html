@@ -862,6 +862,102 @@
         width: 100%;
       }
     }
+
+
+    /* ====== PRO TABLE UPGRADE - Productos ====== */
+    .admin-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: #ffffff;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .admin-table {
+      width: 100%;
+      min-width: 880px;
+      border-collapse: collapse;
+    }
+
+    .admin-table thead {
+      background: linear-gradient(180deg, #f8fbff 0%, #eef3ff 100%);
+    }
+
+    .admin-table th,
+    .admin-table td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+      font-size: 0.9rem;
+    }
+
+    .admin-table th {
+      color: var(--text);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .admin-table tbody tr {
+      transition: 0.2s ease;
+    }
+
+    .admin-table tbody tr:hover {
+      background: #f8fbff;
+    }
+
+    .table-product-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 260px;
+    }
+
+    .table-product-cell img {
+      width: 64px;
+      height: 54px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      flex: 0 0 auto;
+    }
+
+    .table-product-cell strong {
+      display: block;
+      color: var(--text);
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .table-product-cell small {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      color: var(--muted);
+      line-height: 1.4;
+      max-width: 340px;
+    }
+
+    .table-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .table-meta {
+      display: grid;
+      gap: 6px;
+    }
+
+    .table-muted {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
   </style>
 </head>
 <body>
@@ -1984,50 +2080,50 @@
           `;
       }
 
-      function renderProductCard(product) {
+      function renderProductTableRow(product) {
         const image = product.image_url || DEFAULT_IMAGE;
 
         return `
-          <article class="admin-product">
-            <img src="${escapeHTML(image)}" alt="${escapeHTML(product.name)}" />
-
-            <div>
-              <h4>${escapeHTML(product.name || "Producto sin nombre")}</h4>
-              <p>${escapeHTML(product.description || "Sin descripción registrada.")}</p>
-
-              <div class="admin-tags">
-                <span class="admin-tag">
-                  <i class="fa-solid fa-tag"></i>
-                  ${escapeHTML(product.brand || "Sin marca")}
-                </span>
-
-                <span class="admin-tag">
-                  <i class="fa-solid fa-layer-group"></i>
-                  ${escapeHTML(product.category || "Sin categoría")}
-                </span>
-
-                ${
-                  product.subcategory
-                    ? `<span class="admin-tag"><i class="fa-solid fa-sitemap"></i> ${escapeHTML(product.subcategory)}</span>`
-                    : ""
-                }
-
-                <span class="admin-tag stock-tag ${getStockClass(product.stock_status)}">
-                  ${escapeHTML(product.stock_status || "Disponible")}
-                </span>
+          <tr>
+            <td>
+              <div class="table-product-cell">
+                <img src="${escapeHTML(image)}" alt="${escapeHTML(product.name)}" />
+                <div>
+                  <strong>${escapeHTML(product.name || "Producto sin nombre")}</strong>
+                  <small>${escapeHTML(product.description || "Sin descripción registrada.")}</small>
+                </div>
               </div>
-            </div>
+            </td>
 
-            <div class="product-actions">
-              <button class="icon-action" type="button" data-edit="${escapeHTML(product.id)}" title="Editar producto">
-                <i class="fa-solid fa-pen"></i>
-              </button>
+            <td>
+              <span class="admin-tag"><i class="fa-solid fa-tag"></i> ${escapeHTML(product.brand || "Sin marca")}</span>
+            </td>
 
-              <button class="icon-action danger" type="button" data-delete="${escapeHTML(product.id)}" title="Eliminar producto">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </article>
+            <td>
+              <div class="table-meta">
+                <span class="admin-tag"><i class="fa-solid fa-layer-group"></i> ${escapeHTML(product.category || "Sin categoría")}</span>
+                ${product.subcategory ? `<span class="table-muted"><i class="fa-solid fa-sitemap"></i> ${escapeHTML(product.subcategory)}</span>` : ""}
+              </div>
+            </td>
+
+            <td>
+              <span class="admin-tag stock-tag ${getStockClass(product.stock_status)}">
+                ${escapeHTML(product.stock_status || "Disponible")}
+              </span>
+            </td>
+
+            <td>
+              <div class="table-actions">
+                <button class="icon-action" type="button" data-edit="${escapeHTML(product.id)}" title="Editar producto">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+
+                <button class="icon-action danger" type="button" data-delete="${escapeHTML(product.id)}" title="Eliminar producto">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
         `;
       }
 
@@ -2053,7 +2149,24 @@
         });
 
         list.innerHTML = filtered.length
-          ? filtered.map(renderProductCard).join("")
+          ? `
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Marca</th>
+                    <th>Categoría</th>
+                    <th>Stock</th>
+                    <th style="text-align:right;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${filtered.map(renderProductTableRow).join("")}
+                </tbody>
+              </table>
+            </div>
+          `
           : `
             <div class="empty-state-admin">
               <i class="fa-solid fa-box-open"></i>

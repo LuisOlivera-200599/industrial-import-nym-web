@@ -605,6 +605,7 @@
       color: var(--text);
       outline: none;
       font-weight: 700;
+      min-width: 180px;
     }
 
     .products-list {
@@ -1238,6 +1239,18 @@
                       <input id="admin-search" type="text" placeholder="Buscar por nombre, marca, categoría o subcategoría..." />
                     </div>
 
+                    <select id="brand-filter" class="filter-select">
+                      <option value="all">Todas las marcas</option>
+                    </select>
+
+                    <select id="category-filter" class="filter-select">
+                      <option value="all">Todas las categorías</option>
+                    </select>
+
+                    <select id="subcategory-filter" class="filter-select">
+                      <option value="all">Todas las subcategorías</option>
+                    </select>
+
                     <select id="stock-filter" class="filter-select">
                       <option value="all">Todos los estados</option>
                       <option value="Disponible">Disponible</option>
@@ -1627,6 +1640,9 @@
       const subcategoriesList = document.getElementById("subcategories-list");
 
       const search = document.getElementById("admin-search");
+      const brandFilter = document.getElementById("brand-filter");
+      const categoryFilter = document.getElementById("category-filter");
+      const subcategoryFilter = document.getElementById("subcategory-filter");
       const stockFilter = document.getElementById("stock-filter");
       const notice = document.getElementById("notice");
       const formTitle = document.getElementById("form-title");
@@ -1812,6 +1828,46 @@
         statBrands.textContent = brands.filter((brand) => brand.is_active !== false).length;
         statCategories.textContent = categories.filter((category) => category.is_active !== false).length;
         statSubcategories.textContent = subcategories.filter((subcategory) => subcategory.is_active !== false).length;
+      }
+
+      function renderProductFilters() {
+        const activeBrands = brands
+          .filter((brand) => brand.is_active !== false)
+          .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+
+        const activeCategories = categories
+          .filter((category) => category.is_active !== false)
+          .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+
+        const activeSubcategories = subcategories
+          .filter((subcategory) => subcategory.is_active !== false)
+          .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+
+        const selectedBrand = brandFilter.value || "all";
+        const selectedCategory = categoryFilter.value || "all";
+        const selectedSubcategory = subcategoryFilter.value || "all";
+
+        brandFilter.innerHTML =
+          '<option value="all">Todas las marcas</option>' +
+          activeBrands
+            .map((brand) => `<option value="${escapeHTML(brand.id)}">${escapeHTML(brand.name)}</option>`)
+            .join("");
+
+        categoryFilter.innerHTML =
+          '<option value="all">Todas las categorías</option>' +
+          activeCategories
+            .map((category) => `<option value="${escapeHTML(category.id)}">${escapeHTML(category.name)}</option>`)
+            .join("");
+
+        subcategoryFilter.innerHTML =
+          '<option value="all">Todas las subcategorías</option>' +
+          activeSubcategories
+            .map((subcategory) => `<option value="${escapeHTML(subcategory.id)}">${escapeHTML(subcategory.name)}</option>`)
+            .join("");
+
+        brandFilter.value = activeBrands.some((brand) => brand.id === selectedBrand) ? selectedBrand : "all";
+        categoryFilter.value = activeCategories.some((category) => category.id === selectedCategory) ? selectedCategory : "all";
+        subcategoryFilter.value = activeSubcategories.some((subcategory) => subcategory.id === selectedSubcategory) ? selectedSubcategory : "all";
       }
 
       function renderProductSelectors(selectedBrandId = "", selectedCategoryId = "", selectedSubcategoryId = "") {
@@ -2129,6 +2185,9 @@
 
       function renderProducts() {
         const query = search.value.trim().toLowerCase();
+        const selectedBrand = brandFilter.value;
+        const selectedCategory = categoryFilter.value;
+        const selectedSubcategory = subcategoryFilter.value;
         const selectedStock = stockFilter.value;
 
         const filtered = products.filter((product) => {
@@ -2144,6 +2203,9 @@
           return (
             product.is_active !== false &&
             (query === "" || text.includes(query)) &&
+            (selectedBrand === "all" || product.brand_id === selectedBrand) &&
+            (selectedCategory === "all" || product.category_id === selectedCategory) &&
+            (selectedSubcategory === "all" || product.subcategory_id === selectedSubcategory) &&
             (selectedStock === "all" || product.stock_status === selectedStock)
           );
         });
@@ -2268,6 +2330,7 @@
         if (error) throw error;
 
         products = data || [];
+        renderProductFilters();
         renderProducts();
       }
 
@@ -2871,6 +2934,25 @@
       });
 
       search.addEventListener("input", renderProducts);
+      brandFilter.addEventListener("change", renderProducts);
+      categoryFilter.addEventListener("change", () => {
+        const selectedCategory = categoryFilter.value;
+
+        const activeSubcategories = subcategories
+          .filter((subcategory) => subcategory.is_active !== false)
+          .filter((subcategory) => selectedCategory === "all" || subcategory.category_id === selectedCategory)
+          .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+
+        subcategoryFilter.innerHTML =
+          '<option value="all">Todas las subcategorías</option>' +
+          activeSubcategories
+            .map((subcategory) => `<option value="${escapeHTML(subcategory.id)}">${escapeHTML(subcategory.name)}</option>`)
+            .join("");
+
+        subcategoryFilter.value = "all";
+        renderProducts();
+      });
+      subcategoryFilter.addEventListener("change", renderProducts);
       stockFilter.addEventListener("change", renderProducts);
 
       resetBtn.addEventListener("click", resetForm);

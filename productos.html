@@ -677,7 +677,6 @@
         const categoryName = row.categories?.name || row.category || "Categoría no definida";
 
         const subcategoryName =
-          row.subcategories?.name ||
           row.subcategory?.name ||
           row.subcategory ||
           row.subcategory_name ||
@@ -893,7 +892,7 @@
             throw new Error("Supabase no está configurado.");
           }
 
-          const { data: productRows, error: productsError } = await window.NYMSupabase
+          const { data, error } = await window.NYMSupabase
             .from("products")
             .select(`
               *,
@@ -908,63 +907,11 @@
             `)
             .order("created_at", { ascending: false });
 
-          if (productsError) {
-            throw productsError;
+          if (error) {
+            throw error;
           }
 
-          const categoryIds = [
-            ...new Set(
-              (productRows || [])
-                .map((product) => product.category_id)
-                .filter(Boolean)
-            )
-          ];
-
-          let subcategoriesById = {};
-          let subcategoriesByCategoryId = {};
-
-          if (categoryIds.length > 0) {
-            const { data: subcategoryRows, error: subcategoriesError } = await window.NYMSupabase
-              .from("subcategories")
-              .select("*")
-              .in("category_id", categoryIds);
-
-            if (!subcategoriesError && subcategoryRows) {
-              subcategoryRows.forEach((subcategory) => {
-                subcategoriesById[subcategory.id] = subcategory;
-
-                if (!subcategoriesByCategoryId[subcategory.category_id]) {
-                  subcategoriesByCategoryId[subcategory.category_id] = [];
-                }
-
-                subcategoriesByCategoryId[subcategory.category_id].push(subcategory);
-              });
-            } else {
-              console.warn("No se pudieron cargar subcategorías:", subcategoriesError);
-            }
-          }
-
-          products = (productRows || []).map((row) => {
-            const productSubcategory =
-              subcategoriesById[row.subcategory_id] ||
-              subcategoriesById[row.sub_category_id] ||
-              null;
-
-            const firstCategorySubcategory =
-              subcategoriesByCategoryId[row.category_id]?.[0] || null;
-
-            return normalizeProduct({
-              ...row,
-              subcategory:
-                productSubcategory?.name ||
-                row.subcategory ||
-                row.subcategory_name ||
-                row.sub_category ||
-                row.sub_category_name ||
-                firstCategorySubcategory?.name ||
-                ""
-            });
-          });
+          products = (data || []).map(normalizeProduct);
 
           renderProducts();
           updateDynamicFilters();
@@ -974,6 +921,9 @@
           console.error("No se pudieron cargar los productos:", error);
 
           catalogGrid.innerHTML = "";
+          categoryFilters.innerHTML = "";
+          brandFilters.innerHTML = "";
+
           resultSummary.textContent = "No se pudieron cargar los productos.";
           emptyState.classList.add("show");
         }

@@ -396,6 +396,50 @@
       color: var(--muted);
     }
 
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+    }
+
+    .pagination button {
+      min-width: 38px;
+      height: 38px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--text);
+      font: inherit;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pagination button:hover:not(:disabled) {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #eef3ff;
+    }
+
+    .pagination button.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .pagination button:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
     @media (max-width: 1100px) {
       .catalog-layout {
         grid-template-columns: 1fr;
@@ -666,6 +710,8 @@
           <h3>No encontramos productos con ese filtro</h3>
           <p>Prueba con otra categoría, otra marca o cambia el texto de búsqueda.</p>
         </div>
+
+        <nav class="pagination" id="pagination" aria-label="Páginas del catálogo"></nav>
       </div>
     </div>
   </section>
@@ -737,7 +783,11 @@
       const activeFilters = document.getElementById("active-filters");
       const emptyState = document.getElementById("empty-state");
 
+      const PRODUCTS_PER_PAGE = 9;
+
       let products = [];
+      let filteredProducts = [];
+      let currentPage = 1;
       let currentCategory = "all";
       let currentSubcategory = "all";
       let currentBrand = "all";
@@ -852,8 +902,69 @@
       function renderProducts() {
         catalogGrid.innerHTML = "";
 
-        products.forEach((product) => {
+        const start = (currentPage - 1) * PRODUCTS_PER_PAGE;
+        const end   = start + PRODUCTS_PER_PAGE;
+        const pageProducts = filteredProducts.slice(start, end);
+
+        if (pageProducts.length === 0) {
+          emptyState.classList.add("show");
+          renderPagination(0);
+          return;
+        }
+
+        emptyState.classList.remove("show");
+        pageProducts.forEach((product) => {
           catalogGrid.appendChild(createProductCard(product));
+        });
+
+        renderPagination(filteredProducts.length);
+
+        // Scroll suave al inicio del catálogo al cambiar página
+        catalogGrid.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function renderPagination(total) {
+        const pagination = document.getElementById("pagination");
+        if (!pagination) return;
+
+        const totalPages = Math.ceil(total / PRODUCTS_PER_PAGE);
+
+        if (totalPages <= 1) {
+          pagination.innerHTML = "";
+          return;
+        }
+
+        let html = `
+          <button ${currentPage === 1 ? "disabled" : ""} data-page="${currentPage - 1}" aria-label="Página anterior">
+            <i class="fa-solid fa-angle-left"></i>
+          </button>
+        `;
+
+        for (let i = 1; i <= totalPages; i++) {
+          if (
+            i === 1 ||
+            i === totalPages ||
+            (i >= currentPage - 1 && i <= currentPage + 1)
+          ) {
+            html += `<button class="${i === currentPage ? "active" : ""}" data-page="${i}">${i}</button>`;
+          } else if (i === currentPage - 2 || i === currentPage + 2) {
+            html += `<button disabled>…</button>`;
+          }
+        }
+
+        html += `
+          <button ${currentPage === totalPages ? "disabled" : ""} data-page="${currentPage + 1}" aria-label="Página siguiente">
+            <i class="fa-solid fa-angle-right"></i>
+          </button>
+        `;
+
+        pagination.innerHTML = html;
+
+        pagination.querySelectorAll("button[data-page]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            currentPage = parseInt(btn.dataset.page);
+            renderProducts();
+          });
         });
       }
 
@@ -983,34 +1094,30 @@
       }
 
       function filterProducts() {
-        let visibleCount = 0;
+        filteredProducts = products.filter((product) => {
+          const catSlug = slugify(product.category);
+          const subSlug = slugify(product.subcategory);
+          const brandSlug = slugify(product.brand);
+          const searchText = `${product.name} ${product.brand} ${product.category} ${product.subcategory} ${product.desc}`.toLowerCase();
 
-        document.querySelectorAll(".catalog-product").forEach((card) => {
-          const matchesCategory =
-            currentCategory === "all" || card.dataset.category === currentCategory;
+          const matchesCategory    = currentCategory    === "all" || catSlug   === currentCategory;
+          const matchesSubcategory = currentSubcategory === "all" || subSlug   === currentSubcategory;
+          const matchesBrand       = currentBrand       === "all" || brandSlug === currentBrand;
+          const matchesSearch      = currentSearch      === ""    || searchText.includes(currentSearch);
 
-          const matchesSubcategory =
-            currentSubcategory === "all" || card.dataset.subcategory === currentSubcategory;
-
-          const matchesBrand =
-            currentBrand === "all" || card.dataset.brand === currentBrand;
-
-          const matchesSearch =
-            currentSearch === "" || card.dataset.name.includes(currentSearch);
-
-          const shouldShow = matchesCategory && matchesSubcategory && matchesBrand && matchesSearch;
-
-          card.style.display = shouldShow ? "" : "none";
-
-          if (shouldShow) visibleCount++;
+          return matchesCategory && matchesSubcategory && matchesBrand && matchesSearch;
         });
 
-        resultSummary.textContent =
-          visibleCount === 1
-            ? "Mostrando 1 producto."
-            : `Mostrando ${visibleCount} productos.`;
+        const total = filteredProducts.length;
 
-        emptyState.classList.toggle("show", visibleCount === 0);
+        resultSummary.textContent =
+          total === 1
+            ? "Mostrando 1 producto."
+            : `Mostrando ${total} productos.`;
+
+        emptyState.classList.toggle("show", total === 0);
+        currentPage = 1;
+        renderProducts();
         updateTags();
       }
 

@@ -8,14 +8,31 @@
 
   <meta
     name="description"
-    content="Conoce cómo Industrial Import NYM atiende a sus clientes con una propuesta moderna, clara y profesional."
+    content="Conoce cómo Industrial Import NYM atiende a sus clientes con una propuesta moderna, clara y profesional en Lima, Perú."
   />
+
+  <meta name="keywords" content="clientes Industrial Import NYM, atención comercial, cotización electrónica, empresas Lima Perú" />
+  <meta name="author" content="Industrial Import NYM" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="Clientes | Industrial Import NYM" />
+  <meta property="og:description" content="Así atendemos a nuestros clientes: con claridad, confianza y respuesta rápida para consultas y cotizaciones." />
+  <meta property="og:image" content="imagenes/banners/banner-1.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_PE" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Clientes | Industrial Import NYM" />
+  <meta name="twitter:description" content="Atención comercial personalizada para empresas que necesitan componentes electrónicos e industriales." />
+  <meta name="twitter:image" content="imagenes/banners/banner-1.png" />
 
   <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
   <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://lzaolbleriqwbnnejypy.supabase.co" />
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
 
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
@@ -263,6 +280,65 @@
         padding: 22px;
       }
     }
+  
+    .nav-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .nav-dropdown-btn {
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0;
+    }
+    .nav-dropdown-btn i { font-size: 0.78rem; transition: transform 0.25s ease; }
+    .nav-dropdown:hover .nav-dropdown-btn,
+    .nav-dropdown.active .nav-dropdown-btn { color: var(--primary); }
+    .nav-dropdown:hover .nav-dropdown-btn i,
+    .nav-dropdown.active .nav-dropdown-btn i { transform: rotate(180deg); }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 14px);
+      right: 0;
+      width: 230px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      padding: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: 0.25s ease;
+      z-index: 120;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown.active .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+    .nav-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 14px;
+      border-radius: 12px;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .nav-dropdown-menu a:hover { background: #eef3ff; color: var(--primary); }
+    .nav-dropdown-menu i { color: var(--primary); }
+    @media (max-width: 900px) {
+      .nav-dropdown { width: 100%; display: block; }
+      .nav-dropdown-btn { width: 100%; justify-content: space-between; padding: 12px 0; }
+      .nav-dropdown-menu { position: static; width: 100%; opacity: 1; visibility: visible; transform: none; box-shadow: none; border-radius: 14px; margin-top: 6px; display: none; }
+      .nav-dropdown.active .nav-dropdown-menu { display: block; }
+    }
   </style>
 </head>
 
@@ -307,6 +383,18 @@
         <a href="marcas.html">Marcas</a>
         <a href="clientes.html" class="active">Clientes</a>
         <a href="contacto.html">Contacto</a>
+                <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" type="button">
+            Administrador
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="admin-login.html">
+              <i class="fa-solid fa-user-shield"></i>
+              Ingresar al panel
+            </a>
+          </div>
+        </div>
         <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
       </nav>
 
@@ -493,5 +581,18 @@
   <script src="js/supabase-config.js"></script>
   <script src="js/script.js"></script>
   <script src="js/company-settings.js"></script>
+
+  <!-- Botón flotante WhatsApp -->
+  <a href="https://wa.me/51966441035" class="whatsapp-fab" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" data-whatsapp-link>
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-fab-label">¿Necesitas ayuda?</span>
+  </a>
+  <style>
+    .whatsapp-fab{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;align-items:center;gap:10px;background:#25d366;color:#fff;border-radius:999px;padding:14px 20px 14px 16px;font-weight:700;font-size:.95rem;box-shadow:0 6px 24px rgba(37,211,102,.45);text-decoration:none;transition:transform .2s ease,box-shadow .2s ease;animation:fab-enter .5s ease 1.5s both;}
+    .whatsapp-fab i{font-size:1.5rem;}
+    .whatsapp-fab:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 10px 32px rgba(37,211,102,.55);color:#fff;}
+    @keyframes fab-enter{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    @media(max-width:560px){.whatsapp-fab-label{display:none;}.whatsapp-fab{padding:16px;border-radius:50%;}}
+  </style>
 </body>
 </html>

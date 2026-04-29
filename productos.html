@@ -893,7 +893,7 @@
             throw new Error("Supabase no está configurado.");
           }
 
-          let query = window.NYMSupabase
+          const { data: productRows, error: productsError } = await window.NYMSupabase
             .from("products")
             .select(`
               *,
@@ -904,39 +904,67 @@
               categories (
                 name,
                 icon
-              ),
-              subcategories (
-                name
               )
             `)
             .order("created_at", { ascending: false });
 
-          const { data, error } = await query;
-
-          if (error) {
-            console.error("Error cargando productos:", error);
-
-            const fallbackQuery = await window.NYMSupabase
-              .from("products")
-              .select(`
-                *,
-                brands (
-                  name,
-                  logo_url
-                ),
-                categories (
-                  name,
-                  icon
-                )
-              `)
-              .order("created_at", { ascending: false });
-
-            if (fallbackQuery.error) throw fallbackQuery.error;
-
-            products = (fallbackQuery.data || []).map(normalizeProduct);
-          } else {
-            products = (data || []).map(normalizeProduct);
+          if (productsError) {
+            throw productsError;
           }
+
+          const categoryIds = [
+            ...new Set(
+              (productRows || [])
+                .map((product) => product.category_id)
+                .filter(Boolean)
+            )
+          ];
+
+          let subcategoriesById = {};
+          let subcategoriesByCategoryId = {};
+
+          if (categoryIds.length > 0) {
+            const { data: subcategoryRows, error: subcategoriesError } = await window.NYMSupabase
+              .from("subcategories")
+              .select("*")
+              .in("category_id", categoryIds);
+
+            if (!subcategoriesError && subcategoryRows) {
+              subcategoryRows.forEach((subcategory) => {
+                subcategoriesById[subcategory.id] = subcategory;
+
+                if (!subcategoriesByCategoryId[subcategory.category_id]) {
+                  subcategoriesByCategoryId[subcategory.category_id] = [];
+                }
+
+                subcategoriesByCategoryId[subcategory.category_id].push(subcategory);
+              });
+            } else {
+              console.warn("No se pudieron cargar subcategorías:", subcategoriesError);
+            }
+          }
+
+          products = (productRows || []).map((row) => {
+            const productSubcategory =
+              subcategoriesById[row.subcategory_id] ||
+              subcategoriesById[row.sub_category_id] ||
+              null;
+
+            const firstCategorySubcategory =
+              subcategoriesByCategoryId[row.category_id]?.[0] || null;
+
+            return normalizeProduct({
+              ...row,
+              subcategory:
+                productSubcategory?.name ||
+                row.subcategory ||
+                row.subcategory_name ||
+                row.sub_category ||
+                row.sub_category_name ||
+                firstCategorySubcategory?.name ||
+                ""
+            });
+          });
 
           renderProducts();
           updateDynamicFilters();

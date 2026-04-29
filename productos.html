@@ -626,6 +626,11 @@
             <div class="filter-list" id="category-filters"></div>
           </div>
 
+          <div class="filter-group" id="subcategory-filter-group" style="display:none;">
+            <h4>Subcategorías</h4>
+            <div class="filter-list" id="subcategory-filters"></div>
+          </div>
+
           <div class="filter-group">
             <h4>Marcas</h4>
             <div class="filter-list" id="brand-filters"></div>
@@ -724,6 +729,8 @@
     document.addEventListener("DOMContentLoaded", async () => {
       const catalogGrid = document.getElementById("catalog-grid");
       const categoryFilters = document.getElementById("category-filters");
+      const subcategoryFilters = document.getElementById("subcategory-filters");
+      const subcategoryFilterGroup = document.getElementById("subcategory-filter-group");
       const brandFilters = document.getElementById("brand-filters");
       const searchInput = document.getElementById("product-search");
       const resultSummary = document.getElementById("result-summary");
@@ -732,6 +739,7 @@
 
       let products = [];
       let currentCategory = "all";
+      let currentSubcategory = "all";
       let currentBrand = "all";
       let currentSearch = "";
 
@@ -792,6 +800,7 @@
 
         article.className = "product-card large catalog-product";
         article.dataset.category = slugify(product.category);
+        article.dataset.subcategory = slugify(product.subcategory);
         article.dataset.brand = slugify(product.brand);
         article.dataset.name = `${product.name} ${product.brand} ${product.category} ${product.subcategory} ${product.desc}`.toLowerCase();
 
@@ -851,11 +860,22 @@
       function updateDynamicFilters() {
         const categories = new Map();
         const brands = new Map();
+        const subcategoriesByCategory = new Map();
 
         products.forEach((product) => {
-          categories.set(slugify(product.category), product.category);
+          const catSlug = slugify(product.category);
+          categories.set(catSlug, product.category);
           brands.set(slugify(product.brand), product.brand);
+
+          if (product.subcategory && product.subcategory !== "Subcategoría no definida") {
+            if (!subcategoriesByCategory.has(catSlug)) {
+              subcategoriesByCategory.set(catSlug, new Map());
+            }
+            subcategoriesByCategory.get(catSlug).set(slugify(product.subcategory), product.subcategory);
+          }
         });
+
+        window._nymSubcatMap = subcategoriesByCategory;
 
         categoryFilters.innerHTML = `
           <button class="filter-btn active" type="button" data-filter-type="category" data-filter-value="all">
@@ -892,15 +912,56 @@
               </button>
             `;
           });
+
+        renderSubcategoryFilters(currentCategory);
+      }
+
+      function renderSubcategoryFilters(catSlug) {
+        const map = window._nymSubcatMap || new Map();
+        const subs = map.get(catSlug);
+
+        if (!subs || subs.size === 0 || catSlug === "all") {
+          subcategoryFilterGroup.style.display = "none";
+          subcategoryFilters.innerHTML = "";
+          return;
+        }
+
+        subcategoryFilterGroup.style.display = "";
+        subcategoryFilters.innerHTML = `
+          <button class="filter-btn active" type="button" data-filter-type="subcategory" data-filter-value="all">
+            <span>Todas</span>
+            <i class="fa-solid fa-sitemap"></i>
+          </button>
+        `;
+
+        [...subs.entries()]
+          .sort((a, b) => a[1].localeCompare(b[1]))
+          .forEach(([value, label]) => {
+            subcategoryFilters.innerHTML += `
+              <button class="filter-btn" type="button" data-filter-type="subcategory" data-filter-value="${escapeHTML(value)}">
+                <span>${escapeHTML(label)}</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+            `;
+          });
+
+        subcategoryFilters.querySelectorAll("[data-filter-type='subcategory']").forEach(btn => {
+          btn.classList.toggle("active", btn.dataset.filterValue === currentSubcategory);
+          btn.addEventListener("click", () => {
+            currentSubcategory = btn.dataset.filterValue;
+            subcategoryFilters.querySelectorAll("[data-filter-type='subcategory']").forEach(b => {
+              b.classList.toggle("active", b === btn);
+            });
+            filterProducts();
+          });
+        });
       }
 
       function getFilterLabel(type, value) {
         if (value === "all") return "Todas";
-
         const button = document.querySelector(
           `[data-filter-type="${type}"][data-filter-value="${value}"] span`
         );
-
         return button ? button.textContent.trim() : value;
       }
 
@@ -909,6 +970,10 @@
           `<span class="active-filter-tag">Categoría: ${escapeHTML(getFilterLabel("category", currentCategory))}</span>`,
           `<span class="active-filter-tag">Marca: ${escapeHTML(getFilterLabel("brand", currentBrand))}</span>`
         ];
+
+        if (currentSubcategory !== "all") {
+          tags.push(`<span class="active-filter-tag">Subcategoría: ${escapeHTML(getFilterLabel("subcategory", currentSubcategory))}</span>`);
+        }
 
         if (currentSearch) {
           tags.push(`<span class="active-filter-tag">Búsqueda: ${escapeHTML(currentSearch)}</span>`);
@@ -924,13 +989,16 @@
           const matchesCategory =
             currentCategory === "all" || card.dataset.category === currentCategory;
 
+          const matchesSubcategory =
+            currentSubcategory === "all" || card.dataset.subcategory === currentSubcategory;
+
           const matchesBrand =
             currentBrand === "all" || card.dataset.brand === currentBrand;
 
           const matchesSearch =
             currentSearch === "" || card.dataset.name.includes(currentSearch);
 
-          const shouldShow = matchesCategory && matchesBrand && matchesSearch;
+          const shouldShow = matchesCategory && matchesSubcategory && matchesBrand && matchesSearch;
 
           card.style.display = shouldShow ? "" : "none";
 
@@ -947,24 +1015,29 @@
       }
 
       function bindFilters() {
-        document.querySelectorAll("[data-filter-type]").forEach((button) => {
+        // Categorías — al cambiar resetea subcategoría
+        categoryFilters.querySelectorAll("[data-filter-type='category']").forEach((button) => {
           button.addEventListener("click", () => {
-            const type = button.dataset.filterType;
+            currentCategory = button.dataset.filterValue;
+            currentSubcategory = "all";
 
-            if (type === "category") {
-              currentCategory = button.dataset.filterValue;
-            }
+            categoryFilters.querySelectorAll("[data-filter-type='category']").forEach(b => {
+              b.classList.toggle("active", b === button);
+            });
 
-            if (type === "brand") {
-              currentBrand = button.dataset.filterValue;
-            }
+            // Mostrar subcategorías de la categoría elegida
+            renderSubcategoryFilters(currentCategory);
+            filterProducts();
+          });
+        });
 
-            document
-              .querySelectorAll(`[data-filter-type="${type}"]`)
-              .forEach((item) => {
-                item.classList.toggle("active", item === button);
-              });
-
+        // Marcas
+        brandFilters.querySelectorAll("[data-filter-type='brand']").forEach((button) => {
+          button.addEventListener("click", () => {
+            currentBrand = button.dataset.filterValue;
+            brandFilters.querySelectorAll("[data-filter-type='brand']").forEach(b => {
+              b.classList.toggle("active", b === button);
+            });
             filterProducts();
           });
         });

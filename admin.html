@@ -1903,10 +1903,21 @@
           .filter((subcategory) => !categoryId || subcategory.category_id === categoryId)
           .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 
+        // Si no hay categoría seleccionada, mostrar todas con el nombre de categoría entre paréntesis
+        const showCategoryHint = !categoryId;
+
         fields.subcategory.innerHTML =
           '<option value="">Selecciona una subcategoría</option>' +
           filteredSubcategories
-            .map((subcategory) => `<option value="${escapeHTML(subcategory.id)}">${escapeHTML(subcategory.name)}</option>`)
+            .map((subcategory) => {
+              const catName = showCategoryHint
+                ? categories.find((c) => c.id === subcategory.category_id)?.name || ""
+                : "";
+              const label = catName
+                ? `${escapeHTML(subcategory.name)} (${escapeHTML(catName)})`
+                : escapeHTML(subcategory.name);
+              return `<option value="${escapeHTML(subcategory.id)}">${label}</option>`;
+            })
             .join("");
 
         fields.subcategory.value = selectedSubcategoryId || "";
@@ -2625,6 +2636,23 @@
 
       fields.category.addEventListener("change", () => {
         renderSubcategoryProductSelector(fields.category.value);
+      });
+
+      // Al elegir subcategoría → auto-selecciona su categoría padre
+      fields.subcategory.addEventListener("change", () => {
+        const subId = fields.subcategory.value;
+        if (!subId) return;
+
+        const sub = subcategories.find((s) => s.id === subId);
+        if (!sub || !sub.category_id) return;
+
+        // Si la categoría padre es distinta a la actual, actualizarla
+        if (fields.category.value !== sub.category_id) {
+          fields.category.value = sub.category_id;
+          // Refrescar lista de subcategorías para mostrar solo las de esa categoría
+          // manteniendo la subcategoría que el usuario ya eligió
+          renderSubcategoryProductSelector(sub.category_id, subId);
+        }
       });
 
       form.addEventListener("submit", async (event) => {

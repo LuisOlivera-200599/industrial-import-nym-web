@@ -398,6 +398,65 @@
         width: 100%;
       }
     }
+  
+    .nav-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .nav-dropdown-btn {
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0;
+    }
+    .nav-dropdown-btn i { font-size: 0.78rem; transition: transform 0.25s ease; }
+    .nav-dropdown:hover .nav-dropdown-btn,
+    .nav-dropdown.active .nav-dropdown-btn { color: var(--primary); }
+    .nav-dropdown:hover .nav-dropdown-btn i,
+    .nav-dropdown.active .nav-dropdown-btn i { transform: rotate(180deg); }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 14px);
+      right: 0;
+      width: 230px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      padding: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: 0.25s ease;
+      z-index: 120;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown.active .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+    .nav-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 14px;
+      border-radius: 12px;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .nav-dropdown-menu a:hover { background: #eef3ff; color: var(--primary); }
+    .nav-dropdown-menu i { color: var(--primary); }
+    @media (max-width: 900px) {
+      .nav-dropdown { width: 100%; display: block; }
+      .nav-dropdown-btn { width: 100%; justify-content: space-between; padding: 12px 0; }
+      .nav-dropdown-menu { position: static; width: 100%; opacity: 1; visibility: visible; transform: none; box-shadow: none; border-radius: 14px; margin-top: 6px; display: none; }
+      .nav-dropdown.active .nav-dropdown-menu { display: block; }
+    }
   </style>
 </head>
 
@@ -441,6 +500,18 @@
         <a href="marcas.html">Marcas</a>
         <a href="clientes.html">Clientes</a>
         <a href="contacto.html" class="active">Contacto</a>
+                <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" type="button">
+            Administrador
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="admin-login.html">
+              <i class="fa-solid fa-user-shield"></i>
+              Ingresar al panel
+            </a>
+          </div>
+        </div>
         <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
       </nav>
 
@@ -544,7 +615,7 @@
           <div class="form-row">
             <div class="field">
               <label for="nombre">Nombre completo</label>
-              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" />
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required autocomplete="name" />
             </div>
 
             <div class="field">
@@ -556,12 +627,12 @@
           <div class="form-row">
             <div class="field">
               <label for="correo">Correo electrónico</label>
-              <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" />
+              <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" required autocomplete="email" />
             </div>
 
             <div class="field">
               <label for="telefono">Teléfono</label>
-              <input type="text" id="telefono" name="telefono" placeholder="999 999 999" />
+              <input type="text" id="telefono" name="telefono" placeholder="999 999 999" required autocomplete="tel" pattern="[0-9 +()-]{7,20}" />
             </div>
           </div>
 
@@ -596,6 +667,7 @@
             <textarea
               id="mensaje"
               name="mensaje"
+              required
               placeholder="Escribe aquí tu consulta o el detalle de tu cotización..."
             ></textarea>
           </div>
@@ -604,10 +676,12 @@
             Al enviar, se abrirá WhatsApp con tu solicitud armada automáticamente.
           </div>
 
+          <div id="form-feedback" style="display:none; padding: 14px 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 600; text-align: center;"></div>
+
           <div class="form-submit">
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" id="form-submit-btn" class="btn btn-primary">
               <i class="fa-brands fa-whatsapp"></i>
-              Enviar solicitud por WhatsApp
+              <span id="form-submit-text">Enviar solicitud por WhatsApp</span>
             </button>
           </div>
         </form>
@@ -738,6 +812,14 @@
       contactForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
+        const submitBtn = document.getElementById("form-submit-btn");
+        const submitText = document.getElementById("form-submit-text");
+        const feedback = document.getElementById("form-feedback");
+
+        // Spinner estado enviando
+        submitBtn.disabled = true;
+        submitText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Preparando mensaje...';
+
         const nombre = getCleanValue("nombre");
         const empresa = getCleanValue("empresa");
         const correo = getCleanValue("correo");
@@ -787,8 +869,33 @@
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(finalMessage)}`;
 
         window.open(whatsappUrl, "_blank", "noopener");
+
+        // Feedback de éxito
+        feedback.style.display = "block";
+        feedback.style.background = "#ecfdf5";
+        feedback.style.color = "#065f46";
+        feedback.style.border = "1px solid #6ee7b7";
+        feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i>&nbsp; ¡Listo! Se abrió WhatsApp con tu solicitud. Si no abrió, revisa los permisos de tu navegador.';
+
+        submitBtn.disabled = false;
+        submitText.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Enviar solicitud por WhatsApp';
+
+        contactForm.reset();
       });
     });
   </script>
+
+  <!-- Botón flotante WhatsApp -->
+  <a href="https://wa.me/51966441035" class="whatsapp-fab" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" data-whatsapp-link>
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-fab-label">¿Necesitas ayuda?</span>
+  </a>
+  <style>
+    .whatsapp-fab{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;align-items:center;gap:10px;background:#25d366;color:#fff;border-radius:999px;padding:14px 20px 14px 16px;font-weight:700;font-size:.95rem;box-shadow:0 6px 24px rgba(37,211,102,.45);text-decoration:none;transition:transform .2s ease,box-shadow .2s ease;animation:fab-enter .5s ease 1.5s both;}
+    .whatsapp-fab i{font-size:1.5rem;}
+    .whatsapp-fab:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 10px 32px rgba(37,211,102,.55);color:#fff;}
+    @keyframes fab-enter{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    @media(max-width:560px){.whatsapp-fab-label{display:none;}.whatsapp-fab{padding:16px;border-radius:50%;}}
+  </style>
 </body>
 </html>

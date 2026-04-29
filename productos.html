@@ -888,11 +888,11 @@
 
       async function loadProducts() {
         try {
-          if (!window.NYMSupabase) {
+          if (!window.nymSupabase) {
             throw new Error("Supabase no está configurado.");
           }
 
-          const { data, error } = await window.NYMSupabase
+          const { data, error } = await window.nymSupabase
             .from("products")
             .select(`
               *,

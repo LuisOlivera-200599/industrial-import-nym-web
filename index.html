@@ -37,6 +37,33 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://lzaolbleriqwbnnejypy.supabase.co" />
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Industrial Import NYM",
+    "description": "Empresa peruana de componentes electrónicos, dispositivos industriales y soluciones de automatización.",
+    "url": "https://industrialimportnym.com",
+    "logo": "imagenes/banners/banner-1.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+51-966-441-035",
+      "contactType": "customer service",
+      "availableLanguage": "Spanish"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. Republica de Argentina 211",
+      "addressLocality": "Lima",
+      "postalCode": "15079",
+      "addressCountry": "PE"
+    },
+    "sameAs": []
+  }
+  </script>
 
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
@@ -600,6 +627,7 @@
         <img
           src="imagenes/general/general-1.png"
           alt="Visual de propuesta comercial y tecnológica"
+          loading="lazy"
         />
       </div>
     </div>
@@ -649,55 +677,30 @@
         <a href="productos.html" class="btn btn-secondary">Explorar productos</a>
       </div>
 
-      <div class="product-grid home-products">
-        <article class="product-card">
-          <div class="product-image real-image">
-            <img src="imagenes/productos/productos-1.png" alt="Producto destacado 1" />
-          </div>
-
+      <div class="product-grid home-products" id="home-products-grid">
+        <!-- Skeleton loader -->
+        <article class="product-card skeleton-card" aria-hidden="true">
+          <div class="product-image real-image" style="background:#f1f3f7;min-height:180px;"></div>
           <div class="product-body">
-            <span class="product-brand">ABB</span>
-            <h3>Controlador industrial demo</h3>
-            <p>Solución orientada a procesos de control y automatización.</p>
-
-            <div class="product-footer">
-              <span class="stock available">Disponible</span>
-              <a href="contacto.html" class="product-link">Consultar</a>
-            </div>
+            <div style="height:14px;width:60%;background:#eee;border-radius:8px;margin-bottom:12px;"></div>
+            <div style="height:18px;width:85%;background:#eee;border-radius:8px;margin-bottom:8px;"></div>
+            <div style="height:14px;width:100%;background:#eee;border-radius:8px;"></div>
           </div>
         </article>
-
-        <article class="product-card">
-          <div class="product-image real-image">
-            <img src="imagenes/productos/productos-2.png" alt="Producto destacado 2" />
-          </div>
-
+        <article class="product-card skeleton-card" aria-hidden="true">
+          <div class="product-image real-image" style="background:#f1f3f7;min-height:180px;"></div>
           <div class="product-body">
-            <span class="product-brand">Schneider Electric</span>
-            <h3>Componente modular demo</h3>
-            <p>Producto de muestra con enfoque en instalación ordenada.</p>
-
-            <div class="product-footer">
-              <span class="stock preorder">Bajo pedido</span>
-              <a href="contacto.html" class="product-link">Consultar</a>
-            </div>
+            <div style="height:14px;width:55%;background:#eee;border-radius:8px;margin-bottom:12px;"></div>
+            <div style="height:18px;width:90%;background:#eee;border-radius:8px;margin-bottom:8px;"></div>
+            <div style="height:14px;width:100%;background:#eee;border-radius:8px;"></div>
           </div>
         </article>
-
-        <article class="product-card">
-          <div class="product-image real-image">
-            <img src="imagenes/productos/productos-3.png" alt="Producto destacado 3" />
-          </div>
-
+        <article class="product-card skeleton-card" aria-hidden="true">
+          <div class="product-image real-image" style="background:#f1f3f7;min-height:180px;"></div>
           <div class="product-body">
-            <span class="product-brand">CHINT</span>
-            <h3>Interruptor automático demo</h3>
-            <p>Equipo de protección y control para líneas técnicas.</p>
-
-            <div class="product-footer">
-              <span class="stock unavailable">Sin stock</span>
-              <a href="contacto.html" class="product-link">Consultar</a>
-            </div>
+            <div style="height:14px;width:50%;background:#eee;border-radius:8px;margin-bottom:12px;"></div>
+            <div style="height:18px;width:80%;background:#eee;border-radius:8px;margin-bottom:8px;"></div>
+            <div style="height:14px;width:100%;background:#eee;border-radius:8px;"></div>
           </div>
         </article>
       </div>
@@ -719,15 +722,15 @@
 
       <div class="brands-grid enhanced">
         <div class="brand-box">
-          <img src="imagenes/marcas/marcas-1.png" alt="Marca 1" />
+          <img src="imagenes/marcas/marcas-1.png" alt="Logo de marca industrial distribuida por NYM" loading="lazy" />
         </div>
 
         <div class="brand-box">
-          <img src="imagenes/marcas/marcas-2.png" alt="Marca 2" />
+          <img src="imagenes/marcas/marcas-2.png" alt="Logo de marca electrónica distribuida por NYM" loading="lazy" />
         </div>
 
         <div class="brand-box">
-          <img src="imagenes/marcas/marcas-3.png" alt="Marca 3" />
+          <img src="imagenes/marcas/marcas-3.png" alt="Logo de proveedor industrial de Industrial Import NYM" loading="lazy" />
         </div>
 
         <div class="brand-box">CHINT</div>
@@ -875,5 +878,125 @@
   <script src="js/supabase-config.js"></script>
   <script src="js/script.js"></script>
   <script src="js/company-settings.js"></script>
+
+  <!-- Botón flotante WhatsApp -->
+  <a
+    href="https://wa.me/51966441035"
+    class="whatsapp-fab"
+    target="_blank"
+    rel="noopener"
+    aria-label="Contactar por WhatsApp"
+    data-whatsapp-link
+  >
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-fab-label">¿Necesitas ayuda?</span>
+  </a>
+
+  <style>
+    .whatsapp-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #25d366;
+      color: #fff;
+      border-radius: 999px;
+      padding: 14px 20px 14px 16px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 6px 24px rgba(37,211,102,0.45);
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: fab-enter 0.5s ease 1.5s both;
+    }
+    .whatsapp-fab i { font-size: 1.5rem; }
+    .whatsapp-fab:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 10px 32px rgba(37,211,102,0.55);
+      color: #fff;
+    }
+    @keyframes fab-enter {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 560px) {
+      .whatsapp-fab-label { display: none; }
+      .whatsapp-fab { padding: 16px; border-radius: 50%; }
+    }
+  </style>
+
+  <!-- Productos dinámicos desde Supabase -->
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const grid = document.getElementById("home-products-grid");
+      if (!grid || !window.nymSupabase) return;
+
+      function getStockClass(stock) {
+        const v = String(stock || "").toLowerCase();
+        if (v.includes("sin")) return "unavailable";
+        if (v.includes("pedido")) return "preorder";
+        return "available";
+      }
+
+      function escapeHTML(t) {
+        return String(t || "")
+          .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+          .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+      }
+
+      try {
+        const { data, error } = await window.nymSupabase
+          .from("products")
+          .select("*, brands(name, logo_url), categories(name)")
+          .order("created_at", { ascending: false })
+          .limit(3);
+
+        if (error || !data || data.length === 0) throw new Error("sin datos");
+
+        grid.innerHTML = data.map(row => {
+          const brand = row.brands?.name || row.brand || "";
+          const name = row.name || "Producto";
+          const desc = row.description || "Producto disponible para consulta comercial.";
+          const stock = row.stock_status || "Disponible";
+          const img = row.image_url || "imagenes/productos/productos-1.png";
+          const waText = encodeURIComponent(`Hola, quiero consultar por: ${name} - Marca: ${brand}`);
+          return `
+            <article class="product-card">
+              <div class="product-image real-image">
+                <img src="${escapeHTML(img)}" alt="${escapeHTML(name)} - ${escapeHTML(brand)}" loading="lazy" />
+              </div>
+              <div class="product-body">
+                <span class="product-brand">${escapeHTML(brand)}</span>
+                <h3>${escapeHTML(name)}</h3>
+                <p>${escapeHTML(desc)}</p>
+                <div class="product-footer">
+                  <span class="stock ${getStockClass(stock)}">${escapeHTML(stock)}</span>
+                  <a href="https://wa.me/51966441035?text=${waText}" target="_blank" rel="noopener" class="product-link">Consultar</a>
+                </div>
+              </div>
+            </article>`;
+        }).join("");
+
+      } catch {
+        // Fallback a productos estáticos si Supabase falla
+        grid.innerHTML = `
+          <article class="product-card">
+            <div class="product-image real-image"><img src="imagenes/productos/productos-1.png" alt="Controlador industrial ABB" loading="lazy" /></div>
+            <div class="product-body"><span class="product-brand">ABB</span><h3>Controlador industrial</h3><p>Solución para procesos de control y automatización.</p><div class="product-footer"><span class="stock available">Disponible</span><a href="contacto.html" class="product-link">Consultar</a></div></div>
+          </article>
+          <article class="product-card">
+            <div class="product-image real-image"><img src="imagenes/productos/productos-2.png" alt="Componente modular Schneider Electric" loading="lazy" /></div>
+            <div class="product-body"><span class="product-brand">Schneider Electric</span><h3>Componente modular</h3><p>Producto con enfoque en instalación ordenada.</p><div class="product-footer"><span class="stock preorder">Bajo pedido</span><a href="contacto.html" class="product-link">Consultar</a></div></div>
+          </article>
+          <article class="product-card">
+            <div class="product-image real-image"><img src="imagenes/productos/productos-3.png" alt="Interruptor automático CHINT" loading="lazy" /></div>
+            <div class="product-body"><span class="product-brand">CHINT</span><h3>Interruptor automático</h3><p>Equipo de protección y control para líneas técnicas.</p><div class="product-footer"><span class="stock unavailable">Sin stock</span><a href="contacto.html" class="product-link">Consultar</a></div></div>
+          </article>`;
+      }
+    });
+  </script>
 </body>
 </html>

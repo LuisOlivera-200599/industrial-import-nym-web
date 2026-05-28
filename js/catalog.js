@@ -314,104 +314,131 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  function updateDynamicFilters() {
-    const categories = new Map();
-    const brands = new Map();
-    const subcategoriesByCategory = new Map();
+  function productMatches(product, overrides = {}) {
+    const category = overrides.category ?? currentCategory;
+    const subcategory = overrides.subcategory ?? currentSubcategory;
+    const brand = overrides.brand ?? currentBrand;
+    const searchValue = overrides.search ?? currentSearch;
+    const catSlug = slugify(product.category);
+    const subSlug = slugify(product.subcategory);
+    const brandSlug = slugify(product.brand);
+    const searchText =
+      `${product.name} ${product.brand} ${product.category} ${product.subcategory} ${product.desc}`.toLowerCase();
 
-    products.forEach((product) => {
-      const catSlug = slugify(product.category);
-      categories.set(catSlug, product.category);
-      brands.set(slugify(product.brand), product.brand);
+    const matchesCategory = category === "all" || catSlug === category;
+    const matchesSubcategory = subcategory === "all" || subSlug === subcategory;
+    const matchesBrand = brand === "all" || brandSlug === brand;
+    const matchesSearch = searchValue === "" || searchText.includes(searchValue);
 
-      if (product.subcategory && product.subcategory !== "Subcategoría no definida") {
-        if (!subcategoriesByCategory.has(catSlug)) {
-          subcategoriesByCategory.set(catSlug, new Map());
-        }
-        subcategoriesByCategory.get(catSlug).set(slugify(product.subcategory), product.subcategory);
-      }
-    });
-
-    window._nymSubcatMap = subcategoriesByCategory;
-
-    categoryFilters.innerHTML = `
-          <button class="filter-btn active" type="button" data-filter-type="category" data-filter-value="all">
-            <span>Todas las categorías</span>
-            <i class="fa-solid fa-layer-group"></i>
-          </button>
-        `;
-
-    [...categories.entries()]
-      .sort((a, b) => a[1].localeCompare(b[1]))
-      .forEach(([value, label]) => {
-        categoryFilters.innerHTML += `
-              <button class="filter-btn" type="button" data-filter-type="category" data-filter-value="${escapeHTML(value)}">
-                <span>${escapeHTML(label)}</span>
-                <i class="fa-solid fa-angle-right"></i>
-              </button>
-            `;
-      });
-
-    brandFilters.innerHTML = `
-          <button class="filter-btn active" type="button" data-filter-type="brand" data-filter-value="all">
-            <span>Todas las marcas</span>
-            <i class="fa-solid fa-tags"></i>
-          </button>
-        `;
-
-    [...brands.entries()]
-      .sort((a, b) => a[1].localeCompare(b[1]))
-      .forEach(([value, label]) => {
-        brandFilters.innerHTML += `
-              <button class="filter-btn" type="button" data-filter-type="brand" data-filter-value="${escapeHTML(value)}">
-                <span>${escapeHTML(label)}</span>
-                <i class="fa-solid fa-angle-right"></i>
-              </button>
-            `;
-      });
-
-    renderSubcategoryFilters(currentCategory);
+    return matchesCategory && matchesSubcategory && matchesBrand && matchesSearch;
   }
 
-  function renderSubcategoryFilters(catSlug) {
-    const map = window._nymSubcatMap || new Map();
-    const subs = map.get(catSlug);
+  function renderFilterButtons(container, type, options, allLabel, iconClass, activeValue) {
+    container.innerHTML = `
+          <button class="filter-btn ${activeValue === "all" ? "active" : ""}" type="button" data-filter-type="${type}" data-filter-value="all">
+            <span>${escapeHTML(allLabel)}</span>
+            <i class="${escapeHTML(iconClass)}"></i>
+          </button>
+        `;
 
-    if (!subs || subs.size === 0 || catSlug === "all") {
+    [...options.entries()]
+      .sort((a, b) => a[1].localeCompare(b[1]))
+      .forEach(([value, label]) => {
+        container.innerHTML += `
+              <button class="filter-btn ${activeValue === value ? "active" : ""}" type="button" data-filter-type="${type}" data-filter-value="${escapeHTML(value)}">
+                <span>${escapeHTML(label)}</span>
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+            `;
+      });
+  }
+
+  function updateDynamicFilters() {
+    let categories = new Map();
+    let brands = new Map();
+    let subcategories = new Map();
+
+    for (let pass = 0; pass < 3; pass += 1) {
+      let changed = false;
+
+      categories = new Map();
+      brands = new Map();
+      subcategories = new Map();
+
+      products
+        .filter((product) => productMatches(product, { category: "all", subcategory: "all" }))
+        .forEach((product) => {
+          categories.set(slugify(product.category), product.category);
+        });
+
+      if (currentCategory !== "all" && !categories.has(currentCategory)) {
+        currentCategory = "all";
+        currentSubcategory = "all";
+        changed = true;
+      }
+
+      products
+        .filter((product) => productMatches(product, { brand: "all" }))
+        .forEach((product) => {
+          brands.set(slugify(product.brand), product.brand);
+        });
+
+      if (currentBrand !== "all" && !brands.has(currentBrand)) {
+        currentBrand = "all";
+        changed = true;
+      }
+
+      if (currentCategory !== "all") {
+        products
+          .filter((product) => productMatches(product, { subcategory: "all" }))
+          .forEach((product) => {
+            const subcategory = product.subcategory || "";
+            if (
+              subcategory &&
+              subcategory !== "Subcategoría no definida" &&
+              subcategory !== "SubcategorÃ­a no definida"
+            ) {
+              subcategories.set(slugify(subcategory), subcategory);
+            }
+          });
+      } else if (currentSubcategory !== "all") {
+        currentSubcategory = "all";
+        changed = true;
+      }
+
+      if (currentSubcategory !== "all" && !subcategories.has(currentSubcategory)) {
+        currentSubcategory = "all";
+        changed = true;
+      }
+
+      if (!changed) break;
+    }
+
+    renderFilterButtons(
+      categoryFilters,
+      "category",
+      categories,
+      "Todas las categorías",
+      "fa-solid fa-layer-group",
+      currentCategory,
+    );
+    renderFilterButtons(brandFilters, "brand", brands, "Todas las marcas", "fa-solid fa-tags", currentBrand);
+
+    if (currentCategory === "all" || subcategories.size === 0) {
       subcategoryFilterGroup.style.display = "none";
       subcategoryFilters.innerHTML = "";
       return;
     }
 
     subcategoryFilterGroup.style.display = "";
-    subcategoryFilters.innerHTML = `
-          <button class="filter-btn active" type="button" data-filter-type="subcategory" data-filter-value="all">
-            <span>Todas</span>
-            <i class="fa-solid fa-sitemap"></i>
-          </button>
-        `;
-
-    [...subs.entries()]
-      .sort((a, b) => a[1].localeCompare(b[1]))
-      .forEach(([value, label]) => {
-        subcategoryFilters.innerHTML += `
-              <button class="filter-btn" type="button" data-filter-type="subcategory" data-filter-value="${escapeHTML(value)}">
-                <span>${escapeHTML(label)}</span>
-                <i class="fa-solid fa-angle-right"></i>
-              </button>
-            `;
-      });
-
-    subcategoryFilters.querySelectorAll("[data-filter-type='subcategory']").forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.filterValue === currentSubcategory);
-      btn.addEventListener("click", () => {
-        currentSubcategory = btn.dataset.filterValue;
-        subcategoryFilters.querySelectorAll("[data-filter-type='subcategory']").forEach((b) => {
-          b.classList.toggle("active", b === btn);
-        });
-        filterProducts();
-      });
-    });
+    renderFilterButtons(
+      subcategoryFilters,
+      "subcategory",
+      subcategories,
+      "Todas",
+      "fa-solid fa-sitemap",
+      currentSubcategory,
+    );
   }
 
   function getFilterLabel(type, value) {
@@ -440,21 +467,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function filterProducts() {
-    filteredProducts = products.filter((product) => {
-      const catSlug = slugify(product.category);
-      const subSlug = slugify(product.subcategory);
-      const brandSlug = slugify(product.brand);
-      const searchText =
-        `${product.name} ${product.brand} ${product.category} ${product.subcategory} ${product.desc}`.toLowerCase();
-
-      const matchesCategory = currentCategory === "all" || catSlug === currentCategory;
-      const matchesSubcategory = currentSubcategory === "all" || subSlug === currentSubcategory;
-      const matchesBrand = currentBrand === "all" || brandSlug === currentBrand;
-      const matchesSearch = currentSearch === "" || searchText.includes(currentSearch);
-
-      return matchesCategory && matchesSubcategory && matchesBrand && matchesSearch;
-    });
-
+    updateDynamicFilters();
+    filteredProducts = products.filter((product) => productMatches(product));
     const total = filteredProducts.length;
 
     resultSummary.textContent = total === 1 ? "Mostrando 1 producto." : `Mostrando ${total} productos.`;
@@ -466,31 +480,25 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function bindFilters() {
-    // Categorías — al cambiar resetea subcategoría
-    categoryFilters.querySelectorAll("[data-filter-type='category']").forEach((button) => {
-      button.addEventListener("click", () => {
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-filter-type]");
+      if (!button) return;
+
+      if (button.dataset.filterType === "category") {
         currentCategory = button.dataset.filterValue;
         currentSubcategory = "all";
-
-        categoryFilters.querySelectorAll("[data-filter-type='category']").forEach((b) => {
-          b.classList.toggle("active", b === button);
-        });
-
-        // Mostrar subcategorías de la categoría elegida
-        renderSubcategoryFilters(currentCategory);
         filterProducts();
-      });
-    });
+      }
 
-    // Marcas
-    brandFilters.querySelectorAll("[data-filter-type='brand']").forEach((button) => {
-      button.addEventListener("click", () => {
+      if (button.dataset.filterType === "brand") {
         currentBrand = button.dataset.filterValue;
-        brandFilters.querySelectorAll("[data-filter-type='brand']").forEach((b) => {
-          b.classList.toggle("active", b === button);
-        });
         filterProducts();
-      });
+      }
+
+      if (button.dataset.filterType === "subcategory") {
+        currentSubcategory = button.dataset.filterValue;
+        filterProducts();
+      }
     });
 
     searchInput.addEventListener("input", () => {
@@ -528,8 +536,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       products = (data || []).map(normalizeProduct);
 
-      renderProducts();
-      updateDynamicFilters();
       bindFilters();
       filterProducts();
     } catch (error) {

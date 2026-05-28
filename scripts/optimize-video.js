@@ -17,7 +17,13 @@ function run(command, args) {
 }
 
 (async () => {
-  await fs.access(input);
+  try {
+    await fs.access(input);
+  } catch {
+    await fs.access(output);
+    console.log("Original video source is not committed; optimized video already exists.");
+    return;
+  }
 
   await run(ffmpeg, [
     "-y",

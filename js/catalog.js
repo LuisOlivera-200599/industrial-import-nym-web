@@ -60,6 +60,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       : `https://wa.me/51966441035?text=${encodeURIComponent(message)}`;
   }
 
+  function getProductDetailUrl(product) {
+    return `producto/${slugify(product.name)}--${encodeURIComponent(product.id)}/`;
+  }
+
   function loadQuoteProducts() {
     try {
       quoteProducts = JSON.parse(localStorage.getItem(QUOTE_STORAGE_KEY)) || [];
@@ -220,7 +224,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             </div>
 
             <div class="product-actions">
-              <a href="producto.html?id=${encodeURIComponent(product.id)}" class="btn btn-primary btn-sm">Ver detalle</a>
+              <a href="${escapeHTML(getProductDetailUrl(product))}" class="btn btn-primary btn-sm">Ver detalle</a>
               <button class="btn btn-secondary btn-sm" type="button" data-quote-add="${escapeHTML(product.id)}">Agregar a cotización</button>
               <a
                 href="${escapeHTML(getProductWhatsappUrl(product))}"

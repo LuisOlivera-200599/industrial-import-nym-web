@@ -78,12 +78,15 @@ expectIncludes("index.html", `<link rel="canonical" href="${baseUrl}"`);
 expectIncludes("productos.html", "quote-panel");
 expectIncludes("productos.html", "quote-items");
 expectIncludes("productos.html", "js/catalog.js");
+expectIncludes("js/catalog.js", "producto/${slugify(product.name)}--");
 expectIncludes("producto.html", "js/product-detail.js");
 expectIncludes("admin.html", "section-leads");
 expectIncludes("admin.html", "lead-status-filter");
+expectIncludes("admin.html", 'type="module" src="js/admin-app.js"');
 expectIncludes("admin.html", "admin-modal");
 expectIncludes("robots.txt", `${baseUrl}sitemap.xml`);
 expectIncludes("sitemap.xml", `${baseUrl}productos.html`);
+expectIncludes("sitemap.xml", `${baseUrl}producto/`);
 
 if (failures.length) {
   console.error(failures.join("\n"));

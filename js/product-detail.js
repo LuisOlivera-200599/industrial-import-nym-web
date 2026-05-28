@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const detail = document.getElementById("product-detail");
   const params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
+  const pathProductId = window.location.pathname.split("/").filter(Boolean).at(-1)?.split("--").pop();
+  const id = window.NYM_PRODUCT_ID || params.get("id") || pathProductId;
   const fallbackImage = "imagenes/optimized/productos/productos-1.webp";
   const escapeHTML = window.nymSite?.escapeHTML || ((text) => String(text || ""));
 

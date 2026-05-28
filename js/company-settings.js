@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
-  const defaultCompanyData = {
+  const defaultCompanyData = window.nymSite?.defaultCompanyData || {
     phone: "966 441 035",
     phone_raw: "51966441035",
     email: "oliveravelasquezluis@gmail.com",
@@ -51,6 +51,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       whatsapp_url: whatsappUrl,
       map_url: mapUrl,
       map_embed: mapEmbed
+    };
+
+    window.nymSite = {
+      ...(window.nymSite || {}),
+      companyData
     };
   }
 
@@ -104,7 +109,9 @@ Mensaje:
 ${mensaje}
       `;
 
-      const url = `https://wa.me/${companyData.phone_raw}?text=${encodeURIComponent(text)}`;
+      const url = window.nymSite?.buildWhatsappUrl
+        ? window.nymSite.buildWhatsappUrl(text)
+        : `https://wa.me/${companyData.phone_raw}?text=${encodeURIComponent(text)}`;
 
       window.open(url, "_blank");
     });

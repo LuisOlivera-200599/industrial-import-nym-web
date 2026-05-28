@@ -336,9 +336,9 @@
       </div>
 
       <div class="topbar-right">
-        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        <span class="social-link is-disabled" aria-label="Facebook pendiente"><i class="fa-brands fa-facebook-f"></i></span>
+        <span class="social-link is-disabled" aria-label="Instagram pendiente"><i class="fa-brands fa-instagram"></i></span>
+        <span class="social-link is-disabled" aria-label="LinkedIn pendiente"><i class="fa-brands fa-linkedin-in"></i></span>
         <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
           <i class="fa-brands fa-whatsapp"></i>
         </a>
@@ -581,9 +581,9 @@
       <div>
         <h4>Redes</h4>
         <div class="footer-social">
-          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <span class="social-link is-disabled" aria-label="Facebook pendiente"><i class="fa-brands fa-facebook-f"></i></span>
+          <span class="social-link is-disabled" aria-label="Instagram pendiente"><i class="fa-brands fa-instagram"></i></span>
+          <span class="social-link is-disabled" aria-label="LinkedIn pendiente"><i class="fa-brands fa-linkedin-in"></i></span>
           <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
             <i class="fa-brands fa-whatsapp"></i>
           </a>
@@ -598,6 +598,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js"></script>
+  <script src="js/site-utils.js"></script>
   <script src="js/script.js"></script>
   <script src="js/company-settings.js"></script>
 
@@ -606,12 +607,5 @@
     <i class="fa-brands fa-whatsapp"></i>
     <span class="whatsapp-fab-label">¿Necesitas ayuda?</span>
   </a>
-  <style>
-    .whatsapp-fab{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;align-items:center;gap:10px;background:#25d366;color:#fff;border-radius:999px;padding:14px 20px 14px 16px;font-weight:700;font-size:.95rem;box-shadow:0 6px 24px rgba(37,211,102,.45);text-decoration:none;transition:transform .2s ease,box-shadow .2s ease;animation:fab-enter .5s ease 1.5s both;}
-    .whatsapp-fab i{font-size:1.5rem;}
-    .whatsapp-fab:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 10px 32px rgba(37,211,102,.55);color:#fff;}
-    @keyframes fab-enter{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-    @media(max-width:560px){.whatsapp-fab-label{display:none;}.whatsapp-fab{padding:16px;border-radius:50%;}}
-  </style>
 </body>
 </html>

@@ -105,7 +105,8 @@ select {
   color: var(--accent);
 }
 
-.topbar-right a {
+.topbar-right a,
+.topbar-right .social-link {
   width: 34px;
   height: 34px;
   display: grid;
@@ -115,10 +116,22 @@ select {
   transition: var(--transition);
 }
 
-.topbar-right a:hover {
+.topbar-right a:hover,
+.topbar-right .social-link:hover {
   background: var(--primary);
   color: var(--white);
   transform: translateY(-2px);
+}
+
+.social-link.is-disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.social-link.is-disabled:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: inherit;
+  transform: none;
 }
 
 /* Header */
@@ -726,7 +739,8 @@ select {
   flex-wrap: wrap;
 }
 
-.footer-social a {
+.footer-social a,
+.footer-social .social-link {
   width: 42px;
   height: 42px;
   border-radius: 50%;
@@ -736,9 +750,59 @@ select {
   transition: var(--transition);
 }
 
-.footer-social a:hover {
+.footer-social a:hover,
+.footer-social .social-link:hover {
   background: var(--primary);
+  color: var(--white);
   transform: translateY(-2px);
+}
+
+.footer-social .social-link.is-disabled:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  transform: none;
+}
+
+.whatsapp-fab {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px 14px 16px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 6px 24px rgba(37, 211, 102, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: fab-enter 0.5s ease 1.5s both;
+}
+
+.whatsapp-fab i {
+  font-size: 1.5rem;
+}
+
+.whatsapp-fab:hover {
+  color: #ffffff;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 32px rgba(37, 211, 102, 0.55);
+}
+
+@keyframes fab-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .footer-bottom {
@@ -977,6 +1041,15 @@ select {
 
   .footer-bottom {
     font-size: 0.88rem;
+  }
+
+  .whatsapp-fab-label {
+    display: none;
+  }
+
+  .whatsapp-fab {
+    padding: 16px;
+    border-radius: 50%;
   }
 }
 

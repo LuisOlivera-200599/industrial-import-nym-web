@@ -13,6 +13,7 @@ Sitio web corporativo y catalogo administrable de Industrial Import NYM.
 - `js/catalog.js`: catalogo publico de productos, filtros y paginacion.
 - `js/brands.js`: catalogo publico de marcas y filtros.
 - `js/admin-core.js`: estado, referencias DOM y helpers compartidos del panel.
+- `js/admin-components.js`: componentes HTML reutilizables del panel administrativo.
 - `js/admin-products*.js`: formularios, render, guardado y eliminacion de productos.
 - `js/admin-brands*.js`: formularios, render, guardado y eliminacion de marcas.
 - `js/admin-taxonomy*.js`: categorias y subcategorias.
@@ -22,6 +23,17 @@ Sitio web corporativo y catalogo administrable de Industrial Import NYM.
 - `producto.html`, `js/product-detail.js`: detalle individual de producto.
 - `package.json`, `scripts/`: validacion y optimizacion reproducible de assets.
 - `producto/`: paginas estaticas generadas para URLs limpias de productos.
+
+## Admin: build
+
+El admin se mantiene en modulos fuente `js/admin-*.js`.
+`js/admin-app.js` es un archivo generado y es el unico bundle que carga `admin.html`.
+
+```bash
+npm run build:admin
+```
+
+`npm run check` ejecuta este build antes de validar, para evitar que el bundle quede desactualizado.
 
 ## Rendimiento
 

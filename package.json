@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "check": "node scripts/check.js && npm run test:smoke",
+    "build": "npm run build:admin",
+    "build:admin": "node scripts/build-admin.js",
+    "check": "npm run build:admin && node scripts/check.js && npm run test:smoke",
     "format": "prettier --write \"**/*.{html,css,js,json,md,yml}\" --ignore-path .gitignore",
     "format:check": "prettier --check \"**/*.{html,css,js,json,md,yml}\" --ignore-path .gitignore",
     "generate:products": "node scripts/generate-product-pages.js",

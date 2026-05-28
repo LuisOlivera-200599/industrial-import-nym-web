@@ -333,21 +333,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     return matchesCategory && matchesSubcategory && matchesBrand && matchesSearch;
   }
 
+  function addFilterOption(options, value, label) {
+    const current = options.get(value);
+    options.set(value, {
+      label,
+      count: (current?.count || 0) + 1,
+    });
+  }
+
   function renderFilterButtons(container, type, options, allLabel, iconClass, activeValue) {
+    const total = [...options.values()].reduce((sum, option) => sum + option.count, 0);
     container.innerHTML = `
           <button class="filter-btn ${activeValue === "all" ? "active" : ""}" type="button" data-filter-type="${type}" data-filter-value="all">
-            <span>${escapeHTML(allLabel)}</span>
-            <i class="${escapeHTML(iconClass)}"></i>
+            <span class="filter-label">${escapeHTML(allLabel)}</span>
+            <span class="filter-meta">
+              <span class="filter-count">${total}</span>
+              <i class="${escapeHTML(iconClass)}"></i>
+            </span>
           </button>
         `;
 
     [...options.entries()]
-      .sort((a, b) => a[1].localeCompare(b[1]))
-      .forEach(([value, label]) => {
+      .sort((a, b) => a[1].label.localeCompare(b[1].label))
+      .forEach(([value, option]) => {
         container.innerHTML += `
               <button class="filter-btn ${activeValue === value ? "active" : ""}" type="button" data-filter-type="${type}" data-filter-value="${escapeHTML(value)}">
-                <span>${escapeHTML(label)}</span>
-                <i class="fa-solid fa-angle-right"></i>
+                <span class="filter-label">${escapeHTML(option.label)}</span>
+                <span class="filter-meta">
+                  <span class="filter-count">${option.count}</span>
+                  <i class="fa-solid fa-chevron-down"></i>
+                </span>
               </button>
             `;
       });
@@ -368,7 +383,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       products
         .filter((product) => productMatches(product, { category: "all", subcategory: "all" }))
         .forEach((product) => {
-          categories.set(slugify(product.category), product.category);
+          addFilterOption(categories, slugify(product.category), product.category);
         });
 
       if (currentCategory !== "all" && !categories.has(currentCategory)) {
@@ -380,7 +395,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       products
         .filter((product) => productMatches(product, { brand: "all" }))
         .forEach((product) => {
-          brands.set(slugify(product.brand), product.brand);
+          addFilterOption(brands, slugify(product.brand), product.brand);
         });
 
       if (currentBrand !== "all" && !brands.has(currentBrand)) {
@@ -398,7 +413,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               subcategory !== "Subcategoría no definida" &&
               subcategory !== "SubcategorÃ­a no definida"
             ) {
-              subcategories.set(slugify(subcategory), subcategory);
+              addFilterOption(subcategories, slugify(subcategory), subcategory);
             }
           });
       } else if (currentSubcategory !== "all") {

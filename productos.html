@@ -188,18 +188,24 @@
       }
 
       .filter-group {
-        margin-top: 20px;
+        margin-top: 18px;
+        padding: 16px;
+        border-radius: 8px;
+        background: #f1f4fb;
       }
 
       .filter-group h4 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
         font-size: 0.95rem;
-        margin-bottom: 12px;
-        color: var(--text);
+        margin-bottom: 14px;
+        color: var(--primary);
       }
 
       .filter-list {
         display: grid;
-        gap: 10px;
+        gap: 8px;
       }
 
       .filter-btn {
@@ -208,11 +214,15 @@
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        padding: 12px 14px;
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        background: #fcfcfd;
-        transition: 0.3s ease;
+        padding: 12px 13px;
+        border: 1px solid #e1e6f2;
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+        transition:
+          border-color 0.2s ease,
+          color 0.2s ease,
+          background 0.2s ease;
         cursor: pointer;
         text-align: left;
         color: var(--text);
@@ -222,19 +232,49 @@
       .filter-btn:hover {
         border-color: var(--primary);
         color: var(--primary);
-        transform: translateX(2px);
       }
 
       .filter-btn.active {
         border-color: var(--primary);
         color: var(--primary);
         background: #eef3ff;
-        box-shadow: 0 0 0 3px rgba(49, 87, 255, 0.08);
+        box-shadow: inset 3px 0 0 var(--primary);
       }
 
       .filter-btn span {
-        font-size: 0.95rem;
+        font-size: 0.88rem;
         font-weight: 600;
+      }
+
+      .filter-label {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .filter-meta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+        color: var(--muted);
+      }
+
+      .filter-count {
+        min-width: 28px;
+        padding: 3px 7px;
+        border-radius: 999px;
+        background: #eef2f8;
+        color: var(--muted);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .filter-btn.active .filter-count {
+        background: #fff;
+        color: var(--primary);
       }
 
       .catalog-main {
@@ -802,18 +842,18 @@
             </div>
 
             <div class="filter-group">
-              <h4>Categorías</h4>
+              <h4><i class="fa-solid fa-filter"></i> Filtrar por marca</h4>
+              <div class="filter-list" id="brand-filters"></div>
+            </div>
+
+            <div class="filter-group">
+              <h4><i class="fa-solid fa-layer-group"></i> Filtrar por categoría</h4>
               <div class="filter-list" id="category-filters"></div>
             </div>
 
             <div class="filter-group" id="subcategory-filter-group" style="display: none">
-              <h4>Subcategorías</h4>
+              <h4><i class="fa-solid fa-sitemap"></i> Subcategorías</h4>
               <div class="filter-list" id="subcategory-filters"></div>
-            </div>
-
-            <div class="filter-group">
-              <h4>Marcas</h4>
-              <div class="filter-list" id="brand-filters"></div>
             </div>
           </aside>
         </div>

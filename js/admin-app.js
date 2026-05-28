@@ -1,4 +1,4 @@
-﻿// Admin panel entrypoint. Loaded as an ES module to keep panel state scoped.
+/* Generated from admin modules. Edit source fragments in js/admin-*.js, then rebuild this file. */
 
 // ---- admin-core.js ----
 const DEFAULT_IMAGE = "imagenes/optimized/productos/productos-1.webp";
@@ -16,6 +16,9 @@ let contactLeads = [];
 let currentUser = null;
 let selectedProductFile = null;
 let selectedBrandFile = null;
+let adminProductPage = 1;
+
+const ADMIN_PRODUCTS_PER_PAGE = 25;
 
 const menuButtons = document.querySelectorAll("[data-section]");
 const sections = document.querySelectorAll(".admin-section");
@@ -24,6 +27,7 @@ const sectionDescription = document.getElementById("section-description");
 
 const form = document.getElementById("product-form");
 const list = document.getElementById("product-list");
+const productPagination = document.getElementById("product-pagination");
 const stockList = document.getElementById("stock-list");
 const brandsList = document.getElementById("brands-list");
 const categoriesList = document.getElementById("categories-list");
@@ -142,28 +146,28 @@ const companyPreview = {
 };
 const sectionInfo = {
   products: {
-    title: "GestiÃ³n de productos",
-    description: "Agrega, edita, elimina y revisa productos con imÃ¡genes en Supabase Storage.",
+    title: "Gestión de productos",
+    description: "Agrega, edita, elimina y revisa productos con imágenes en Supabase Storage.",
   },
   brands: {
-    title: "GestiÃ³n de marcas",
+    title: "Gestión de marcas",
     description: "Agrega, edita y elimina marcas guardadas en Supabase.",
   },
   categories: {
-    title: "GestiÃ³n de categorÃ­as",
-    description: "Agrega, edita y elimina categorÃ­as guardadas en Supabase.",
+    title: "Gestión de categorías",
+    description: "Agrega, edita y elimina categorías guardadas en Supabase.",
   },
   subcategories: {
-    title: "GestiÃ³n de subcategorÃ­as",
-    description: "Agrega, edita y elimina subcategorÃ­as relacionadas a cada categorÃ­a.",
+    title: "Gestión de subcategorías",
+    description: "Agrega, edita y elimina subcategorías relacionadas a cada categoría.",
   },
   stock: {
-    title: "GestiÃ³n rÃ¡pida de stock",
+    title: "Gestión rápida de stock",
     description: "Revisa el estado de disponibilidad de todos los productos.",
   },
   company: {
     title: "Datos de empresa",
-    description: "Edita telÃ©fono, correo, direcciÃ³n, horarios y enlaces principales de la empresa.",
+    description: "Edita teléfono, correo, dirección, horarios y enlaces principales de la empresa.",
   },
   leads: {
     title: "Leads de contacto",
@@ -171,7 +175,7 @@ const sectionInfo = {
   },
   help: {
     title: "Ayuda y estado",
-    description: "Resumen de conexiÃ³n, base de datos y Storage.",
+    description: "Resumen de conexión, base de datos y Storage.",
   },
 };
 
@@ -231,7 +235,7 @@ function validateImageFile(file, maxSize, label = "imagen") {
 }
 
 function showAdminDialog({
-  title = "Confirmar acciÃ³n",
+  title = "Confirmar acción",
   message = "",
   confirmText = "Aceptar",
   cancelText = "Cancelar",
@@ -330,13 +334,13 @@ function renderProductFilters() {
     activeBrands.map((brand) => `<option value="${escapeHTML(brand.id)}">${escapeHTML(brand.name)}</option>`).join("");
 
   categoryFilter.innerHTML =
-    '<option value="all">Todas las categorÃ­as</option>' +
+    '<option value="all">Todas las categorías</option>' +
     activeCategories
       .map((category) => `<option value="${escapeHTML(category.id)}">${escapeHTML(category.name)}</option>`)
       .join("");
 
   subcategoryFilter.innerHTML =
-    '<option value="all">Todas las subcategorÃ­as</option>' +
+    '<option value="all">Todas las subcategorías</option>' +
     activeSubcategories
       .map((subcategory) => `<option value="${escapeHTML(subcategory.id)}">${escapeHTML(subcategory.name)}</option>`)
       .join("");
@@ -364,7 +368,7 @@ function renderProductSelectors(selectedBrandId = "", selectedCategoryId = "", s
     activeBrands.map((brand) => `<option value="${escapeHTML(brand.id)}">${escapeHTML(brand.name)}</option>`).join("");
 
   fields.category.innerHTML =
-    '<option value="">Selecciona una categorÃ­a</option>' +
+    '<option value="">Selecciona una categoría</option>' +
     activeCategories
       .map((category) => `<option value="${escapeHTML(category.id)}">${escapeHTML(category.name)}</option>`)
       .join("");
@@ -381,11 +385,11 @@ function renderSubcategoryProductSelector(categoryId = "", selectedSubcategoryId
     .filter((subcategory) => !categoryId || subcategory.category_id === categoryId)
     .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 
-  // Si no hay categorÃ­a seleccionada, mostrar todas con el nombre de categorÃ­a entre parÃ©ntesis
+  // Si no hay categoría seleccionada, mostrar todas con el nombre de categoría entre paréntesis
   const showCategoryHint = !categoryId;
 
   fields.subcategory.innerHTML =
-    '<option value="">Selecciona una subcategorÃ­a</option>' +
+    '<option value="">Selecciona una subcategoría</option>' +
     filteredSubcategories
       .map((subcategory) => {
         const catName = showCategoryHint ? categories.find((c) => c.id === subcategory.category_id)?.name || "" : "";
@@ -405,7 +409,7 @@ function renderSubcategoryCategorySelector(selectedCategoryId = "") {
     .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 
   subcategoryFields.category.innerHTML =
-    '<option value="">Selecciona una categorÃ­a</option>' +
+    '<option value="">Selecciona una categoría</option>' +
     activeCategories
       .map((category) => `<option value="${escapeHTML(category.id)}">${escapeHTML(category.name)}</option>`)
       .join("");
@@ -420,7 +424,7 @@ function resetForm() {
   selectedProductFile = null;
   productFileInput.value = "";
   imagePreview.src = DEFAULT_IMAGE;
-  setUploadStatus("Selecciona una imagen. Se subirÃ¡ al guardar el producto.");
+  setUploadStatus("Selecciona una imagen. Se subirá al guardar el producto.");
   formTitle.textContent = "Agregar nuevo producto";
   saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar producto';
   renderProductSelectors();
@@ -433,7 +437,7 @@ function resetBrandForm() {
   brandFields.active.value = "true";
   selectedBrandFile = null;
   brandFileInput.value = "";
-  setBrandUploadStatus("Selecciona un logo. Se subirÃ¡ al guardar la marca.");
+  setBrandUploadStatus("Selecciona un logo. Se subirá al guardar la marca.");
   brandFormTitle.textContent = "Agregar nueva marca";
   brandSaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar marca';
 }
@@ -443,8 +447,8 @@ function resetCategoryForm() {
   categoryFields.id.value = "";
   categoryFields.sort.value = 0;
   categoryFields.active.value = "true";
-  categoryFormTitle.textContent = "Agregar nueva categorÃ­a";
-  categorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar categorÃ­a';
+  categoryFormTitle.textContent = "Agregar nueva categoría";
+  categorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar categoría';
 }
 
 function resetSubcategoryForm() {
@@ -452,8 +456,8 @@ function resetSubcategoryForm() {
   subcategoryFields.id.value = "";
   subcategoryFields.sort.value = 0;
   subcategoryFields.active.value = "true";
-  subcategoryFormTitle.textContent = "Agregar nueva subcategorÃ­a";
-  subcategorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar subcategorÃ­a';
+  subcategoryFormTitle.textContent = "Agregar nueva subcategoría";
+  subcategorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar subcategoría';
   renderSubcategoryCategorySelector();
 }
 
@@ -488,7 +492,7 @@ async function uploadProductImage(file) {
   const { data } = window.nymSupabase.storage.from(PRODUCT_IMAGES_BUCKET).getPublicUrl(filePath);
 
   if (!data?.publicUrl) {
-    throw new Error("No se pudo obtener la URL pÃºblica de la imagen.");
+    throw new Error("No se pudo obtener la URL pública de la imagen.");
   }
 
   setUploadStatus("Imagen subida correctamente.", "success");
@@ -527,7 +531,7 @@ async function uploadBrandLogo(file) {
   const { data } = window.nymSupabase.storage.from(BRAND_LOGOS_BUCKET).getPublicUrl(filePath);
 
   if (!data?.publicUrl) {
-    throw new Error("No se pudo obtener la URL pÃºblica del logo.");
+    throw new Error("No se pudo obtener la URL pública del logo.");
   }
 
   setBrandUploadStatus("Logo subido correctamente.", "success");
@@ -575,16 +579,16 @@ function renderCategoriesList() {
           (category) => `
         <div class="simple-item">
           <span>
-            ${escapeHTML(category.name || "CategorÃ­a sin nombre")}
+            ${escapeHTML(category.name || "Categoría sin nombre")}
             ${category.is_active === false ? '<span class="admin-tag stock-tag unavailable">Inactivo</span>' : ""}
           </span>
 
           <div class="brand-actions">
-            <button class="icon-action" type="button" data-category-edit="${escapeHTML(category.id)}" title="Editar categorÃ­a">
+            <button class="icon-action" type="button" data-category-edit="${escapeHTML(category.id)}" title="Editar categoría">
               <i class="fa-solid fa-pen"></i>
             </button>
 
-            <button class="icon-action danger" type="button" data-category-delete="${escapeHTML(category.id)}" title="Eliminar categorÃ­a">
+            <button class="icon-action danger" type="button" data-category-delete="${escapeHTML(category.id)}" title="Eliminar categoría">
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>
@@ -595,8 +599,8 @@ function renderCategoriesList() {
     : `
       <div class="empty-state-admin">
         <i class="fa-solid fa-layer-group"></i>
-        <h3>No hay categorÃ­as registradas</h3>
-        <p>Agrega tu primera categorÃ­a desde el formulario.</p>
+        <h3>No hay categorías registradas</h3>
+        <p>Agrega tu primera categoría desde el formulario.</p>
       </div>
     `;
 }
@@ -610,17 +614,17 @@ function renderSubcategoriesList() {
           return `
           <div class="simple-item">
             <span>
-              ${escapeHTML(subcategory.name || "SubcategorÃ­a sin nombre")}
-              <small>CategorÃ­a: ${escapeHTML(parentCategory?.name || "Sin categorÃ­a")}</small>
+              ${escapeHTML(subcategory.name || "Subcategoría sin nombre")}
+              <small>Categoría: ${escapeHTML(parentCategory?.name || "Sin categoría")}</small>
               ${subcategory.is_active === false ? '<span class="admin-tag stock-tag unavailable">Inactivo</span>' : ""}
             </span>
 
             <div class="brand-actions">
-              <button class="icon-action" type="button" data-subcategory-edit="${escapeHTML(subcategory.id)}" title="Editar subcategorÃ­a">
+              <button class="icon-action" type="button" data-subcategory-edit="${escapeHTML(subcategory.id)}" title="Editar subcategoría">
                 <i class="fa-solid fa-pen"></i>
               </button>
 
-              <button class="icon-action danger" type="button" data-subcategory-delete="${escapeHTML(subcategory.id)}" title="Eliminar subcategorÃ­a">
+              <button class="icon-action danger" type="button" data-subcategory-delete="${escapeHTML(subcategory.id)}" title="Eliminar subcategoría">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </div>
@@ -631,8 +635,8 @@ function renderSubcategoriesList() {
     : `
       <div class="empty-state-admin">
         <i class="fa-solid fa-sitemap"></i>
-        <h3>No hay subcategorÃ­as registradas</h3>
-        <p>Agrega tu primera subcategorÃ­a desde el formulario.</p>
+        <h3>No hay subcategorías registradas</h3>
+        <p>Agrega tu primera subcategoría desde el formulario.</p>
       </div>
     `;
 }
@@ -648,7 +652,7 @@ function renderProductTableRow(product) {
           <img src="${escapeHTML(image)}" alt="${escapeHTML(product.name)}" />
           <div>
             <strong>${escapeHTML(product.name || "Producto sin nombre")}</strong>
-            <small>${escapeHTML(product.description || "Sin descripciÃ³n registrada.")}</small>
+            <small>${escapeHTML(product.description || "Sin descripción registrada.")}</small>
           </div>
         </div>
       </td>
@@ -659,7 +663,7 @@ function renderProductTableRow(product) {
 
       <td>
         <div class="table-meta">
-          <span class="admin-tag"><i class="fa-solid fa-layer-group"></i> ${escapeHTML(product.category || "Sin categorÃ­a")}</span>
+          <span class="admin-tag"><i class="fa-solid fa-layer-group"></i> ${escapeHTML(product.category || "Sin categoría")}</span>
           ${product.subcategory ? `<span class="table-muted"><i class="fa-solid fa-sitemap"></i> ${escapeHTML(product.subcategory)}</span>` : ""}
         </div>
       </td>
@@ -712,6 +716,15 @@ function renderProducts() {
     );
   });
 
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ADMIN_PRODUCTS_PER_PAGE));
+
+  if (adminProductPage > totalPages) {
+    adminProductPage = totalPages;
+  }
+
+  const start = (adminProductPage - 1) * ADMIN_PRODUCTS_PER_PAGE;
+  const pageProducts = filtered.slice(start, start + ADMIN_PRODUCTS_PER_PAGE);
+
   list.innerHTML = filtered.length
     ? `
       <div class="admin-table-wrap">
@@ -720,13 +733,13 @@ function renderProducts() {
             <tr>
               <th>Producto</th>
               <th>Marca</th>
-              <th>CategorÃ­a</th>
+              <th>Categoría</th>
               <th>Stock</th>
               <th style="text-align:right;">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            ${filtered.map(renderProductTableRow).join("")}
+            ${pageProducts.map(renderProductTableRow).join("")}
           </tbody>
         </table>
       </div>
@@ -739,11 +752,44 @@ function renderProducts() {
       </div>
     `;
 
+  renderProductPagination(filtered.length, start, pageProducts.length, totalPages);
   renderStockList();
   renderBrandsList();
   renderCategoriesList();
   renderSubcategoriesList();
   updateStats();
+}
+
+function renderProductPagination(totalProducts, start, shownProducts, totalPages) {
+  if (!productPagination) return;
+
+  if (totalProducts <= ADMIN_PRODUCTS_PER_PAGE) {
+    productPagination.innerHTML = "";
+    return;
+  }
+
+  const from = start + 1;
+  const to = start + shownProducts;
+
+  productPagination.innerHTML = `
+    <div class="admin-pagination">
+      <span>Mostrando ${from}-${to} de ${totalProducts} productos</span>
+      <div class="admin-pagination-actions">
+        <button class="pagination-btn" type="button" data-product-page="prev" ${adminProductPage === 1 ? "disabled" : ""}>
+          <i class="fa-solid fa-angle-left"></i> Anterior
+        </button>
+        <span>Página ${adminProductPage} de ${totalPages}</span>
+        <button class="pagination-btn" type="button" data-product-page="next" ${adminProductPage === totalPages ? "disabled" : ""}>
+          Siguiente <i class="fa-solid fa-angle-right"></i>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function resetAdminProductPage() {
+  adminProductPage = 1;
+  renderProducts();
 }
 
 function renderStockList() {
@@ -758,7 +804,7 @@ function renderStockList() {
             ${escapeHTML(product.name || "Producto sin nombre")}
             <small>
               ${escapeHTML(product.brand || "Sin marca")} /
-              ${escapeHTML(product.category || "Sin categorÃ­a")}
+              ${escapeHTML(product.category || "Sin categoría")}
               ${product.subcategory ? " / " + escapeHTML(product.subcategory) : ""}
             </small>
           </span>
@@ -774,7 +820,7 @@ function renderStockList() {
       <div class="empty-state-admin">
         <i class="fa-solid fa-box-open"></i>
         <h3>No hay productos</h3>
-        <p>Cuando agregues productos, aquÃ­ verÃ¡s su stock.</p>
+        <p>Cuando agregues productos, aquí verás su stock.</p>
       </div>
     `;
 }
@@ -883,13 +929,13 @@ async function saveCategory(payload, id) {
 
     if (error) throw error;
 
-    showNotice(categoryNotice, "CategorÃ­a actualizada correctamente.");
+    showNotice(categoryNotice, "Categoría actualizada correctamente.");
   } else {
     const { error } = await window.nymSupabase.from("categories").insert([payload]);
 
     if (error) throw error;
 
-    showNotice(categoryNotice, "CategorÃ­a agregada correctamente.");
+    showNotice(categoryNotice, "Categoría agregada correctamente.");
   }
 }
 
@@ -899,13 +945,13 @@ async function saveSubcategory(payload, id) {
 
     if (error) throw error;
 
-    showNotice(subcategoryNotice, "SubcategorÃ­a actualizada correctamente.");
+    showNotice(subcategoryNotice, "Subcategoría actualizada correctamente.");
   } else {
     const { error } = await window.nymSupabase.from("subcategories").insert([payload]);
 
     if (error) throw error;
 
-    showNotice(subcategoryNotice, "SubcategorÃ­a agregada correctamente.");
+    showNotice(subcategoryNotice, "Subcategoría agregada correctamente.");
   }
 }
 
@@ -921,7 +967,7 @@ async function deleteBrand(id) {
   const inUse = products.some((product) => product.brand_id === id);
 
   if (inUse) {
-    throw new Error("No puedes eliminar esta marca porque estÃ¡ asignada a uno o mÃ¡s productos.");
+    throw new Error("No puedes eliminar esta marca porque está asignada a uno o más productos.");
   }
 
   const { error } = await window.nymSupabase.from("brands").delete().eq("id", id);
@@ -935,7 +981,7 @@ async function deleteCategory(id) {
   const categoryHasSubcategories = subcategories.some((subcategory) => subcategory.category_id === id);
 
   if (categoryHasProducts || categoryHasSubcategories) {
-    throw new Error("No puedes eliminar esta categorÃ­a porque tiene productos o subcategorÃ­as relacionadas.");
+    throw new Error("No puedes eliminar esta categoría porque tiene productos o subcategorías relacionadas.");
   }
 
   const { error } = await window.nymSupabase.from("categories").delete().eq("id", id);
@@ -947,7 +993,7 @@ async function deleteSubcategory(id) {
   const inUse = products.some((product) => product.subcategory_id === id);
 
   if (inUse) {
-    throw new Error("No puedes eliminar esta subcategorÃ­a porque estÃ¡ asignada a uno o mÃ¡s productos.");
+    throw new Error("No puedes eliminar esta subcategoría porque está asignada a uno o más productos.");
   }
 
   const { error } = await window.nymSupabase.from("subcategories").delete().eq("id", id);
@@ -974,7 +1020,7 @@ async function loadCompanySettings() {
     companyFields.phoneRaw.value = "51966441035";
     companyFields.email.value = "oliveravelasquezluis@gmail.com";
     companyFields.address.value = "Av. Republica de Argentina 211, Lima 15079";
-    companyFields.hours.value = "Lun - SÃ¡b / 10:00 am - 5:00 pm";
+    companyFields.hours.value = "Lun - Sáb / 10:00 am - 5:00 pm";
     companyFields.whatsappUrl.value = "https://wa.me/51966441035";
     companyFields.mapUrl.value = "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/";
     companyFields.mapEmbed.value = "";
@@ -1007,7 +1053,7 @@ async function saveCompanySettings() {
   };
 
   if (!payload.phone || !payload.email || !payload.address) {
-    showNotice(companyNotice, "Completa telÃ©fono, correo y direcciÃ³n.", "error");
+    showNotice(companyNotice, "Completa teléfono, correo y dirección.", "error");
     return;
   }
 
@@ -1224,7 +1270,7 @@ productFileInput.addEventListener("change", () => {
 
   if (!file) {
     selectedProductFile = null;
-    setUploadStatus("Selecciona una imagen. Se subirÃ¡ al guardar el producto.");
+    setUploadStatus("Selecciona una imagen. Se subirá al guardar el producto.");
     return;
   }
 
@@ -1246,7 +1292,7 @@ brandFileInput.addEventListener("change", () => {
 
   if (!file) {
     selectedBrandFile = null;
-    setBrandUploadStatus("Selecciona un logo. Se subirÃ¡ al guardar la marca.");
+    setBrandUploadStatus("Selecciona un logo. Se subirá al guardar la marca.");
     return;
   }
 
@@ -1266,7 +1312,7 @@ fields.category.addEventListener("change", () => {
   renderSubcategoryProductSelector(fields.category.value);
 });
 
-// Al elegir subcategorÃ­a â†’ auto-selecciona su categorÃ­a padre
+// Al elegir subcategoría → auto-selecciona su categoría padre
 fields.subcategory.addEventListener("change", () => {
   const subId = fields.subcategory.value;
   if (!subId) return;
@@ -1274,11 +1320,11 @@ fields.subcategory.addEventListener("change", () => {
   const sub = subcategories.find((s) => s.id === subId);
   if (!sub || !sub.category_id) return;
 
-  // Si la categorÃ­a padre es distinta a la actual, actualizarla
+  // Si la categoría padre es distinta a la actual, actualizarla
   if (fields.category.value !== sub.category_id) {
     fields.category.value = sub.category_id;
-    // Refrescar lista de subcategorÃ­as para mostrar solo las de esa categorÃ­a
-    // manteniendo la subcategorÃ­a que el usuario ya eligiÃ³
+    // Refrescar lista de subcategorías para mostrar solo las de esa categoría
+    // manteniendo la subcategoría que el usuario ya eligió
     renderSubcategoryProductSelector(sub.category_id, subId);
   }
 });
@@ -1291,7 +1337,7 @@ form.addEventListener("submit", async (event) => {
   const selectedSubcategory = subcategories.find((subcategory) => subcategory.id === fields.subcategory.value);
 
   if (!fields.name.value.trim() || !selectedBrand || !selectedCategory) {
-    showNotice(notice, "Completa nombre, marca y categorÃ­a.", "error");
+    showNotice(notice, "Completa nombre, marca y categoría.", "error");
     return;
   }
 
@@ -1365,7 +1411,7 @@ list.addEventListener("click", async (event) => {
 
     const shouldDelete = await showAdminDialog({
       title: "Eliminar producto",
-      message: `Â¿Seguro que deseas eliminar "${product?.name || "este producto"}"? Esta acciÃ³n no se puede deshacer.`,
+      message: `¿Seguro que deseas eliminar "${product?.name || "este producto"}"? Esta acción no se puede deshacer.`,
       confirmText: "Eliminar",
       danger: true,
     });
@@ -1381,6 +1427,16 @@ list.addEventListener("click", async (event) => {
       showNotice(notice, error.message || "No se pudo eliminar el producto.", "error");
     }
   }
+});
+
+productPagination?.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-product-page]");
+  if (!button || button.disabled) return;
+
+  adminProductPage += button.dataset.productPage === "next" ? 1 : -1;
+  renderProducts();
+
+  list.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 // ---- admin-events-brands.js ----
@@ -1445,7 +1501,7 @@ brandsList.addEventListener("click", async (event) => {
 
     const shouldDelete = await showAdminDialog({
       title: "Eliminar marca",
-      message: `Â¿Seguro que deseas eliminar "${brand?.name || "esta marca"}"?`,
+      message: `¿Seguro que deseas eliminar "${brand?.name || "esta marca"}"?`,
       confirmText: "Eliminar",
       danger: true,
     });
@@ -1476,7 +1532,7 @@ categoryForm.addEventListener("submit", async (event) => {
   };
 
   if (!payload.name) {
-    showNotice(categoryNotice, "Completa el nombre de la categorÃ­a.", "error");
+    showNotice(categoryNotice, "Completa el nombre de la categoría.", "error");
     return;
   }
 
@@ -1488,7 +1544,7 @@ categoryForm.addEventListener("submit", async (event) => {
     await loadCategories();
   } catch (error) {
     console.error(error);
-    showNotice(categoryNotice, error.message || "No se pudo guardar la categorÃ­a.", "error");
+    showNotice(categoryNotice, error.message || "No se pudo guardar la categoría.", "error");
   } finally {
     categorySaveBtn.disabled = false;
   }
@@ -1509,16 +1565,16 @@ categoriesList.addEventListener("click", async (event) => {
     categoryFields.sort.value = category.sort_order || 0;
     categoryFields.active.value = String(category.is_active !== false);
 
-    categoryFormTitle.textContent = "Editar categorÃ­a";
-    categorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar categorÃ­a';
+    categoryFormTitle.textContent = "Editar categoría";
+    categorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar categoría';
   }
 
   if (deleteButton) {
     const category = categories.find((item) => item.id === deleteButton.dataset.categoryDelete);
 
     const shouldDelete = await showAdminDialog({
-      title: "Eliminar categorÃ­a",
-      message: `Â¿Seguro que deseas eliminar "${category?.name || "esta categorÃ­a"}"?`,
+      title: "Eliminar categoría",
+      message: `¿Seguro que deseas eliminar "${category?.name || "esta categoría"}"?`,
       confirmText: "Eliminar",
       danger: true,
     });
@@ -1529,10 +1585,10 @@ categoriesList.addEventListener("click", async (event) => {
       await deleteCategory(deleteButton.dataset.categoryDelete);
       await loadCategories();
       await loadSubcategories();
-      showNotice(categoryNotice, "CategorÃ­a eliminada correctamente.");
+      showNotice(categoryNotice, "Categoría eliminada correctamente.");
     } catch (error) {
       console.error(error);
-      showNotice(categoryNotice, error.message || "No se pudo eliminar la categorÃ­a.", "error");
+      showNotice(categoryNotice, error.message || "No se pudo eliminar la categoría.", "error");
     }
   }
 });
@@ -1551,7 +1607,7 @@ subcategoryForm.addEventListener("submit", async (event) => {
   };
 
   if (!payload.name || !payload.category_id) {
-    showNotice(subcategoryNotice, "Completa nombre y categorÃ­a principal.", "error");
+    showNotice(subcategoryNotice, "Completa nombre y categoría principal.", "error");
     return;
   }
 
@@ -1563,7 +1619,7 @@ subcategoryForm.addEventListener("submit", async (event) => {
     await loadSubcategories();
   } catch (error) {
     console.error(error);
-    showNotice(subcategoryNotice, error.message || "No se pudo guardar la subcategorÃ­a.", "error");
+    showNotice(subcategoryNotice, error.message || "No se pudo guardar la subcategoría.", "error");
   } finally {
     subcategorySaveBtn.disabled = false;
   }
@@ -1584,16 +1640,16 @@ subcategoriesList.addEventListener("click", async (event) => {
     subcategoryFields.sort.value = subcategory.sort_order || 0;
     subcategoryFields.active.value = String(subcategory.is_active !== false);
 
-    subcategoryFormTitle.textContent = "Editar subcategorÃ­a";
-    subcategorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar subcategorÃ­a';
+    subcategoryFormTitle.textContent = "Editar subcategoría";
+    subcategorySaveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Actualizar subcategoría';
   }
 
   if (deleteButton) {
     const subcategory = subcategories.find((item) => item.id === deleteButton.dataset.subcategoryDelete);
 
     const shouldDelete = await showAdminDialog({
-      title: "Eliminar subcategorÃ­a",
-      message: `Â¿Seguro que deseas eliminar "${subcategory?.name || "esta subcategorÃ­a"}"?`,
+      title: "Eliminar subcategoría",
+      message: `¿Seguro que deseas eliminar "${subcategory?.name || "esta subcategoría"}"?`,
       confirmText: "Eliminar",
       danger: true,
     });
@@ -1603,10 +1659,10 @@ subcategoriesList.addEventListener("click", async (event) => {
     try {
       await deleteSubcategory(deleteButton.dataset.subcategoryDelete);
       await loadSubcategories();
-      showNotice(subcategoryNotice, "SubcategorÃ­a eliminada correctamente.");
+      showNotice(subcategoryNotice, "Subcategoría eliminada correctamente.");
     } catch (error) {
       console.error(error);
-      showNotice(subcategoryNotice, error.message || "No se pudo eliminar la subcategorÃ­a.", "error");
+      showNotice(subcategoryNotice, error.message || "No se pudo eliminar la subcategoría.", "error");
     }
   }
 });
@@ -1622,8 +1678,8 @@ imagePreview.addEventListener("error", () => {
   imagePreview.src = DEFAULT_IMAGE;
 });
 
-search.addEventListener("input", renderProducts);
-brandFilter.addEventListener("change", renderProducts);
+search.addEventListener("input", resetAdminProductPage);
+brandFilter.addEventListener("change", resetAdminProductPage);
 categoryFilter.addEventListener("change", () => {
   const selectedCategory = categoryFilter.value;
 
@@ -1633,16 +1689,16 @@ categoryFilter.addEventListener("change", () => {
     .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 
   subcategoryFilter.innerHTML =
-    '<option value="all">Todas las subcategorÃ­as</option>' +
+    '<option value="all">Todas las subcategorías</option>' +
     activeSubcategories
       .map((subcategory) => `<option value="${escapeHTML(subcategory.id)}">${escapeHTML(subcategory.name)}</option>`)
       .join("");
 
   subcategoryFilter.value = "all";
-  renderProducts();
+  resetAdminProductPage();
 });
-subcategoryFilter.addEventListener("change", renderProducts);
-stockFilter.addEventListener("change", renderProducts);
+subcategoryFilter.addEventListener("change", resetAdminProductPage);
+stockFilter.addEventListener("change", resetAdminProductPage);
 
 resetBtn.addEventListener("click", resetForm);
 brandResetBtn.addEventListener("click", resetBrandForm);

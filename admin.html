@@ -1054,6 +1054,52 @@
         font-weight: 700;
         font-size: 0.82rem;
       }
+
+      .admin-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #ffffff;
+      }
+
+      .admin-pagination span {
+        color: var(--muted);
+        font-size: 0.88rem;
+        font-weight: 800;
+      }
+
+      .admin-pagination-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .pagination-btn {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 10px 14px;
+        background: #f8fbff;
+        color: var(--text);
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .pagination-btn:not(:disabled):hover {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      .pagination-btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.45;
+      }
     </style>
   </head>
   <body>
@@ -1368,6 +1414,7 @@
                     </div>
 
                     <div class="products-list" id="product-list"></div>
+                    <div id="product-pagination"></div>
                   </div>
                 </div>
               </section>

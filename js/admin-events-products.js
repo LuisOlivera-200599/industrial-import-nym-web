@@ -161,3 +161,13 @@ list.addEventListener("click", async (event) => {
     }
   }
 });
+
+productPagination?.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-product-page]");
+  if (!button || button.disabled) return;
+
+  adminProductPage += button.dataset.productPage === "next" ? 1 : -1;
+  renderProducts();
+
+  list.scrollIntoView({ behavior: "smooth", block: "start" });
+});

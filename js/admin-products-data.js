@@ -72,6 +72,15 @@ function renderProducts() {
     );
   });
 
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ADMIN_PRODUCTS_PER_PAGE));
+
+  if (adminProductPage > totalPages) {
+    adminProductPage = totalPages;
+  }
+
+  const start = (adminProductPage - 1) * ADMIN_PRODUCTS_PER_PAGE;
+  const pageProducts = filtered.slice(start, start + ADMIN_PRODUCTS_PER_PAGE);
+
   list.innerHTML = filtered.length
     ? `
       <div class="admin-table-wrap">
@@ -86,7 +95,7 @@ function renderProducts() {
             </tr>
           </thead>
           <tbody>
-            ${filtered.map(renderProductTableRow).join("")}
+            ${pageProducts.map(renderProductTableRow).join("")}
           </tbody>
         </table>
       </div>
@@ -99,11 +108,44 @@ function renderProducts() {
       </div>
     `;
 
+  renderProductPagination(filtered.length, start, pageProducts.length, totalPages);
   renderStockList();
   renderBrandsList();
   renderCategoriesList();
   renderSubcategoriesList();
   updateStats();
+}
+
+function renderProductPagination(totalProducts, start, shownProducts, totalPages) {
+  if (!productPagination) return;
+
+  if (totalProducts <= ADMIN_PRODUCTS_PER_PAGE) {
+    productPagination.innerHTML = "";
+    return;
+  }
+
+  const from = start + 1;
+  const to = start + shownProducts;
+
+  productPagination.innerHTML = `
+    <div class="admin-pagination">
+      <span>Mostrando ${from}-${to} de ${totalProducts} productos</span>
+      <div class="admin-pagination-actions">
+        <button class="pagination-btn" type="button" data-product-page="prev" ${adminProductPage === 1 ? "disabled" : ""}>
+          <i class="fa-solid fa-angle-left"></i> Anterior
+        </button>
+        <span>Página ${adminProductPage} de ${totalPages}</span>
+        <button class="pagination-btn" type="button" data-product-page="next" ${adminProductPage === totalPages ? "disabled" : ""}>
+          Siguiente <i class="fa-solid fa-angle-right"></i>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function resetAdminProductPage() {
+  adminProductPage = 1;
+  renderProducts();
 }
 
 function renderStockList() {

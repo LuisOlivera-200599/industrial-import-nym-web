@@ -8,8 +8,8 @@ imagePreview.addEventListener("error", () => {
   imagePreview.src = DEFAULT_IMAGE;
 });
 
-search.addEventListener("input", renderProducts);
-brandFilter.addEventListener("change", renderProducts);
+search.addEventListener("input", resetAdminProductPage);
+brandFilter.addEventListener("change", resetAdminProductPage);
 categoryFilter.addEventListener("change", () => {
   const selectedCategory = categoryFilter.value;
 
@@ -25,10 +25,10 @@ categoryFilter.addEventListener("change", () => {
       .join("");
 
   subcategoryFilter.value = "all";
-  renderProducts();
+  resetAdminProductPage();
 });
-subcategoryFilter.addEventListener("change", renderProducts);
-stockFilter.addEventListener("change", renderProducts);
+subcategoryFilter.addEventListener("change", resetAdminProductPage);
+stockFilter.addEventListener("change", resetAdminProductPage);
 
 resetBtn.addEventListener("click", resetForm);
 brandResetBtn.addEventListener("click", resetBrandForm);

@@ -13,6 +13,9 @@ let contactLeads = [];
 let currentUser = null;
 let selectedProductFile = null;
 let selectedBrandFile = null;
+let adminProductPage = 1;
+
+const ADMIN_PRODUCTS_PER_PAGE = 25;
 
 const menuButtons = document.querySelectorAll("[data-section]");
 const sections = document.querySelectorAll(".admin-section");
@@ -21,6 +24,7 @@ const sectionDescription = document.getElementById("section-description");
 
 const form = document.getElementById("product-form");
 const list = document.getElementById("product-list");
+const productPagination = document.getElementById("product-pagination");
 const stockList = document.getElementById("stock-list");
 const brandsList = document.getElementById("brands-list");
 const categoriesList = document.getElementById("categories-list");

@@ -1,787 +1,668 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="canonical" href="https://industrialimportnym.com/marcas.html" />
-
-  <title>Marcas | Industrial Import NYM</title>
-
-  <meta
-    name="description"
-    content="Marcas líderes en electrónica e industria que comercializa Industrial Import NYM: ABB, Schneider Electric, CHINT, Legrand y más."
-  />
-
-  <meta name="keywords" content="marcas electrónicas, ABB, Schneider Electric, CHINT, Legrand, componentes industriales, Lima Perú" />
-  <meta name="author" content="Industrial Import NYM" />
-  <meta name="robots" content="index, follow" />
-
-  <meta property="og:title" content="Marcas | Industrial Import NYM" />
-  <meta property="og:description" content="Conoce las marcas líderes que distribuye Industrial Import NYM para soluciones electrónicas e industriales." />
-  <meta property="og:image" content="imagenes/banners/banner-1.png" />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="es_PE" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Marcas | Industrial Import NYM" />
-  <meta name="twitter:description" content="ABB, Schneider Electric, CHINT, Legrand y más marcas en el catálogo de Industrial Import NYM." />
-  <meta name="twitter:image" content="imagenes/banners/banner-1.png" />
-
-  <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
-  <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://lzaolbleriqwbnnejypy.supabase.co" />
-  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  />
-
-  <link rel="stylesheet" href="css/style.css" />
-
-  <style>
-    .page-hero {
-      padding: 90px 0 60px;
-      background:
-        radial-gradient(circle at top left, rgba(49, 87, 255, 0.18), transparent 28%),
-        linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
-      border-bottom: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    .page-hero .container,
-    .brands-section .container {
-      width: min(100% - 56px, var(--container));
-      margin-inline: auto;
-    }
-
-    .page-hero-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 24px;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-
-    .page-hero h2 {
-      font-size: clamp(2rem, 3.8vw, 3rem);
-      line-height: 1.08;
-      margin-bottom: 12px;
-      letter-spacing: -0.03em;
-      max-width: 21ch;
-    }
-
-    .page-hero p {
-      color: var(--muted);
-      max-width: 78ch;
-    }
-
-    .breadcrumb {
-      display: inline-flex;
-      gap: 10px;
-      align-items: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-top: 18px;
-      flex-wrap: wrap;
-    }
-
-    .brands-section {
-      padding: 74px 0 90px;
-      background: var(--light);
-      overflow: hidden;
-    }
-
-    .brands-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
-      gap: 32px;
-      align-items: start;
-      width: 100%;
-    }
-
-    .brand-filter-panel,
-    .brand-main {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      width: 100%;
-      max-width: 100%;
-    }
-
-    .brand-filter-panel {
-      padding: 22px;
-    }
-
-    .brand-main {
-      padding: 22px 28px 28px;
-    }
-
-    .panel-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.1rem;
-      margin: 0 0 18px;
-    }
-
-    .panel-title i {
-      color: var(--primary);
-    }
-
-    .search-box {
-      position: relative;
-      margin-bottom: 18px;
-    }
-
-    .search-box i {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-    }
-
-    .search-box input {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 14px 14px 42px;
-      font: inherit;
-      outline: none;
-      transition: 0.3s ease;
-      background: #fcfcfd;
-    }
-
-    .search-box input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
-    }
-
-    .filter-group {
-      margin-top: 20px;
-    }
-
-    .filter-group h4 {
-      font-size: 0.95rem;
-      margin-bottom: 12px;
-      color: var(--text);
-    }
-
-    .filter-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .filter-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 14px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: #fcfcfd;
-      transition: 0.3s ease;
-      cursor: pointer;
-      text-align: left;
-      color: var(--text);
-      font: inherit;
-    }
-
-    .filter-btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      transform: translateX(2px);
-    }
-
-    .filter-btn.active {
-      border-color: var(--primary);
-      color: var(--primary);
-      background: #eef3ff;
-      box-shadow: 0 0 0 3px rgba(49, 87, 255, 0.08);
-    }
-
-    .filter-btn span {
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .brand-main-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-
-    .brand-main-top h3 {
-      margin: 0 0 8px;
-    }
-
-    .brand-main-top p {
-      margin: 0;
-      color: var(--muted);
-      max-width: 70ch;
-    }
-
-    .brand-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: flex-end;
-    }
-
-    .brand-chip {
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #fcfcfd;
-      color: var(--muted);
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .active-brand-filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      min-height: 46px;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .active-filter-tag {
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: #eef3ff;
-      color: var(--primary);
-      font-size: 0.88rem;
-      font-weight: 700;
-      border: 1px solid #d9e5ff;
-    }
-
-    .brand-summary {
-      color: var(--muted);
-      margin-bottom: 22px;
-      min-height: 24px;
-      font-size: 0.95rem;
-    }
-
-    .brand-logo-row {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      margin-bottom: 28px;
-    }
-
-    .logo-card {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      min-height: 150px;
-      padding: 24px;
-      display: grid;
-      place-items: center;
-      transition: 0.3s ease;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .logo-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(49, 87, 255, 0.25);
-      box-shadow: var(--shadow-md);
-    }
-
-    .logo-card img {
-      width: 100%;
-      max-width: 160px;
-      max-height: 85px;
-      object-fit: contain;
-      display: block;
-    }
-
-    .logo-card span {
-      font-weight: 900;
-      color: var(--primary);
-      text-align: center;
-    }
-
-    .brands-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 22px;
-    }
-
-    .brand-card {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      box-shadow: var(--shadow-sm);
-      padding: 24px;
-      transition: 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 250px;
-    }
-
-    .brand-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(49, 87, 255, 0.25);
-      box-shadow: var(--shadow-md);
-    }
-
-    .brand-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-
-    .brand-name {
-      font-size: 1.15rem;
-      font-weight: 800;
-      margin: 0;
-      color: var(--text);
-    }
-
-    .brand-category {
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 0.86rem;
-      margin-top: 5px;
-      display: inline-block;
-    }
-
-    .brand-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
-      background: #eef3ff;
-      color: var(--primary);
-      font-size: 1.2rem;
-      flex: 0 0 auto;
-      overflow: hidden;
-    }
-
-    .brand-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      padding: 8px;
-      background: #fff;
-    }
-
-    .brand-card p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 18px;
-      line-height: 1.65;
-    }
-
-    .brand-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .brand-tag {
-      padding: 8px 11px;
-      border-radius: 999px;
-      background: #f5f7fb;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.82rem;
-      font-weight: 700;
-    }
-
-    .brand-card-footer {
-      margin-top: 18px;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .brand-status {
-      padding: 8px 11px;
-      border-radius: 999px;
-      background: #e8fff3;
-      color: #0f9f5a;
-      font-size: 0.82rem;
-      font-weight: 800;
-    }
-
-    .brand-link {
-      color: var(--primary);
-      font-weight: 800;
-      font-size: 0.9rem;
-    }
-
-    .empty-state {
-      display: none;
-      margin-top: 10px;
-      padding: 28px;
-      border-radius: 20px;
-      border: 1px dashed #cdd9f8;
-      background: #f8fbff;
-      text-align: center;
-    }
-
-    .empty-state.show {
-      display: block;
-    }
-
-    .empty-state i {
-      font-size: 2rem;
-      color: var(--primary);
-      margin-bottom: 12px;
-    }
-
-    .empty-state h3 {
-      margin-bottom: 8px;
-    }
-
-    .empty-state p {
-      color: var(--muted);
-    }
-
-    .brands-cta {
-      margin-top: 34px;
-      background: linear-gradient(135deg, #102a8c, #3157ff);
-      color: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 34px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-      flex-wrap: wrap;
-      box-shadow: var(--shadow-lg);
-    }
-
-    .brands-cta p {
-      color: rgba(255, 255, 255, 0.84);
-      max-width: 60ch;
-    }
-
-    .brands-cta h2 {
-      margin-bottom: 12px;
-    }
-
-    @media (max-width: 1100px) {
-      .brands-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .brands-grid,
-      .brand-logo-row {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .page-hero h2 {
-        max-width: 16ch;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .brands-section .container,
-      .page-hero .container {
-        width: min(100% - 28px, var(--container));
-      }
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="https://luisolivera-200599.github.io/industrial-import-nym-web/marcas.html" />
+
+    <title>Marcas | Industrial Import NYM</title>
+
+    <meta
+      name="description"
+      content="Marcas líderes en electrónica e industria que comercializa Industrial Import NYM: ABB, Schneider Electric, CHINT, Legrand y más."
+    />
+
+    <meta
+      name="keywords"
+      content="marcas electrónicas, ABB, Schneider Electric, CHINT, Legrand, componentes industriales, Lima Perú"
+    />
+    <meta name="author" content="Industrial Import NYM" />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:title" content="Marcas | Industrial Import NYM" />
+    <meta
+      property="og:description"
+      content="Conoce las marcas líderes que distribuye Industrial Import NYM para soluciones electrónicas e industriales."
+    />
+    <meta property="og:image" content="imagenes/banners/banner-1.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PE" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Marcas | Industrial Import NYM" />
+    <meta
+      name="twitter:description"
+      content="ABB, Schneider Electric, CHINT, Legrand y más marcas en el catálogo de Industrial Import NYM."
+    />
+    <meta name="twitter:image" content="imagenes/banners/banner-1.png" />
+
+    <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
+    <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://lzaolbleriqwbnnejypy.supabase.co" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
       .page-hero {
-        padding: 70px 0 45px;
+        padding: 90px 0 60px;
+        background:
+          radial-gradient(circle at top left, rgba(49, 87, 255, 0.18), transparent 28%),
+          linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+        border-bottom: 1px solid var(--border);
+        overflow: hidden;
+      }
+
+      .page-hero .container,
+      .brands-section .container {
+        width: min(100% - 56px, var(--container));
+        margin-inline: auto;
+      }
+
+      .page-hero-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 24px;
+        flex-wrap: wrap;
+        width: 100%;
       }
 
       .page-hero h2 {
-        font-size: 1.95rem;
-        line-height: 1.05;
-        max-width: 11ch;
+        font-size: clamp(2rem, 3.8vw, 3rem);
+        line-height: 1.08;
+        margin-bottom: 12px;
+        letter-spacing: -0.03em;
+        max-width: 21ch;
       }
 
       .page-hero p {
-        font-size: 0.96rem;
-        line-height: 1.7;
+        color: var(--muted);
+        max-width: 78ch;
       }
 
-      .brands-grid,
-      .brand-logo-row {
-        grid-template-columns: 1fr;
+      .breadcrumb {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-top: 18px;
+        flex-wrap: wrap;
       }
 
-      .brand-main,
+      .brands-section {
+        padding: 74px 0 90px;
+        background: var(--light);
+        overflow: hidden;
+      }
+
+      .brands-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+        gap: 32px;
+        align-items: start;
+        width: 100%;
+      }
+
       .brand-filter-panel,
-      .brands-cta {
-        padding: 20px;
+      .brand-main {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .brand-filter-panel {
+        padding: 22px;
+      }
+
+      .brand-main {
+        padding: 22px 28px 28px;
+      }
+
+      .panel-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.1rem;
+        margin: 0 0 18px;
+      }
+
+      .panel-title i {
+        color: var(--primary);
+      }
+
+      .search-box {
+        position: relative;
+        margin-bottom: 18px;
+      }
+
+      .search-box i {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+      }
+
+      .search-box input {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px 14px 14px 42px;
+        font: inherit;
+        outline: none;
+        transition: 0.3s ease;
+        background: #fcfcfd;
+      }
+
+      .search-box input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
+      }
+
+      .filter-group {
+        margin-top: 20px;
+      }
+
+      .filter-group h4 {
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+        color: var(--text);
+      }
+
+      .filter-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .filter-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: #fcfcfd;
+        transition: 0.3s ease;
+        cursor: pointer;
+        text-align: left;
+        color: var(--text);
+        font: inherit;
+      }
+
+      .filter-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateX(2px);
+      }
+
+      .filter-btn.active {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: #eef3ff;
+        box-shadow: 0 0 0 3px rgba(49, 87, 255, 0.08);
+      }
+
+      .filter-btn span {
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+
+      .brand-main-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 18px;
+      }
+
+      .brand-main-top h3 {
+        margin: 0 0 8px;
+      }
+
+      .brand-main-top p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 70ch;
       }
 
       .brand-actions {
-        justify-content: flex-start;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: flex-end;
       }
-    }
-  
-    .nav-dropdown {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-    .nav-dropdown-btn {
-      border: none;
-      background: transparent;
-      color: var(--text);
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 0;
-    }
-    .nav-dropdown-btn i { font-size: 0.78rem; transition: transform 0.25s ease; }
-    .nav-dropdown:hover .nav-dropdown-btn,
-    .nav-dropdown.active .nav-dropdown-btn { color: var(--primary); }
-    .nav-dropdown:hover .nav-dropdown-btn i,
-    .nav-dropdown.active .nav-dropdown-btn i { transform: rotate(180deg); }
-    .nav-dropdown-menu {
-      position: absolute;
-      top: calc(100% + 14px);
-      right: 0;
-      width: 230px;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: var(--shadow-lg);
-      padding: 8px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(8px);
-      transition: 0.25s ease;
-      z-index: 120;
-    }
-    .nav-dropdown:hover .nav-dropdown-menu,
-    .nav-dropdown.active .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-    .nav-dropdown-menu a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 14px;
-      border-radius: 12px;
-      color: var(--text);
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-    .nav-dropdown-menu a:hover { background: #eef3ff; color: var(--primary); }
-    .nav-dropdown-menu i { color: var(--primary); }
-    @media (max-width: 900px) {
-      .nav-dropdown { width: 100%; display: block; }
-      .nav-dropdown-btn { width: 100%; justify-content: space-between; padding: 12px 0; }
-      .nav-dropdown-menu { position: static; width: 100%; opacity: 1; visibility: visible; transform: none; box-shadow: none; border-radius: 14px; margin-top: 6px; display: none; }
-      .nav-dropdown.active .nav-dropdown-menu { display: block; }
-    }
-  </style>
-</head>
-<body>
-  <div class="topbar">
-    <div class="container topbar-content">
-      <div class="topbar-left">
-        <span><i class="fa-solid fa-phone"></i> <span data-company-phone>966 441 035</span></span>
-        <span><i class="fa-solid fa-envelope"></i> <span data-company-email>oliveravelasquezluis@gmail.com</span></span>
-        <span><i class="fa-solid fa-location-dot"></i> <span data-company-address>Av. Republica de Argentina 211, Lima 15079</span></span>
-      </div>
 
-      <div class="topbar-right">
-        <span class="social-link is-disabled" aria-label="Facebook pendiente"><i class="fa-brands fa-facebook-f"></i></span>
-        <span class="social-link is-disabled" aria-label="Instagram pendiente"><i class="fa-brands fa-instagram"></i></span>
-        <span class="social-link is-disabled" aria-label="LinkedIn pendiente"><i class="fa-brands fa-linkedin-in"></i></span>
-        <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
-          <i class="fa-brands fa-whatsapp"></i>
-        </a>
-      </div>
-    </div>
-  </div>
+      .brand-chip {
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #fcfcfd;
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
 
-  <header class="header">
-    <div class="container nav">
-      <a href="index.html" class="logo">
-        <div class="logo-mark">NYM</div>
-        <div class="logo-text">
-          <h1>Industrial Import NYM</h1>
-          <p>Soluciones electrónicas para la industria moderna</p>
+      .active-brand-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        min-height: 46px;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+
+      .active-filter-tag {
+        padding: 9px 12px;
+        border-radius: 999px;
+        background: #eef3ff;
+        color: var(--primary);
+        font-size: 0.88rem;
+        font-weight: 700;
+        border: 1px solid #d9e5ff;
+      }
+
+      .brand-summary {
+        color: var(--muted);
+        margin-bottom: 22px;
+        min-height: 24px;
+        font-size: 0.95rem;
+      }
+
+      .brand-logo-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 28px;
+      }
+
+      .logo-card {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        min-height: 150px;
+        padding: 24px;
+        display: grid;
+        place-items: center;
+        transition: 0.3s ease;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .logo-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(49, 87, 255, 0.25);
+        box-shadow: var(--shadow-md);
+      }
+
+      .logo-card img {
+        width: 100%;
+        max-width: 160px;
+        max-height: 85px;
+        object-fit: contain;
+        display: block;
+      }
+
+      .logo-card span {
+        font-weight: 900;
+        color: var(--primary);
+        text-align: center;
+      }
+
+      .brands-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .brand-card {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        box-shadow: var(--shadow-sm);
+        padding: 24px;
+        transition: 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 250px;
+      }
+
+      .brand-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(49, 87, 255, 0.25);
+        box-shadow: var(--shadow-md);
+      }
+
+      .brand-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 16px;
+      }
+
+      .brand-name {
+        font-size: 1.15rem;
+        font-weight: 800;
+        margin: 0;
+        color: var(--text);
+      }
+
+      .brand-category {
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 0.86rem;
+        margin-top: 5px;
+        display: inline-block;
+      }
+
+      .brand-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: #eef3ff;
+        color: var(--primary);
+        font-size: 1.2rem;
+        flex: 0 0 auto;
+        overflow: hidden;
+      }
+
+      .brand-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 8px;
+        background: #fff;
+      }
+
+      .brand-card p {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-bottom: 18px;
+        line-height: 1.65;
+      }
+
+      .brand-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .brand-tag {
+        padding: 8px 11px;
+        border-radius: 999px;
+        background: #f5f7fb;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .brand-card-footer {
+        margin-top: 18px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .brand-status {
+        padding: 8px 11px;
+        border-radius: 999px;
+        background: #e8fff3;
+        color: #0f9f5a;
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .brand-link {
+        color: var(--primary);
+        font-weight: 800;
+        font-size: 0.9rem;
+      }
+
+      .empty-state {
+        display: none;
+        margin-top: 10px;
+        padding: 28px;
+        border-radius: 20px;
+        border: 1px dashed #cdd9f8;
+        background: #f8fbff;
+        text-align: center;
+      }
+
+      .empty-state.show {
+        display: block;
+      }
+
+      .empty-state i {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 12px;
+      }
+
+      .empty-state h3 {
+        margin-bottom: 8px;
+      }
+
+      .empty-state p {
+        color: var(--muted);
+      }
+
+      .brands-cta {
+        margin-top: 34px;
+        background: linear-gradient(135deg, #102a8c, #3157ff);
+        color: var(--white);
+        border-radius: var(--radius-lg);
+        padding: 34px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+        box-shadow: var(--shadow-lg);
+      }
+
+      .brands-cta p {
+        color: rgba(255, 255, 255, 0.84);
+        max-width: 60ch;
+      }
+
+      .brands-cta h2 {
+        margin-bottom: 12px;
+      }
+
+      @media (max-width: 1100px) {
+        .brands-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .brands-grid,
+        .brand-logo-row {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .page-hero h2 {
+          max-width: 16ch;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .brands-section .container,
+        .page-hero .container {
+          width: min(100% - 28px, var(--container));
+        }
+
+        .page-hero {
+          padding: 70px 0 45px;
+        }
+
+        .page-hero h2 {
+          font-size: 1.95rem;
+          line-height: 1.05;
+          max-width: 11ch;
+        }
+
+        .page-hero p {
+          font-size: 0.96rem;
+          line-height: 1.7;
+        }
+
+        .brands-grid,
+        .brand-logo-row {
+          grid-template-columns: 1fr;
+        }
+
+        .brand-main,
+        .brand-filter-panel,
+        .brands-cta {
+          padding: 20px;
+        }
+
+        .brand-actions {
+          justify-content: flex-start;
+        }
+      }
+
+      .nav-dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .nav-dropdown-btn {
+        border: none;
+        background: transparent;
+        color: var(--text);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 0;
+      }
+      .nav-dropdown-btn i {
+        font-size: 0.78rem;
+        transition: transform 0.25s ease;
+      }
+      .nav-dropdown:hover .nav-dropdown-btn,
+      .nav-dropdown.active .nav-dropdown-btn {
+        color: var(--primary);
+      }
+      .nav-dropdown:hover .nav-dropdown-btn i,
+      .nav-dropdown.active .nav-dropdown-btn i {
+        transform: rotate(180deg);
+      }
+      .nav-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 14px);
+        right: 0;
+        width: 230px;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: var(--shadow-lg);
+        padding: 8px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(8px);
+        transition: 0.25s ease;
+        z-index: 120;
+      }
+      .nav-dropdown:hover .nav-dropdown-menu,
+      .nav-dropdown.active .nav-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .nav-dropdown-menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 14px;
+        border-radius: 12px;
+        color: var(--text);
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+      .nav-dropdown-menu a:hover {
+        background: #eef3ff;
+        color: var(--primary);
+      }
+      .nav-dropdown-menu i {
+        color: var(--primary);
+      }
+      @media (max-width: 900px) {
+        .nav-dropdown {
+          width: 100%;
+          display: block;
+        }
+        .nav-dropdown-btn {
+          width: 100%;
+          justify-content: space-between;
+          padding: 12px 0;
+        }
+        .nav-dropdown-menu {
+          position: static;
+          width: 100%;
+          opacity: 1;
+          visibility: visible;
+          transform: none;
+          box-shadow: none;
+          border-radius: 14px;
+          margin-top: 6px;
+          display: none;
+        }
+        .nav-dropdown.active .nav-dropdown-menu {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="container topbar-content">
+        <div class="topbar-left">
+          <span><i class="fa-solid fa-phone"></i> <span data-company-phone>966 441 035</span></span>
+          <span
+            ><i class="fa-solid fa-envelope"></i> <span data-company-email>oliveravelasquezluis@gmail.com</span></span
+          >
+          <span
+            ><i class="fa-solid fa-location-dot"></i>
+            <span data-company-address>Av. Republica de Argentina 211, Lima 15079</span></span
+          >
         </div>
-      </a>
 
-      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-
-      <nav class="nav-menu" id="nav-menu">
-        <a href="index.html">Inicio</a>
-        <a href="nosotros.html">Nosotros</a>
-        <a href="productos.html">Productos</a>
-        <a href="marcas.html" class="active">Marcas</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="contacto.html">Contacto</a>
-                <div class="nav-dropdown">
-          <button class="nav-dropdown-btn" type="button">
-            Administrador
-            <i class="fa-solid fa-chevron-down"></i>
-          </button>
-          <div class="nav-dropdown-menu">
-            <a href="admin-login.html">
-              <i class="fa-solid fa-user-shield"></i>
-              Ingresar al panel
-            </a>
-          </div>
-        </div>
-        <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
-      </nav>
-
-      <a href="contacto.html" class="btn btn-primary desktop-cta">Solicitar cotización</a>
-    </div>
-  </header>
-
-  <section class="page-hero">
-    <div class="container page-hero-content">
-      <div>
-        <span class="section-badge">Marcas destacadas</span>
-        <h2>Trabajamos con marcas reconocidas para una propuesta confiable</h2>
-        <p>
-          Nuestra selección de marcas fortalece la experiencia comercial y transmite
-          respaldo, variedad y enfoque profesional en cada consulta.
-        </p>
-
-        <div class="breadcrumb">
-          <span><a href="index.html">Inicio</a></span>
-          <span>/</span>
-          <span>Marcas</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="brands-section">
-    <div class="container brands-layout">
-      <aside class="brand-filter-panel">
-        <div class="panel-title">
-          <i class="fa-solid fa-filter"></i>
-          <h3>Filtrar por marca</h3>
-        </div>
-
-        <div class="search-box">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="brand-search" placeholder="Buscar marca..." />
-        </div>
-
-        <div class="filter-group">
-          <h4>Marcas</h4>
-          <div class="filter-list" id="brand-filters"></div>
-        </div>
-      </aside>
-
-      <main class="brand-main">
-        <div class="brand-main-top">
-          <div>
-            <h3>Aliados estratégicos</h3>
-            <p>
-              Marcas disponibles desde nuestra base de datos para consultas,
-              cotizaciones y presentación comercial.
-            </p>
-          </div>
-
-          <div class="brand-actions">
-            <span class="brand-chip">Desde Supabase</span>
-            <span class="brand-chip">Consulta directa</span>
-            <span class="brand-chip">Administrable</span>
-          </div>
-        </div>
-
-        <div class="active-brand-filters" id="active-brand-filters">
-          <span class="active-filter-tag">Marca: Todas</span>
-        </div>
-
-        <p class="brand-summary" id="brand-summary">Cargando marcas...</p>
-
-        <div class="brand-logo-row" id="brand-logo-row"></div>
-
-        <div class="brands-grid" id="brands-grid"></div>
-
-        <div class="empty-state" id="empty-state">
-          <i class="fa-solid fa-tags"></i>
-          <h3>No encontramos marcas</h3>
-          <p>Agrega marcas desde el panel administrador o cambia tu búsqueda.</p>
-        </div>
-
-        <div class="brands-cta">
-          <div>
-            <span class="section-badge dark">Consulta por marca</span>
-            <h2>¿Buscas una marca específica?</h2>
-            <p>
-              Escríbenos para revisar disponibilidad, productos relacionados y opciones de cotización.
-            </p>
-          </div>
-
-          <a href="contacto.html" class="btn btn-light">Solicitar información</a>
-        </div>
-      </main>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div>
-        <h3>Industrial Import NYM</h3>
-        <p>
-          Soluciones electrónicas para la industria moderna, con una propuesta
-          comercial enfocada en confianza, orden y atención profesional.
-        </p>
-      </div>
-
-      <div>
-        <h4>Enlaces</h4>
-        <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="nosotros.html">Nosotros</a></li>
-          <li><a href="productos.html">Productos</a></li>
-          <li><a href="marcas.html">Marcas</a></li>
-          <li><a href="clientes.html">Clientes</a></li>
-          <li><a href="contacto.html">Contacto</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h4>Contacto</h4>
-        <ul>
-          <li data-company-phone>966 441 035</li>
-          <li data-company-email>oliveravelasquezluis@gmail.com</li>
-          <li data-company-address>Av. Republica de Argentina 211, Lima 15079</li>
-          <li data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</li>
-        </ul>
-      </div>
-
-      <div>
-        <h4>Redes</h4>
-        <div class="footer-social">
-          <span class="social-link is-disabled" aria-label="Facebook pendiente"><i class="fa-brands fa-facebook-f"></i></span>
-          <span class="social-link is-disabled" aria-label="Instagram pendiente"><i class="fa-brands fa-instagram"></i></span>
-          <span class="social-link is-disabled" aria-label="LinkedIn pendiente"><i class="fa-brands fa-linkedin-in"></i></span>
+        <div class="topbar-right">
+          <span class="social-link is-disabled" aria-label="Facebook pendiente"
+            ><i class="fa-brands fa-facebook-f"></i
+          ></span>
+          <span class="social-link is-disabled" aria-label="Instagram pendiente"
+            ><i class="fa-brands fa-instagram"></i
+          ></span>
+          <span class="social-link is-disabled" aria-label="LinkedIn pendiente"
+            ><i class="fa-brands fa-linkedin-in"></i
+          ></span>
           <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
             <i class="fa-brands fa-whatsapp"></i>
           </a>
@@ -789,23 +670,204 @@
       </div>
     </div>
 
-    <div class="footer-bottom">
-      <p>© 2026 Industrial Import NYM S.R.L. Todos los derechos reservados.</p>
-    </div>
-  </footer>
+    <header class="header">
+      <div class="container nav">
+        <a href="index.html" class="logo">
+          <div class="logo-mark">NYM</div>
+          <div class="logo-text">
+            <h1>Industrial Import NYM</h1>
+            <p>Soluciones electrónicas para la industria moderna</p>
+          </div>
+        </a>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-config.js"></script>
-  <script src="js/site-utils.js"></script>
-  <script src="js/script.js"></script>
-  <script src="js/company-settings.js"></script>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
+          <i class="fa-solid fa-bars"></i>
+        </button>
 
-  <script src="js/brands.js"></script>
+        <nav class="nav-menu" id="nav-menu">
+          <a href="index.html">Inicio</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="productos.html">Productos</a>
+          <a href="marcas.html" class="active">Marcas</a>
+          <a href="clientes.html">Clientes</a>
+          <a href="contacto.html">Contacto</a>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-btn" type="button">
+              Administrador
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="nav-dropdown-menu">
+              <a href="admin-login.html">
+                <i class="fa-solid fa-user-shield"></i>
+                Ingresar al panel
+              </a>
+            </div>
+          </div>
+          <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
+        </nav>
 
-  <!-- Botón flotante WhatsApp -->
-  <a href="https://wa.me/51966441035" class="whatsapp-fab" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" data-whatsapp-link>
-    <i class="fa-brands fa-whatsapp"></i>
-    <span class="whatsapp-fab-label">¿Necesitas ayuda?</span>
-  </a>
-</body>
+        <a href="contacto.html" class="btn btn-primary desktop-cta">Solicitar cotización</a>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container page-hero-content">
+        <div>
+          <span class="section-badge">Marcas destacadas</span>
+          <h2>Trabajamos con marcas reconocidas para una propuesta confiable</h2>
+          <p>
+            Nuestra selección de marcas fortalece la experiencia comercial y transmite respaldo, variedad y enfoque
+            profesional en cada consulta.
+          </p>
+
+          <div class="breadcrumb">
+            <span><a href="index.html">Inicio</a></span>
+            <span>/</span>
+            <span>Marcas</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="brands-section">
+      <div class="container brands-layout">
+        <aside class="brand-filter-panel">
+          <div class="panel-title">
+            <i class="fa-solid fa-filter"></i>
+            <h3>Filtrar por marca</h3>
+          </div>
+
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="brand-search" placeholder="Buscar marca..." />
+          </div>
+
+          <div class="filter-group">
+            <h4>Marcas</h4>
+            <div class="filter-list" id="brand-filters"></div>
+          </div>
+        </aside>
+
+        <main class="brand-main">
+          <div class="brand-main-top">
+            <div>
+              <h3>Aliados estratégicos</h3>
+              <p>
+                Marcas disponibles desde nuestra base de datos para consultas, cotizaciones y presentación comercial.
+              </p>
+            </div>
+
+            <div class="brand-actions">
+              <span class="brand-chip">Desde Supabase</span>
+              <span class="brand-chip">Consulta directa</span>
+              <span class="brand-chip">Administrable</span>
+            </div>
+          </div>
+
+          <div class="active-brand-filters" id="active-brand-filters">
+            <span class="active-filter-tag">Marca: Todas</span>
+          </div>
+
+          <p class="brand-summary" id="brand-summary">Cargando marcas...</p>
+
+          <div class="brand-logo-row" id="brand-logo-row"></div>
+
+          <div class="brands-grid" id="brands-grid"></div>
+
+          <div class="empty-state" id="empty-state">
+            <i class="fa-solid fa-tags"></i>
+            <h3>No encontramos marcas</h3>
+            <p>Agrega marcas desde el panel administrador o cambia tu búsqueda.</p>
+          </div>
+
+          <div class="brands-cta">
+            <div>
+              <span class="section-badge dark">Consulta por marca</span>
+              <h2>¿Buscas una marca específica?</h2>
+              <p>Escríbenos para revisar disponibilidad, productos relacionados y opciones de cotización.</p>
+            </div>
+
+            <a href="contacto.html" class="btn btn-light">Solicitar información</a>
+          </div>
+        </main>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <h3>Industrial Import NYM</h3>
+          <p>
+            Soluciones electrónicas para la industria moderna, con una propuesta comercial enfocada en confianza, orden
+            y atención profesional.
+          </p>
+        </div>
+
+        <div>
+          <h4>Enlaces</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="marcas.html">Marcas</a></li>
+            <li><a href="clientes.html">Clientes</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li data-company-phone>966 441 035</li>
+            <li data-company-email>oliveravelasquezluis@gmail.com</li>
+            <li data-company-address>Av. Republica de Argentina 211, Lima 15079</li>
+            <li data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Redes</h4>
+          <div class="footer-social">
+            <span class="social-link is-disabled" aria-label="Facebook pendiente"
+              ><i class="fa-brands fa-facebook-f"></i
+            ></span>
+            <span class="social-link is-disabled" aria-label="Instagram pendiente"
+              ><i class="fa-brands fa-instagram"></i
+            ></span>
+            <span class="social-link is-disabled" aria-label="LinkedIn pendiente"
+              ><i class="fa-brands fa-linkedin-in"></i
+            ></span>
+            <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Industrial Import NYM S.R.L. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/site-utils.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/company-settings.js"></script>
+
+    <script src="js/brands.js"></script>
+
+    <!-- Botón flotante WhatsApp -->
+    <a
+      href="https://wa.me/51966441035"
+      class="whatsapp-fab"
+      target="_blank"
+      rel="noopener"
+      aria-label="Contactar por WhatsApp"
+      data-whatsapp-link
+    >
+      <i class="fa-brands fa-whatsapp"></i>
+      <span class="whatsapp-fab-label">¿Necesitas ayuda?</span>
+    </a>
+  </body>
 </html>

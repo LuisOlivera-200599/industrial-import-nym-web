@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin.html
 Disallow: /admin-login.html
 
-Sitemap: https://industrialimportnym.com/sitemap.xml
+Sitemap: https://luisolivera-200599.github.io/industrial-import-nym-web/sitemap.xml

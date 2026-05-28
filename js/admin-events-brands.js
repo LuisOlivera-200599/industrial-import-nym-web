@@ -16,7 +16,7 @@ brandForm.addEventListener("submit", async (event) => {
       logo_url: uploadedLogoUrl,
       description: brandFields.description.value.trim(),
       sort_order: Number(brandFields.sort.value || 0),
-      is_active: brandFields.active.value === "true"
+      is_active: brandFields.active.value === "true",
     };
 
     await saveBrand(payload, brandFields.id.value);
@@ -61,7 +61,7 @@ brandsList.addEventListener("click", async (event) => {
       title: "Eliminar marca",
       message: `¿Seguro que deseas eliminar "${brand?.name || "esta marca"}"?`,
       confirmText: "Eliminar",
-      danger: true
+      danger: true,
     });
 
     if (!shouldDelete) return;

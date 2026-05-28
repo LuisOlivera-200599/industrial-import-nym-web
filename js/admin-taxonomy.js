@@ -1,6 +1,8 @@
 function renderCategoriesList() {
   categoriesList.innerHTML = categories.length
-    ? categories.map((category) => `
+    ? categories
+        .map(
+          (category) => `
         <div class="simple-item">
           <span>
             ${escapeHTML(category.name || "Categoría sin nombre")}
@@ -17,7 +19,9 @@ function renderCategoriesList() {
             </button>
           </div>
         </div>
-      `).join("")
+      `,
+        )
+        .join("")
     : `
       <div class="empty-state-admin">
         <i class="fa-solid fa-layer-group"></i>
@@ -29,10 +33,11 @@ function renderCategoriesList() {
 
 function renderSubcategoriesList() {
   subcategoriesList.innerHTML = subcategories.length
-    ? subcategories.map((subcategory) => {
-        const parentCategory = categories.find((category) => category.id === subcategory.category_id);
+    ? subcategories
+        .map((subcategory) => {
+          const parentCategory = categories.find((category) => category.id === subcategory.category_id);
 
-        return `
+          return `
           <div class="simple-item">
             <span>
               ${escapeHTML(subcategory.name || "Subcategoría sin nombre")}
@@ -51,7 +56,8 @@ function renderSubcategoriesList() {
             </div>
           </div>
         `;
-      }).join("")
+        })
+        .join("")
     : `
       <div class="empty-state-admin">
         <i class="fa-solid fa-sitemap"></i>

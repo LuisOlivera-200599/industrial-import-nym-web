@@ -22,7 +22,7 @@
   --radius-lg: 22px;
   --radius-md: 18px;
   --radius-sm: 14px;
-  --container: 1200px;
+  --container: 1440px;
   --transition: all 0.3s ease;
 }
 
@@ -779,7 +779,9 @@ select {
   font-weight: 700;
   text-decoration: none;
   box-shadow: 0 6px 24px rgba(37, 211, 102, 0.45);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   animation: fab-enter 0.5s ease 1.5s both;
 }
 

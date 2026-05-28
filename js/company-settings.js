@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", async () => {
-
   const defaultCompanyData = window.nymSite?.defaultCompanyData || {
     phone: "966 441 035",
     phone_raw: "51966441035",
@@ -8,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     hours: "Lun - Sáb / 10:00 am - 5:00 pm",
     whatsapp_url: "https://wa.me/51966441035",
     map_url: "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/",
-    map_embed: "https://www.google.com/maps?q=Av.%20Republica%20de%20Argentina%20211,%20Lima%2015079&output=embed"
+    map_embed: "https://www.google.com/maps?q=Av.%20Republica%20de%20Argentina%20211,%20Lima%2015079&output=embed",
   };
 
   let companyData = defaultCompanyData;
@@ -23,14 +22,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const mapUrl = data.map_url || defaultCompanyData.map_url;
     const mapEmbed = data.map_embed || defaultCompanyData.map_embed;
 
-    document.querySelectorAll("[data-company-phone]").forEach(el => el.textContent = phone);
-    document.querySelectorAll("[data-company-email]").forEach(el => el.textContent = email);
-    document.querySelectorAll("[data-company-address]").forEach(el => el.textContent = address);
-    document.querySelectorAll("[data-company-hours]").forEach(el => el.textContent = hours);
+    document.querySelectorAll("[data-company-phone]").forEach((el) => (el.textContent = phone));
+    document.querySelectorAll("[data-company-email]").forEach((el) => (el.textContent = email));
+    document.querySelectorAll("[data-company-address]").forEach((el) => (el.textContent = address));
+    document.querySelectorAll("[data-company-hours]").forEach((el) => (el.textContent = hours));
 
-    document.querySelectorAll("[data-whatsapp-link]").forEach(el => el.href = whatsappUrl);
-    document.querySelectorAll("[data-company-email-link]").forEach(el => el.href = `mailto:${email}`);
-    document.querySelectorAll("[data-company-maps-link]").forEach(el => el.href = mapUrl);
+    document.querySelectorAll("[data-whatsapp-link]").forEach((el) => (el.href = whatsappUrl));
+    document.querySelectorAll("[data-company-email-link]").forEach((el) => (el.href = `mailto:${email}`));
+    document.querySelectorAll("[data-company-maps-link]").forEach((el) => (el.href = mapUrl));
 
     const mapFrame = document.querySelector(".map-frame");
     if (mapFrame) {
@@ -50,12 +49,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       hours,
       whatsapp_url: whatsappUrl,
       map_url: mapUrl,
-      map_embed: mapEmbed
+      map_embed: mapEmbed,
     };
 
     window.nymSite = {
       ...(window.nymSite || {}),
-      companyData
+      companyData,
     };
   }
 
@@ -66,16 +65,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
       }
 
-      const { data, error } = await window.nymSupabase
-        .from("company_settings")
-        .select("*")
-        .limit(1)
-        .maybeSingle();
+      const { data, error } = await window.nymSupabase.from("company_settings").select("*").limit(1).maybeSingle();
 
       if (error) throw error;
 
       applyCompanyData(data || defaultCompanyData);
-
     } catch (err) {
       console.error("Error cargando configuración:", err);
       applyCompanyData(defaultCompanyData);
@@ -116,5 +110,4 @@ ${mensaje}
       window.open(url, "_blank");
     });
   }
-
 });

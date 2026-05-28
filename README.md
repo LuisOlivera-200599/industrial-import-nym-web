@@ -21,6 +21,7 @@ Sitio web corporativo y catalogo administrable de Industrial Import NYM.
 - `robots.txt`, `sitemap.xml`, `404.html`: SEO tecnico y pagina de error.
 - `producto.html`, `js/product-detail.js`: detalle individual de producto.
 - `package.json`, `scripts/`: validacion y optimizacion reproducible de assets.
+- `.github/workflows/check.yml`: CI de GitHub Actions para validacion y formato.
 
 ## Rendimiento
 
@@ -34,7 +35,10 @@ Sitio web corporativo y catalogo administrable de Industrial Import NYM.
 ```bash
 npm install
 npm run check
+npm run format:check
 ```
+
+Usa `npm run format` para normalizar HTML, CSS, JS, JSON, Markdown y YAML antes de cambios grandes.
 
 ## Admin: imagenes
 

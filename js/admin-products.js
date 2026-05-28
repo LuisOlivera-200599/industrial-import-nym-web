@@ -17,9 +17,7 @@ function renderProductFilters() {
 
   brandFilter.innerHTML =
     '<option value="all">Todas las marcas</option>' +
-    activeBrands
-      .map((brand) => `<option value="${escapeHTML(brand.id)}">${escapeHTML(brand.name)}</option>`)
-      .join("");
+    activeBrands.map((brand) => `<option value="${escapeHTML(brand.id)}">${escapeHTML(brand.name)}</option>`).join("");
 
   categoryFilter.innerHTML =
     '<option value="all">Todas las categorías</option>' +
@@ -34,8 +32,12 @@ function renderProductFilters() {
       .join("");
 
   brandFilter.value = activeBrands.some((brand) => brand.id === selectedBrand) ? selectedBrand : "all";
-  categoryFilter.value = activeCategories.some((category) => category.id === selectedCategory) ? selectedCategory : "all";
-  subcategoryFilter.value = activeSubcategories.some((subcategory) => subcategory.id === selectedSubcategory) ? selectedSubcategory : "all";
+  categoryFilter.value = activeCategories.some((category) => category.id === selectedCategory)
+    ? selectedCategory
+    : "all";
+  subcategoryFilter.value = activeSubcategories.some((subcategory) => subcategory.id === selectedSubcategory)
+    ? selectedSubcategory
+    : "all";
 }
 
 function renderProductSelectors(selectedBrandId = "", selectedCategoryId = "", selectedSubcategoryId = "") {
@@ -49,9 +51,7 @@ function renderProductSelectors(selectedBrandId = "", selectedCategoryId = "", s
 
   fields.brand.innerHTML =
     '<option value="">Selecciona una marca</option>' +
-    activeBrands
-      .map((brand) => `<option value="${escapeHTML(brand.id)}">${escapeHTML(brand.name)}</option>`)
-      .join("");
+    activeBrands.map((brand) => `<option value="${escapeHTML(brand.id)}">${escapeHTML(brand.name)}</option>`).join("");
 
   fields.category.innerHTML =
     '<option value="">Selecciona una categoría</option>' +
@@ -78,9 +78,7 @@ function renderSubcategoryProductSelector(categoryId = "", selectedSubcategoryId
     '<option value="">Selecciona una subcategoría</option>' +
     filteredSubcategories
       .map((subcategory) => {
-        const catName = showCategoryHint
-          ? categories.find((c) => c.id === subcategory.category_id)?.name || ""
-          : "";
+        const catName = showCategoryHint ? categories.find((c) => c.id === subcategory.category_id)?.name || "" : "";
         const label = catName
           ? `${escapeHTML(subcategory.name)} (${escapeHTML(catName)})`
           : escapeHTML(subcategory.name);
@@ -170,18 +168,14 @@ async function uploadProductImage(file) {
 
   setUploadStatus("Subiendo imagen a Supabase Storage...");
 
-  const { error: uploadError } = await window.nymSupabase.storage
-    .from(PRODUCT_IMAGES_BUCKET)
-    .upload(filePath, file, {
-      cacheControl: "3600",
-      upsert: false
-    });
+  const { error: uploadError } = await window.nymSupabase.storage.from(PRODUCT_IMAGES_BUCKET).upload(filePath, file, {
+    cacheControl: "3600",
+    upsert: false,
+  });
 
   if (uploadError) throw uploadError;
 
-  const { data } = window.nymSupabase.storage
-    .from(PRODUCT_IMAGES_BUCKET)
-    .getPublicUrl(filePath);
+  const { data } = window.nymSupabase.storage.from(PRODUCT_IMAGES_BUCKET).getPublicUrl(filePath);
 
   if (!data?.publicUrl) {
     throw new Error("No se pudo obtener la URL pública de la imagen.");

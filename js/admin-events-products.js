@@ -90,7 +90,7 @@ form.addEventListener("submit", async (event) => {
       image_url: finalImageUrl,
       stock_status: fields.stock.value,
       description: fields.desc.value.trim(),
-      is_active: true
+      is_active: true,
     };
 
     await saveProduct(payload, fields.id.value);
@@ -114,8 +114,10 @@ list.addEventListener("click", async (event) => {
     if (!product) return;
 
     const brandId = product.brand_id || brands.find((brand) => brand.name === product.brand)?.id || "";
-    const categoryId = product.category_id || categories.find((category) => category.name === product.category)?.id || "";
-    const subcategoryId = product.subcategory_id || subcategories.find((subcategory) => subcategory.name === product.subcategory)?.id || "";
+    const categoryId =
+      product.category_id || categories.find((category) => category.name === product.category)?.id || "";
+    const subcategoryId =
+      product.subcategory_id || subcategories.find((subcategory) => subcategory.name === product.subcategory)?.id || "";
 
     fields.id.value = product.id;
     fields.name.value = product.name || "";
@@ -144,7 +146,7 @@ list.addEventListener("click", async (event) => {
       title: "Eliminar producto",
       message: `¿Seguro que deseas eliminar "${product?.name || "este producto"}"? Esta acción no se puede deshacer.`,
       confirmText: "Eliminar",
-      danger: true
+      danger: true,
     });
 
     if (!shouldDelete) return;

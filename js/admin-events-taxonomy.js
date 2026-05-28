@@ -6,7 +6,7 @@ categoryForm.addEventListener("submit", async (event) => {
     description: categoryFields.description.value.trim(),
     icon: categoryFields.icon.value.trim(),
     sort_order: Number(categoryFields.sort.value || 0),
-    is_active: categoryFields.active.value === "true"
+    is_active: categoryFields.active.value === "true",
   };
 
   if (!payload.name) {
@@ -54,7 +54,7 @@ categoriesList.addEventListener("click", async (event) => {
       title: "Eliminar categoría",
       message: `¿Seguro que deseas eliminar "${category?.name || "esta categoría"}"?`,
       confirmText: "Eliminar",
-      danger: true
+      danger: true,
     });
 
     if (!shouldDelete) return;
@@ -81,7 +81,7 @@ subcategoryForm.addEventListener("submit", async (event) => {
     category_id: selectedCategory?.id || null,
     description: subcategoryFields.description.value.trim(),
     sort_order: Number(subcategoryFields.sort.value || 0),
-    is_active: subcategoryFields.active.value === "true"
+    is_active: subcategoryFields.active.value === "true",
   };
 
   if (!payload.name || !payload.category_id) {
@@ -129,7 +129,7 @@ subcategoriesList.addEventListener("click", async (event) => {
       title: "Eliminar subcategoría",
       message: `¿Seguro que deseas eliminar "${subcategory?.name || "esta subcategoría"}"?`,
       confirmText: "Eliminar",
-      danger: true
+      danger: true,
     });
 
     if (!shouldDelete) return;

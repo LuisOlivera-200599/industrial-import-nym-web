@@ -9,6 +9,7 @@ let products = [];
 let brands = [];
 let categories = [];
 let subcategories = [];
+let contactLeads = [];
 let currentUser = null;
 let selectedProductFile = null;
 let selectedBrandFile = null;
@@ -25,6 +26,9 @@ const brandsList = document.getElementById("brands-list");
 const categoriesList = document.getElementById("categories-list");
 const subcategoriesList = document.getElementById("subcategories-list");
 const leadsList = document.getElementById("leads-list");
+const leadSearch = document.getElementById("lead-search");
+const leadStatusFilter = document.getElementById("lead-status-filter");
+const leadsNotice = document.getElementById("leads-notice");
 
 const search = document.getElementById("admin-search");
 const brandFilter = document.getElementById("brand-filter");
@@ -62,7 +66,7 @@ const fields = {
   subcategory: document.getElementById("product-subcategory"),
   image: document.getElementById("product-image"),
   stock: document.getElementById("product-stock"),
-  desc: document.getElementById("product-description")
+  desc: document.getElementById("product-description"),
 };
 
 const brandForm = document.getElementById("brand-form");
@@ -77,7 +81,7 @@ const brandFields = {
   logo: document.getElementById("brand-logo"),
   description: document.getElementById("brand-description"),
   sort: document.getElementById("brand-sort"),
-  active: document.getElementById("brand-active")
+  active: document.getElementById("brand-active"),
 };
 
 const categoryForm = document.getElementById("category-form");
@@ -92,7 +96,7 @@ const categoryFields = {
   description: document.getElementById("category-description"),
   icon: document.getElementById("category-icon"),
   sort: document.getElementById("category-sort"),
-  active: document.getElementById("category-active")
+  active: document.getElementById("category-active"),
 };
 
 const subcategoryForm = document.getElementById("subcategory-form");
@@ -107,7 +111,7 @@ const subcategoryFields = {
   category: document.getElementById("subcategory-category"),
   description: document.getElementById("subcategory-description"),
   sort: document.getElementById("subcategory-sort"),
-  active: document.getElementById("subcategory-active")
+  active: document.getElementById("subcategory-active"),
 };
 
 const companyForm = document.getElementById("company-form");
@@ -124,48 +128,48 @@ const companyFields = {
   hours: document.getElementById("company-hours"),
   whatsappUrl: document.getElementById("company-whatsapp-url"),
   mapUrl: document.getElementById("company-map-url"),
-  mapEmbed: document.getElementById("company-map-embed")
+  mapEmbed: document.getElementById("company-map-embed"),
 };
 
 const companyPreview = {
   phone: document.getElementById("preview-company-phone"),
   email: document.getElementById("preview-company-email"),
   address: document.getElementById("preview-company-address"),
-  hours: document.getElementById("preview-company-hours")
+  hours: document.getElementById("preview-company-hours"),
 };
-      const sectionInfo = {
+const sectionInfo = {
   products: {
     title: "Gestión de productos",
-    description: "Agrega, edita, elimina y revisa productos con imágenes en Supabase Storage."
+    description: "Agrega, edita, elimina y revisa productos con imágenes en Supabase Storage.",
   },
   brands: {
     title: "Gestión de marcas",
-    description: "Agrega, edita y elimina marcas guardadas en Supabase."
+    description: "Agrega, edita y elimina marcas guardadas en Supabase.",
   },
   categories: {
     title: "Gestión de categorías",
-    description: "Agrega, edita y elimina categorías guardadas en Supabase."
+    description: "Agrega, edita y elimina categorías guardadas en Supabase.",
   },
   subcategories: {
     title: "Gestión de subcategorías",
-    description: "Agrega, edita y elimina subcategorías relacionadas a cada categoría."
+    description: "Agrega, edita y elimina subcategorías relacionadas a cada categoría.",
   },
   stock: {
     title: "Gestión rápida de stock",
-    description: "Revisa el estado de disponibilidad de todos los productos."
+    description: "Revisa el estado de disponibilidad de todos los productos.",
   },
   company: {
     title: "Datos de empresa",
-    description: "Edita teléfono, correo, dirección, horarios y enlaces principales de la empresa."
+    description: "Edita teléfono, correo, dirección, horarios y enlaces principales de la empresa.",
   },
   leads: {
     title: "Leads de contacto",
-    description: "Revisa las consultas enviadas desde la web."
+    description: "Revisa las consultas enviadas desde la web.",
   },
   help: {
     title: "Ayuda y estado",
-    description: "Resumen de conexión, base de datos y Storage."
-  }
+    description: "Resumen de conexión, base de datos y Storage.",
+  },
 };
 
 function escapeHTML(text) {
@@ -229,7 +233,7 @@ function showAdminDialog({
   confirmText = "Aceptar",
   cancelText = "Cancelar",
   showCancel = true,
-  danger = false
+  danger = false,
 } = {}) {
   return new Promise((resolve) => {
     adminModalTitle.textContent = title;
@@ -237,9 +241,7 @@ function showAdminDialog({
     adminModalConfirm.textContent = confirmText;
     adminModalCancel.textContent = cancelText;
     adminModalCancel.style.display = showCancel ? "" : "none";
-    adminModalConfirm.className = danger
-      ? "admin-btn admin-btn-danger"
-      : "admin-btn admin-btn-primary";
+    adminModalConfirm.className = danger ? "admin-btn admin-btn-danger" : "admin-btn admin-btn-primary";
 
     const close = (value) => {
       adminModal.classList.remove("show");
@@ -276,7 +278,7 @@ function showAdminAlert(title, message) {
     title,
     message,
     confirmText: "Entendido",
-    showCancel: false
+    showCancel: false,
   });
 }
 

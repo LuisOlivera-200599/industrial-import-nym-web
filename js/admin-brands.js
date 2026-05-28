@@ -19,18 +19,14 @@ async function uploadBrandLogo(file) {
 
   setBrandUploadStatus("Subiendo logo a Supabase Storage...");
 
-  const { error: uploadError } = await window.nymSupabase.storage
-    .from(BRAND_LOGOS_BUCKET)
-    .upload(filePath, file, {
-      cacheControl: "3600",
-      upsert: false
-    });
+  const { error: uploadError } = await window.nymSupabase.storage.from(BRAND_LOGOS_BUCKET).upload(filePath, file, {
+    cacheControl: "3600",
+    upsert: false,
+  });
 
   if (uploadError) throw uploadError;
 
-  const { data } = window.nymSupabase.storage
-    .from(BRAND_LOGOS_BUCKET)
-    .getPublicUrl(filePath);
+  const { data } = window.nymSupabase.storage.from(BRAND_LOGOS_BUCKET).getPublicUrl(filePath);
 
   if (!data?.publicUrl) {
     throw new Error("No se pudo obtener la URL pública del logo.");
@@ -42,7 +38,9 @@ async function uploadBrandLogo(file) {
 
 function renderBrandsList() {
   brandsList.innerHTML = brands.length
-    ? brands.map((brand) => `
+    ? brands
+        .map(
+          (brand) => `
         <div class="simple-item">
           <span>
             ${escapeHTML(brand.name || "Marca sin nombre")}
@@ -59,7 +57,9 @@ function renderBrandsList() {
             </button>
           </div>
         </div>
-      `).join("")
+      `,
+        )
+        .join("")
     : `
       <div class="empty-state-admin">
         <i class="fa-solid fa-tags"></i>

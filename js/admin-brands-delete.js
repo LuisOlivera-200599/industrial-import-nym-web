@@ -5,10 +5,7 @@ async function deleteBrand(id) {
     throw new Error("No puedes eliminar esta marca porque está asignada a uno o más productos.");
   }
 
-  const { error } = await window.nymSupabase
-    .from("brands")
-    .delete()
-    .eq("id", id);
+  const { error } = await window.nymSupabase.from("brands").delete().eq("id", id);
 
   if (error) throw error;
 }

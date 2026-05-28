@@ -1,809 +1,726 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="canonical" href="https://industrialimportnym.com/productos.html" />
-
-  <title>Productos | Industrial Import NYM</title>
-
-  <meta
-    name="description"
-    content="Explora el catálogo de productos y componentes electrónicos de Industrial Import NYM. Filtra por categoría, subcategoría, marca y disponibilidad."
-  />
-
-  <meta name="keywords" content="productos electrónicos, componentes industriales, automatización, relés, conectores, marcas industriales, Lima Perú" />
-  <meta name="author" content="Industrial Import NYM" />
-  <meta name="robots" content="index, follow" />
-
-  <meta property="og:title" content="Productos | Industrial Import NYM" />
-  <meta property="og:description" content="Catálogo de componentes electrónicos e industriales. Filtra por categoría, marca y disponibilidad." />
-  <meta property="og:image" content="imagenes/banners/banner-1.png" />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="es_PE" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Productos | Industrial Import NYM" />
-  <meta name="twitter:description" content="Explora nuestro catálogo de componentes electrónicos e industriales en Lima, Perú." />
-  <meta name="twitter:image" content="imagenes/banners/banner-1.png" />
-
-  <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
-  <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://lzaolbleriqwbnnejypy.supabase.co" />
-  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  />
-
-  <link rel="stylesheet" href="css/style.css" />
-
-  <style>
-    .page-hero {
-      padding: 90px 0 60px;
-      background:
-        radial-gradient(circle at top left, rgba(49, 87, 255, 0.18), transparent 28%),
-        linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
-      border-bottom: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    .page-hero-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 24px;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-
-    .page-hero h2 {
-      font-size: clamp(2rem, 3.8vw, 3rem);
-      line-height: 1.08;
-      margin-bottom: 12px;
-      letter-spacing: -0.03em;
-      word-break: break-word;
-      max-width: 18ch;
-    }
-
-    .page-hero p {
-      color: var(--muted);
-      max-width: 78ch;
-    }
-
-    .breadcrumb {
-      display: inline-flex;
-      gap: 10px;
-      align-items: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-top: 18px;
-      flex-wrap: wrap;
-    }
-
-    .catalog-section {
-      padding: 74px 0 90px;
-      background: var(--light);
-      overflow: hidden;
-    }
-
-    .catalog-section .container,
-    .page-hero .container {
-      width: min(100% - 56px, var(--container));
-      margin-inline: auto;
-    }
-
-    .catalog-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
-      gap: 32px;
-      align-items: start;
-      width: 100%;
-    }
-
-    .catalog-layout > * {
-      min-width: 0;
-      align-self: start;
-      margin: 0;
-    }
-
-    .sidebar-wrap {
-      position: relative;
-      top: 0;
-      align-self: start;
-      min-width: 0;
-      margin: 0;
-    }
-
-    .sidebar-panel,
-    .catalog-main {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      width: 100%;
-      max-width: 100%;
-    }
-
-    .sidebar-panel {
-      padding: 22px;
-      margin: 0;
-      transform: none;
-    }
-
-    .panel-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.1rem;
-      margin: 0 0 18px 0;
-    }
-
-    .panel-title i {
-      color: var(--primary);
-    }
-
-    .search-box {
-      position: relative;
-      margin-bottom: 18px;
-    }
-
-    .search-box i {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-    }
-
-    .search-box input {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 14px 14px 42px;
-      font: inherit;
-      outline: none;
-      transition: 0.3s ease;
-      background: #fcfcfd;
-    }
-
-    .search-box input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
-    }
-
-    .filter-group {
-      margin-top: 20px;
-    }
-
-    .filter-group h4 {
-      font-size: 0.95rem;
-      margin-bottom: 12px;
-      color: var(--text);
-    }
-
-    .filter-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .filter-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 14px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: #fcfcfd;
-      transition: 0.3s ease;
-      cursor: pointer;
-      text-align: left;
-      color: var(--text);
-      font: inherit;
-    }
-
-    .filter-btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      transform: translateX(2px);
-    }
-
-    .filter-btn.active {
-      border-color: var(--primary);
-      color: var(--primary);
-      background: #eef3ff;
-      box-shadow: 0 0 0 3px rgba(49, 87, 255, 0.08);
-    }
-
-    .filter-btn span {
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .catalog-main {
-      padding: 22px 28px 28px;
-      margin: 0;
-      min-width: 0;
-      align-self: start;
-    }
-
-    .catalog-topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin: 0 0 18px 0;
-    }
-
-    .catalog-topbar h3 {
-      margin: 0 0 8px 0;
-    }
-
-    .catalog-topbar p {
-      color: var(--muted);
-      margin: 0;
-    }
-
-    .catalog-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      align-self: flex-start;
-      margin-top: 0;
-    }
-
-    .catalog-chip {
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #fcfcfd;
-      color: var(--muted);
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .active-filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 24px;
-      min-height: 46px;
-      align-items: center;
-    }
-
-    .active-filter-tag {
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: #eef3ff;
-      color: var(--primary);
-      font-size: 0.88rem;
-      font-weight: 700;
-      border: 1px solid #d9e5ff;
-    }
-
-    .result-summary {
-      color: var(--muted);
-      margin-bottom: 22px;
-      font-size: 0.95rem;
-      min-height: 24px;
-    }
-
-    .catalog-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 22px;
-    }
-
-    .product-card.large .product-image {
-      height: auto;
-      min-height: 210px;
-      background: #fff;
-      padding: 0;
-    }
-
-    .product-card.large .product-image img {
-      width: 100%;
-      height: 210px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .product-card.large .product-body h3 {
-      font-size: 1.05rem;
-    }
-
-    .product-card.large .product-actions {
-      margin-top: 16px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .product-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .product-pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 7px 10px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      background: #f5f7fb;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      line-height: 1.3;
-    }
-
-    .btn-sm {
-      padding: 11px 16px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      border-radius: 999px;
-    }
-
-    .btn-whatsapp {
-      background: #e8fff3;
-      color: #0f9f5a;
-      border: 1px solid #b7efcf;
-    }
-
-    .btn-whatsapp:hover {
-      background: #d9fbe7;
-    }
-
-    .empty-state {
-      display: none;
-      margin-top: 10px;
-      padding: 28px;
-      border-radius: 20px;
-      border: 1px dashed #cdd9f8;
-      background: #f8fbff;
-      text-align: center;
-    }
-
-    .empty-state.show {
-      display: block;
-    }
-
-    .empty-state i {
-      font-size: 2rem;
-      color: var(--primary);
-      margin-bottom: 12px;
-    }
-
-    .empty-state h3 {
-      margin-bottom: 8px;
-    }
-
-    .empty-state p {
-      color: var(--muted);
-    }
-
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      margin-top: 36px;
-      flex-wrap: wrap;
-    }
-
-    .pagination button {
-      min-width: 38px;
-      height: 38px;
-      padding: 0 10px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--white);
-      color: var(--text);
-      font: inherit;
-      font-weight: 600;
-      font-size: 0.92rem;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .pagination button:hover:not(:disabled) {
-      border-color: var(--primary);
-      color: var(--primary);
-      background: #eef3ff;
-    }
-
-    .pagination button.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-
-    .pagination button:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
-
-    .quote-panel {
-      position: sticky;
-      bottom: 18px;
-      z-index: 30;
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      margin-top: 24px;
-      padding: 14px 16px;
-      border: 1px solid #bbf7d0;
-      border-radius: 18px;
-      background: #f0fdf4;
-      box-shadow: var(--shadow-md);
-    }
-
-    .quote-panel.show {
-      display: flex;
-    }
-
-    .quote-panel strong {
-      display: block;
-      color: #065f46;
-      line-height: 1.2;
-    }
-
-    .quote-panel span {
-      color: #047857;
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-
-    .quote-panel-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    @media (max-width: 1100px) {
-      .catalog-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .catalog-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .page-hero h2 {
-        max-width: 14ch;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .catalog-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .catalog-main,
-      .sidebar-panel {
-        padding: 20px;
-      }
-
-      .catalog-layout {
-        gap: 22px;
-      }
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="https://luisolivera-200599.github.io/industrial-import-nym-web/productos.html" />
+
+    <title>Productos | Industrial Import NYM</title>
+
+    <meta
+      name="description"
+      content="Explora el catálogo de productos y componentes electrónicos de Industrial Import NYM. Filtra por categoría, subcategoría, marca y disponibilidad."
+    />
+
+    <meta
+      name="keywords"
+      content="productos electrónicos, componentes industriales, automatización, relés, conectores, marcas industriales, Lima Perú"
+    />
+    <meta name="author" content="Industrial Import NYM" />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:title" content="Productos | Industrial Import NYM" />
+    <meta
+      property="og:description"
+      content="Catálogo de componentes electrónicos e industriales. Filtra por categoría, marca y disponibilidad."
+    />
+    <meta property="og:image" content="imagenes/banners/banner-1.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PE" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Productos | Industrial Import NYM" />
+    <meta
+      name="twitter:description"
+      content="Explora nuestro catálogo de componentes electrónicos e industriales en Lima, Perú."
+    />
+    <meta name="twitter:image" content="imagenes/banners/banner-1.png" />
+
+    <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
+    <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://lzaolbleriqwbnnejypy.supabase.co" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
       .page-hero {
-        padding: 70px 0 45px;
+        padding: 90px 0 60px;
+        background:
+          radial-gradient(circle at top left, rgba(49, 87, 255, 0.18), transparent 28%),
+          linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+        border-bottom: 1px solid var(--border);
+        overflow: hidden;
       }
 
-      .page-hero h2 {
-        max-width: 11ch;
-      }
-
-      .catalog-topbar {
-        align-items: flex-start;
-      }
-
-      .catalog-actions {
-        justify-content: flex-start;
-      }
-
-      .product-card.large .product-actions {
-        flex-direction: column;
-      }
-
-      .product-card.large .product-actions .btn {
+      .page-hero-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 24px;
+        flex-wrap: wrap;
         width: 100%;
       }
-    }
-
-    @media (max-width: 640px) {
-      .catalog-section .container,
-      .page-hero .container {
-        width: min(100% - 28px, var(--container));
-      }
 
       .page-hero h2 {
-        font-size: 1.95rem;
-        line-height: 1.05;
-        max-width: 10.5ch;
+        font-size: clamp(2rem, 3.8vw, 3rem);
+        line-height: 1.08;
+        margin-bottom: 12px;
+        letter-spacing: -0.03em;
+        word-break: break-word;
+        max-width: 18ch;
       }
 
       .page-hero p {
-        font-size: 0.96rem;
-        line-height: 1.7;
+        color: var(--muted);
+        max-width: 78ch;
       }
-    }
-  
-    .nav-dropdown {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-    .nav-dropdown-btn {
-      border: none;
-      background: transparent;
-      color: var(--text);
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 0;
-    }
-    .nav-dropdown-btn i { font-size: 0.78rem; transition: transform 0.25s ease; }
-    .nav-dropdown:hover .nav-dropdown-btn,
-    .nav-dropdown.active .nav-dropdown-btn { color: var(--primary); }
-    .nav-dropdown:hover .nav-dropdown-btn i,
-    .nav-dropdown.active .nav-dropdown-btn i { transform: rotate(180deg); }
-    .nav-dropdown-menu {
-      position: absolute;
-      top: calc(100% + 14px);
-      right: 0;
-      width: 230px;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: var(--shadow-lg);
-      padding: 8px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(8px);
-      transition: 0.25s ease;
-      z-index: 120;
-    }
-    .nav-dropdown:hover .nav-dropdown-menu,
-    .nav-dropdown.active .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-    .nav-dropdown-menu a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 14px;
-      border-radius: 12px;
-      color: var(--text);
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-    .nav-dropdown-menu a:hover { background: #eef3ff; color: var(--primary); }
-    .nav-dropdown-menu i { color: var(--primary); }
-    @media (max-width: 900px) {
-      .nav-dropdown { width: 100%; display: block; }
-      .nav-dropdown-btn { width: 100%; justify-content: space-between; padding: 12px 0; }
-      .nav-dropdown-menu { position: static; width: 100%; opacity: 1; visibility: visible; transform: none; box-shadow: none; border-radius: 14px; margin-top: 6px; display: none; }
-      .nav-dropdown.active .nav-dropdown-menu { display: block; }
-    }
-  </style>
-</head>
 
-<body>
-  <div class="topbar">
-    <div class="container topbar-content">
-      <div class="topbar-left">
-        <span><i class="fa-solid fa-phone"></i> <span data-company-phone>966 441 035</span></span>
-        <span><i class="fa-solid fa-envelope"></i> <span data-company-email>oliveravelasquezluis@gmail.com</span></span>
-        <span><i class="fa-solid fa-location-dot"></i> <span data-company-address>Av. Republica de Argentina 211, Lima 15079</span></span>
-      </div>
+      .breadcrumb {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-top: 18px;
+        flex-wrap: wrap;
+      }
 
-      <div class="topbar-right">
-        <span class="social-link is-disabled" aria-label="Facebook pendiente"><i class="fa-brands fa-facebook-f"></i></span>
-        <span class="social-link is-disabled" aria-label="Instagram pendiente"><i class="fa-brands fa-instagram"></i></span>
-        <span class="social-link is-disabled" aria-label="LinkedIn pendiente"><i class="fa-brands fa-linkedin-in"></i></span>
-        <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
-          <i class="fa-brands fa-whatsapp"></i>
-        </a>
-      </div>
-    </div>
-  </div>
+      .catalog-section {
+        padding: 74px 0 90px;
+        background: var(--light);
+        overflow: hidden;
+      }
 
-  <header class="header">
-    <div class="container nav">
-      <a href="index.html" class="logo">
-        <div class="logo-mark">NYM</div>
-        <div class="logo-text">
-          <h1>Industrial Import NYM</h1>
-          <p>Soluciones electrónicas para la industria moderna</p>
+      .catalog-section .container,
+      .page-hero .container {
+        width: min(100% - 56px, var(--container));
+        margin-inline: auto;
+      }
+
+      .catalog-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+        gap: 32px;
+        align-items: start;
+        width: 100%;
+      }
+
+      .catalog-layout > * {
+        min-width: 0;
+        align-self: start;
+        margin: 0;
+      }
+
+      .sidebar-wrap {
+        position: relative;
+        top: 0;
+        align-self: start;
+        min-width: 0;
+        margin: 0;
+      }
+
+      .sidebar-panel,
+      .catalog-main {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .sidebar-panel {
+        padding: 22px;
+        margin: 0;
+        transform: none;
+      }
+
+      .panel-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.1rem;
+        margin: 0 0 18px 0;
+      }
+
+      .panel-title i {
+        color: var(--primary);
+      }
+
+      .search-box {
+        position: relative;
+        margin-bottom: 18px;
+      }
+
+      .search-box i {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+      }
+
+      .search-box input {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px 14px 14px 42px;
+        font: inherit;
+        outline: none;
+        transition: 0.3s ease;
+        background: #fcfcfd;
+      }
+
+      .search-box input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
+      }
+
+      .filter-group {
+        margin-top: 20px;
+      }
+
+      .filter-group h4 {
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+        color: var(--text);
+      }
+
+      .filter-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .filter-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: #fcfcfd;
+        transition: 0.3s ease;
+        cursor: pointer;
+        text-align: left;
+        color: var(--text);
+        font: inherit;
+      }
+
+      .filter-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateX(2px);
+      }
+
+      .filter-btn.active {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: #eef3ff;
+        box-shadow: 0 0 0 3px rgba(49, 87, 255, 0.08);
+      }
+
+      .filter-btn span {
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+
+      .catalog-main {
+        padding: 22px 28px 28px;
+        margin: 0;
+        min-width: 0;
+        align-self: start;
+      }
+
+      .catalog-topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin: 0 0 18px 0;
+      }
+
+      .catalog-topbar h3 {
+        margin: 0 0 8px 0;
+      }
+
+      .catalog-topbar p {
+        color: var(--muted);
+        margin: 0;
+      }
+
+      .catalog-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-self: flex-start;
+        margin-top: 0;
+      }
+
+      .catalog-chip {
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #fcfcfd;
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .active-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 24px;
+        min-height: 46px;
+        align-items: center;
+      }
+
+      .active-filter-tag {
+        padding: 9px 12px;
+        border-radius: 999px;
+        background: #eef3ff;
+        color: var(--primary);
+        font-size: 0.88rem;
+        font-weight: 700;
+        border: 1px solid #d9e5ff;
+      }
+
+      .result-summary {
+        color: var(--muted);
+        margin-bottom: 22px;
+        font-size: 0.95rem;
+        min-height: 24px;
+      }
+
+      .catalog-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .product-card.large .product-image {
+        height: auto;
+        min-height: 210px;
+        background: #fff;
+        padding: 0;
+      }
+
+      .product-card.large .product-image img {
+        width: 100%;
+        height: 210px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .product-card.large .product-body h3 {
+        font-size: 1.05rem;
+      }
+
+      .product-card.large .product-actions {
+        margin-top: 16px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .product-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .product-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 10px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        background: #f5f7fb;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        line-height: 1.3;
+      }
+
+      .btn-sm {
+        padding: 11px 16px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        border-radius: 999px;
+      }
+
+      .btn-whatsapp {
+        background: #e8fff3;
+        color: #0f9f5a;
+        border: 1px solid #b7efcf;
+      }
+
+      .btn-whatsapp:hover {
+        background: #d9fbe7;
+      }
+
+      .empty-state {
+        display: none;
+        margin-top: 10px;
+        padding: 28px;
+        border-radius: 20px;
+        border: 1px dashed #cdd9f8;
+        background: #f8fbff;
+        text-align: center;
+      }
+
+      .empty-state.show {
+        display: block;
+      }
+
+      .empty-state i {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 12px;
+      }
+
+      .empty-state h3 {
+        margin-bottom: 8px;
+      }
+
+      .empty-state p {
+        color: var(--muted);
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        margin-top: 36px;
+        flex-wrap: wrap;
+      }
+
+      .pagination button {
+        min-width: 38px;
+        height: 38px;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--white);
+        color: var(--text);
+        font: inherit;
+        font-weight: 600;
+        font-size: 0.92rem;
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .pagination button:hover:not(:disabled) {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: #eef3ff;
+      }
+
+      .pagination button.active {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--primary);
+      }
+
+      .pagination button:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+
+      .quote-panel {
+        position: sticky;
+        bottom: 18px;
+        z-index: 30;
+        display: none;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+        margin-top: 24px;
+        padding: 14px 16px;
+        border: 1px solid #bbf7d0;
+        border-radius: 18px;
+        background: #f0fdf4;
+        box-shadow: var(--shadow-md);
+      }
+
+      .quote-panel.show {
+        display: flex;
+      }
+
+      .quote-panel strong {
+        display: block;
+        color: #065f46;
+        line-height: 1.2;
+      }
+
+      .quote-panel span {
+        color: #047857;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .quote-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+        max-width: 760px;
+      }
+
+      .quote-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 10px;
+        border: 1px solid #bbf7d0;
+        border-radius: 999px;
+        background: #ffffff;
+        color: #064e3b;
+        font-size: 0.84rem;
+        font-weight: 800;
+      }
+
+      .quote-item button {
+        width: 22px;
+        height: 22px;
+        border: 0;
+        border-radius: 999px;
+        background: #dcfce7;
+        color: #065f46;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+      }
+
+      .quote-panel-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 1100px) {
+        .catalog-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .catalog-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .page-hero h2 {
+          max-width: 14ch;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .catalog-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .catalog-main,
+        .sidebar-panel {
+          padding: 20px;
+        }
+
+        .catalog-layout {
+          gap: 22px;
+        }
+
+        .page-hero {
+          padding: 70px 0 45px;
+        }
+
+        .page-hero h2 {
+          max-width: 11ch;
+        }
+
+        .catalog-topbar {
+          align-items: flex-start;
+        }
+
+        .quote-panel {
+          flex-direction: column;
+        }
+
+        .quote-panel-actions {
+          width: 100%;
+        }
+
+        .quote-panel-actions .btn {
+          flex: 1;
+        }
+
+        .catalog-actions {
+          justify-content: flex-start;
+        }
+
+        .product-card.large .product-actions {
+          flex-direction: column;
+        }
+
+        .product-card.large .product-actions .btn {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .catalog-section .container,
+        .page-hero .container {
+          width: min(100% - 28px, var(--container));
+        }
+
+        .page-hero h2 {
+          font-size: 1.95rem;
+          line-height: 1.05;
+          max-width: 10.5ch;
+        }
+
+        .page-hero p {
+          font-size: 0.96rem;
+          line-height: 1.7;
+        }
+      }
+
+      .nav-dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .nav-dropdown-btn {
+        border: none;
+        background: transparent;
+        color: var(--text);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 0;
+      }
+      .nav-dropdown-btn i {
+        font-size: 0.78rem;
+        transition: transform 0.25s ease;
+      }
+      .nav-dropdown:hover .nav-dropdown-btn,
+      .nav-dropdown.active .nav-dropdown-btn {
+        color: var(--primary);
+      }
+      .nav-dropdown:hover .nav-dropdown-btn i,
+      .nav-dropdown.active .nav-dropdown-btn i {
+        transform: rotate(180deg);
+      }
+      .nav-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 14px);
+        right: 0;
+        width: 230px;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: var(--shadow-lg);
+        padding: 8px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(8px);
+        transition: 0.25s ease;
+        z-index: 120;
+      }
+      .nav-dropdown:hover .nav-dropdown-menu,
+      .nav-dropdown.active .nav-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .nav-dropdown-menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 14px;
+        border-radius: 12px;
+        color: var(--text);
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+      .nav-dropdown-menu a:hover {
+        background: #eef3ff;
+        color: var(--primary);
+      }
+      .nav-dropdown-menu i {
+        color: var(--primary);
+      }
+      @media (max-width: 900px) {
+        .nav-dropdown {
+          width: 100%;
+          display: block;
+        }
+        .nav-dropdown-btn {
+          width: 100%;
+          justify-content: space-between;
+          padding: 12px 0;
+        }
+        .nav-dropdown-menu {
+          position: static;
+          width: 100%;
+          opacity: 1;
+          visibility: visible;
+          transform: none;
+          box-shadow: none;
+          border-radius: 14px;
+          margin-top: 6px;
+          display: none;
+        }
+        .nav-dropdown.active .nav-dropdown-menu {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="topbar">
+      <div class="container topbar-content">
+        <div class="topbar-left">
+          <span><i class="fa-solid fa-phone"></i> <span data-company-phone>966 441 035</span></span>
+          <span
+            ><i class="fa-solid fa-envelope"></i> <span data-company-email>oliveravelasquezluis@gmail.com</span></span
+          >
+          <span
+            ><i class="fa-solid fa-location-dot"></i>
+            <span data-company-address>Av. Republica de Argentina 211, Lima 15079</span></span
+          >
         </div>
-      </a>
 
-      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-
-      <nav class="nav-menu" id="nav-menu">
-        <a href="index.html">Inicio</a>
-        <a href="nosotros.html">Nosotros</a>
-        <a href="productos.html" class="active">Productos</a>
-        <a href="marcas.html">Marcas</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="contacto.html">Contacto</a>
-                <div class="nav-dropdown">
-          <button class="nav-dropdown-btn" type="button">
-            Administrador
-            <i class="fa-solid fa-chevron-down"></i>
-          </button>
-          <div class="nav-dropdown-menu">
-            <a href="admin-login.html">
-              <i class="fa-solid fa-user-shield"></i>
-              Ingresar al panel
-            </a>
-          </div>
-        </div>
-        <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
-      </nav>
-
-      <a href="contacto.html" class="btn btn-primary desktop-cta">Solicitar cotización</a>
-    </div>
-  </header>
-
-  <section class="page-hero">
-    <div class="container page-hero-content">
-      <div>
-        <span class="section-badge">Catálogo</span>
-        <h2>Productos y componentes para distintas aplicaciones electrónicas</h2>
-        <p>
-          Explora nuestro catálogo de productos por categorías, subcategorías,
-          marcas y estado de disponibilidad para una consulta más clara y profesional.
-        </p>
-
-        <div class="breadcrumb">
-          <span><a href="index.html">Inicio</a></span>
-          <span>/</span>
-          <span>Productos</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="catalog-section">
-    <div class="container catalog-layout">
-      <div class="sidebar-wrap">
-        <aside class="sidebar-panel">
-          <div class="panel-title">
-            <i class="fa-solid fa-sliders"></i>
-            <h3>Filtros del catálogo</h3>
-          </div>
-
-          <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="product-search" placeholder="Buscar producto..." />
-          </div>
-
-          <div class="filter-group">
-            <h4>Categorías</h4>
-            <div class="filter-list" id="category-filters"></div>
-          </div>
-
-          <div class="filter-group" id="subcategory-filter-group" style="display:none;">
-            <h4>Subcategorías</h4>
-            <div class="filter-list" id="subcategory-filters"></div>
-          </div>
-
-          <div class="filter-group">
-            <h4>Marcas</h4>
-            <div class="filter-list" id="brand-filters"></div>
-          </div>
-        </aside>
-      </div>
-
-      <div class="catalog-main">
-        <div class="catalog-topbar">
-          <div>
-            <h3>Catálogo general</h3>
-            <p>Explora productos disponibles por categoría, subcategoría, marca y estado de stock.</p>
-          </div>
-
-          <div class="catalog-actions">
-            <span class="catalog-chip">Sin precios visibles</span>
-            <span class="catalog-chip">Consulta por WhatsApp</span>
-            <span class="catalog-chip">Stock visible</span>
-          </div>
-        </div>
-
-        <div class="active-filters" id="active-filters">
-          <span class="active-filter-tag">Categoría: Todas</span>
-          <span class="active-filter-tag">Marca: Todas</span>
-        </div>
-
-        <p class="result-summary" id="result-summary">Cargando productos...</p>
-
-        <div class="catalog-grid" id="catalog-grid"></div>
-
-        <div class="empty-state" id="empty-state">
-          <i class="fa-solid fa-box-open"></i>
-          <h3>No encontramos productos con ese filtro</h3>
-          <p>Prueba con otra categoría, otra marca o cambia el texto de búsqueda.</p>
-        </div>
-
-        <nav class="pagination" id="pagination" aria-label="Páginas del catálogo"></nav>
-
-        <div class="quote-panel" id="quote-panel">
-          <div>
-            <strong id="quote-count">0 productos seleccionados</strong>
-            <span>Envía una cotización múltiple por WhatsApp.</span>
-          </div>
-          <div class="quote-panel-actions">
-            <button class="btn btn-secondary btn-sm" type="button" id="quote-clear">Limpiar</button>
-            <a class="btn btn-whatsapp btn-sm" href="#" target="_blank" rel="noopener" id="quote-send">Enviar cotización</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div>
-        <h3>Industrial Import NYM</h3>
-        <p>
-          Soluciones electrónicas para la industria moderna, con una propuesta
-          comercial enfocada en confianza, orden y atención profesional.
-        </p>
-      </div>
-
-      <div>
-        <h4>Enlaces</h4>
-        <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="nosotros.html">Nosotros</a></li>
-          <li><a href="productos.html">Productos</a></li>
-          <li><a href="marcas.html">Marcas</a></li>
-          <li><a href="clientes.html">Clientes</a></li>
-          <li><a href="contacto.html">Contacto</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h4>Contacto</h4>
-        <ul>
-          <li data-company-phone>966 441 035</li>
-          <li data-company-email>oliveravelasquezluis@gmail.com</li>
-          <li data-company-address>Av. Republica de Argentina 211, Lima 15079</li>
-          <li data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</li>
-        </ul>
-      </div>
-
-      <div>
-        <h4>Redes</h4>
-        <div class="footer-social">
-          <span class="social-link is-disabled" aria-label="Facebook pendiente"><i class="fa-brands fa-facebook-f"></i></span>
-          <span class="social-link is-disabled" aria-label="Instagram pendiente"><i class="fa-brands fa-instagram"></i></span>
-          <span class="social-link is-disabled" aria-label="LinkedIn pendiente"><i class="fa-brands fa-linkedin-in"></i></span>
+        <div class="topbar-right">
+          <span class="social-link is-disabled" aria-label="Facebook pendiente"
+            ><i class="fa-brands fa-facebook-f"></i
+          ></span>
+          <span class="social-link is-disabled" aria-label="Instagram pendiente"
+            ><i class="fa-brands fa-instagram"></i
+          ></span>
+          <span class="social-link is-disabled" aria-label="LinkedIn pendiente"
+            ><i class="fa-brands fa-linkedin-in"></i
+          ></span>
           <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
             <i class="fa-brands fa-whatsapp"></i>
           </a>
@@ -811,23 +728,219 @@
       </div>
     </div>
 
-    <div class="footer-bottom">
-      <p>© 2026 Industrial Import NYM S.R.L. Todos los derechos reservados.</p>
-    </div>
-  </footer>
+    <header class="header">
+      <div class="container nav">
+        <a href="index.html" class="logo">
+          <div class="logo-mark">NYM</div>
+          <div class="logo-text">
+            <h1>Industrial Import NYM</h1>
+            <p>Soluciones electrónicas para la industria moderna</p>
+          </div>
+        </a>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-config.js"></script>
-  <script src="js/site-utils.js"></script>
-  <script src="js/script.js"></script>
-  <script src="js/company-settings.js"></script>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
+          <i class="fa-solid fa-bars"></i>
+        </button>
 
-  <script src="js/catalog.js"></script>
+        <nav class="nav-menu" id="nav-menu">
+          <a href="index.html">Inicio</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="productos.html" class="active">Productos</a>
+          <a href="marcas.html">Marcas</a>
+          <a href="clientes.html">Clientes</a>
+          <a href="contacto.html">Contacto</a>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-btn" type="button">
+              Administrador
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="nav-dropdown-menu">
+              <a href="admin-login.html">
+                <i class="fa-solid fa-user-shield"></i>
+                Ingresar al panel
+              </a>
+            </div>
+          </div>
+          <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
+        </nav>
 
-  <!-- Botón flotante WhatsApp -->
-  <a href="https://wa.me/51966441035" class="whatsapp-fab" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" data-whatsapp-link>
-    <i class="fa-brands fa-whatsapp"></i>
-    <span class="whatsapp-fab-label">¿Necesitas ayuda?</span>
-  </a>
-</body>
+        <a href="contacto.html" class="btn btn-primary desktop-cta">Solicitar cotización</a>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container page-hero-content">
+        <div>
+          <span class="section-badge">Catálogo</span>
+          <h2>Productos y componentes para distintas aplicaciones electrónicas</h2>
+          <p>
+            Explora nuestro catálogo de productos por categorías, subcategorías, marcas y estado de disponibilidad para
+            una consulta más clara y profesional.
+          </p>
+
+          <div class="breadcrumb">
+            <span><a href="index.html">Inicio</a></span>
+            <span>/</span>
+            <span>Productos</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog-section">
+      <div class="container catalog-layout">
+        <div class="sidebar-wrap">
+          <aside class="sidebar-panel">
+            <div class="panel-title">
+              <i class="fa-solid fa-sliders"></i>
+              <h3>Filtros del catálogo</h3>
+            </div>
+
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="product-search" placeholder="Buscar producto..." />
+            </div>
+
+            <div class="filter-group">
+              <h4>Categorías</h4>
+              <div class="filter-list" id="category-filters"></div>
+            </div>
+
+            <div class="filter-group" id="subcategory-filter-group" style="display: none">
+              <h4>Subcategorías</h4>
+              <div class="filter-list" id="subcategory-filters"></div>
+            </div>
+
+            <div class="filter-group">
+              <h4>Marcas</h4>
+              <div class="filter-list" id="brand-filters"></div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="catalog-main">
+          <div class="catalog-topbar">
+            <div>
+              <h3>Catálogo general</h3>
+              <p>Explora productos disponibles por categoría, subcategoría, marca y estado de stock.</p>
+            </div>
+
+            <div class="catalog-actions">
+              <span class="catalog-chip">Sin precios visibles</span>
+              <span class="catalog-chip">Consulta por WhatsApp</span>
+              <span class="catalog-chip">Stock visible</span>
+            </div>
+          </div>
+
+          <div class="active-filters" id="active-filters">
+            <span class="active-filter-tag">Categoría: Todas</span>
+            <span class="active-filter-tag">Marca: Todas</span>
+          </div>
+
+          <p class="result-summary" id="result-summary">Cargando productos...</p>
+
+          <div class="catalog-grid" id="catalog-grid"></div>
+
+          <div class="empty-state" id="empty-state">
+            <i class="fa-solid fa-box-open"></i>
+            <h3>No encontramos productos con ese filtro</h3>
+            <p>Prueba con otra categoría, otra marca o cambia el texto de búsqueda.</p>
+          </div>
+
+          <nav class="pagination" id="pagination" aria-label="Páginas del catálogo"></nav>
+
+          <div class="quote-panel" id="quote-panel">
+            <div>
+              <strong id="quote-count">0 productos seleccionados</strong>
+              <span>Envía una cotización múltiple por WhatsApp.</span>
+              <div class="quote-items" id="quote-items"></div>
+            </div>
+            <div class="quote-panel-actions">
+              <button class="btn btn-secondary btn-sm" type="button" id="quote-clear">Limpiar</button>
+              <a class="btn btn-whatsapp btn-sm" href="#" target="_blank" rel="noopener" id="quote-send"
+                >Enviar cotización</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <h3>Industrial Import NYM</h3>
+          <p>
+            Soluciones electrónicas para la industria moderna, con una propuesta comercial enfocada en confianza, orden
+            y atención profesional.
+          </p>
+        </div>
+
+        <div>
+          <h4>Enlaces</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="marcas.html">Marcas</a></li>
+            <li><a href="clientes.html">Clientes</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li data-company-phone>966 441 035</li>
+            <li data-company-email>oliveravelasquezluis@gmail.com</li>
+            <li data-company-address>Av. Republica de Argentina 211, Lima 15079</li>
+            <li data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Redes</h4>
+          <div class="footer-social">
+            <span class="social-link is-disabled" aria-label="Facebook pendiente"
+              ><i class="fa-brands fa-facebook-f"></i
+            ></span>
+            <span class="social-link is-disabled" aria-label="Instagram pendiente"
+              ><i class="fa-brands fa-instagram"></i
+            ></span>
+            <span class="social-link is-disabled" aria-label="LinkedIn pendiente"
+              ><i class="fa-brands fa-linkedin-in"></i
+            ></span>
+            <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Industrial Import NYM S.R.L. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/site-utils.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/company-settings.js"></script>
+
+    <script src="js/catalog.js"></script>
+
+    <!-- Botón flotante WhatsApp -->
+    <a
+      href="https://wa.me/51966441035"
+      class="whatsapp-fab"
+      target="_blank"
+      rel="noopener"
+      aria-label="Contactar por WhatsApp"
+      data-whatsapp-link
+    >
+      <i class="fa-brands fa-whatsapp"></i>
+      <span class="whatsapp-fab-label">¿Necesitas ayuda?</span>
+    </a>
+  </body>
 </html>

@@ -110,7 +110,9 @@ function renderStockList() {
   const activeProducts = products.filter((product) => product.is_active !== false);
 
   stockList.innerHTML = activeProducts.length
-    ? activeProducts.map((product) => `
+    ? activeProducts
+        .map(
+          (product) => `
         <div class="simple-item">
           <span>
             ${escapeHTML(product.name || "Producto sin nombre")}
@@ -125,7 +127,9 @@ function renderStockList() {
             ${escapeHTML(product.stock_status || "Disponible")}
           </span>
         </div>
-      `).join("")
+      `,
+        )
+        .join("")
     : `
       <div class="empty-state-admin">
         <i class="fa-solid fa-box-open"></i>

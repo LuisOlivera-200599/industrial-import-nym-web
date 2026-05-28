@@ -14,18 +14,13 @@ async function loadProducts() {
 
 async function saveProduct(payload, id) {
   if (id) {
-    const { error } = await window.nymSupabase
-      .from("products")
-      .update(payload)
-      .eq("id", id);
+    const { error } = await window.nymSupabase.from("products").update(payload).eq("id", id);
 
     if (error) throw error;
 
     showNotice(notice, "Producto actualizado correctamente.");
   } else {
-    const { error } = await window.nymSupabase
-      .from("products")
-      .insert([payload]);
+    const { error } = await window.nymSupabase.from("products").insert([payload]);
 
     if (error) throw error;
 

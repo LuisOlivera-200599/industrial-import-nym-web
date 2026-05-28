@@ -1,900 +1,987 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="canonical" href="https://industrialimportnym.com/contacto.html" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="https://luisolivera-200599.github.io/industrial-import-nym-web/contacto.html" />
 
-  <title>Contacto | Industrial Import NYM</title>
+    <title>Contacto | Industrial Import NYM</title>
 
-  <meta
-    name="description"
-    content="Contáctanos para consultas y cotizaciones de componentes electrónicos, dispositivos industriales y soluciones electrónicas en Lima, Perú."
-  />
+    <meta
+      name="description"
+      content="Contáctanos para consultas y cotizaciones de componentes electrónicos, dispositivos industriales y soluciones electrónicas en Lima, Perú."
+    />
 
-  <meta name="keywords" content="contacto Industrial Import NYM, cotización electrónica, componentes electrónicos Lima, productos industriales Perú" />
-  <meta name="author" content="Industrial Import NYM" />
-  <meta name="robots" content="index, follow" />
+    <meta
+      name="keywords"
+      content="contacto Industrial Import NYM, cotización electrónica, componentes electrónicos Lima, productos industriales Perú"
+    />
+    <meta name="author" content="Industrial Import NYM" />
+    <meta name="robots" content="index, follow" />
 
-  <meta property="og:title" content="Contacto | Industrial Import NYM" />
-  <meta
-    property="og:description"
-    content="Solicita información o cotización de productos electrónicos e industriales."
-  />
-  <meta property="og:image" content="imagenes/banners/banner-1.png" />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="es_PE" />
+    <meta property="og:title" content="Contacto | Industrial Import NYM" />
+    <meta
+      property="og:description"
+      content="Solicita información o cotización de productos electrónicos e industriales."
+    />
+    <meta property="og:image" content="imagenes/banners/banner-1.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PE" />
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Contacto | Industrial Import NYM" />
-  <meta
-    name="twitter:description"
-    content="Atención comercial para consultas y cotizaciones de productos electrónicos."
-  />
-  <meta name="twitter:image" content="imagenes/banners/banner-1.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Contacto | Industrial Import NYM" />
+    <meta
+      name="twitter:description"
+      content="Atención comercial para consultas y cotizaciones de productos electrónicos."
+    />
+    <meta name="twitter:image" content="imagenes/banners/banner-1.png" />
 
-  <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
-  <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
+    <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
+    <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-  <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
 
-  <style>
-    .page-hero {
-      padding: 90px 0 60px;
-      background:
-        radial-gradient(circle at top left, rgba(49, 87, 255, 0.18), transparent 28%),
-        linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .page-hero-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .page-hero h2 {
-      font-size: clamp(2rem, 3.8vw, 3rem);
-      line-height: 1.08;
-      margin-bottom: 12px;
-      letter-spacing: -0.03em;
-      max-width: 20ch;
-    }
-
-    .page-hero p {
-      color: var(--muted);
-      max-width: 78ch;
-    }
-
-    .breadcrumb {
-      display: inline-flex;
-      gap: 10px;
-      align-items: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-top: 18px;
-      flex-wrap: wrap;
-    }
-
-    .contact-page {
-      padding: 75px 0 90px;
-      background: var(--light);
-    }
-
-    .intro-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 28px;
-      align-items: stretch;
-      margin-bottom: 28px;
-    }
-
-    .intro-card,
-    .contact-visual,
-    .info-panel,
-    .form-panel,
-    .map-panel,
-    .cta-contact {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .intro-card,
-    .info-panel,
-    .form-panel,
-    .cta-contact {
-      padding: 30px;
-    }
-
-    .intro-card h3,
-    .info-panel h3,
-    .form-panel h3,
-    .map-panel h3,
-    .cta-contact h3 {
-      font-size: 1.25rem;
-      margin-bottom: 14px;
-    }
-
-    .intro-card p,
-    .info-panel p,
-    .form-panel p,
-    .map-panel p,
-    .cta-contact p {
-      color: var(--muted);
-    }
-
-    .contact-visual {
-      overflow: hidden;
-      min-height: 100%;
-    }
-
-    .contact-visual img {
-      width: 100%;
-      height: 100%;
-      min-height: 320px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .pill-list {
-      margin-top: 20px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .pill {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: #f5f7fb;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 22px;
-      margin-bottom: 28px;
-    }
-
-    .contact-box {
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: #fcfcfd;
-      transition: var(--transition);
-    }
-
-    .contact-box:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-      border-color: rgba(49, 87, 255, 0.22);
-    }
-
-    .contact-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
-      background: #eef3ff;
-      color: var(--primary);
-      font-size: 1.25rem;
-      margin-bottom: 16px;
-    }
-
-    .contact-box h4 {
-      margin-bottom: 8px;
-      font-size: 1rem;
-    }
-
-    .contact-box p,
-    .contact-box a {
-      color: var(--muted);
-      font-size: 0.95rem;
-      word-break: break-word;
-      overflow-wrap: anywhere;
-    }
-
-    .form-panel {
-      margin-bottom: 28px;
-    }
-
-    .form-panel form {
-      margin-top: 20px;
-      display: grid;
-      gap: 16px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      min-width: 0;
-    }
-
-    .field label {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--text);
-    }
-
-    .field input,
-    .field textarea,
-    .field select {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 16px;
-      font: inherit;
-      outline: none;
-      background: #fcfcfd;
-      transition: 0.3s ease;
-      min-width: 0;
-    }
-
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
-    }
-
-    .field textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
-
-    .form-note {
-      font-size: 0.92rem;
-      color: var(--muted);
-      background: #f8fafc;
-      border: 1px dashed var(--border);
-      border-radius: 14px;
-      padding: 14px 16px;
-    }
-
-    .form-submit {
-      display: flex;
-      justify-content: center;
-      margin-top: 6px;
-    }
-
-    .form-submit .btn {
-      width: min(360px, 100%);
-      padding: 15px 24px;
-    }
-
-    .map-panel {
-      overflow: hidden;
-    }
-
-    .map-panel-head {
-      padding: 24px 24px 0;
-    }
-
-    .map-panel p {
-      margin-top: 8px;
-    }
-
-    .map-frame {
-      margin-top: 20px;
-      width: 100%;
-      min-height: 360px;
-      border: 0;
-      display: block;
-    }
-
-    .map-actions {
-      padding: 18px 24px 24px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .map-actions .btn {
-      width: min(340px, 100%);
-    }
-
-    .cta-contact {
-      margin-top: 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-      flex-wrap: wrap;
-      background: linear-gradient(135deg, #102a8c, #3157ff);
-      color: var(--white);
-      border: none;
-      box-shadow: var(--shadow-lg);
-    }
-
-    .cta-contact p {
-      color: rgba(255, 255, 255, 0.84);
-      max-width: 65ch;
-    }
-
-    @media (max-width: 1100px) {
-      .intro-grid,
-      .info-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .page-hero h2 {
-        max-width: 15ch;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-
+    <style>
       .page-hero {
-        padding: 70px 0 45px;
+        padding: 90px 0 60px;
+        background:
+          radial-gradient(circle at top left, rgba(49, 87, 255, 0.18), transparent 28%),
+          linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .page-hero-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 24px;
+        flex-wrap: wrap;
       }
 
       .page-hero h2 {
-        max-width: 11ch;
+        font-size: clamp(2rem, 3.8vw, 3rem);
+        line-height: 1.08;
+        margin-bottom: 12px;
+        letter-spacing: -0.03em;
+        max-width: 20ch;
+      }
+
+      .page-hero p {
+        color: var(--muted);
+        max-width: 78ch;
+      }
+
+      .breadcrumb {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-top: 18px;
+        flex-wrap: wrap;
+      }
+
+      .contact-page {
+        padding: 75px 0 90px;
+        background: var(--light);
+      }
+
+      .intro-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 28px;
+        align-items: stretch;
+        margin-bottom: 28px;
+      }
+
+      .intro-card,
+      .contact-visual,
+      .info-panel,
+      .form-panel,
+      .map-panel,
+      .cta-contact {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
       }
 
       .intro-card,
       .info-panel,
       .form-panel,
       .cta-contact {
-        padding: 22px;
+        padding: 30px;
       }
 
-      .map-panel-head {
-        padding: 20px 20px 0;
+      .intro-card h3,
+      .info-panel h3,
+      .form-panel h3,
+      .map-panel h3,
+      .cta-contact h3 {
+        font-size: 1.25rem;
+        margin-bottom: 14px;
       }
 
-      .map-frame {
-        min-height: 280px;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .page-hero h2 {
-        font-size: 1.95rem;
-        line-height: 1.05;
-        max-width: 10.5ch;
+      .intro-card p,
+      .info-panel p,
+      .form-panel p,
+      .map-panel p,
+      .cta-contact p {
+        color: var(--muted);
       }
 
-      .page-hero p {
-        font-size: 0.96rem;
-        line-height: 1.7;
+      .contact-visual {
+        overflow: hidden;
+        min-height: 100%;
       }
 
       .contact-visual img {
-        min-height: 250px;
+        width: 100%;
+        height: 100%;
+        min-height: 320px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .pill-list {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .pill {
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: #f5f7fb;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px;
+        margin-bottom: 28px;
+      }
+
+      .contact-box {
+        padding: 22px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #fcfcfd;
+        transition: var(--transition);
+      }
+
+      .contact-box:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: rgba(49, 87, 255, 0.22);
+      }
+
+      .contact-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: #eef3ff;
+        color: var(--primary);
+        font-size: 1.25rem;
+        margin-bottom: 16px;
+      }
+
+      .contact-box h4 {
+        margin-bottom: 8px;
+        font-size: 1rem;
+      }
+
+      .contact-box p,
+      .contact-box a {
+        color: var(--muted);
+        font-size: 0.95rem;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+      }
+
+      .form-panel {
+        margin-bottom: 28px;
+      }
+
+      .form-panel form {
+        margin-top: 20px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .field label {
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--text);
+      }
+
+      .field input,
+      .field textarea,
+      .field select {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px 16px;
+        font: inherit;
+        outline: none;
+        background: #fcfcfd;
+        transition: 0.3s ease;
+        min-width: 0;
+      }
+
+      .field input:focus,
+      .field textarea:focus,
+      .field select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
+      }
+
+      .field textarea {
+        min-height: 150px;
+        resize: vertical;
+      }
+
+      .form-note {
+        font-size: 0.92rem;
+        color: var(--muted);
+        background: #f8fafc;
+        border: 1px dashed var(--border);
+        border-radius: 14px;
+        padding: 14px 16px;
+      }
+
+      .form-submit {
+        display: flex;
+        justify-content: center;
+        margin-top: 6px;
       }
 
       .form-submit .btn {
-        width: 100%;
+        width: min(360px, 100%);
+        padding: 15px 24px;
       }
-    }
-  
-    .nav-dropdown {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-    .nav-dropdown-btn {
-      border: none;
-      background: transparent;
-      color: var(--text);
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 0;
-    }
-    .nav-dropdown-btn i { font-size: 0.78rem; transition: transform 0.25s ease; }
-    .nav-dropdown:hover .nav-dropdown-btn,
-    .nav-dropdown.active .nav-dropdown-btn { color: var(--primary); }
-    .nav-dropdown:hover .nav-dropdown-btn i,
-    .nav-dropdown.active .nav-dropdown-btn i { transform: rotate(180deg); }
-    .nav-dropdown-menu {
-      position: absolute;
-      top: calc(100% + 14px);
-      right: 0;
-      width: 230px;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: var(--shadow-lg);
-      padding: 8px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(8px);
-      transition: 0.25s ease;
-      z-index: 120;
-    }
-    .nav-dropdown:hover .nav-dropdown-menu,
-    .nav-dropdown.active .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-    .nav-dropdown-menu a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 14px;
-      border-radius: 12px;
-      color: var(--text);
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-    .nav-dropdown-menu a:hover { background: #eef3ff; color: var(--primary); }
-    .nav-dropdown-menu i { color: var(--primary); }
-    @media (max-width: 900px) {
-      .nav-dropdown { width: 100%; display: block; }
-      .nav-dropdown-btn { width: 100%; justify-content: space-between; padding: 12px 0; }
-      .nav-dropdown-menu { position: static; width: 100%; opacity: 1; visibility: visible; transform: none; box-shadow: none; border-radius: 14px; margin-top: 6px; display: none; }
-      .nav-dropdown.active .nav-dropdown-menu { display: block; }
-    }
-  </style>
-</head>
 
-<body>
-  <div class="topbar">
-    <div class="container topbar-content">
-      <div class="topbar-left">
-        <span><i class="fa-solid fa-phone"></i> <span data-company-phone>966 441 035</span></span>
-        <span><i class="fa-solid fa-envelope"></i> <span data-company-email>oliveravelasquezluis@gmail.com</span></span>
-        <span><i class="fa-solid fa-location-dot"></i> <span data-company-address>Av. Republica de Argentina 211, Lima 15079</span></span>
-      </div>
+      .map-panel {
+        overflow: hidden;
+      }
 
-      <div class="topbar-right">
-        <span class="social-link is-disabled" aria-label="Facebook pendiente"><i class="fa-brands fa-facebook-f"></i></span>
-        <span class="social-link is-disabled" aria-label="Instagram pendiente"><i class="fa-brands fa-instagram"></i></span>
-        <span class="social-link is-disabled" aria-label="LinkedIn pendiente"><i class="fa-brands fa-linkedin-in"></i></span>
-        <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
-          <i class="fa-brands fa-whatsapp"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-    <header class="header">
-    <div class="container nav">
-      <a href="index.html" class="logo">
-        <div class="logo-mark">NYM</div>
-        <div class="logo-text">
-          <h1>Industrial Import NYM</h1>
-          <p>Soluciones electrónicas para la industria moderna</p>
-        </div>
-      </a>
+      .map-panel-head {
+        padding: 24px 24px 0;
+      }
 
-      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
-        <i class="fa-solid fa-bars"></i>
-      </button>
+      .map-panel p {
+        margin-top: 8px;
+      }
 
-      <nav class="nav-menu" id="nav-menu">
-        <a href="index.html">Inicio</a>
-        <a href="nosotros.html">Nosotros</a>
-        <a href="productos.html">Productos</a>
-        <a href="marcas.html">Marcas</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="contacto.html" class="active">Contacto</a>
-                <div class="nav-dropdown">
-          <button class="nav-dropdown-btn" type="button">
-            Administrador
-            <i class="fa-solid fa-chevron-down"></i>
-          </button>
-          <div class="nav-dropdown-menu">
-            <a href="admin-login.html">
-              <i class="fa-solid fa-user-shield"></i>
-              Ingresar al panel
-            </a>
-          </div>
-        </div>
-        <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
-      </nav>
+      .map-frame {
+        margin-top: 20px;
+        width: 100%;
+        min-height: 360px;
+        border: 0;
+        display: block;
+      }
 
-      <a href="contacto.html" class="btn btn-primary desktop-cta">Solicitar cotización</a>
-    </div>
-  </header>
+      .map-actions {
+        padding: 18px 24px 24px;
+        display: flex;
+        justify-content: center;
+      }
 
-  <section class="page-hero">
-    <div class="container page-hero-content">
-      <div>
-        <span class="section-badge">Contacto y cotización</span>
-        <h2>Estamos listos para ayudarte con tu consulta o cotización</h2>
-        <p>
-          Ponte en contacto con nosotros para recibir atención comercial,
-          información sobre productos y acompañamiento en tus requerimientos.
-        </p>
+      .map-actions .btn {
+        width: min(340px, 100%);
+      }
 
-        <div class="breadcrumb">
-          <span><a href="index.html">Inicio</a></span>
-          <span>/</span>
-          <span>Contacto</span>
-        </div>
-      </div>
-    </div>
-  </section>
+      .cta-contact {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+        background: linear-gradient(135deg, #102a8c, #3157ff);
+        color: var(--white);
+        border: none;
+        box-shadow: var(--shadow-lg);
+      }
 
-  <section class="contact-page">
-    <div class="container">
-      <div class="intro-grid">
-        <div class="intro-card">
-          <span class="section-badge">Conecta con nosotros</span>
-          <h3>Una atención clara, directa y preparada para ayudarte mejor</h3>
-          <p>
-            En Industrial Import NYM buscamos que cada consulta tenga una vía clara
-            de atención. Por eso la sección de contacto está diseñada para mantener
-            el mismo orden visual del sitio y facilitar tanto la comunicación como la
-            solicitud de cotizaciones.
-          </p>
+      .cta-contact p {
+        color: rgba(255, 255, 255, 0.84);
+        max-width: 65ch;
+      }
 
-          <div class="pill-list">
-            <span class="pill">Consulta rápida</span>
-            <span class="pill">Atención comercial</span>
-            <span class="pill">Formulario directo</span>
-            <span class="pill">Canales visibles</span>
-          </div>
-        </div>
+      @media (max-width: 1100px) {
+        .intro-grid,
+        .info-grid {
+          grid-template-columns: 1fr;
+        }
 
-        <div class="contact-visual">
-          <img src="imagenes/optimized/general/general-4.webp" alt="Canales de contacto y atención comercial" loading="lazy" decoding="async" width="2048" height="1152" />
-        </div>
-      </div>
+        .page-hero h2 {
+          max-width: 15ch;
+        }
+      }
 
-      <div class="info-panel">
-        <span class="section-badge">Canales directos</span>
-        <h3>Información de contacto</h3>
-        <p>
-          Puedes escribirnos por nuestros canales directos o completar el formulario
-          para una atención más organizada y una respuesta más útil.
-        </p>
+      @media (max-width: 700px) {
+        .form-row {
+          grid-template-columns: 1fr;
+        }
 
-        <div class="info-grid" style="margin-top: 24px;">
-          <article class="contact-box">
-            <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
-            <h4>Teléfono / WhatsApp</h4>
-            <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
-              <span data-company-phone>966 441 035</span>
-            </a>
-          </article>
+        .page-hero {
+          padding: 70px 0 45px;
+        }
 
-          <article class="contact-box">
-            <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
-            <h4>Correo electrónico</h4>
-            <a href="mailto:oliveravelasquezluis@gmail.com" data-company-email-link>
-              <span data-company-email>oliveravelasquezluis@gmail.com</span>
-            </a>
-          </article>
+        .page-hero h2 {
+          max-width: 11ch;
+        }
 
-          <article class="contact-box">
-            <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
-            <h4>Dirección</h4>
-            <p data-company-address>Av. Republica de Argentina 211, Lima 15079</p>
-          </article>
+        .intro-card,
+        .info-panel,
+        .form-panel,
+        .cta-contact {
+          padding: 22px;
+        }
 
-          <article class="contact-box">
-            <div class="contact-icon"><i class="fa-regular fa-clock"></i></div>
-            <h4>Horario de atención</h4>
-            <p data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</p>
-          </article>
-        </div>
-      </div>
+        .map-panel-head {
+          padding: 20px 20px 0;
+        }
 
-      <div class="form-panel">
-        <span class="section-badge">Formulario</span>
-        <h3>Envíanos tu consulta</h3>
-        <p>
-          Completa el formulario con tus datos y se abrirá WhatsApp con el mensaje listo.
-          Rápido, directo y sin drama tecnológico.
-        </p>
+        .map-frame {
+          min-height: 280px;
+        }
+      }
 
-        <form id="contact-form">
-          <div class="form-row">
-            <div class="field">
-              <label for="nombre">Nombre completo</label>
-              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required autocomplete="name" />
-            </div>
+      @media (max-width: 640px) {
+        .page-hero h2 {
+          font-size: 1.95rem;
+          line-height: 1.05;
+          max-width: 10.5ch;
+        }
 
-            <div class="field">
-              <label for="empresa">Empresa</label>
-              <input type="text" id="empresa" name="empresa" placeholder="Nombre de tu empresa" />
-            </div>
-          </div>
+        .page-hero p {
+          font-size: 0.96rem;
+          line-height: 1.7;
+        }
 
-          <div class="form-row">
-            <div class="field">
-              <label for="correo">Correo electrónico</label>
-              <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" required autocomplete="email" />
-            </div>
+        .contact-visual img {
+          min-height: 250px;
+        }
 
-            <div class="field">
-              <label for="telefono">Teléfono</label>
-              <input type="text" id="telefono" name="telefono" placeholder="999 999 999" required autocomplete="tel" pattern="[0-9 +()-]{7,20}" />
-            </div>
-          </div>
+        .form-submit .btn {
+          width: 100%;
+        }
+      }
 
-          <div class="form-row">
-            <div class="field">
-              <label for="tipo">Tipo de solicitud</label>
-              <select id="tipo" name="tipo">
-                <option value="">Selecciona una opción</option>
-                <option>Consulta general</option>
-                <option>Solicitud de cotización</option>
-                <option>Consulta por producto</option>
-                <option>Consulta por marca</option>
-              </select>
-            </div>
+      .nav-dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .nav-dropdown-btn {
+        border: none;
+        background: transparent;
+        color: var(--text);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 0;
+      }
+      .nav-dropdown-btn i {
+        font-size: 0.78rem;
+        transition: transform 0.25s ease;
+      }
+      .nav-dropdown:hover .nav-dropdown-btn,
+      .nav-dropdown.active .nav-dropdown-btn {
+        color: var(--primary);
+      }
+      .nav-dropdown:hover .nav-dropdown-btn i,
+      .nav-dropdown.active .nav-dropdown-btn i {
+        transform: rotate(180deg);
+      }
+      .nav-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 14px);
+        right: 0;
+        width: 230px;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: var(--shadow-lg);
+        padding: 8px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(8px);
+        transition: 0.25s ease;
+        z-index: 120;
+      }
+      .nav-dropdown:hover .nav-dropdown-menu,
+      .nav-dropdown.active .nav-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .nav-dropdown-menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 14px;
+        border-radius: 12px;
+        color: var(--text);
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+      .nav-dropdown-menu a:hover {
+        background: #eef3ff;
+        color: var(--primary);
+      }
+      .nav-dropdown-menu i {
+        color: var(--primary);
+      }
+      @media (max-width: 900px) {
+        .nav-dropdown {
+          width: 100%;
+          display: block;
+        }
+        .nav-dropdown-btn {
+          width: 100%;
+          justify-content: space-between;
+          padding: 12px 0;
+        }
+        .nav-dropdown-menu {
+          position: static;
+          width: 100%;
+          opacity: 1;
+          visibility: visible;
+          transform: none;
+          box-shadow: none;
+          border-radius: 14px;
+          margin-top: 6px;
+          display: none;
+        }
+        .nav-dropdown.active .nav-dropdown-menu {
+          display: block;
+        }
+      }
+    </style>
+  </head>
 
-            <div class="field">
-              <label for="categoria">Categoría de interés</label>
-              <select id="categoria" name="categoria">
-                <option value="">Selecciona una categoría</option>
-                <option>Automatización</option>
-                <option>Montaje en riel DIN</option>
-                <option>Montaje en panel</option>
-                <option>Conectores industriales</option>
-                <option>Relés y protección</option>
-                <option>Mando y señalización</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="mensaje">Mensaje</label>
-            <textarea
-              id="mensaje"
-              name="mensaje"
-              required
-              placeholder="Escribe aquí tu consulta o el detalle de tu cotización..."
-            ></textarea>
-          </div>
-
-          <div class="form-note">
-            Al enviar, se abrirá WhatsApp con tu solicitud armada automáticamente.
-          </div>
-
-          <div id="form-feedback" style="display:none; padding: 14px 16px; border-radius: 14px; font-size: 0.95rem; font-weight: 600; text-align: center;"></div>
-
-          <div class="form-submit">
-            <button type="submit" id="form-submit-btn" class="btn btn-primary">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span id="form-submit-text">Enviar solicitud por WhatsApp</span>
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <div class="map-panel">
-        <div class="map-panel-head">
-          <span class="section-badge">Ubicación</span>
-          <h3>Estamos ubicados en Lima</h3>
-          <p data-company-address>Av. Republica de Argentina 211, Lima 15079</p>
-        </div>
-
-        <iframe
-          class="map-frame"
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps?q=Av.%20Republica%20de%20Argentina%20211,%20Lima%2015079&output=embed"
-        ></iframe>
-
-        <div class="map-actions">
-          <a
-            href="https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/"
-            target="_blank"
-            rel="noopener"
-            class="btn btn-secondary"
-            data-company-maps-link
+  <body>
+    <div class="topbar">
+      <div class="container topbar-content">
+        <div class="topbar-left">
+          <span><i class="fa-solid fa-phone"></i> <span data-company-phone>966 441 035</span></span>
+          <span
+            ><i class="fa-solid fa-envelope"></i> <span data-company-email>oliveravelasquezluis@gmail.com</span></span
           >
-            <i class="fa-solid fa-location-arrow"></i>
-            Abrir en Google Maps
-          </a>
-        </div>
-      </div>
-
-      <div class="cta-contact">
-        <div>
-          <span class="section-badge dark">Atención comercial</span>
-          <h3>¿Listo para hacer una consulta o solicitar una cotización?</h3>
-          <p>
-            Estamos preparados para ayudarte con una atención más clara, moderna y
-            alineada a la experiencia visual del sitio.
-          </p>
+          <span
+            ><i class="fa-solid fa-location-dot"></i>
+            <span data-company-address>Av. Republica de Argentina 211, Lima 15079</span></span
+          >
         </div>
 
-        <div>
-          <a href="https://wa.me/51966441035" target="_blank" rel="noopener" class="btn btn-light" data-whatsapp-link>
-            Escríbenos ahora
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div>
-        <h3>Industrial Import NYM</h3>
-        <p>
-          Soluciones electrónicas para la industria moderna, con una propuesta
-          comercial enfocada en confianza, orden y atención profesional.
-        </p>
-      </div>
-
-      <div>
-        <h4>Enlaces</h4>
-        <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="nosotros.html">Nosotros</a></li>
-          <li><a href="productos.html">Productos</a></li>
-          <li><a href="marcas.html">Marcas</a></li>
-          <li><a href="clientes.html">Clientes</a></li>
-          <li><a href="contacto.html">Contacto</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h4>Contacto</h4>
-        <ul>
-          <li data-company-phone>966 441 035</li>
-          <li data-company-email>oliveravelasquezluis@gmail.com</li>
-          <li data-company-address>Av. Republica de Argentina 211, Lima 15079</li>
-          <li data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</li>
-        </ul>
-      </div>
-
-      <div>
-        <h4>Redes</h4>
-        <div class="footer-social">
-          <span class="social-link is-disabled" aria-label="Facebook pendiente"><i class="fa-brands fa-facebook-f"></i></span>
-          <span class="social-link is-disabled" aria-label="Instagram pendiente"><i class="fa-brands fa-instagram"></i></span>
-          <span class="social-link is-disabled" aria-label="LinkedIn pendiente"><i class="fa-brands fa-linkedin-in"></i></span>
+        <div class="topbar-right">
+          <span class="social-link is-disabled" aria-label="Facebook pendiente"
+            ><i class="fa-brands fa-facebook-f"></i
+          ></span>
+          <span class="social-link is-disabled" aria-label="Instagram pendiente"
+            ><i class="fa-brands fa-instagram"></i
+          ></span>
+          <span class="social-link is-disabled" aria-label="LinkedIn pendiente"
+            ><i class="fa-brands fa-linkedin-in"></i
+          ></span>
           <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
             <i class="fa-brands fa-whatsapp"></i>
           </a>
         </div>
       </div>
     </div>
+    <header class="header">
+      <div class="container nav">
+        <a href="index.html" class="logo">
+          <div class="logo-mark">NYM</div>
+          <div class="logo-text">
+            <h1>Industrial Import NYM</h1>
+            <p>Soluciones electrónicas para la industria moderna</p>
+          </div>
+        </a>
 
-    <div class="footer-bottom">
-      <p>© 2026 Industrial Import NYM S.R.L. Todos los derechos reservados.</p>
-    </div>
-  </footer>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
+          <i class="fa-solid fa-bars"></i>
+        </button>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-config.js"></script>
-  <script src="js/site-utils.js"></script>
-  <script src="js/script.js"></script>
-  <script src="js/company-settings.js"></script>
+        <nav class="nav-menu" id="nav-menu">
+          <a href="index.html">Inicio</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="productos.html">Productos</a>
+          <a href="marcas.html">Marcas</a>
+          <a href="clientes.html">Clientes</a>
+          <a href="contacto.html" class="active">Contacto</a>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-btn" type="button">
+              Administrador
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="nav-dropdown-menu">
+              <a href="admin-login.html">
+                <i class="fa-solid fa-user-shield"></i>
+                Ingresar al panel
+              </a>
+            </div>
+          </div>
+          <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
+        </nav>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const contactForm = document.getElementById("contact-form");
+        <a href="contacto.html" class="btn btn-primary desktop-cta">Solicitar cotización</a>
+      </div>
+    </header>
 
-      if (!contactForm) return;
+    <section class="page-hero">
+      <div class="container page-hero-content">
+        <div>
+          <span class="section-badge">Contacto y cotización</span>
+          <h2>Estamos listos para ayudarte con tu consulta o cotización</h2>
+          <p>
+            Ponte en contacto con nosotros para recibir atención comercial, información sobre productos y acompañamiento
+            en tus requerimientos.
+          </p>
 
-      function getCleanValue(id) {
-        const field = document.getElementById(id);
-        return field ? field.value.trim() : "";
-      }
+          <div class="breadcrumb">
+            <span><a href="index.html">Inicio</a></span>
+            <span>/</span>
+            <span>Contacto</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      function getCompanyWhatsapp() {
-        if (window.nymSite?.getWhatsappNumber) {
-          return window.nymSite.getWhatsappNumber();
+    <section class="contact-page">
+      <div class="container">
+        <div class="intro-grid">
+          <div class="intro-card">
+            <span class="section-badge">Conecta con nosotros</span>
+            <h3>Una atención clara, directa y preparada para ayudarte mejor</h3>
+            <p>
+              En Industrial Import NYM buscamos que cada consulta tenga una vía clara de atención. Por eso la sección de
+              contacto está diseñada para mantener el mismo orden visual del sitio y facilitar tanto la comunicación
+              como la solicitud de cotizaciones.
+            </p>
+
+            <div class="pill-list">
+              <span class="pill">Consulta rápida</span>
+              <span class="pill">Atención comercial</span>
+              <span class="pill">Formulario directo</span>
+              <span class="pill">Canales visibles</span>
+            </div>
+          </div>
+
+          <div class="contact-visual">
+            <img
+              src="imagenes/optimized/general/general-4.webp"
+              alt="Canales de contacto y atención comercial"
+              loading="lazy"
+              decoding="async"
+              width="2048"
+              height="1152"
+            />
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <span class="section-badge">Canales directos</span>
+          <h3>Información de contacto</h3>
+          <p>
+            Puedes escribirnos por nuestros canales directos o completar el formulario para una atención más organizada
+            y una respuesta más útil.
+          </p>
+
+          <div class="info-grid" style="margin-top: 24px">
+            <article class="contact-box">
+              <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+              <h4>Teléfono / WhatsApp</h4>
+              <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
+                <span data-company-phone>966 441 035</span>
+              </a>
+            </article>
+
+            <article class="contact-box">
+              <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+              <h4>Correo electrónico</h4>
+              <a href="mailto:oliveravelasquezluis@gmail.com" data-company-email-link>
+                <span data-company-email>oliveravelasquezluis@gmail.com</span>
+              </a>
+            </article>
+
+            <article class="contact-box">
+              <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+              <h4>Dirección</h4>
+              <p data-company-address>Av. Republica de Argentina 211, Lima 15079</p>
+            </article>
+
+            <article class="contact-box">
+              <div class="contact-icon"><i class="fa-regular fa-clock"></i></div>
+              <h4>Horario de atención</h4>
+              <p data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="form-panel">
+          <span class="section-badge">Formulario</span>
+          <h3>Envíanos tu consulta</h3>
+          <p>
+            Completa el formulario con tus datos y se abrirá WhatsApp con el mensaje listo. Rápido, directo y sin drama
+            tecnológico.
+          </p>
+
+          <form id="contact-form">
+            <div class="form-row">
+              <div class="field">
+                <label for="nombre">Nombre completo</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required autocomplete="name" />
+              </div>
+
+              <div class="field">
+                <label for="empresa">Empresa</label>
+                <input type="text" id="empresa" name="empresa" placeholder="Nombre de tu empresa" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="correo">Correo electrónico</label>
+                <input
+                  type="email"
+                  id="correo"
+                  name="correo"
+                  placeholder="tucorreo@ejemplo.com"
+                  required
+                  autocomplete="email"
+                />
+              </div>
+
+              <div class="field">
+                <label for="telefono">Teléfono</label>
+                <input
+                  type="text"
+                  id="telefono"
+                  name="telefono"
+                  placeholder="999 999 999"
+                  required
+                  autocomplete="tel"
+                  pattern="[0-9 +()-]{7,20}"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="tipo">Tipo de solicitud</label>
+                <select id="tipo" name="tipo">
+                  <option value="">Selecciona una opción</option>
+                  <option>Consulta general</option>
+                  <option>Solicitud de cotización</option>
+                  <option>Consulta por producto</option>
+                  <option>Consulta por marca</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="categoria">Categoría de interés</label>
+                <select id="categoria" name="categoria">
+                  <option value="">Selecciona una categoría</option>
+                  <option>Automatización</option>
+                  <option>Montaje en riel DIN</option>
+                  <option>Montaje en panel</option>
+                  <option>Conectores industriales</option>
+                  <option>Relés y protección</option>
+                  <option>Mando y señalización</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="mensaje">Mensaje</label>
+              <textarea
+                id="mensaje"
+                name="mensaje"
+                required
+                placeholder="Escribe aquí tu consulta o el detalle de tu cotización..."
+              ></textarea>
+            </div>
+
+            <div class="form-note">Al enviar, se abrirá WhatsApp con tu solicitud armada automáticamente.</div>
+
+            <div
+              id="form-feedback"
+              style="
+                display: none;
+                padding: 14px 16px;
+                border-radius: 14px;
+                font-size: 0.95rem;
+                font-weight: 600;
+                text-align: center;
+              "
+            ></div>
+
+            <div class="form-submit">
+              <button type="submit" id="form-submit-btn" class="btn btn-primary">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span id="form-submit-text">Enviar solicitud por WhatsApp</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="map-panel">
+          <div class="map-panel-head">
+            <span class="section-badge">Ubicación</span>
+            <h3>Estamos ubicados en Lima</h3>
+            <p data-company-address>Av. Republica de Argentina 211, Lima 15079</p>
+          </div>
+
+          <iframe
+            class="map-frame"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=Av.%20Republica%20de%20Argentina%20211,%20Lima%2015079&output=embed"
+          ></iframe>
+
+          <div class="map-actions">
+            <a
+              href="https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/"
+              target="_blank"
+              rel="noopener"
+              class="btn btn-secondary"
+              data-company-maps-link
+            >
+              <i class="fa-solid fa-location-arrow"></i>
+              Abrir en Google Maps
+            </a>
+          </div>
+        </div>
+
+        <div class="cta-contact">
+          <div>
+            <span class="section-badge dark">Atención comercial</span>
+            <h3>¿Listo para hacer una consulta o solicitar una cotización?</h3>
+            <p>
+              Estamos preparados para ayudarte con una atención más clara, moderna y alineada a la experiencia visual
+              del sitio.
+            </p>
+          </div>
+
+          <div>
+            <a href="https://wa.me/51966441035" target="_blank" rel="noopener" class="btn btn-light" data-whatsapp-link>
+              Escríbenos ahora
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <h3>Industrial Import NYM</h3>
+          <p>
+            Soluciones electrónicas para la industria moderna, con una propuesta comercial enfocada en confianza, orden
+            y atención profesional.
+          </p>
+        </div>
+
+        <div>
+          <h4>Enlaces</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="marcas.html">Marcas</a></li>
+            <li><a href="clientes.html">Clientes</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li data-company-phone>966 441 035</li>
+            <li data-company-email>oliveravelasquezluis@gmail.com</li>
+            <li data-company-address>Av. Republica de Argentina 211, Lima 15079</li>
+            <li data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Redes</h4>
+          <div class="footer-social">
+            <span class="social-link is-disabled" aria-label="Facebook pendiente"
+              ><i class="fa-brands fa-facebook-f"></i
+            ></span>
+            <span class="social-link is-disabled" aria-label="Instagram pendiente"
+              ><i class="fa-brands fa-instagram"></i
+            ></span>
+            <span class="social-link is-disabled" aria-label="LinkedIn pendiente"
+              ><i class="fa-brands fa-linkedin-in"></i
+            ></span>
+            <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Industrial Import NYM S.R.L. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/site-utils.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/company-settings.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const contactForm = document.getElementById("contact-form");
+
+        if (!contactForm) return;
+
+        function getCleanValue(id) {
+          const field = document.getElementById(id);
+          return field ? field.value.trim() : "";
         }
 
-        const whatsappLink = document.querySelector("[data-whatsapp-link]");
-        const href = whatsappLink ? whatsappLink.getAttribute("href") : "";
-        const match = href.match(/wa\.me\/(\d+)/);
-
-        return match ? match[1] : "51966441035";
-      }
-
-      contactForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        const submitBtn = document.getElementById("form-submit-btn");
-        const submitText = document.getElementById("form-submit-text");
-        const feedback = document.getElementById("form-feedback");
-
-        // Spinner estado enviando
-        submitBtn.disabled = true;
-        submitText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Preparando mensaje...';
-
-        const nombre = getCleanValue("nombre");
-        const empresa = getCleanValue("empresa");
-        const correo = getCleanValue("correo");
-        const telefono = getCleanValue("telefono");
-        const tipo = getCleanValue("tipo");
-        const categoria = getCleanValue("categoria");
-        const mensaje = getCleanValue("mensaje");
-
-        const leadPayload = {
-          nombre,
-          empresa,
-          correo,
-          telefono,
-          tipo,
-          categoria,
-          mensaje,
-          origen: "contacto_web",
-          estado: "nuevo"
-        };
-
-        if (window.nymSupabase) {
-          const { error } = await window.nymSupabase
-            .from("contact_leads")
-            .insert([leadPayload]);
-
-          if (error) {
-            console.error("Error guardando lead:", error);
+        function getCompanyWhatsapp() {
+          if (window.nymSite?.getWhatsappNumber) {
+            return window.nymSite.getWhatsappNumber();
           }
+
+          const whatsappLink = document.querySelector("[data-whatsapp-link]");
+          const href = whatsappLink ? whatsappLink.getAttribute("href") : "";
+          const match = href.match(/wa\.me\/(\d+)/);
+
+          return match ? match[1] : "51966441035";
         }
 
-        const whatsappNumber = getCompanyWhatsapp();
+        contactForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
 
-        const finalMessage = [
-          "Hola, deseo realizar una consulta desde la web de Industrial Import NYM.",
-          "",
-          nombre ? `Nombre: ${nombre}` : "",
-          empresa ? `Empresa: ${empresa}` : "",
-          correo ? `Correo: ${correo}` : "",
-          telefono ? `Teléfono: ${telefono}` : "",
-          tipo ? `Tipo de solicitud: ${tipo}` : "",
-          categoria ? `Categoría de interés: ${categoria}` : "",
-          mensaje ? `Mensaje: ${mensaje}` : ""
-        ]
-          .filter(Boolean)
-          .join("\n");
+          const submitBtn = document.getElementById("form-submit-btn");
+          const submitText = document.getElementById("form-submit-text");
+          const feedback = document.getElementById("form-feedback");
 
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(finalMessage)}`;
+          // Spinner estado enviando
+          submitBtn.disabled = true;
+          submitText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Preparando mensaje...';
 
-        window.open(whatsappUrl, "_blank", "noopener");
+          const nombre = getCleanValue("nombre");
+          const empresa = getCleanValue("empresa");
+          const correo = getCleanValue("correo");
+          const telefono = getCleanValue("telefono");
+          const tipo = getCleanValue("tipo");
+          const categoria = getCleanValue("categoria");
+          const mensaje = getCleanValue("mensaje");
 
-        // Feedback de éxito
-        feedback.style.display = "block";
-        feedback.style.background = "#ecfdf5";
-        feedback.style.color = "#065f46";
-        feedback.style.border = "1px solid #6ee7b7";
-        feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i>&nbsp; ¡Listo! Se abrió WhatsApp con tu solicitud. Si no abrió, revisa los permisos de tu navegador.';
+          const leadPayload = {
+            nombre,
+            empresa,
+            correo,
+            telefono,
+            tipo,
+            categoria,
+            mensaje,
+            origen: "contacto_web",
+            estado: "nuevo",
+          };
 
-        submitBtn.disabled = false;
-        submitText.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Enviar solicitud por WhatsApp';
+          if (window.nymSupabase) {
+            const { error } = await window.nymSupabase.from("contact_leads").insert([leadPayload]);
 
-        contactForm.reset();
+            if (error) {
+              console.error("Error guardando lead:", error);
+            }
+          }
+
+          const whatsappNumber = getCompanyWhatsapp();
+
+          const finalMessage = [
+            "Hola, deseo realizar una consulta desde la web de Industrial Import NYM.",
+            "",
+            nombre ? `Nombre: ${nombre}` : "",
+            empresa ? `Empresa: ${empresa}` : "",
+            correo ? `Correo: ${correo}` : "",
+            telefono ? `Teléfono: ${telefono}` : "",
+            tipo ? `Tipo de solicitud: ${tipo}` : "",
+            categoria ? `Categoría de interés: ${categoria}` : "",
+            mensaje ? `Mensaje: ${mensaje}` : "",
+          ]
+            .filter(Boolean)
+            .join("\n");
+
+          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(finalMessage)}`;
+
+          window.open(whatsappUrl, "_blank", "noopener");
+
+          // Feedback de éxito
+          feedback.style.display = "block";
+          feedback.style.background = "#ecfdf5";
+          feedback.style.color = "#065f46";
+          feedback.style.border = "1px solid #6ee7b7";
+          feedback.innerHTML =
+            '<i class="fa-solid fa-circle-check"></i>&nbsp; ¡Listo! Se abrió WhatsApp con tu solicitud. Si no abrió, revisa los permisos de tu navegador.';
+
+          submitBtn.disabled = false;
+          submitText.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Enviar solicitud por WhatsApp';
+
+          contactForm.reset();
+        });
       });
-    });
-  </script>
+    </script>
 
-  <!-- Botón flotante WhatsApp -->
-  <a href="https://wa.me/51966441035" class="whatsapp-fab" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" data-whatsapp-link>
-    <i class="fa-brands fa-whatsapp"></i>
-    <span class="whatsapp-fab-label">¿Necesitas ayuda?</span>
-  </a>
-</body>
+    <!-- Botón flotante WhatsApp -->
+    <a
+      href="https://wa.me/51966441035"
+      class="whatsapp-fab"
+      target="_blank"
+      rel="noopener"
+      aria-label="Contactar por WhatsApp"
+      data-whatsapp-link
+    >
+      <i class="fa-brands fa-whatsapp"></i>
+      <span class="whatsapp-fab-label">¿Necesitas ayuda?</span>
+    </a>
+  </body>
 </html>

@@ -1,875 +1,490 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="canonical" href="https://industrialimportnym.com/" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="https://luisolivera-200599.github.io/industrial-import-nym-web/" />
 
-  <title>Industrial Import NYM | Componentes electrónicos y soluciones industriales</title>
+    <title>Industrial Import NYM | Componentes electrónicos y soluciones industriales</title>
 
-  <meta
-    name="description"
-    content="Industrial Import NYM ofrece componentes electrónicos, dispositivos industriales y atención comercial para consultas y cotizaciones en Lima, Perú."
-  />
+    <meta
+      name="description"
+      content="Industrial Import NYM ofrece componentes electrónicos, dispositivos industriales y atención comercial para consultas y cotizaciones en Lima, Perú."
+    />
 
-  <meta name="keywords" content="componentes electrónicos, dispositivos electrónicos, automatización, productos industriales, Industrial Import NYM, Lima Perú" />
-  <meta name="author" content="Industrial Import NYM" />
-  <meta name="robots" content="index, follow" />
+    <meta
+      name="keywords"
+      content="componentes electrónicos, dispositivos electrónicos, automatización, productos industriales, Industrial Import NYM, Lima Perú"
+    />
+    <meta name="author" content="Industrial Import NYM" />
+    <meta name="robots" content="index, follow" />
 
-  <meta property="og:title" content="Industrial Import NYM | Componentes electrónicos" />
-  <meta
-    property="og:description"
-    content="Catálogo moderno de dispositivos y componentes electrónicos para aplicaciones industriales."
-  />
-  <meta property="og:image" content="imagenes/banners/banner-1.png" />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="es_PE" />
+    <meta property="og:title" content="Industrial Import NYM | Componentes electrónicos" />
+    <meta
+      property="og:description"
+      content="Catálogo moderno de dispositivos y componentes electrónicos para aplicaciones industriales."
+    />
+    <meta property="og:image" content="imagenes/banners/banner-1.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PE" />
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Industrial Import NYM | Componentes electrónicos" />
-  <meta
-    name="twitter:description"
-    content="Soluciones electrónicas para la industria moderna con atención comercial directa."
-  />
-  <meta name="twitter:image" content="imagenes/banners/banner-1.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Industrial Import NYM | Componentes electrónicos" />
+    <meta
+      name="twitter:description"
+      content="Soluciones electrónicas para la industria moderna con atención comercial directa."
+    />
+    <meta name="twitter:image" content="imagenes/banners/banner-1.png" />
 
-  <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
-  <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
+    <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
+    <link rel="apple-touch-icon" href="imagenes/banners/banner-1.png" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://lzaolbleriqwbnnejypy.supabase.co" />
-  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://lzaolbleriqwbnnejypy.supabase.co" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Industrial Import NYM",
-    "description": "Empresa peruana de componentes electrónicos, dispositivos industriales y soluciones de automatización.",
-    "url": "https://industrialimportnym.com",
-    "logo": "imagenes/banners/banner-1.png",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+51-966-441-035",
-      "contactType": "customer service",
-      "availableLanguage": "Spanish"
-    },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Av. Republica de Argentina 211",
-      "addressLocality": "Lima",
-      "postalCode": "15079",
-      "addressCountry": "PE"
-    },
-    "sameAs": []
-  }
-  </script>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  />
-
-  <link rel="stylesheet" href="css/style.css" />
-
-  <style>
-    .nav-dropdown {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-dropdown-btn {
-      border: none;
-      background: transparent;
-      color: var(--text);
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 0;
-    }
-
-    .nav-dropdown-btn i {
-      font-size: 0.78rem;
-      transition: transform 0.25s ease;
-    }
-
-    .nav-dropdown:hover .nav-dropdown-btn,
-    .nav-dropdown.active .nav-dropdown-btn {
-      color: var(--primary);
-    }
-
-    .nav-dropdown:hover .nav-dropdown-btn i,
-    .nav-dropdown.active .nav-dropdown-btn i {
-      transform: rotate(180deg);
-    }
-
-    .nav-dropdown-menu {
-      position: absolute;
-      top: calc(100% + 14px);
-      right: 0;
-      width: 230px;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: var(--shadow-lg);
-      padding: 8px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(8px);
-      transition: 0.25s ease;
-      z-index: 120;
-    }
-
-    .nav-dropdown:hover .nav-dropdown-menu,
-    .nav-dropdown.active .nav-dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .nav-dropdown-menu a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 14px;
-      border-radius: 12px;
-      color: var(--text);
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-
-    .nav-dropdown-menu a:hover {
-      background: #eef3ff;
-      color: var(--primary);
-    }
-
-    .nav-dropdown-menu i {
-      color: var(--primary);
-    }
-
-    .hero-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 28px;
-    }
-
-    .hero-stat {
-      min-width: 150px;
-      padding: 16px 18px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.78);
-      border: 1px solid rgba(228, 231, 236, 0.9);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .hero-stat strong {
-      display: block;
-      font-size: 1.2rem;
-      color: var(--primary);
-      margin-bottom: 4px;
-    }
-
-    .hero-stat span {
-      color: var(--muted);
-      font-size: 0.92rem;
-      font-weight: 600;
-    }
-
-    .hero-image-card {
-      padding: 14px;
-      overflow: hidden;
-    }
-
-    .hero-video-card {
-      background: #ffffff;
-    }
-
-    .hero-main-image,
-    .hero-mobile-image,
-    .hero-main-video {
-      width: 100%;
-      height: 100%;
-      min-height: 420px;
-      object-fit: cover;
-      border-radius: 22px;
-      display: block;
-    }
-
-    .hero-mobile-image {
-      display: none;
-    }
-
-    .showcase-section {
-      padding: 90px 0;
-      background: var(--white);
-    }
-
-    .showcase-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 28px;
-      align-items: stretch;
-    }
-
-    .showcase-panel,
-    .showcase-card,
-    .mini-info-box {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .showcase-panel,
-    .showcase-card {
-      padding: 30px;
-    }
-
-    .showcase-panel p,
-    .showcase-card p,
-    .mini-info-box p {
-      color: var(--muted);
-    }
-
-    .showcase-card-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-      margin-top: 22px;
-    }
-
-    .mini-info-box {
-      padding: 22px;
-      transition: var(--transition);
-      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
-    }
-
-    .mini-info-box:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-      border-color: rgba(47, 91, 255, 0.2);
-    }
-
-    .mini-info-box i {
-      color: var(--primary);
-      font-size: 1.3rem;
-      margin-bottom: 12px;
-    }
-
-    .mini-info-box h3 {
-      margin-bottom: 8px;
-      font-size: 1.02rem;
-    }
-
-    .showcase-visual {
-      width: 100%;
-      min-height: 100%;
-      border-radius: 22px;
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border);
-    }
-
-    .showcase-visual img {
-      width: 100%;
-      height: 100%;
-      min-height: 420px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .section-topline {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 20px;
-      margin-bottom: 34px;
-      flex-wrap: wrap;
-    }
-
-    .product-grid.home-products {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .product-image.real-image {
-      padding: 0;
-      background: #fff;
-    }
-
-    .product-image.real-image img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .category-card .category-tag {
-      display: inline-flex;
-      margin-top: 16px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: var(--primary-soft);
-      color: var(--primary);
-      font-size: 0.85rem;
-      font-weight: 700;
-      width: fit-content;
-    }
-
-    .brands-grid.enhanced {
-      grid-template-columns: repeat(6, 1fr);
-    }
-
-    .brand-box img {
-      max-width: 80%;
-      max-height: 56px;
-      object-fit: contain;
-      display: block;
-      margin: 0 auto;
-    }
-
-    .testimonial-strip {
-      padding: 90px 0;
-      background: linear-gradient(180deg, var(--light) 0%, #f4f7fb 100%);
-    }
-
-    .testimonial-box {
-      background: linear-gradient(135deg, #102a8c, #3157ff);
-      color: var(--white);
-      border-radius: var(--radius-xl);
-      padding: 36px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-    }
-
-    .testimonial-box::before {
-      content: "";
-      position: absolute;
-      top: -50px;
-      right: -50px;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .testimonial-box p {
-      color: rgba(255, 255, 255, 0.88);
-      max-width: 75ch;
-      font-size: 1.05rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .testimonial-box h2 {
-      position: relative;
-      z-index: 1;
-      margin-bottom: 14px;
-      font-size: clamp(1.8rem, 3vw, 2.6rem);
-      line-height: 1.1;
-    }
-
-    .testimonial-box .btn {
-      margin-top: 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (max-width: 1100px) {
-      .showcase-grid,
-      .product-grid.home-products,
-      .brands-grid.enhanced {
-        grid-template-columns: repeat(2, 1fr);
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Industrial Import NYM",
+        "description": "Empresa peruana de componentes electrónicos, dispositivos industriales y soluciones de automatización.",
+        "url": "https://luisolivera-200599.github.io/industrial-import-nym-web/",
+        "logo": "imagenes/banners/banner-1.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+51-966-441-035",
+          "contactType": "customer service",
+          "availableLanguage": "Spanish"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Av. Republica de Argentina 211",
+          "addressLocality": "Lima",
+          "postalCode": "15079",
+          "addressCountry": "PE"
+        },
+        "sameAs": []
       }
+    </script>
 
-      .showcase-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
-    @media (max-width: 900px) {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
       .nav-dropdown {
-        width: 100%;
-        display: block;
+        position: relative;
+        display: flex;
+        align-items: center;
       }
 
       .nav-dropdown-btn {
-        width: 100%;
-        justify-content: space-between;
-        padding: 12px 0;
+        border: none;
+        background: transparent;
+        color: var(--text);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 0;
+      }
+
+      .nav-dropdown-btn i {
+        font-size: 0.78rem;
+        transition: transform 0.25s ease;
+      }
+
+      .nav-dropdown:hover .nav-dropdown-btn,
+      .nav-dropdown.active .nav-dropdown-btn {
+        color: var(--primary);
+      }
+
+      .nav-dropdown:hover .nav-dropdown-btn i,
+      .nav-dropdown.active .nav-dropdown-btn i {
+        transform: rotate(180deg);
       }
 
       .nav-dropdown-menu {
-        position: static;
-        width: 100%;
+        position: absolute;
+        top: calc(100% + 14px);
+        right: 0;
+        width: 230px;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: var(--shadow-lg);
+        padding: 8px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(8px);
+        transition: 0.25s ease;
+        z-index: 120;
+      }
+
+      .nav-dropdown:hover .nav-dropdown-menu,
+      .nav-dropdown.active .nav-dropdown-menu {
         opacity: 1;
         visibility: visible;
-        transform: none;
-        box-shadow: none;
-        border-radius: 14px;
-        margin-top: 6px;
-        display: none;
+        transform: translateY(0);
       }
 
-      .nav-dropdown.active .nav-dropdown-menu {
-        display: block;
+      .nav-dropdown-menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 14px;
+        border-radius: 12px;
+        color: var(--text);
+        font-weight: 700;
+        font-size: 0.95rem;
       }
-    }
 
-    @media (max-width: 760px) {
-      .showcase-card-grid,
-      .product-grid.home-products,
-      .brands-grid.enhanced {
-        grid-template-columns: 1fr;
+      .nav-dropdown-menu a:hover {
+        background: #eef3ff;
+        color: var(--primary);
       }
 
-      .showcase-panel,
-      .showcase-card,
-      .testimonial-box {
-        padding: 24px;
+      .nav-dropdown-menu i {
+        color: var(--primary);
       }
 
       .hero-stats {
-        flex-direction: column;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 28px;
       }
 
-      .hero-main-video {
-        display: none;
+      .hero-stat {
+        min-width: 150px;
+        padding: 16px 18px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(228, 231, 236, 0.9);
+        box-shadow: var(--shadow-sm);
       }
 
-      .hero-mobile-image {
+      .hero-stat strong {
         display: block;
+        font-size: 1.2rem;
+        color: var(--primary);
+        margin-bottom: 4px;
+      }
+
+      .hero-stat span {
+        color: var(--muted);
+        font-size: 0.92rem;
+        font-weight: 600;
+      }
+
+      .hero-image-card {
+        padding: 14px;
+        overflow: hidden;
+      }
+
+      .hero-video-card {
+        background: #ffffff;
       }
 
       .hero-main-image,
       .hero-mobile-image,
-      .showcase-visual img {
-        min-height: 280px;
+      .hero-main-video {
+        width: 100%;
+        height: 100%;
+        min-height: 420px;
+        object-fit: cover;
+        border-radius: 22px;
+        display: block;
       }
-    }
-  </style>
-</head>
 
-<body>
-  <div class="topbar">
-    <div class="container topbar-content">
-      <div class="topbar-left">
-        <span><i class="fa-solid fa-phone"></i> <span data-company-phone>966 441 035</span></span>
-        <span><i class="fa-solid fa-envelope"></i> <span data-company-email>oliveravelasquezluis@gmail.com</span></span>
-        <span><i class="fa-solid fa-location-dot"></i> <span data-company-address>Av. Republica de Argentina 211, Lima 15079</span></span>
-      </div>
+      .hero-mobile-image {
+        display: none;
+      }
 
-      <div class="topbar-right">
-        <span class="social-link is-disabled" aria-label="Facebook pendiente"><i class="fa-brands fa-facebook-f"></i></span>
-        <span class="social-link is-disabled" aria-label="Instagram pendiente"><i class="fa-brands fa-instagram"></i></span>
-        <span class="social-link is-disabled" aria-label="LinkedIn pendiente"><i class="fa-brands fa-linkedin-in"></i></span>
-        <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
-          <i class="fa-brands fa-whatsapp"></i>
-        </a>
-      </div>
-    </div>
-  </div>
+      .showcase-section {
+        padding: 90px 0;
+        background: var(--white);
+      }
 
-  <header class="header">
-    <div class="container nav">
-      <a href="index.html" class="logo">
-        <div class="logo-mark">NYM</div>
-        <div class="logo-text">
-          <h1>Industrial Import NYM</h1>
-          <p>Soluciones electrónicas para la industria moderna</p>
-        </div>
-      </a>
+      .showcase-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 28px;
+        align-items: stretch;
+      }
 
-      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
-        <i class="fa-solid fa-bars"></i>
-      </button>
+      .showcase-panel,
+      .showcase-card,
+      .mini-info-box {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+      }
 
-      <nav class="nav-menu" id="nav-menu">
-        <a href="index.html" class="active">Inicio</a>
-        <a href="nosotros.html">Nosotros</a>
-        <a href="productos.html">Productos</a>
-        <a href="marcas.html">Marcas</a>
-        <a href="clientes.html">Clientes</a>
-        <a href="contacto.html">Contacto</a>
+      .showcase-panel,
+      .showcase-card {
+        padding: 30px;
+      }
 
-        <div class="nav-dropdown">
-          <button class="nav-dropdown-btn" type="button">
-            Administrador
-            <i class="fa-solid fa-chevron-down"></i>
-          </button>
+      .showcase-panel p,
+      .showcase-card p,
+      .mini-info-box p {
+        color: var(--muted);
+      }
 
-          <div class="nav-dropdown-menu">
-            <a href="admin-login.html">
-              <i class="fa-solid fa-user-shield"></i>
-              Ingresar al panel
-            </a>
-          </div>
-        </div>
+      .showcase-card-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+        margin-top: 22px;
+      }
 
-        <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
-      </nav>
+      .mini-info-box {
+        padding: 22px;
+        transition: var(--transition);
+        background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+      }
 
-      <a href="contacto.html" class="btn btn-primary desktop-cta">Solicitar cotización</a>
-    </div>
-  </header>
+      .mini-info-box:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: rgba(47, 91, 255, 0.2);
+      }
 
-  <section class="hero">
-    <div class="container hero-content">
-      <div class="hero-text">
-        <span class="section-badge">Tecnología, orden y confianza</span>
+      .mini-info-box i {
+        color: var(--primary);
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+      }
 
-        <h2>Catálogo moderno de dispositivos y componentes electrónicos</h2>
+      .mini-info-box h3 {
+        margin-bottom: 8px;
+        font-size: 1.02rem;
+      }
 
-        <p>
-          En Industrial Import NYM ofrecemos una propuesta comercial enfocada en
-          soluciones electrónicas, marcas reconocidas, disponibilidad visible y
-          una experiencia profesional para consultas y cotizaciones.
-        </p>
+      .showcase-visual {
+        width: 100%;
+        min-height: 100%;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border);
+      }
 
-        <div class="hero-buttons">
-          <a href="productos.html" class="btn btn-primary">Ver productos</a>
-          <a href="contacto.html" class="btn btn-secondary">Solicitar cotización</a>
-        </div>
+      .showcase-visual img {
+        width: 100%;
+        height: 100%;
+        min-height: 420px;
+        object-fit: cover;
+        display: block;
+      }
 
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <strong>+11</strong>
-            <span>Categorías demo</span>
-          </div>
+      .section-topline {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 20px;
+        margin-bottom: 34px;
+        flex-wrap: wrap;
+      }
 
-          <div class="hero-stat">
-            <strong>+15</strong>
-            <span>Marcas referenciales</span>
-          </div>
+      .product-grid.home-products {
+        grid-template-columns: repeat(3, 1fr);
+      }
 
-          <div class="hero-stat">
-            <strong>3</strong>
-            <span>Estados de stock</span>
-          </div>
-        </div>
-      </div>
+      .product-image.real-image {
+        padding: 0;
+        background: #fff;
+      }
 
-      <div class="hero-card hero-image-card hero-video-card">
-        <video
-          class="hero-main-video"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="none"
-          poster="imagenes/optimized/banners/banner-1.webp"
-        >
-          <source src="videos/hero-electronica-optimized.mp4" type="video/mp4" media="(min-width: 641px)" />
-          Tu navegador no soporta video HTML5.
-        </video>
+      .product-image.real-image img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+      }
 
-        <img
-          src="imagenes/optimized/banners/banner-1.webp"
-          alt="Banner principal de componentes electrónicos"
-          class="hero-mobile-image"
-          width="2048"
-          height="2048"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </div>
-    </div>
-  </section>
+      .category-card .category-tag {
+        display: inline-flex;
+        margin-top: 16px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 0.85rem;
+        font-weight: 700;
+        width: fit-content;
+      }
 
-  <section class="showcase-section">
-    <div class="container showcase-grid">
-      <div class="showcase-panel">
-        <span class="section-badge">Nuestra propuesta</span>
+      .brands-grid.enhanced {
+        grid-template-columns: repeat(6, 1fr);
+      }
 
-        <h2 style="margin-bottom: 16px;">
-          Una web pensada para vender mejor sin necesidad de carrito
-        </h2>
+      .brand-box img {
+        max-width: 80%;
+        max-height: 56px;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto;
+      }
 
-        <p>
-          Apostamos por una estructura moderna donde el cliente pueda explorar
-          productos, revisar marcas, validar stock y consultar con facilidad.
-          La prioridad no es llenar la pantalla de ruido, sino guiar mejor la atención.
-        </p>
-                <div class="showcase-card-grid">
-          <div class="mini-info-box">
-            <i class="fa-solid fa-boxes-stacked"></i>
-            <h3>Catálogo ordenado</h3>
-            <p>Productos organizados por categorías, marcas y disponibilidad.</p>
-          </div>
+      .testimonial-strip {
+        padding: 90px 0;
+        background: linear-gradient(180deg, var(--light) 0%, #f4f7fb 100%);
+      }
 
-          <div class="mini-info-box">
-            <i class="fa-solid fa-comments"></i>
-            <h3>Consulta directa</h3>
-            <p>Canales visibles para cotización y acompañamiento comercial.</p>
-          </div>
+      .testimonial-box {
+        background: linear-gradient(135deg, #102a8c, #3157ff);
+        color: var(--white);
+        border-radius: var(--radius-xl);
+        padding: 36px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+      }
 
-          <div class="mini-info-box">
-            <i class="fa-solid fa-shield-halved"></i>
-            <h3>Imagen sólida</h3>
-            <p>Una presencia digital más confiable y alineada al rubro técnico.</p>
-          </div>
+      .testimonial-box::before {
+        content: "";
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+      }
 
-          <div class="mini-info-box">
-            <i class="fa-solid fa-chart-line"></i>
-            <h3>Escalable</h3>
-            <p>Base visual preparada para evolucionar luego al panel administrador.</p>
-          </div>
-        </div>
-      </div>
+      .testimonial-box p {
+        color: rgba(255, 255, 255, 0.88);
+        max-width: 75ch;
+        font-size: 1.05rem;
+        position: relative;
+        z-index: 1;
+      }
 
-      <div class="showcase-visual">
-        <img
-          src="imagenes/optimized/general/general-1.webp"
-          alt="Visual de propuesta comercial y tecnológica"
-          loading="lazy"
-          decoding="async"
-          width="2048"
-          height="1362"
-        />
-      </div>
-    </div>
-  </section>
+      .testimonial-box h2 {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 14px;
+        font-size: clamp(1.8rem, 3vw, 2.6rem);
+        line-height: 1.1;
+      }
 
-  <section class="section light-section">
-    <div class="container">
-      <div class="section-topline">
-        <div class="section-heading" style="margin-bottom: 0;">
-          <span class="section-badge">Categorías destacadas</span>
-          <h2>Explora nuestras principales líneas de productos</h2>
-        </div>
+      .testimonial-box .btn {
+        margin-top: 24px;
+        position: relative;
+        z-index: 1;
+      }
 
-        <a href="productos.html" class="btn btn-secondary">Ver catálogo completo</a>
-      </div>
+      @media (max-width: 1100px) {
+        .showcase-grid,
+        .product-grid.home-products,
+        .brands-grid.enhanced {
+          grid-template-columns: repeat(2, 1fr);
+        }
 
-      <div class="cards-grid three">
-        <article class="category-card">
-          <h3>Automatización</h3>
-          <p>Equipos y soluciones para procesos, control y tareas técnicas modernas.</p>
-          <span class="category-tag">Procesos</span>
-        </article>
+        .showcase-grid {
+          grid-template-columns: 1fr;
+        }
+      }
 
-        <article class="category-card">
-          <h3>Montaje eléctrico</h3>
-          <p>Componentes modulares y líneas pensadas para instalación organizada.</p>
-          <span class="category-tag">Instalación</span>
-        </article>
+      @media (max-width: 900px) {
+        .nav-dropdown {
+          width: 100%;
+          display: block;
+        }
 
-        <article class="category-card">
-          <h3>Protección y control</h3>
-          <p>Productos orientados a maniobra, continuidad y seguridad operativa.</p>
-          <span class="category-tag">Seguridad</span>
-        </article>
-      </div>
-    </div>
-  </section>
+        .nav-dropdown-btn {
+          width: 100%;
+          justify-content: space-between;
+          padding: 12px 0;
+        }
 
-  <section class="section">
-    <div class="container">
-      <div class="section-topline">
-        <div class="section-heading" style="margin-bottom: 0;">
-          <span class="section-badge">Productos destacados</span>
-          <h2>Una muestra visual del catálogo</h2>
-        </div>
+        .nav-dropdown-menu {
+          position: static;
+          width: 100%;
+          opacity: 1;
+          visibility: visible;
+          transform: none;
+          box-shadow: none;
+          border-radius: 14px;
+          margin-top: 6px;
+          display: none;
+        }
 
-        <a href="productos.html" class="btn btn-secondary">Explorar productos</a>
-      </div>
+        .nav-dropdown.active .nav-dropdown-menu {
+          display: block;
+        }
+      }
 
-      <div class="product-grid home-products" id="home-products-grid">
-        <!-- Skeleton loader -->
-        <article class="product-card skeleton-card" aria-hidden="true">
-          <div class="product-image real-image" style="background:#f1f3f7;min-height:180px;"></div>
-          <div class="product-body">
-            <div style="height:14px;width:60%;background:#eee;border-radius:8px;margin-bottom:12px;"></div>
-            <div style="height:18px;width:85%;background:#eee;border-radius:8px;margin-bottom:8px;"></div>
-            <div style="height:14px;width:100%;background:#eee;border-radius:8px;"></div>
-          </div>
-        </article>
-        <article class="product-card skeleton-card" aria-hidden="true">
-          <div class="product-image real-image" style="background:#f1f3f7;min-height:180px;"></div>
-          <div class="product-body">
-            <div style="height:14px;width:55%;background:#eee;border-radius:8px;margin-bottom:12px;"></div>
-            <div style="height:18px;width:90%;background:#eee;border-radius:8px;margin-bottom:8px;"></div>
-            <div style="height:14px;width:100%;background:#eee;border-radius:8px;"></div>
-          </div>
-        </article>
-        <article class="product-card skeleton-card" aria-hidden="true">
-          <div class="product-image real-image" style="background:#f1f3f7;min-height:180px;"></div>
-          <div class="product-body">
-            <div style="height:14px;width:50%;background:#eee;border-radius:8px;margin-bottom:12px;"></div>
-            <div style="height:18px;width:80%;background:#eee;border-radius:8px;margin-bottom:8px;"></div>
-            <div style="height:14px;width:100%;background:#eee;border-radius:8px;"></div>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
+      @media (max-width: 760px) {
+        .showcase-card-grid,
+        .product-grid.home-products,
+        .brands-grid.enhanced {
+          grid-template-columns: 1fr;
+        }
 
-  <section class="section light-section">
-    <div class="container">
-      <div class="section-heading center">
-        <span class="section-badge">Marcas destacadas</span>
+        .showcase-panel,
+        .showcase-card,
+        .testimonial-box {
+          padding: 24px;
+        }
 
-        <h2>Respaldo comercial con marcas reconocidas</h2>
+        .hero-stats {
+          flex-direction: column;
+        }
 
-        <p>
-          Una buena presentación también pasa por mostrar una línea de marcas sólida
-          y alineada al tipo de cliente que quieres atraer.
-        </p>
-      </div>
+        .hero-main-video {
+          display: none;
+        }
 
-      <div class="brands-grid enhanced">
-        <div class="brand-box">
-          <img src="imagenes/optimized/marcas/marcas-1.webp" alt="Logo de marca industrial distribuida por NYM" loading="lazy" decoding="async" />
+        .hero-mobile-image {
+          display: block;
+        }
+
+        .hero-main-image,
+        .hero-mobile-image,
+        .showcase-visual img {
+          min-height: 280px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="topbar">
+      <div class="container topbar-content">
+        <div class="topbar-left">
+          <span><i class="fa-solid fa-phone"></i> <span data-company-phone>966 441 035</span></span>
+          <span
+            ><i class="fa-solid fa-envelope"></i> <span data-company-email>oliveravelasquezluis@gmail.com</span></span
+          >
+          <span
+            ><i class="fa-solid fa-location-dot"></i>
+            <span data-company-address>Av. Republica de Argentina 211, Lima 15079</span></span
+          >
         </div>
 
-        <div class="brand-box">
-          <img src="imagenes/optimized/marcas/marcas-2.webp" alt="Logo de marca electrónica distribuida por NYM" loading="lazy" decoding="async" />
-        </div>
-
-        <div class="brand-box">
-          <img src="imagenes/optimized/marcas/marcas-3.webp" alt="Logo de proveedor industrial de Industrial Import NYM" loading="lazy" decoding="async" />
-        </div>
-
-        <div class="brand-box">CHINT</div>
-        <div class="brand-box">Legrand</div>
-        <div class="brand-box">Schneider Electric</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="testimonial-strip">
-    <div class="container">
-      <div class="testimonial-box">
-        <span class="section-badge dark">Atención moderna</span>
-
-        <h2>Tu catálogo no tiene que vender solo. Tiene que abrir la conversación correcta.</h2>
-
-        <p>
-          Industrial Import NYM está pensado para mostrar una imagen seria, ordenada
-          y técnicamente confiable, donde cada producto lleve a una consulta clara y
-          cada consulta pueda convertirse en oportunidad comercial.
-        </p>
-
-        <a href="contacto.html" class="btn btn-light">Hablar con nosotros</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container split-section">
-      <div>
-        <span class="section-badge">Clientes</span>
-
-        <h2>Una experiencia enfocada en claridad, confianza y respuesta rápida</h2>
-
-        <p>
-          La web está diseñada para que tus clientes encuentren información útil,
-          revisen disponibilidad y tengan canales visibles para avanzar con su consulta
-          o cotización sin perder tiempo.
-        </p>
-
-        <ul class="check-list">
-          <li>Atención comercial personalizada</li>
-          <li>Consulta por producto o categoría</li>
-          <li>Marcas visibles y mejor organizadas</li>
-          <li>Formulario y contacto directo</li>
-        </ul>
-      </div>
-
-      <div class="highlight-card">
-        <h3>¿Por qué este enfoque funciona?</h3>
-
-        <p>
-          Porque para este tipo de negocio lo importante no es meter carrito por meter,
-          sino facilitar una relación comercial más ordenada y profesional.
-        </p>
-
-        <a href="contacto.html" class="btn btn-primary full">Solicitar información</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section cta-section">
-    <div class="container cta-box">
-      <div>
-        <span class="section-badge dark">Cotización</span>
-
-        <h2>¿Necesitas una consulta o una cotización personalizada?</h2>
-
-        <p>
-          Completa el formulario de contacto o escríbenos por WhatsApp para recibir
-          atención comercial más directa.
-        </p>
-      </div>
-
-      <div class="cta-buttons">
-        <a href="contacto.html" class="btn btn-light">Solicitar cotización</a>
-        <a
-          href="https://wa.me/51966441035"
-          target="_blank"
-          rel="noopener"
-          class="btn btn-outline-light"
-          data-whatsapp-link
-        >
-          Contactar ahora
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div>
-        <h3>Industrial Import NYM</h3>
-
-        <p>
-          Soluciones electrónicas para la industria moderna, con una propuesta
-          comercial enfocada en confianza, orden y atención profesional.
-        </p>
-      </div>
-
-      <div>
-        <h4>Enlaces</h4>
-
-        <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="nosotros.html">Nosotros</a></li>
-          <li><a href="productos.html">Productos</a></li>
-          <li><a href="marcas.html">Marcas</a></li>
-          <li><a href="clientes.html">Clientes</a></li>
-          <li><a href="contacto.html">Contacto</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h4>Contacto</h4>
-
-        <ul>
-          <li data-company-phone>966 441 035</li>
-          <li data-company-email>oliveravelasquezluis@gmail.com</li>
-          <li data-company-address>Av. Republica de Argentina 211, Lima 15079</li>
-          <li data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</li>
-        </ul>
-      </div>
-
-      <div>
-        <h4>Redes</h4>
-
-        <div class="footer-social">
-          <span class="social-link is-disabled" aria-label="Facebook pendiente"><i class="fa-brands fa-facebook-f"></i></span>
-          <span class="social-link is-disabled" aria-label="Instagram pendiente"><i class="fa-brands fa-instagram"></i></span>
-          <span class="social-link is-disabled" aria-label="LinkedIn pendiente"><i class="fa-brands fa-linkedin-in"></i></span>
+        <div class="topbar-right">
+          <span class="social-link is-disabled" aria-label="Facebook pendiente"
+            ><i class="fa-brands fa-facebook-f"></i
+          ></span>
+          <span class="social-link is-disabled" aria-label="Instagram pendiente"
+            ><i class="fa-brands fa-instagram"></i
+          ></span>
+          <span class="social-link is-disabled" aria-label="LinkedIn pendiente"
+            ><i class="fa-brands fa-linkedin-in"></i
+          ></span>
           <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
             <i class="fa-brands fa-whatsapp"></i>
           </a>
@@ -877,69 +492,483 @@
       </div>
     </div>
 
-    <div class="footer-bottom">
-      <p>© 2026 Industrial Import NYM S.R.L. Todos los derechos reservados.</p>
-    </div>
-  </footer>
+    <header class="header">
+      <div class="container nav">
+        <a href="index.html" class="logo">
+          <div class="logo-mark">NYM</div>
+          <div class="logo-text">
+            <h1>Industrial Import NYM</h1>
+            <p>Soluciones electrónicas para la industria moderna</p>
+          </div>
+        </a>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-config.js"></script>
-  <script src="js/site-utils.js"></script>
-  <script src="js/script.js"></script>
-  <script src="js/company-settings.js"></script>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
+          <i class="fa-solid fa-bars"></i>
+        </button>
 
-  <!-- Botón flotante WhatsApp -->
-  <a
-    href="https://wa.me/51966441035"
-    class="whatsapp-fab"
-    target="_blank"
-    rel="noopener"
-    aria-label="Contactar por WhatsApp"
-    data-whatsapp-link
-  >
-    <i class="fa-brands fa-whatsapp"></i>
-    <span class="whatsapp-fab-label">¿Necesitas ayuda?</span>
-  </a>
+        <nav class="nav-menu" id="nav-menu">
+          <a href="index.html" class="active">Inicio</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="productos.html">Productos</a>
+          <a href="marcas.html">Marcas</a>
+          <a href="clientes.html">Clientes</a>
+          <a href="contacto.html">Contacto</a>
 
-  <!-- Productos dinámicos desde Supabase -->
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      const grid = document.getElementById("home-products-grid");
-      if (!grid || !window.nymSupabase) return;
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-btn" type="button">
+              Administrador
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
 
-      function getStockClass(stock) {
-        const v = String(stock || "").toLowerCase();
-        if (v.includes("sin")) return "unavailable";
-        if (v.includes("pedido")) return "preorder";
-        return "available";
-      }
+            <div class="nav-dropdown-menu">
+              <a href="admin-login.html">
+                <i class="fa-solid fa-user-shield"></i>
+                Ingresar al panel
+              </a>
+            </div>
+          </div>
 
-      function escapeHTML(t) {
-        return String(t || "")
-          .replace(/&/g,"&amp;").replace(/</g,"&lt;")
-          .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-      }
+          <a href="contacto.html" class="btn btn-primary mobile-cta">Solicitar cotización</a>
+        </nav>
 
-      try {
-        const { data, error } = await window.nymSupabase
-          .from("products")
-          .select("*, brands(name, logo_url), categories(name)")
-          .order("created_at", { ascending: false })
-          .limit(3);
+        <a href="contacto.html" class="btn btn-primary desktop-cta">Solicitar cotización</a>
+      </div>
+    </header>
 
-        if (error || !data || data.length === 0) throw new Error("sin datos");
+    <section class="hero">
+      <div class="container hero-content">
+        <div class="hero-text">
+          <span class="section-badge">Tecnología, orden y confianza</span>
 
-        grid.innerHTML = data.map(row => {
-          const brand = row.brands?.name || row.brand || "";
-          const name = row.name || "Producto";
-          const desc = row.description || "Producto disponible para consulta comercial.";
-          const stock = row.stock_status || "Disponible";
-          const img = row.image_url || "imagenes/optimized/productos/productos-1.webp";
-          const waMessage = `Hola, quiero consultar por: ${name} - Marca: ${brand}`;
-          const waUrl = window.nymSite?.buildWhatsappUrl
-            ? window.nymSite.buildWhatsappUrl(waMessage)
-            : `https://wa.me/51966441035?text=${encodeURIComponent(waMessage)}`;
-          return `
+          <h2>Catálogo moderno de dispositivos y componentes electrónicos</h2>
+
+          <p>
+            En Industrial Import NYM ofrecemos una propuesta comercial enfocada en soluciones electrónicas, marcas
+            reconocidas, disponibilidad visible y una experiencia profesional para consultas y cotizaciones.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="productos.html" class="btn btn-primary">Ver productos</a>
+            <a href="contacto.html" class="btn btn-secondary">Solicitar cotización</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong>+11</strong>
+              <span>Categorías demo</span>
+            </div>
+
+            <div class="hero-stat">
+              <strong>+15</strong>
+              <span>Marcas referenciales</span>
+            </div>
+
+            <div class="hero-stat">
+              <strong>3</strong>
+              <span>Estados de stock</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card hero-image-card hero-video-card">
+          <video
+            class="hero-main-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="none"
+            poster="imagenes/optimized/banners/banner-1.webp"
+          >
+            <source src="videos/hero-electronica-optimized.mp4" type="video/mp4" media="(min-width: 641px)" />
+            Tu navegador no soporta video HTML5.
+          </video>
+
+          <img
+            src="imagenes/optimized/banners/banner-1.webp"
+            alt="Banner principal de componentes electrónicos"
+            class="hero-mobile-image"
+            width="2048"
+            height="2048"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="showcase-section">
+      <div class="container showcase-grid">
+        <div class="showcase-panel">
+          <span class="section-badge">Nuestra propuesta</span>
+
+          <h2 style="margin-bottom: 16px">Una web pensada para vender mejor sin necesidad de carrito</h2>
+
+          <p>
+            Apostamos por una estructura moderna donde el cliente pueda explorar productos, revisar marcas, validar
+            stock y consultar con facilidad. La prioridad no es llenar la pantalla de ruido, sino guiar mejor la
+            atención.
+          </p>
+          <div class="showcase-card-grid">
+            <div class="mini-info-box">
+              <i class="fa-solid fa-boxes-stacked"></i>
+              <h3>Catálogo ordenado</h3>
+              <p>Productos organizados por categorías, marcas y disponibilidad.</p>
+            </div>
+
+            <div class="mini-info-box">
+              <i class="fa-solid fa-comments"></i>
+              <h3>Consulta directa</h3>
+              <p>Canales visibles para cotización y acompañamiento comercial.</p>
+            </div>
+
+            <div class="mini-info-box">
+              <i class="fa-solid fa-shield-halved"></i>
+              <h3>Imagen sólida</h3>
+              <p>Una presencia digital más confiable y alineada al rubro técnico.</p>
+            </div>
+
+            <div class="mini-info-box">
+              <i class="fa-solid fa-chart-line"></i>
+              <h3>Escalable</h3>
+              <p>Base visual preparada para evolucionar luego al panel administrador.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="showcase-visual">
+          <img
+            src="imagenes/optimized/general/general-1.webp"
+            alt="Visual de propuesta comercial y tecnológica"
+            loading="lazy"
+            decoding="async"
+            width="2048"
+            height="1362"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="section light-section">
+      <div class="container">
+        <div class="section-topline">
+          <div class="section-heading" style="margin-bottom: 0">
+            <span class="section-badge">Categorías destacadas</span>
+            <h2>Explora nuestras principales líneas de productos</h2>
+          </div>
+
+          <a href="productos.html" class="btn btn-secondary">Ver catálogo completo</a>
+        </div>
+
+        <div class="cards-grid three">
+          <article class="category-card">
+            <h3>Automatización</h3>
+            <p>Equipos y soluciones para procesos, control y tareas técnicas modernas.</p>
+            <span class="category-tag">Procesos</span>
+          </article>
+
+          <article class="category-card">
+            <h3>Montaje eléctrico</h3>
+            <p>Componentes modulares y líneas pensadas para instalación organizada.</p>
+            <span class="category-tag">Instalación</span>
+          </article>
+
+          <article class="category-card">
+            <h3>Protección y control</h3>
+            <p>Productos orientados a maniobra, continuidad y seguridad operativa.</p>
+            <span class="category-tag">Seguridad</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-topline">
+          <div class="section-heading" style="margin-bottom: 0">
+            <span class="section-badge">Productos destacados</span>
+            <h2>Una muestra visual del catálogo</h2>
+          </div>
+
+          <a href="productos.html" class="btn btn-secondary">Explorar productos</a>
+        </div>
+
+        <div class="product-grid home-products" id="home-products-grid">
+          <!-- Skeleton loader -->
+          <article class="product-card skeleton-card" aria-hidden="true">
+            <div class="product-image real-image" style="background: #f1f3f7; min-height: 180px"></div>
+            <div class="product-body">
+              <div style="height: 14px; width: 60%; background: #eee; border-radius: 8px; margin-bottom: 12px"></div>
+              <div style="height: 18px; width: 85%; background: #eee; border-radius: 8px; margin-bottom: 8px"></div>
+              <div style="height: 14px; width: 100%; background: #eee; border-radius: 8px"></div>
+            </div>
+          </article>
+          <article class="product-card skeleton-card" aria-hidden="true">
+            <div class="product-image real-image" style="background: #f1f3f7; min-height: 180px"></div>
+            <div class="product-body">
+              <div style="height: 14px; width: 55%; background: #eee; border-radius: 8px; margin-bottom: 12px"></div>
+              <div style="height: 18px; width: 90%; background: #eee; border-radius: 8px; margin-bottom: 8px"></div>
+              <div style="height: 14px; width: 100%; background: #eee; border-radius: 8px"></div>
+            </div>
+          </article>
+          <article class="product-card skeleton-card" aria-hidden="true">
+            <div class="product-image real-image" style="background: #f1f3f7; min-height: 180px"></div>
+            <div class="product-body">
+              <div style="height: 14px; width: 50%; background: #eee; border-radius: 8px; margin-bottom: 12px"></div>
+              <div style="height: 18px; width: 80%; background: #eee; border-radius: 8px; margin-bottom: 8px"></div>
+              <div style="height: 14px; width: 100%; background: #eee; border-radius: 8px"></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section light-section">
+      <div class="container">
+        <div class="section-heading center">
+          <span class="section-badge">Marcas destacadas</span>
+
+          <h2>Respaldo comercial con marcas reconocidas</h2>
+
+          <p>
+            Una buena presentación también pasa por mostrar una línea de marcas sólida y alineada al tipo de cliente que
+            quieres atraer.
+          </p>
+        </div>
+
+        <div class="brands-grid enhanced">
+          <div class="brand-box">
+            <img
+              src="imagenes/optimized/marcas/marcas-1.webp"
+              alt="Logo de marca industrial distribuida por NYM"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div class="brand-box">
+            <img
+              src="imagenes/optimized/marcas/marcas-2.webp"
+              alt="Logo de marca electrónica distribuida por NYM"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div class="brand-box">
+            <img
+              src="imagenes/optimized/marcas/marcas-3.webp"
+              alt="Logo de proveedor industrial de Industrial Import NYM"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div class="brand-box">CHINT</div>
+          <div class="brand-box">Legrand</div>
+          <div class="brand-box">Schneider Electric</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonial-strip">
+      <div class="container">
+        <div class="testimonial-box">
+          <span class="section-badge dark">Atención moderna</span>
+
+          <h2>Tu catálogo no tiene que vender solo. Tiene que abrir la conversación correcta.</h2>
+
+          <p>
+            Industrial Import NYM está pensado para mostrar una imagen seria, ordenada y técnicamente confiable, donde
+            cada producto lleve a una consulta clara y cada consulta pueda convertirse en oportunidad comercial.
+          </p>
+
+          <a href="contacto.html" class="btn btn-light">Hablar con nosotros</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split-section">
+        <div>
+          <span class="section-badge">Clientes</span>
+
+          <h2>Una experiencia enfocada en claridad, confianza y respuesta rápida</h2>
+
+          <p>
+            La web está diseñada para que tus clientes encuentren información útil, revisen disponibilidad y tengan
+            canales visibles para avanzar con su consulta o cotización sin perder tiempo.
+          </p>
+
+          <ul class="check-list">
+            <li>Atención comercial personalizada</li>
+            <li>Consulta por producto o categoría</li>
+            <li>Marcas visibles y mejor organizadas</li>
+            <li>Formulario y contacto directo</li>
+          </ul>
+        </div>
+
+        <div class="highlight-card">
+          <h3>¿Por qué este enfoque funciona?</h3>
+
+          <p>
+            Porque para este tipo de negocio lo importante no es meter carrito por meter, sino facilitar una relación
+            comercial más ordenada y profesional.
+          </p>
+
+          <a href="contacto.html" class="btn btn-primary full">Solicitar información</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-section">
+      <div class="container cta-box">
+        <div>
+          <span class="section-badge dark">Cotización</span>
+
+          <h2>¿Necesitas una consulta o una cotización personalizada?</h2>
+
+          <p>
+            Completa el formulario de contacto o escríbenos por WhatsApp para recibir atención comercial más directa.
+          </p>
+        </div>
+
+        <div class="cta-buttons">
+          <a href="contacto.html" class="btn btn-light">Solicitar cotización</a>
+          <a
+            href="https://wa.me/51966441035"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-outline-light"
+            data-whatsapp-link
+          >
+            Contactar ahora
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <h3>Industrial Import NYM</h3>
+
+          <p>
+            Soluciones electrónicas para la industria moderna, con una propuesta comercial enfocada en confianza, orden
+            y atención profesional.
+          </p>
+        </div>
+
+        <div>
+          <h4>Enlaces</h4>
+
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="marcas.html">Marcas</a></li>
+            <li><a href="clientes.html">Clientes</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Contacto</h4>
+
+          <ul>
+            <li data-company-phone>966 441 035</li>
+            <li data-company-email>oliveravelasquezluis@gmail.com</li>
+            <li data-company-address>Av. Republica de Argentina 211, Lima 15079</li>
+            <li data-company-hours>Lun - Sáb / 10:00 am - 5:00 pm</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Redes</h4>
+
+          <div class="footer-social">
+            <span class="social-link is-disabled" aria-label="Facebook pendiente"
+              ><i class="fa-brands fa-facebook-f"></i
+            ></span>
+            <span class="social-link is-disabled" aria-label="Instagram pendiente"
+              ><i class="fa-brands fa-instagram"></i
+            ></span>
+            <span class="social-link is-disabled" aria-label="LinkedIn pendiente"
+              ><i class="fa-brands fa-linkedin-in"></i
+            ></span>
+            <a href="https://wa.me/51966441035" target="_blank" rel="noopener" data-whatsapp-link>
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Industrial Import NYM S.R.L. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/site-utils.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/company-settings.js"></script>
+
+    <!-- Botón flotante WhatsApp -->
+    <a
+      href="https://wa.me/51966441035"
+      class="whatsapp-fab"
+      target="_blank"
+      rel="noopener"
+      aria-label="Contactar por WhatsApp"
+      data-whatsapp-link
+    >
+      <i class="fa-brands fa-whatsapp"></i>
+      <span class="whatsapp-fab-label">¿Necesitas ayuda?</span>
+    </a>
+
+    <!-- Productos dinámicos desde Supabase -->
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const grid = document.getElementById("home-products-grid");
+        if (!grid || !window.nymSupabase) return;
+
+        function getStockClass(stock) {
+          const v = String(stock || "").toLowerCase();
+          if (v.includes("sin")) return "unavailable";
+          if (v.includes("pedido")) return "preorder";
+          return "available";
+        }
+
+        function escapeHTML(t) {
+          return String(t || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+        }
+
+        try {
+          const { data, error } = await window.nymSupabase
+            .from("products")
+            .select("*, brands(name, logo_url), categories(name)")
+            .order("created_at", { ascending: false })
+            .limit(3);
+
+          if (error || !data || data.length === 0) throw new Error("sin datos");
+
+          grid.innerHTML = data
+            .map((row) => {
+              const brand = row.brands?.name || row.brand || "";
+              const name = row.name || "Producto";
+              const desc = row.description || "Producto disponible para consulta comercial.";
+              const stock = row.stock_status || "Disponible";
+              const img = row.image_url || "imagenes/optimized/productos/productos-1.webp";
+              const waMessage = `Hola, quiero consultar por: ${name} - Marca: ${brand}`;
+              const waUrl = window.nymSite?.buildWhatsappUrl
+                ? window.nymSite.buildWhatsappUrl(waMessage)
+                : `https://wa.me/51966441035?text=${encodeURIComponent(waMessage)}`;
+              return `
             <article class="product-card">
               <div class="product-image real-image">
                 <img src="${escapeHTML(img)}" alt="${escapeHTML(name)} - ${escapeHTML(brand)}" loading="lazy" />
@@ -954,11 +983,11 @@
                 </div>
               </div>
             </article>`;
-        }).join("");
-
-      } catch {
-        // Fallback a productos estáticos si Supabase falla
-        grid.innerHTML = `
+            })
+            .join("");
+        } catch {
+          // Fallback a productos estáticos si Supabase falla
+          grid.innerHTML = `
           <article class="product-card">
             <div class="product-image real-image"><img src="imagenes/optimized/productos/productos-1.webp" alt="Controlador industrial ABB" loading="lazy" decoding="async" /></div>
             <div class="product-body"><span class="product-brand">ABB</span><h3>Controlador industrial</h3><p>Solución para procesos de control y automatización.</p><div class="product-footer"><span class="stock available">Disponible</span><a href="contacto.html" class="product-link">Consultar</a></div></div>
@@ -971,8 +1000,8 @@
             <div class="product-image real-image"><img src="imagenes/optimized/productos/productos-3.webp" alt="Interruptor automático CHINT" loading="lazy" decoding="async" /></div>
             <div class="product-body"><span class="product-brand">CHINT</span><h3>Interruptor automático</h3><p>Equipo de protección y control para líneas técnicas.</p><div class="product-footer"><span class="stock unavailable">Sin stock</span><a href="contacto.html" class="product-link">Consultar</a></div></div>
           </article>`;
-      }
-    });
-  </script>
-</body>
+        }
+      });
+    </script>
+  </body>
 </html>

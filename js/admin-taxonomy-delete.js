@@ -6,10 +6,7 @@ async function deleteCategory(id) {
     throw new Error("No puedes eliminar esta categoría porque tiene productos o subcategorías relacionadas.");
   }
 
-  const { error } = await window.nymSupabase
-    .from("categories")
-    .delete()
-    .eq("id", id);
+  const { error } = await window.nymSupabase.from("categories").delete().eq("id", id);
 
   if (error) throw error;
 }
@@ -21,10 +18,7 @@ async function deleteSubcategory(id) {
     throw new Error("No puedes eliminar esta subcategoría porque está asignada a uno o más productos.");
   }
 
-  const { error } = await window.nymSupabase
-    .from("subcategories")
-    .delete()
-    .eq("id", id);
+  const { error } = await window.nymSupabase.from("subcategories").delete().eq("id", id);
 
   if (error) throw error;
 }

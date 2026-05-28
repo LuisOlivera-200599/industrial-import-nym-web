@@ -7,7 +7,7 @@
     hours: "Lun - Sab / 10:00 am - 5:00 pm",
     whatsapp_url: "https://wa.me/51966441035",
     map_url: "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/",
-    map_embed: "https://www.google.com/maps?q=Av.%20Republica%20de%20Argentina%20211,%20Lima%2015079&output=embed"
+    map_embed: "https://www.google.com/maps?q=Av.%20Republica%20de%20Argentina%20211,%20Lima%2015079&output=embed",
   };
 
   function escapeHTML(text) {
@@ -51,6 +51,6 @@
     slugify,
     getCompanyData,
     getWhatsappNumber,
-    buildWhatsappUrl
+    buildWhatsappUrl,
   };
 })();

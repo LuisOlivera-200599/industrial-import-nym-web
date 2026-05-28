@@ -3,13 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "check": "node scripts/check.js",
+    "check": "node scripts/check.js && npm run test:smoke",
+    "format": "prettier --write \"**/*.{html,css,js,json,md,yml}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{html,css,js,json,md,yml}\" --ignore-path .gitignore",
+    "test:smoke": "node scripts/smoke-ui.js",
     "optimize:images": "node scripts/optimize-images.js",
     "optimize:video": "node scripts/optimize-video.js",
     "optimize:assets": "npm run optimize:images && npm run optimize:video"
   },
   "devDependencies": {
     "ffmpeg-static": "^5.2.0",
+    "prettier": "^3.8.3",
     "sharp": "^0.33.5"
   }
 }

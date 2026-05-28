@@ -34,7 +34,7 @@ function run(command, args) {
     "30",
     "-movflags",
     "+faststart",
-    output
+    output,
   ]);
 
   console.log(`Optimized video written to ${path.relative(process.cwd(), output)}`);

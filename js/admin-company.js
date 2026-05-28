@@ -6,11 +6,7 @@ function updateCompanyPreview() {
 }
 
 async function loadCompanySettings() {
-  const { data, error } = await window.nymSupabase
-    .from("company_settings")
-    .select("*")
-    .limit(1)
-    .maybeSingle();
+  const { data, error } = await window.nymSupabase.from("company_settings").select("*").limit(1).maybeSingle();
 
   if (error) throw error;
 
@@ -49,7 +45,7 @@ async function saveCompanySettings() {
     hours: companyFields.hours.value.trim(),
     whatsapp_url: companyFields.whatsappUrl.value.trim(),
     map_url: companyFields.mapUrl.value.trim(),
-    map_embed: companyFields.mapEmbed.value.trim()
+    map_embed: companyFields.mapEmbed.value.trim(),
   };
 
   if (!payload.phone || !payload.email || !payload.address) {
@@ -68,11 +64,7 @@ async function saveCompanySettings() {
 
       if (error) throw error;
     } else {
-      const { data, error } = await window.nymSupabase
-        .from("company_settings")
-        .insert([payload])
-        .select()
-        .single();
+      const { data, error } = await window.nymSupabase.from("company_settings").insert([payload]).select().single();
 
       if (error) throw error;
 

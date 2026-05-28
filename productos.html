@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="canonical" href="https://industrialimportnym.com/productos.html" />
 
   <title>Productos | Industrial Import NYM</title>
 
@@ -440,6 +441,44 @@
       cursor: not-allowed;
     }
 
+    .quote-panel {
+      position: sticky;
+      bottom: 18px;
+      z-index: 30;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 24px;
+      padding: 14px 16px;
+      border: 1px solid #bbf7d0;
+      border-radius: 18px;
+      background: #f0fdf4;
+      box-shadow: var(--shadow-md);
+    }
+
+    .quote-panel.show {
+      display: flex;
+    }
+
+    .quote-panel strong {
+      display: block;
+      color: #065f46;
+      line-height: 1.2;
+    }
+
+    .quote-panel span {
+      color: #047857;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .quote-panel-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     @media (max-width: 1100px) {
       .catalog-layout {
         grid-template-columns: 1fr;
@@ -712,6 +751,17 @@
         </div>
 
         <nav class="pagination" id="pagination" aria-label="Páginas del catálogo"></nav>
+
+        <div class="quote-panel" id="quote-panel">
+          <div>
+            <strong id="quote-count">0 productos seleccionados</strong>
+            <span>Envía una cotización múltiple por WhatsApp.</span>
+          </div>
+          <div class="quote-panel-actions">
+            <button class="btn btn-secondary btn-sm" type="button" id="quote-clear">Limpiar</button>
+            <a class="btn btn-whatsapp btn-sm" href="#" target="_blank" rel="noopener" id="quote-send">Enviar cotización</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>

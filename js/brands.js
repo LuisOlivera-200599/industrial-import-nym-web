@@ -78,7 +78,7 @@
             <div class="logo-card">
               ${
                 brand.logo
-                  ? `<img src="${escapeHTML(brand.logo)}" alt="${escapeHTML(brand.name)}" />`
+                  ? `<img src="${escapeHTML(brand.logo)}" alt="${escapeHTML(brand.name)}" loading="lazy" decoding="async" />`
                   : `<span>${escapeHTML(brand.name)}</span>`
               }
             </div>
@@ -102,7 +102,7 @@
                   <div class="brand-icon">
                     ${
                       brand.logo
-                        ? `<img src="${escapeHTML(brand.logo)}" alt="${escapeHTML(brand.name)}" />`
+                        ? `<img src="${escapeHTML(brand.logo)}" alt="${escapeHTML(brand.name)}" loading="lazy" decoding="async" />`
                         : `<i class="fa-solid fa-tags"></i>`
                     }
                   </div>

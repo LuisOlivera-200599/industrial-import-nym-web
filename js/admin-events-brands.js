@@ -57,7 +57,14 @@ brandsList.addEventListener("click", async (event) => {
   if (deleteButton) {
     const brand = brands.find((item) => item.id === deleteButton.dataset.brandDelete);
 
-    if (!confirm(`¿Seguro que deseas eliminar "${brand?.name || "esta marca"}"?`)) return;
+    const shouldDelete = await showAdminDialog({
+      title: "Eliminar marca",
+      message: `¿Seguro que deseas eliminar "${brand?.name || "esta marca"}"?`,
+      confirmText: "Eliminar",
+      danger: true
+    });
+
+    if (!shouldDelete) return;
 
     try {
       await deleteBrand(deleteButton.dataset.brandDelete);

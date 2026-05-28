@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Detalle de producto de Industrial Import NYM para consulta y cotización." />
+  <meta name="robots" content="noindex, follow" />
+  <title>Detalle de producto | Industrial Import NYM</title>
+  <link rel="icon" href="imagenes/banners/banner-1.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .detail-section {
+      padding: 64px 0 80px;
+      background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+    }
+
+    .detail-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 34px;
+      align-items: start;
+    }
+
+    .detail-media,
+    .detail-info {
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: #ffffff;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .detail-media {
+      overflow: hidden;
+    }
+
+    .detail-media img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #f8fafc;
+    }
+
+    .detail-info {
+      padding: 30px;
+    }
+
+    .detail-info h2 {
+      margin: 10px 0 14px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0;
+    }
+
+    .detail-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 860px) {
+      .detail-shell {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container nav">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">NYM</div>
+        <div class="logo-text">
+          <h1>Industrial Import NYM</h1>
+          <p>Catálogo industrial</p>
+        </div>
+      </a>
+
+      <nav class="nav-menu" id="nav-menu">
+        <a href="index.html">Inicio</a>
+        <a href="productos.html" class="active">Productos</a>
+        <a href="marcas.html">Marcas</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="detail-section">
+    <div class="container">
+      <a href="productos.html" class="section-badge"><i class="fa-solid fa-arrow-left"></i>&nbsp; Volver al catálogo</a>
+      <div class="detail-shell" id="product-detail">
+        <div class="detail-media">
+          <img src="imagenes/optimized/productos/productos-1.webp" alt="Producto" />
+        </div>
+        <div class="detail-info">
+          <span class="product-brand">Cargando...</span>
+          <h2>Producto</h2>
+          <p>Estamos cargando la información del producto.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/site-utils.js"></script>
+  <script src="js/product-detail.js"></script>
+</body>
+</html>

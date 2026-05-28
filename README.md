@@ -18,6 +18,23 @@ Sitio web corporativo y catalogo administrable de Industrial Import NYM.
 - `js/admin-taxonomy*.js`: categorias y subcategorias.
 - `js/admin-company.js`: datos de empresa.
 - `js/admin-events-*.js`, `js/admin-session.js`, `js/admin-init.js`: eventos, sesion y arranque del panel.
+- `robots.txt`, `sitemap.xml`, `404.html`: SEO tecnico y pagina de error.
+- `producto.html`, `js/product-detail.js`: detalle individual de producto.
+- `package.json`, `scripts/`: validacion y optimizacion reproducible de assets.
+
+## Rendimiento
+
+- El video principal del home usa `preload="none"` y solo se ofrece como fuente en pantallas mayores a 640px.
+- En movil se muestra imagen fallback para evitar descargar el video hero.
+- Las imagenes dinamicas del catalogo y marcas usan `loading="lazy"` y `decoding="async"`.
+- Ejecuta `npm run optimize:assets` para regenerar WebP y el video optimizado.
+
+## Validacion local
+
+```bash
+npm install
+npm run check
+```
 
 ## Admin: imagenes
 

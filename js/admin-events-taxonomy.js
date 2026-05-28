@@ -50,7 +50,14 @@ categoriesList.addEventListener("click", async (event) => {
   if (deleteButton) {
     const category = categories.find((item) => item.id === deleteButton.dataset.categoryDelete);
 
-    if (!confirm(`¿Seguro que deseas eliminar "${category?.name || "esta categoría"}"?`)) return;
+    const shouldDelete = await showAdminDialog({
+      title: "Eliminar categoría",
+      message: `¿Seguro que deseas eliminar "${category?.name || "esta categoría"}"?`,
+      confirmText: "Eliminar",
+      danger: true
+    });
+
+    if (!shouldDelete) return;
 
     try {
       await deleteCategory(deleteButton.dataset.categoryDelete);
@@ -118,7 +125,14 @@ subcategoriesList.addEventListener("click", async (event) => {
   if (deleteButton) {
     const subcategory = subcategories.find((item) => item.id === deleteButton.dataset.subcategoryDelete);
 
-    if (!confirm(`¿Seguro que deseas eliminar "${subcategory?.name || "esta subcategoría"}"?`)) return;
+    const shouldDelete = await showAdminDialog({
+      title: "Eliminar subcategoría",
+      message: `¿Seguro que deseas eliminar "${subcategory?.name || "esta subcategoría"}"?`,
+      confirmText: "Eliminar",
+      danger: true
+    });
+
+    if (!shouldDelete) return;
 
     try {
       await deleteSubcategory(deleteButton.dataset.subcategoryDelete);

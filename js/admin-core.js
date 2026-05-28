@@ -1,4 +1,4 @@
-const DEFAULT_IMAGE = "imagenes/productos/productos-1.png";
+const DEFAULT_IMAGE = "imagenes/optimized/productos/productos-1.webp";
 const PRODUCT_IMAGES_BUCKET = "product-images";
 const BRAND_LOGOS_BUCKET = "brand-logos";
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -24,6 +24,7 @@ const stockList = document.getElementById("stock-list");
 const brandsList = document.getElementById("brands-list");
 const categoriesList = document.getElementById("categories-list");
 const subcategoriesList = document.getElementById("subcategories-list");
+const leadsList = document.getElementById("leads-list");
 
 const search = document.getElementById("admin-search");
 const brandFilter = document.getElementById("brand-filter");
@@ -35,6 +36,11 @@ const formTitle = document.getElementById("form-title");
 const saveBtn = document.getElementById("save-btn");
 const resetBtn = document.getElementById("reset-btn");
 const logoutBtn = document.getElementById("logout-btn");
+const adminModal = document.getElementById("admin-modal");
+const adminModalTitle = document.getElementById("admin-modal-title");
+const adminModalMessage = document.getElementById("admin-modal-message");
+const adminModalCancel = document.getElementById("admin-modal-cancel");
+const adminModalConfirm = document.getElementById("admin-modal-confirm");
 
 const imagePreview = document.getElementById("image-preview");
 const productFileInput = document.getElementById("product-file");
@@ -152,6 +158,10 @@ const companyPreview = {
     title: "Datos de empresa",
     description: "Edita teléfono, correo, dirección, horarios y enlaces principales de la empresa."
   },
+  leads: {
+    title: "Leads de contacto",
+    description: "Revisa las consultas enviadas desde la web."
+  },
   help: {
     title: "Ayuda y estado",
     description: "Resumen de conexión, base de datos y Storage."
@@ -211,6 +221,63 @@ function validateImageFile(file, maxSize, label = "imagen") {
   }
 
   return null;
+}
+
+function showAdminDialog({
+  title = "Confirmar acción",
+  message = "",
+  confirmText = "Aceptar",
+  cancelText = "Cancelar",
+  showCancel = true,
+  danger = false
+} = {}) {
+  return new Promise((resolve) => {
+    adminModalTitle.textContent = title;
+    adminModalMessage.textContent = message;
+    adminModalConfirm.textContent = confirmText;
+    adminModalCancel.textContent = cancelText;
+    adminModalCancel.style.display = showCancel ? "" : "none";
+    adminModalConfirm.className = danger
+      ? "admin-btn admin-btn-danger"
+      : "admin-btn admin-btn-primary";
+
+    const close = (value) => {
+      adminModal.classList.remove("show");
+      adminModal.setAttribute("aria-hidden", "true");
+      adminModalConfirm.removeEventListener("click", onConfirm);
+      adminModalCancel.removeEventListener("click", onCancel);
+      adminModal.removeEventListener("click", onBackdrop);
+      document.removeEventListener("keydown", onKeydown);
+      resolve(value);
+    };
+
+    const onConfirm = () => close(true);
+    const onCancel = () => close(false);
+    const onBackdrop = (event) => {
+      if (event.target === adminModal) close(false);
+    };
+    const onKeydown = (event) => {
+      if (event.key === "Escape") close(false);
+    };
+
+    adminModalConfirm.addEventListener("click", onConfirm);
+    adminModalCancel.addEventListener("click", onCancel);
+    adminModal.addEventListener("click", onBackdrop);
+    document.addEventListener("keydown", onKeydown);
+
+    adminModal.classList.add("show");
+    adminModal.setAttribute("aria-hidden", "false");
+    adminModalConfirm.focus();
+  });
+}
+
+function showAdminAlert(title, message) {
+  return showAdminDialog({
+    title,
+    message,
+    confirmText: "Entendido",
+    showCancel: false
+  });
 }
 
 function openSection(sectionName) {

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="canonical" href="https://industrialimportnym.com/" />
 
   <title>Industrial Import NYM | Componentes electrónicos y soluciones industriales</title>
 
@@ -566,17 +567,21 @@
           muted
           loop
           playsinline
-          preload="metadata"
-          poster="imagenes/banners/banner-1.png"
+          preload="none"
+          poster="imagenes/optimized/banners/banner-1.webp"
         >
-          <source src="videos/hero-electronica.mp4" type="video/mp4" />
+          <source src="videos/hero-electronica-optimized.mp4" type="video/mp4" media="(min-width: 641px)" />
           Tu navegador no soporta video HTML5.
         </video>
 
         <img
-          src="imagenes/banners/banner-1.png"
+          src="imagenes/optimized/banners/banner-1.webp"
           alt="Banner principal de componentes electrónicos"
           class="hero-mobile-image"
+          width="2048"
+          height="2048"
+          fetchpriority="high"
+          decoding="async"
         />
       </div>
     </div>
@@ -625,9 +630,12 @@
 
       <div class="showcase-visual">
         <img
-          src="imagenes/general/general-1.png"
+          src="imagenes/optimized/general/general-1.webp"
           alt="Visual de propuesta comercial y tecnológica"
           loading="lazy"
+          decoding="async"
+          width="2048"
+          height="1362"
         />
       </div>
     </div>
@@ -722,15 +730,15 @@
 
       <div class="brands-grid enhanced">
         <div class="brand-box">
-          <img src="imagenes/marcas/marcas-1.png" alt="Logo de marca industrial distribuida por NYM" loading="lazy" />
+          <img src="imagenes/optimized/marcas/marcas-1.webp" alt="Logo de marca industrial distribuida por NYM" loading="lazy" decoding="async" />
         </div>
 
         <div class="brand-box">
-          <img src="imagenes/marcas/marcas-2.png" alt="Logo de marca electrónica distribuida por NYM" loading="lazy" />
+          <img src="imagenes/optimized/marcas/marcas-2.webp" alt="Logo de marca electrónica distribuida por NYM" loading="lazy" decoding="async" />
         </div>
 
         <div class="brand-box">
-          <img src="imagenes/marcas/marcas-3.png" alt="Logo de proveedor industrial de Industrial Import NYM" loading="lazy" />
+          <img src="imagenes/optimized/marcas/marcas-3.webp" alt="Logo de proveedor industrial de Industrial Import NYM" loading="lazy" decoding="async" />
         </div>
 
         <div class="brand-box">CHINT</div>
@@ -926,7 +934,7 @@
           const name = row.name || "Producto";
           const desc = row.description || "Producto disponible para consulta comercial.";
           const stock = row.stock_status || "Disponible";
-          const img = row.image_url || "imagenes/productos/productos-1.png";
+          const img = row.image_url || "imagenes/optimized/productos/productos-1.webp";
           const waMessage = `Hola, quiero consultar por: ${name} - Marca: ${brand}`;
           const waUrl = window.nymSite?.buildWhatsappUrl
             ? window.nymSite.buildWhatsappUrl(waMessage)
@@ -952,15 +960,15 @@
         // Fallback a productos estáticos si Supabase falla
         grid.innerHTML = `
           <article class="product-card">
-            <div class="product-image real-image"><img src="imagenes/productos/productos-1.png" alt="Controlador industrial ABB" loading="lazy" /></div>
+            <div class="product-image real-image"><img src="imagenes/optimized/productos/productos-1.webp" alt="Controlador industrial ABB" loading="lazy" decoding="async" /></div>
             <div class="product-body"><span class="product-brand">ABB</span><h3>Controlador industrial</h3><p>Solución para procesos de control y automatización.</p><div class="product-footer"><span class="stock available">Disponible</span><a href="contacto.html" class="product-link">Consultar</a></div></div>
           </article>
           <article class="product-card">
-            <div class="product-image real-image"><img src="imagenes/productos/productos-2.png" alt="Componente modular Schneider Electric" loading="lazy" /></div>
+            <div class="product-image real-image"><img src="imagenes/optimized/productos/productos-2.webp" alt="Componente modular Schneider Electric" loading="lazy" decoding="async" /></div>
             <div class="product-body"><span class="product-brand">Schneider Electric</span><h3>Componente modular</h3><p>Producto con enfoque en instalación ordenada.</p><div class="product-footer"><span class="stock preorder">Bajo pedido</span><a href="contacto.html" class="product-link">Consultar</a></div></div>
           </article>
           <article class="product-card">
-            <div class="product-image real-image"><img src="imagenes/productos/productos-3.png" alt="Interruptor automático CHINT" loading="lazy" /></div>
+            <div class="product-image real-image"><img src="imagenes/optimized/productos/productos-3.webp" alt="Interruptor automático CHINT" loading="lazy" decoding="async" /></div>
             <div class="product-body"><span class="product-brand">CHINT</span><h3>Interruptor automático</h3><p>Equipo de protección y control para líneas técnicas.</p><div class="product-footer"><span class="stock unavailable">Sin stock</span><a href="contacto.html" class="product-link">Consultar</a></div></div>
           </article>`;
       }

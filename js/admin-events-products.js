@@ -140,7 +140,14 @@ list.addEventListener("click", async (event) => {
   if (deleteButton) {
     const product = products.find((item) => item.id === deleteButton.dataset.delete);
 
-    if (!confirm(`¿Seguro que deseas eliminar "${product?.name || "este producto"}"? Esta acción no se puede deshacer.`)) return;
+    const shouldDelete = await showAdminDialog({
+      title: "Eliminar producto",
+      message: `¿Seguro que deseas eliminar "${product?.name || "este producto"}"? Esta acción no se puede deshacer.`,
+      confirmText: "Eliminar",
+      danger: true
+    });
+
+    if (!shouldDelete) return;
 
     try {
       await deleteProduct(deleteButton.dataset.delete);

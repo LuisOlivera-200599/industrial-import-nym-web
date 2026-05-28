@@ -15,8 +15,9 @@ logoutBtn.addEventListener("click", async () => {
     await loadSubcategories();
     await loadProducts();
     await loadCompanySettings();
+    await loadContactLeads();
   } catch (error) {
     console.error(error);
-    alert("No se pudo cargar el admin: " + (error.message || error));
+    await showAdminAlert("No se pudo cargar el admin", error.message || String(error));
   }
 })();

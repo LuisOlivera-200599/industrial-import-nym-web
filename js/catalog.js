@@ -8,11 +8,17 @@
       const resultSummary = document.getElementById("result-summary");
       const activeFilters = document.getElementById("active-filters");
       const emptyState = document.getElementById("empty-state");
+      const quotePanel = document.getElementById("quote-panel");
+      const quoteCount = document.getElementById("quote-count");
+      const quoteSend = document.getElementById("quote-send");
+      const quoteClear = document.getElementById("quote-clear");
 
       const PRODUCTS_PER_PAGE = 9;
+      const QUOTE_STORAGE_KEY = "nymQuoteProducts";
 
       let products = [];
       let filteredProducts = [];
+      let quoteProducts = [];
       let currentPage = 1;
       let currentCategory = "all";
       let currentSubcategory = "all";
@@ -53,6 +59,58 @@
           : `https://wa.me/51966441035?text=${encodeURIComponent(message)}`;
       }
 
+      function loadQuoteProducts() {
+        try {
+          quoteProducts = JSON.parse(localStorage.getItem(QUOTE_STORAGE_KEY)) || [];
+        } catch {
+          quoteProducts = [];
+        }
+      }
+
+      function saveQuoteProducts() {
+        localStorage.setItem(QUOTE_STORAGE_KEY, JSON.stringify(quoteProducts));
+      }
+
+      function buildQuoteMessage() {
+        const lines = quoteProducts.map((product, index) =>
+          `${index + 1}. ${product.name} - Marca: ${product.brand} - Categoría: ${product.category}`
+        );
+
+        return ["Hola, quiero cotizar estos productos:", "", ...lines].join("\n");
+      }
+
+      function updateQuotePanel() {
+        if (!quotePanel || !quoteCount || !quoteSend) return;
+
+        const total = quoteProducts.length;
+        quotePanel.classList.toggle("show", total > 0);
+        quoteCount.textContent = total === 1
+          ? "1 producto seleccionado"
+          : `${total} productos seleccionados`;
+        quoteSend.href = window.nymSite?.buildWhatsappUrl
+          ? window.nymSite.buildWhatsappUrl(buildQuoteMessage())
+          : `https://wa.me/51966441035?text=${encodeURIComponent(buildQuoteMessage())}`;
+
+        document.querySelectorAll("[data-quote-add]").forEach((button) => {
+          const exists = quoteProducts.some((item) => item.id === button.dataset.quoteAdd);
+          button.textContent = exists ? "Agregado" : "Agregar a cotización";
+          button.disabled = exists;
+        });
+      }
+
+      function addProductToQuote(product) {
+        if (quoteProducts.some((item) => item.id === product.id)) return;
+
+        quoteProducts.push({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          category: product.category
+        });
+        saveQuoteProducts();
+        updateQuotePanel();
+      }
+
       function normalizeProduct(row) {
         const brandName = row.brands?.name || row.brand || "Marca no definida";
         const categoryName = row.categories?.name || row.category || "Categoría no definida";
@@ -73,7 +131,7 @@
           subcategory: subcategoryName,
           brandLogo: row.brands?.logo_url || "",
           categoryIcon: row.categories?.icon || "",
-          image: row.image_url || "imagenes/productos/productos-1.png",
+          image: row.image_url || "imagenes/optimized/productos/productos-1.webp",
           stock: row.stock_status || "Disponible",
           desc: row.description || "Producto disponible para consulta comercial."
         };
@@ -90,7 +148,7 @@
 
         article.innerHTML = `
           <div class="product-image">
-            <img src="${escapeHTML(product.image)}" alt="${escapeHTML(product.name)}" />
+            <img src="${escapeHTML(product.image)}" alt="${escapeHTML(product.name)}" loading="lazy" decoding="async" />
           </div>
 
           <div class="product-body">
@@ -117,7 +175,8 @@
             </div>
 
             <div class="product-actions">
-              <a href="contacto.html" class="btn btn-primary btn-sm">Solicitar cotización</a>
+              <a href="producto.html?id=${encodeURIComponent(product.id)}" class="btn btn-primary btn-sm">Ver detalle</a>
+              <button class="btn btn-secondary btn-sm" type="button" data-quote-add="${escapeHTML(product.id)}">Agregar a cotización</button>
               <a
                 href="${escapeHTML(getProductWhatsappUrl(product))}"
                 class="btn btn-whatsapp btn-sm"
@@ -151,7 +210,15 @@
           catalogGrid.appendChild(createProductCard(product));
         });
 
+        catalogGrid.querySelectorAll("[data-quote-add]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const product = products.find((item) => item.id === button.dataset.quoteAdd);
+            if (product) addProductToQuote(product);
+          });
+        });
+
         renderPagination(filteredProducts.length);
+        updateQuotePanel();
 
         // Scroll suave al inicio del catálogo al cambiar página
         catalogGrid.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -431,6 +498,13 @@
           emptyState.classList.add("show");
         }
       }
+
+      loadQuoteProducts();
+      quoteClear?.addEventListener("click", () => {
+        quoteProducts = [];
+        saveQuoteProducts();
+        updateQuotePanel();
+      });
 
       await loadProducts();
     });

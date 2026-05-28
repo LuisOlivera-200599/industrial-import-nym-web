@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
 
   <title>Panel administrador | Industrial Import NYM</title>
 
@@ -761,6 +762,51 @@
       line-height: 1.6;
     }
 
+    .admin-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: rgba(15, 23, 42, 0.42);
+      backdrop-filter: blur(8px);
+    }
+
+    .admin-modal.show {
+      display: flex;
+    }
+
+    .admin-modal-card {
+      width: min(100%, 430px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: #ffffff;
+      box-shadow: 0 28px 80px rgba(15, 23, 42, 0.22);
+      padding: 24px;
+    }
+
+    .admin-modal-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.3rem;
+      letter-spacing: -0.03em;
+    }
+
+    .admin-modal-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .admin-modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
     .admin-help {
       padding: 18px;
       margin-top: 18px;
@@ -1080,6 +1126,11 @@
               <i class="fa-solid fa-building"></i>
             </button>
 
+            <button class="admin-menu-btn" type="button" data-section="leads">
+              <span>Leads</span>
+              <i class="fa-solid fa-inbox"></i>
+            </button>
+
             <button class="admin-menu-btn" type="button" data-section="help">
               <span>Ayuda</span>
               <i class="fa-solid fa-circle-info"></i>
@@ -1181,7 +1232,7 @@
 
                       <div class="image-helper">
                         <img
-                          src="imagenes/productos/productos-1.png"
+                          src="imagenes/optimized/productos/productos-1.webp"
                           alt="Vista previa"
                           class="image-preview"
                           id="image-preview"
@@ -1590,6 +1641,14 @@
               </div>
             </section>
 
+            <section class="admin-section" id="section-leads">
+              <div class="inner-card">
+                <h4>Consultas recibidas</h4>
+                <p>Revisa los mensajes enviados desde el formulario de contacto.</p>
+                <div class="products-list" id="leads-list"></div>
+              </div>
+            </section>
+
             <section class="admin-section" id="section-help">
               <div class="inner-card">
                 <h4>Estado de conexión</h4>
@@ -1610,6 +1669,17 @@
     </div>
   </main>
 
+  <div class="admin-modal" id="admin-modal" aria-hidden="true">
+    <div class="admin-modal-card" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
+      <h3 id="admin-modal-title">Confirmar acción</h3>
+      <p id="admin-modal-message"></p>
+      <div class="admin-modal-actions">
+        <button class="admin-btn admin-btn-light" type="button" id="admin-modal-cancel">Cancelar</button>
+        <button class="admin-btn admin-btn-primary" type="button" id="admin-modal-confirm">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js"></script>
 
@@ -1627,6 +1697,7 @@
   <script src="js/admin-brands-delete.js"></script>
   <script src="js/admin-taxonomy-delete.js"></script>
   <script src="js/admin-company.js"></script>
+  <script src="js/admin-leads.js"></script>
   <script src="js/admin-session.js"></script>
   <script src="js/admin-events-core.js"></script>
   <script src="js/admin-events-products.js"></script>

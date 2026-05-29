@@ -14,6 +14,8 @@ let currentUser = null;
 let selectedProductFile = null;
 let selectedBrandFile = null;
 let adminProductPage = 1;
+let adminProductPageSize = 25;
+let adminProductSort = "created_desc";
 
 const ADMIN_PRODUCTS_PER_PAGE = 25;
 
@@ -39,6 +41,8 @@ const brandFilter = document.getElementById("brand-filter");
 const categoryFilter = document.getElementById("category-filter");
 const subcategoryFilter = document.getElementById("subcategory-filter");
 const stockFilter = document.getElementById("stock-filter");
+const productPageSize = document.getElementById("product-page-size");
+const productSort = document.getElementById("product-sort");
 const notice = document.getElementById("notice");
 const formTitle = document.getElementById("form-title");
 const saveBtn = document.getElementById("save-btn");
@@ -70,6 +74,8 @@ const fields = {
   subcategory: document.getElementById("product-subcategory"),
   image: document.getElementById("product-image"),
   stock: document.getElementById("product-stock"),
+  stockQuantity: document.getElementById("product-stock-quantity"),
+  lowStock: document.getElementById("product-low-stock"),
   desc: document.getElementById("product-description"),
 };
 
@@ -177,12 +183,34 @@ const sectionInfo = {
 };
 
 function escapeHTML(text) {
-  return String(text || "")
+  return cleanText(text)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function cleanText(text) {
+  return String(text || "")
+    .replace(/Ã¡/g, "á")
+    .replace(/Ã©/g, "é")
+    .replace(/Ã­/g, "í")
+    .replace(/Ã³/g, "ó")
+    .replace(/Ãº/g, "ú")
+    .replace(/Ã±/g, "ñ")
+    .replace(/Ã/g, "Á")
+    .replace(/Ã‰/g, "É")
+    .replace(/Ã/g, "Í")
+    .replace(/Ã“/g, "Ó")
+    .replace(/Ãš/g, "Ú")
+    .replace(/Ã‘/g, "Ñ")
+    .replace(/Â¿/g, "¿")
+    .replace(/Â¡/g, "¡")
+    .replace(/Â°/g, "°")
+    .replace(/Â/g, "")
+    .replace(/â€¦/g, "...")
+    .replace(/â†’/g, "->");
 }
 
 function showNotice(element, text, type = "success") {

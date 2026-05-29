@@ -20,6 +20,8 @@ let currentUser = null;
 let selectedProductFile = null;
 let selectedBrandFile = null;
 let adminProductPage = 1;
+let adminProductPageSize = 25;
+let adminProductSort = "created_desc";
 
 const ADMIN_PRODUCTS_PER_PAGE = 25;
 
@@ -45,6 +47,8 @@ const brandFilter = document.getElementById("brand-filter");
 const categoryFilter = document.getElementById("category-filter");
 const subcategoryFilter = document.getElementById("subcategory-filter");
 const stockFilter = document.getElementById("stock-filter");
+const productPageSize = document.getElementById("product-page-size");
+const productSort = document.getElementById("product-sort");
 const notice = document.getElementById("notice");
 const formTitle = document.getElementById("form-title");
 const saveBtn = document.getElementById("save-btn");
@@ -76,6 +80,8 @@ const fields = {
   subcategory: document.getElementById("product-subcategory"),
   image: document.getElementById("product-image"),
   stock: document.getElementById("product-stock"),
+  stockQuantity: document.getElementById("product-stock-quantity"),
+  lowStock: document.getElementById("product-low-stock"),
   desc: document.getElementById("product-description"),
 };
 
@@ -183,12 +189,34 @@ const sectionInfo = {
 };
 
 function escapeHTML(text) {
-  return String(text || "")
+  return cleanText(text)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function cleanText(text) {
+  return String(text || "")
+    .replace(/Ã¡/g, "á")
+    .replace(/Ã©/g, "é")
+    .replace(/Ã­/g, "í")
+    .replace(/Ã³/g, "ó")
+    .replace(/Ãº/g, "ú")
+    .replace(/Ã±/g, "ñ")
+    .replace(/Ã/g, "Á")
+    .replace(/Ã‰/g, "É")
+    .replace(/Ã/g, "Í")
+    .replace(/Ã“/g, "Ó")
+    .replace(/Ãš/g, "Ú")
+    .replace(/Ã‘/g, "Ñ")
+    .replace(/Â¿/g, "¿")
+    .replace(/Â¡/g, "¡")
+    .replace(/Â°/g, "°")
+    .replace(/Â/g, "")
+    .replace(/â€¦/g, "...")
+    .replace(/â†’/g, "->");
 }
 
 function showNotice(element, text, type = "success") {
@@ -334,8 +362,17 @@ function renderAdminTag({ icon, label, className = "" }) {
   `;
 }
 
+function getNumberOrNull(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
 function renderAdminProductTableRow(product) {
   const image = product.image_url || DEFAULT_IMAGE;
+  const quantity = getNumberOrNull(product.stock_quantity);
+  const lowStock = getNumberOrNull(product.low_stock_threshold) || 0;
+  const quantityLabel = quantity === null ? "Sin cantidad" : `${quantity} und.`;
+  const isLowStock = quantity !== null && quantity > 0 && lowStock > 0 && quantity <= lowStock;
 
   return `
     <tr>
@@ -344,7 +381,7 @@ function renderAdminProductTableRow(product) {
           <img src="${escapeHTML(image)}" alt="${escapeHTML(product.name)}" />
           <div>
             <strong>${escapeHTML(product.name || "Producto sin nombre")}</strong>
-            <small>${escapeHTML(product.description || "Sin descripción registrada.")}</small>
+            <small>${escapeHTML(product.description || "Sin descripcion registrada.")}</small>
           </div>
         </div>
       </td>
@@ -355,16 +392,22 @@ function renderAdminProductTableRow(product) {
 
       <td>
         <div class="table-meta">
-          ${renderAdminTag({ icon: "fa-layer-group", label: product.category || "Sin categoría" })}
+          ${renderAdminTag({ icon: "fa-layer-group", label: product.category || "Sin categoria" })}
           ${product.subcategory ? `<span class="table-muted"><i class="fa-solid fa-sitemap"></i> ${escapeHTML(product.subcategory)}</span>` : ""}
         </div>
       </td>
 
       <td>
-        ${renderAdminTag({
-          label: product.stock_status || "Disponible",
-          className: `stock-tag ${getStockClass(product.stock_status)}`,
-        })}
+        <div class="table-meta">
+          ${renderAdminTag({
+            label: product.stock_status || "Disponible",
+            className: `stock-tag ${getStockClass(product.stock_status)}`,
+          })}
+          <span class="table-muted ${isLowStock ? "low-stock-warning" : ""}">
+            <i class="fa-solid fa-boxes-stacked"></i> ${escapeHTML(quantityLabel)}
+          </span>
+          ${isLowStock ? `<span class="table-muted low-stock-warning"><i class="fa-solid fa-triangle-exclamation"></i> Bajo stock</span>` : ""}
+        </div>
       </td>
 
       <td>
@@ -382,16 +425,28 @@ function renderAdminProductTableRow(product) {
   `;
 }
 
+function renderSortButton(field, label) {
+  const direction = adminProductSort === `${field}_asc` ? "desc" : "asc";
+  const active = adminProductSort.startsWith(`${field}_`);
+  const icon = active && adminProductSort.endsWith("_asc") ? "fa-arrow-up-a-z" : "fa-arrow-down-z-a";
+
+  return `
+    <button class="sort-btn ${active ? "active" : ""}" type="button" data-product-sort="${escapeHTML(field)}_${direction}">
+      ${escapeHTML(label)} <i class="fa-solid ${escapeHTML(icon)}"></i>
+    </button>
+  `;
+}
+
 function renderAdminProductTable(productsToRender) {
   return `
     <div class="admin-table-wrap">
       <table class="admin-table">
         <thead>
           <tr>
-            <th>Producto</th>
-            <th>Marca</th>
-            <th>Categoría</th>
-            <th>Stock</th>
+            <th>${renderSortButton("name", "Producto")}</th>
+            <th>${renderSortButton("brand", "Marca")}</th>
+            <th>${renderSortButton("category", "Categoria")}</th>
+            <th>${renderSortButton("stock", "Stock")}</th>
             <th style="text-align:right;">Acciones</th>
           </tr>
         </thead>
@@ -404,7 +459,7 @@ function renderAdminProductTable(productsToRender) {
 }
 
 function renderAdminProductPagination({ totalProducts, start, shownProducts, totalPages }) {
-  if (totalProducts <= ADMIN_PRODUCTS_PER_PAGE) return "";
+  if (totalProducts === 0) return "";
 
   const from = start + 1;
   const to = start + shownProducts;
@@ -413,10 +468,18 @@ function renderAdminProductPagination({ totalProducts, start, shownProducts, tot
     <div class="admin-pagination">
       <span>Mostrando ${from}-${to} de ${totalProducts} productos</span>
       <div class="admin-pagination-actions">
+        <label class="pagination-control">
+          Ver
+          <select data-product-page-size>
+            <option value="25" ${adminProductPageSize === 25 ? "selected" : ""}>25</option>
+            <option value="50" ${adminProductPageSize === 50 ? "selected" : ""}>50</option>
+            <option value="100" ${adminProductPageSize === 100 ? "selected" : ""}>100</option>
+          </select>
+        </label>
         <button class="pagination-btn" type="button" data-product-page="prev" ${adminProductPage === 1 ? "disabled" : ""}>
           <i class="fa-solid fa-angle-left"></i> Anterior
         </button>
-        <span>Página ${adminProductPage} de ${totalPages}</span>
+        <span>Pagina ${adminProductPage} de ${totalPages}</span>
         <button class="pagination-btn" type="button" data-product-page="next" ${adminProductPage === totalPages ? "disabled" : ""}>
           Siguiente <i class="fa-solid fa-angle-right"></i>
         </button>
@@ -535,6 +598,8 @@ function resetForm() {
   form.reset();
   fields.id.value = "";
   fields.image.value = "";
+  fields.stockQuantity.value = "";
+  fields.lowStock.value = "";
   selectedProductFile = null;
   productFileInput.value = "";
   imagePreview.src = DEFAULT_IMAGE;
@@ -783,28 +848,51 @@ function renderProducts() {
     );
   });
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / ADMIN_PRODUCTS_PER_PAGE));
+  const sorted = [...filtered].sort(sortAdminProducts);
+  const totalPages = Math.max(1, Math.ceil(sorted.length / adminProductPageSize));
 
   if (adminProductPage > totalPages) {
     adminProductPage = totalPages;
   }
 
-  const start = (adminProductPage - 1) * ADMIN_PRODUCTS_PER_PAGE;
-  const pageProducts = filtered.slice(start, start + ADMIN_PRODUCTS_PER_PAGE);
+  const start = (adminProductPage - 1) * adminProductPageSize;
+  const pageProducts = sorted.slice(start, start + adminProductPageSize);
 
-  list.innerHTML = filtered.length
+  list.innerHTML = sorted.length
     ? renderAdminProductTable(pageProducts)
     : renderAdminEmptyState({
         title: "No hay productos para mostrar",
         message: "Agrega un producto o cambia los filtros.",
       });
 
-  renderProductPagination(filtered.length, start, pageProducts.length, totalPages);
+  renderProductPagination(sorted.length, start, pageProducts.length, totalPages);
   renderStockList();
   renderBrandsList();
   renderCategoriesList();
   renderSubcategoriesList();
   updateStats();
+}
+
+function sortAdminProducts(a, b) {
+  const [field, direction] = adminProductSort.split("_");
+  const multiplier = direction === "desc" ? -1 : 1;
+
+  if (field === "stock") {
+    const stockA = Number.isFinite(Number(a.stock_quantity)) ? Number(a.stock_quantity) : Number.MAX_SAFE_INTEGER;
+    const stockB = Number.isFinite(Number(b.stock_quantity)) ? Number(b.stock_quantity) : Number.MAX_SAFE_INTEGER;
+    if (stockA !== stockB) return (stockA - stockB) * multiplier;
+    return String(a.stock_status || "").localeCompare(String(b.stock_status || "")) * multiplier;
+  }
+
+  if (field === "created") {
+    const dateA = new Date(a.created_at || 0).getTime();
+    const dateB = new Date(b.created_at || 0).getTime();
+    return (dateA - dateB) * multiplier;
+  }
+
+  const valueA = String(a[field] || "").toLowerCase();
+  const valueB = String(b[field] || "").toLowerCase();
+  return valueA.localeCompare(valueB) * multiplier;
 }
 
 function renderProductPagination(totalProducts, start, shownProducts, totalPages) {
@@ -818,7 +906,7 @@ function resetAdminProductPage() {
 }
 
 function renderStockList() {
-  const activeProducts = products.filter((product) => product.is_active !== false);
+  const activeProducts = products.filter((product) => product.is_active !== false).sort(sortAdminProducts);
 
   stockList.innerHTML = activeProducts.length
     ? activeProducts
@@ -834,8 +922,17 @@ function renderStockList() {
             </small>
           </span>
 
-          <span class="admin-tag stock-tag ${getStockClass(product.stock_status)}">
-            ${escapeHTML(product.stock_status || "Disponible")}
+          <span class="table-meta">
+            <span class="admin-tag stock-tag ${getStockClass(product.stock_status)}">
+              ${escapeHTML(product.stock_status || "Disponible")}
+            </span>
+            <small>
+              ${
+                Number.isFinite(Number(product.stock_quantity))
+                  ? `${Number(product.stock_quantity)} unidades`
+                  : "Sin cantidad"
+              }
+            </small>
           </span>
         </div>
       `,
@@ -915,14 +1012,38 @@ async function loadProducts() {
 }
 
 async function saveProduct(payload, id) {
+  const legacyPayload = { ...payload };
+  delete legacyPayload.stock_quantity;
+  delete legacyPayload.low_stock_threshold;
+
   if (id) {
-    const { error } = await window.nymSupabase.from("products").update(payload).eq("id", id);
+    let { error } = await window.nymSupabase.from("products").update(payload).eq("id", id);
+
+    if (error && /stock_quantity|low_stock_threshold|column/i.test(error.message || "")) {
+      const retry = await window.nymSupabase.from("products").update(legacyPayload).eq("id", id);
+      error = retry.error;
+
+      if (!error) {
+        showNotice(notice, "Producto actualizado. Para guardar cantidades, aplica la migracion de stock.", "warning");
+        return;
+      }
+    }
 
     if (error) throw error;
 
     showNotice(notice, "Producto actualizado correctamente.");
   } else {
-    const { error } = await window.nymSupabase.from("products").insert([payload]);
+    let { error } = await window.nymSupabase.from("products").insert([payload]);
+
+    if (error && /stock_quantity|low_stock_threshold|column/i.test(error.message || "")) {
+      const retry = await window.nymSupabase.from("products").insert([legacyPayload]);
+      error = retry.error;
+
+      if (!error) {
+        showNotice(notice, "Producto agregado. Para guardar cantidades, aplica la migracion de stock.", "warning");
+        return;
+      }
+    }
 
     if (error) throw error;
 
@@ -1191,12 +1312,17 @@ function renderLeads() {
                 ${escapeHTML(lead.tipo || "Consulta")} - ${escapeHTML(lead.categoria || "Sin categoria")}
               </small>
               <small class="lead-message">${escapeHTML(lead.mensaje || "Sin mensaje")}</small>
+              <label class="lead-notes">
+                <small>Notas internas</small>
+                <textarea data-lead-notes="${escapeHTML(lead.id)}" placeholder="Ej: llamar por la tarde, pidio ABB...">${escapeHTML(lead.admin_notes || "")}</textarea>
+              </label>
               <small>${escapeHTML(formatLeadDate(lead.created_at))}</small>
             </span>
 
             <span class="lead-actions">
               <span class="admin-tag stock-tag ${getLeadStatusClass(status)}">${escapeHTML(leadStatusLabels[status] || status)}</span>
               ${whatsappUrl ? `<a class="admin-btn admin-btn-light" href="${escapeHTML(whatsappUrl)}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ""}
+              <button class="admin-btn admin-btn-light" type="button" data-lead-save-notes="${escapeHTML(lead.id)}">Guardar nota</button>
               ${status !== "atendido" ? `<button class="admin-btn admin-btn-primary" type="button" data-lead-status="atendido" data-lead-id="${escapeHTML(lead.id)}">Atendido</button>` : ""}
               ${status !== "descartado" ? `<button class="admin-btn admin-btn-light" type="button" data-lead-status="descartado" data-lead-id="${escapeHTML(lead.id)}">Archivar</button>` : ""}
               ${status !== "nuevo" ? `<button class="admin-btn admin-btn-light" type="button" data-lead-status="nuevo" data-lead-id="${escapeHTML(lead.id)}">Reabrir</button>` : ""}
@@ -1218,6 +1344,13 @@ function renderLeads() {
       saveLeadStatus(button.dataset.leadId, button.dataset.leadStatus);
     });
   });
+
+  leadsList.querySelectorAll("[data-lead-save-notes]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const textarea = leadsList.querySelector(`[data-lead-notes="${CSS.escape(button.dataset.leadSaveNotes)}"]`);
+      saveLeadNotes(button.dataset.leadSaveNotes, textarea?.value || "");
+    });
+  });
 }
 
 async function saveLeadStatus(leadId, status) {
@@ -1237,6 +1370,34 @@ async function saveLeadStatus(leadId, status) {
   } catch (error) {
     console.error(error);
     if (leadsNotice) showNotice(leadsNotice, error.message || "No se pudo actualizar el lead.", "error");
+  }
+}
+
+async function saveLeadNotes(leadId, notes) {
+  if (!leadId) return;
+
+  try {
+    const { error } = await window.nymSupabase
+      .from("contact_leads")
+      .update({ admin_notes: notes.trim() })
+      .eq("id", leadId);
+
+    if (error) throw error;
+
+    contactLeads = contactLeads.map((lead) =>
+      String(lead.id) === String(leadId) ? { ...lead, admin_notes: notes.trim() } : lead,
+    );
+
+    if (leadsNotice) showNotice(leadsNotice, "Nota guardada correctamente.");
+  } catch (error) {
+    console.error(error);
+    if (leadsNotice) {
+      showNotice(
+        leadsNotice,
+        "No se pudo guardar la nota. Aplica la migracion de leads si falta la columna.",
+        "warning",
+      );
+    }
   }
 }
 
@@ -1381,6 +1542,8 @@ form.addEventListener("submit", async (event) => {
       subcategory: selectedSubcategory?.name || "",
       image_url: finalImageUrl,
       stock_status: fields.stock.value,
+      stock_quantity: fields.stockQuantity.value === "" ? null : Number(fields.stockQuantity.value),
+      low_stock_threshold: fields.lowStock.value === "" ? null : Number(fields.lowStock.value),
       description: fields.desc.value.trim(),
       is_active: true,
     };
@@ -1415,6 +1578,10 @@ list.addEventListener("click", async (event) => {
     fields.name.value = product.name || "";
     fields.image.value = product.image_url || "";
     fields.stock.value = product.stock_status || "Disponible";
+    fields.stockQuantity.value = Number.isFinite(Number(product.stock_quantity)) ? Number(product.stock_quantity) : "";
+    fields.lowStock.value = Number.isFinite(Number(product.low_stock_threshold))
+      ? Number(product.low_stock_threshold)
+      : "";
     fields.desc.value = product.description || "";
     imagePreview.src = product.image_url || DEFAULT_IMAGE;
 
@@ -1462,6 +1629,23 @@ productPagination?.addEventListener("click", (event) => {
   renderProducts();
 
   list.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+productPagination?.addEventListener("change", (event) => {
+  const select = event.target.closest("[data-product-page-size]");
+  if (!select) return;
+
+  adminProductPageSize = Number(select.value) || 25;
+  resetAdminProductPage();
+});
+
+list.addEventListener("click", (event) => {
+  const sortButton = event.target.closest("[data-product-sort]");
+  if (!sortButton) return;
+
+  adminProductSort = sortButton.dataset.productSort;
+  if (productSort) productSort.value = adminProductSort;
+  resetAdminProductPage();
 });
 
 // ---- admin-events-brands.js ----
@@ -1724,6 +1908,10 @@ categoryFilter.addEventListener("change", () => {
 });
 subcategoryFilter.addEventListener("change", resetAdminProductPage);
 stockFilter.addEventListener("change", resetAdminProductPage);
+productSort?.addEventListener("change", () => {
+  adminProductSort = productSort.value;
+  resetAdminProductPage();
+});
 
 resetBtn.addEventListener("click", resetForm);
 brandResetBtn.addEventListener("click", resetBrandForm);

@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function escapeHTML(text) {
-    return String(text || "")
+    return (window.nymSite?.cleanText ? window.nymSite.cleanText(text) : String(text || ""))
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -181,6 +181,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       categoryIcon: row.categories?.icon || "",
       image: row.image_url || "imagenes/optimized/productos/productos-1.webp",
       stock: row.stock_status || "Disponible",
+      stockQuantity: Number.isFinite(Number(row.stock_quantity)) ? Number(row.stock_quantity) : null,
+      lowStock: Number.isFinite(Number(row.low_stock_threshold)) ? Number(row.low_stock_threshold) : null,
       desc: row.description || "Producto disponible para consulta comercial.",
     };
   }
@@ -221,6 +223,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             <div class="product-footer">
               <span class="stock ${getStockClass(product.stock)}">${escapeHTML(product.stock)}</span>
+              ${
+                product.stockQuantity !== null
+                  ? `<span class="product-pill"><i class="fa-solid fa-boxes-stacked"></i>&nbsp; ${escapeHTML(product.stockQuantity)} und.</span>`
+                  : ""
+              }
             </div>
 
             <div class="product-actions">

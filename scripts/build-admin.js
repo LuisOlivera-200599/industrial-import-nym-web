@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const prettier = require("prettier");
 
 const root = path.resolve(__dirname, "..");
 const outFile = path.join(root, "js", "admin-app.js");
@@ -51,5 +52,22 @@ const chunks = adminModules.map((moduleName) => {
   return `\n// ---- ${moduleName}.js ----\n${source}`;
 });
 
-fs.writeFileSync(outFile, `${banner}\n${chunks.join("\n")}\n`, "utf8");
-console.log(`Built ${path.relative(root, outFile)} from ${adminModules.length} modules.`);
+async function main() {
+  const source = `${banner}\n${chunks.join("\n")}\n`;
+  const formatted = await prettier.format(source, {
+    parser: "babel",
+    printWidth: 120,
+    tabWidth: 2,
+    useTabs: false,
+    semi: true,
+    singleQuote: false,
+  });
+
+  fs.writeFileSync(outFile, formatted, "utf8");
+  console.log(`Built ${path.relative(root, outFile)} from ${adminModules.length} modules.`);
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

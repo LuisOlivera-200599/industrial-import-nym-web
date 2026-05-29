@@ -107,6 +107,8 @@ function resetForm() {
   form.reset();
   fields.id.value = "";
   fields.image.value = "";
+  fields.stockQuantity.value = "";
+  fields.lowStock.value = "";
   selectedProductFile = null;
   productFileInput.value = "";
   imagePreview.src = DEFAULT_IMAGE;

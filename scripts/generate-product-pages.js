@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const prettier = require("prettier");
 
 const root = process.cwd();
 const baseUrl = "https://luisolivera-200599.github.io/industrial-import-nym-web";
@@ -26,12 +27,33 @@ function slugify(text) {
 }
 
 function escapeHTML(text) {
-  return String(text || "")
+  return cleanText(text)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function cleanText(text) {
+  return String(text || "")
+    .replace(/Ã¡/g, "á")
+    .replace(/Ã©/g, "é")
+    .replace(/Ã­/g, "í")
+    .replace(/Ã³/g, "ó")
+    .replace(/Ãº/g, "ú")
+    .replace(/Ã±/g, "ñ")
+    .replace(/Ã/g, "Á")
+    .replace(/Ã‰/g, "É")
+    .replace(/Ã/g, "Í")
+    .replace(/Ã“/g, "Ó")
+    .replace(/Ãš/g, "Ú")
+    .replace(/Ã‘/g, "Ñ")
+    .replace(/Â¿/g, "¿")
+    .replace(/Â¡/g, "¡")
+    .replace(/Â/g, "")
+    .replace(/â€¦/g, "...")
+    .replace(/â†’/g, "->");
 }
 
 function getProductUrl(product) {
@@ -189,8 +211,15 @@ async function main() {
   for (const product of products) {
     const slug = `${slugify(product.name || "producto")}--${product.id}`;
     const productDir = path.join(outputDir, slug);
+    const html = await prettier.format(renderProductPage(product), {
+      parser: "html",
+      printWidth: 120,
+      tabWidth: 2,
+      useTabs: false,
+    });
+
     fs.mkdirSync(productDir, { recursive: true });
-    fs.writeFileSync(path.join(productDir, "index.html"), renderProductPage(product), "utf8");
+    fs.writeFileSync(path.join(productDir, "index.html"), html, "utf8");
   }
 
   fs.writeFileSync(path.join(root, "sitemap.xml"), renderSitemap(products), "utf8");

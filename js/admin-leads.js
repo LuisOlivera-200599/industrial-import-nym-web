@@ -78,12 +78,17 @@ function renderLeads() {
                 ${escapeHTML(lead.tipo || "Consulta")} - ${escapeHTML(lead.categoria || "Sin categoria")}
               </small>
               <small class="lead-message">${escapeHTML(lead.mensaje || "Sin mensaje")}</small>
+              <label class="lead-notes">
+                <small>Notas internas</small>
+                <textarea data-lead-notes="${escapeHTML(lead.id)}" placeholder="Ej: llamar por la tarde, pidio ABB...">${escapeHTML(lead.admin_notes || "")}</textarea>
+              </label>
               <small>${escapeHTML(formatLeadDate(lead.created_at))}</small>
             </span>
 
             <span class="lead-actions">
               <span class="admin-tag stock-tag ${getLeadStatusClass(status)}">${escapeHTML(leadStatusLabels[status] || status)}</span>
               ${whatsappUrl ? `<a class="admin-btn admin-btn-light" href="${escapeHTML(whatsappUrl)}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ""}
+              <button class="admin-btn admin-btn-light" type="button" data-lead-save-notes="${escapeHTML(lead.id)}">Guardar nota</button>
               ${status !== "atendido" ? `<button class="admin-btn admin-btn-primary" type="button" data-lead-status="atendido" data-lead-id="${escapeHTML(lead.id)}">Atendido</button>` : ""}
               ${status !== "descartado" ? `<button class="admin-btn admin-btn-light" type="button" data-lead-status="descartado" data-lead-id="${escapeHTML(lead.id)}">Archivar</button>` : ""}
               ${status !== "nuevo" ? `<button class="admin-btn admin-btn-light" type="button" data-lead-status="nuevo" data-lead-id="${escapeHTML(lead.id)}">Reabrir</button>` : ""}
@@ -105,6 +110,13 @@ function renderLeads() {
       saveLeadStatus(button.dataset.leadId, button.dataset.leadStatus);
     });
   });
+
+  leadsList.querySelectorAll("[data-lead-save-notes]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const textarea = leadsList.querySelector(`[data-lead-notes="${CSS.escape(button.dataset.leadSaveNotes)}"]`);
+      saveLeadNotes(button.dataset.leadSaveNotes, textarea?.value || "");
+    });
+  });
 }
 
 async function saveLeadStatus(leadId, status) {
@@ -124,6 +136,34 @@ async function saveLeadStatus(leadId, status) {
   } catch (error) {
     console.error(error);
     if (leadsNotice) showNotice(leadsNotice, error.message || "No se pudo actualizar el lead.", "error");
+  }
+}
+
+async function saveLeadNotes(leadId, notes) {
+  if (!leadId) return;
+
+  try {
+    const { error } = await window.nymSupabase
+      .from("contact_leads")
+      .update({ admin_notes: notes.trim() })
+      .eq("id", leadId);
+
+    if (error) throw error;
+
+    contactLeads = contactLeads.map((lead) =>
+      String(lead.id) === String(leadId) ? { ...lead, admin_notes: notes.trim() } : lead,
+    );
+
+    if (leadsNotice) showNotice(leadsNotice, "Nota guardada correctamente.");
+  } catch (error) {
+    console.error(error);
+    if (leadsNotice) {
+      showNotice(
+        leadsNotice,
+        "No se pudo guardar la nota. Aplica la migracion de leads si falta la columna.",
+        "warning",
+      );
+    }
   }
 }
 

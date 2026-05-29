@@ -54,6 +54,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           <span class="product-pill">Categoría: ${escapeHTML(product.category)}</span>
           <span class="product-pill">Subcategoría: ${escapeHTML(product.subcategory)}</span>
           <span class="stock ${getStockClass(product.stock)}">${escapeHTML(product.stock)}</span>
+          ${
+            product.stockQuantity !== null
+              ? `<span class="product-pill"><i class="fa-solid fa-boxes-stacked"></i>&nbsp; ${escapeHTML(product.stockQuantity)} und.</span>`
+              : ""
+          }
         </div>
         <div class="detail-actions">
           <a class="btn btn-whatsapp" href="${escapeHTML(quoteUrl(product))}" target="_blank" rel="noopener">Consultar por WhatsApp</a>
@@ -93,6 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       subcategory: data.subcategory || data.subcategory_name || "Subcategoría no definida",
       image: data.image_url || fallbackImage,
       stock: data.stock_status || "Disponible",
+      stockQuantity: Number.isFinite(Number(data.stock_quantity)) ? Number(data.stock_quantity) : null,
       desc: data.description || "Producto disponible para consulta comercial.",
     });
   } catch (error) {

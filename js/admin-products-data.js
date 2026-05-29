@@ -25,28 +25,51 @@ function renderProducts() {
     );
   });
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / ADMIN_PRODUCTS_PER_PAGE));
+  const sorted = [...filtered].sort(sortAdminProducts);
+  const totalPages = Math.max(1, Math.ceil(sorted.length / adminProductPageSize));
 
   if (adminProductPage > totalPages) {
     adminProductPage = totalPages;
   }
 
-  const start = (adminProductPage - 1) * ADMIN_PRODUCTS_PER_PAGE;
-  const pageProducts = filtered.slice(start, start + ADMIN_PRODUCTS_PER_PAGE);
+  const start = (adminProductPage - 1) * adminProductPageSize;
+  const pageProducts = sorted.slice(start, start + adminProductPageSize);
 
-  list.innerHTML = filtered.length
+  list.innerHTML = sorted.length
     ? renderAdminProductTable(pageProducts)
     : renderAdminEmptyState({
         title: "No hay productos para mostrar",
         message: "Agrega un producto o cambia los filtros.",
       });
 
-  renderProductPagination(filtered.length, start, pageProducts.length, totalPages);
+  renderProductPagination(sorted.length, start, pageProducts.length, totalPages);
   renderStockList();
   renderBrandsList();
   renderCategoriesList();
   renderSubcategoriesList();
   updateStats();
+}
+
+function sortAdminProducts(a, b) {
+  const [field, direction] = adminProductSort.split("_");
+  const multiplier = direction === "desc" ? -1 : 1;
+
+  if (field === "stock") {
+    const stockA = Number.isFinite(Number(a.stock_quantity)) ? Number(a.stock_quantity) : Number.MAX_SAFE_INTEGER;
+    const stockB = Number.isFinite(Number(b.stock_quantity)) ? Number(b.stock_quantity) : Number.MAX_SAFE_INTEGER;
+    if (stockA !== stockB) return (stockA - stockB) * multiplier;
+    return String(a.stock_status || "").localeCompare(String(b.stock_status || "")) * multiplier;
+  }
+
+  if (field === "created") {
+    const dateA = new Date(a.created_at || 0).getTime();
+    const dateB = new Date(b.created_at || 0).getTime();
+    return (dateA - dateB) * multiplier;
+  }
+
+  const valueA = String(a[field] || "").toLowerCase();
+  const valueB = String(b[field] || "").toLowerCase();
+  return valueA.localeCompare(valueB) * multiplier;
 }
 
 function renderProductPagination(totalProducts, start, shownProducts, totalPages) {
@@ -60,7 +83,7 @@ function resetAdminProductPage() {
 }
 
 function renderStockList() {
-  const activeProducts = products.filter((product) => product.is_active !== false);
+  const activeProducts = products.filter((product) => product.is_active !== false).sort(sortAdminProducts);
 
   stockList.innerHTML = activeProducts.length
     ? activeProducts
@@ -76,8 +99,17 @@ function renderStockList() {
             </small>
           </span>
 
-          <span class="admin-tag stock-tag ${getStockClass(product.stock_status)}">
-            ${escapeHTML(product.stock_status || "Disponible")}
+          <span class="table-meta">
+            <span class="admin-tag stock-tag ${getStockClass(product.stock_status)}">
+              ${escapeHTML(product.stock_status || "Disponible")}
+            </span>
+            <small>
+              ${
+                Number.isFinite(Number(product.stock_quantity))
+                  ? `${Number(product.stock_quantity)} unidades`
+                  : "Sin cantidad"
+              }
+            </small>
           </span>
         </div>
       `,

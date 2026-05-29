@@ -10,8 +10,29 @@
     map_embed: "https://www.google.com/maps?q=Av.%20Republica%20de%20Argentina%20211,%20Lima%2015079&output=embed",
   };
 
-  function escapeHTML(text) {
+  function cleanText(text) {
     return String(text || "")
+      .replace(/Ã¡/g, "á")
+      .replace(/Ã©/g, "é")
+      .replace(/Ã­/g, "í")
+      .replace(/Ã³/g, "ó")
+      .replace(/Ãº/g, "ú")
+      .replace(/Ã±/g, "ñ")
+      .replace(/Ã/g, "Á")
+      .replace(/Ã‰/g, "É")
+      .replace(/Ã/g, "Í")
+      .replace(/Ã“/g, "Ó")
+      .replace(/Ãš/g, "Ú")
+      .replace(/Ã‘/g, "Ñ")
+      .replace(/Â¿/g, "¿")
+      .replace(/Â¡/g, "¡")
+      .replace(/Â/g, "")
+      .replace(/â€¦/g, "...")
+      .replace(/â†’/g, "->");
+  }
+
+  function escapeHTML(text) {
+    return cleanText(text)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -48,6 +69,7 @@
     ...(window.nymSite || {}),
     defaultCompanyData,
     escapeHTML,
+    cleanText,
     slugify,
     getCompanyData,
     getWhatsappNumber,

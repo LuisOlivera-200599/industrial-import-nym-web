@@ -89,6 +89,8 @@ form.addEventListener("submit", async (event) => {
       subcategory: selectedSubcategory?.name || "",
       image_url: finalImageUrl,
       stock_status: fields.stock.value,
+      stock_quantity: fields.stockQuantity.value === "" ? null : Number(fields.stockQuantity.value),
+      low_stock_threshold: fields.lowStock.value === "" ? null : Number(fields.lowStock.value),
       description: fields.desc.value.trim(),
       is_active: true,
     };
@@ -123,6 +125,10 @@ list.addEventListener("click", async (event) => {
     fields.name.value = product.name || "";
     fields.image.value = product.image_url || "";
     fields.stock.value = product.stock_status || "Disponible";
+    fields.stockQuantity.value = Number.isFinite(Number(product.stock_quantity)) ? Number(product.stock_quantity) : "";
+    fields.lowStock.value = Number.isFinite(Number(product.low_stock_threshold))
+      ? Number(product.low_stock_threshold)
+      : "";
     fields.desc.value = product.description || "";
     imagePreview.src = product.image_url || DEFAULT_IMAGE;
 
@@ -170,4 +176,21 @@ productPagination?.addEventListener("click", (event) => {
   renderProducts();
 
   list.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+productPagination?.addEventListener("change", (event) => {
+  const select = event.target.closest("[data-product-page-size]");
+  if (!select) return;
+
+  adminProductPageSize = Number(select.value) || 25;
+  resetAdminProductPage();
+});
+
+list.addEventListener("click", (event) => {
+  const sortButton = event.target.closest("[data-product-sort]");
+  if (!sortButton) return;
+
+  adminProductSort = sortButton.dataset.productSort;
+  if (productSort) productSort.value = adminProductSort;
+  resetAdminProductPage();
 });

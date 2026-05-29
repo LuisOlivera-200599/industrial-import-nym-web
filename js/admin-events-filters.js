@@ -29,6 +29,10 @@ categoryFilter.addEventListener("change", () => {
 });
 subcategoryFilter.addEventListener("change", resetAdminProductPage);
 stockFilter.addEventListener("change", resetAdminProductPage);
+productSort?.addEventListener("change", () => {
+  adminProductSort = productSort.value;
+  resetAdminProductPage();
+});
 
 resetBtn.addEventListener("click", resetForm);
 brandResetBtn.addEventListener("click", resetBrandForm);

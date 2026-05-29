@@ -578,6 +578,12 @@
         border: 1px solid #fecdd3;
       }
 
+      .notice.warning {
+        background: #fffbeb;
+        color: #92400e;
+        border: 1px solid #fde68a;
+      }
+
       .tools-bar {
         display: flex;
         justify-content: space-between;
@@ -1100,6 +1106,58 @@
         cursor: not-allowed;
         opacity: 0.45;
       }
+
+      .sort-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        font-weight: 900;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      .sort-btn.active {
+        color: var(--primary);
+      }
+
+      .pagination-control {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 0.88rem;
+        font-weight: 900;
+      }
+
+      .pagination-control select {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 8px 10px;
+        background: #fff;
+        font-weight: 900;
+      }
+
+      .low-stock-warning {
+        color: #c2410c;
+      }
+
+      .lead-notes {
+        min-width: min(340px, 100%);
+      }
+
+      .lead-notes textarea {
+        width: 100%;
+        min-height: 78px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 10px 12px;
+        resize: vertical;
+        font: inherit;
+      }
     </style>
   </head>
   <body>
@@ -1346,6 +1404,18 @@
                             <option value="Sin stock">Sin stock</option>
                           </select>
                         </div>
+
+                        <div class="form-row" style="margin-top: 14px">
+                          <div class="field">
+                            <label for="product-stock-quantity">Cantidad</label>
+                            <input id="product-stock-quantity" type="number" min="0" step="1" placeholder="Ej: 12" />
+                          </div>
+
+                          <div class="field">
+                            <label for="product-low-stock">Alerta bajo stock</label>
+                            <input id="product-low-stock" type="number" min="0" step="1" placeholder="Ej: 3" />
+                          </div>
+                        </div>
                       </div>
 
                       <div>
@@ -1410,6 +1480,16 @@
                         <option value="Disponible">Disponible</option>
                         <option value="Bajo pedido">Bajo pedido</option>
                         <option value="Sin stock">Sin stock</option>
+                      </select>
+
+                      <select id="product-sort" class="filter-select">
+                        <option value="created_desc">Mas recientes</option>
+                        <option value="name_asc">Nombre A-Z</option>
+                        <option value="name_desc">Nombre Z-A</option>
+                        <option value="brand_asc">Marca A-Z</option>
+                        <option value="category_asc">Categoria A-Z</option>
+                        <option value="stock_asc">Menor stock</option>
+                        <option value="stock_desc">Mayor stock</option>
                       </select>
                     </div>
 

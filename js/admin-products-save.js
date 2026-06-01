@@ -1,13 +1,23 @@
 async function loadProducts() {
-  const { data, error } = await window.nymSupabase
-    .from("products")
-    .select("*")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: false });
+  const pageSize = 1000;
+  const rows = [];
 
-  if (error) throw error;
+  for (let from = 0; ; from += pageSize) {
+    const to = from + pageSize - 1;
+    const { data, error } = await window.nymSupabase
+      .from("products")
+      .select("*")
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: false })
+      .range(from, to);
 
-  products = data || [];
+    if (error) throw error;
+
+    rows.push(...(data || []));
+    if (!data || data.length < pageSize) break;
+  }
+
+  products = rows;
   renderProductFilters();
   renderProducts();
 }

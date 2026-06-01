@@ -182,26 +182,38 @@ ${productUrls}
 }
 
 async function fetchProducts() {
-  const endpoint = new URL(`${supabaseUrl}/rest/v1/products`);
-  endpoint.searchParams.set(
-    "select",
-    "id,name,description,image_url,stock_status,brand,category,subcategory,brands(name),categories(name)",
-  );
-  endpoint.searchParams.set("is_active", "neq.false");
-  endpoint.searchParams.set("order", "created_at.desc");
+  const pageSize = 1000;
+  const products = [];
 
-  const response = await fetch(endpoint, {
-    headers: {
-      apikey: supabaseKey,
-      Authorization: `Bearer ${supabaseKey}`,
-    },
-  });
+  for (let from = 0; ; from += pageSize) {
+    const to = from + pageSize - 1;
+    const endpoint = new URL(`${supabaseUrl}/rest/v1/products`);
+    endpoint.searchParams.set(
+      "select",
+      "id,name,description,image_url,stock_status,brand,category,subcategory,brands(name),categories(name)",
+    );
+    endpoint.searchParams.set("is_active", "neq.false");
+    endpoint.searchParams.set("order", "created_at.desc");
 
-  if (!response.ok) {
-    throw new Error(`Supabase respondio ${response.status}: ${await response.text()}`);
+    const response = await fetch(endpoint, {
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+        Range: `${from}-${to}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Supabase respondio ${response.status}: ${await response.text()}`);
+    }
+
+    const data = await response.json();
+    products.push(...data);
+
+    if (data.length < pageSize) break;
   }
 
-  return response.json();
+  return products;
 }
 
 async function main() {

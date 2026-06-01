@@ -535,10 +535,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         throw new Error("Supabase no está configurado.");
       }
 
-      const { data, error } = await window.nymSupabase
-        .from("products")
-        .select(
-          `
+      const pageSize = 1000;
+      const rows = [];
+
+      for (let from = 0; ; from += pageSize) {
+        const to = from + pageSize - 1;
+        const { data, error } = await window.nymSupabase
+          .from("products")
+          .select(
+            `
               *,
               brands (
                 name,
@@ -549,14 +554,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                 icon
               )
             `,
-        )
-        .order("created_at", { ascending: false });
+          )
+          .neq("is_active", false)
+          .order("created_at", { ascending: false })
+          .range(from, to);
 
-      if (error) {
-        throw error;
+        if (error) {
+          throw error;
+        }
+
+        rows.push(...(data || []));
+        if (!data || data.length < pageSize) break;
       }
 
-      products = (data || []).map(normalizeProduct);
+      products = rows.map(normalizeProduct);
 
       bindFilters();
       filterProducts();

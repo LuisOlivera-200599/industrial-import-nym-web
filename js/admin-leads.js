@@ -37,7 +37,7 @@ function buildLeadWhatsappUrl(lead) {
   const normalizedPhone = phone.length === 9 ? `51${phone}` : phone;
   const message = [
     `Hola ${lead.nombre || ""}`.trim(),
-    "Te escribimos de Industrial Import NYM para atender tu consulta.",
+    "Te escribimos de INDUSTRIAL IMPORT COMPANY S.R.L. para atender tu consulta.",
   ].join("\n");
 
   return `https://wa.me/${normalizedPhone}?text=${encodeURIComponent(message)}`;

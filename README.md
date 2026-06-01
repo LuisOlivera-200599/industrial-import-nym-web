@@ -1,6 +1,6 @@
 # industrial-import-nym-web
 
-Sitio web corporativo y catalogo administrable de Industrial Import NYM.
+Sitio web corporativo y catalogo administrable de INDUSTRIAL IMPORT COMPANY S.R.L..
 
 ## Estructura
 

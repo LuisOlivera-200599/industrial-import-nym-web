@@ -63,7 +63,8 @@ function getProductUrl(product) {
 
 function renderProductPage(product) {
   const name = product.name || "Producto Industrial";
-  const description = product.description || "Producto disponible para consulta comercial en Industrial Import NYM.";
+  const description =
+    product.description || "Producto disponible para consulta comercial en INDUSTRIAL IMPORT COMPANY S.R.L..";
   const canonical = getProductUrl(product);
   const image = product.image_url || "imagenes/optimized/productos/productos-1.webp";
 
@@ -76,10 +77,10 @@ function renderProductPage(product) {
     <meta name="description" content="${escapeHTML(description)}" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="${escapeHTML(canonical)}" />
-    <meta property="og:title" content="${escapeHTML(name)} | Industrial Import NYM" />
+    <meta property="og:title" content="${escapeHTML(name)} | INDUSTRIAL IMPORT COMPANY S.R.L." />
     <meta property="og:description" content="${escapeHTML(description)}" />
     <meta property="og:image" content="${escapeHTML(image)}" />
-    <title>${escapeHTML(name)} | Industrial Import NYM</title>
+    <title>${escapeHTML(name)} | INDUSTRIAL IMPORT COMPANY S.R.L.</title>
     <link rel="icon" href="imagenes/optimized/banners/banner-1.webp" type="image/webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -95,9 +96,9 @@ function renderProductPage(product) {
     <header class="header">
       <div class="container nav">
         <a href="index.html" class="logo">
-          <div class="logo-mark">NYM</div>
+          <div class="logo-mark">IIC</div>
           <div class="logo-text">
-            <h1>Industrial Import NYM</h1>
+            <h1>INDUSTRIAL IMPORT COMPANY S.R.L.</h1>
             <p>Catalogo industrial</p>
           </div>
         </a>

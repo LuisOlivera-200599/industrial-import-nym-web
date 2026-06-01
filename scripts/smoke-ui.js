@@ -85,7 +85,7 @@ expectIncludes("admin.html", "lead-status-filter");
 expectIncludes("admin.html", "product-sort");
 expectIncludes("admin.html", "product-stock-quantity");
 expectIncludes("admin.html", "stock-movement-form");
-expectIncludes("admin.html", 'type="module" src="js/admin-app.js"');
+expectIncludes("admin.html", 'type="module" src="js/admin-app.js?v=20260601-products"');
 expectIncludes("admin.html", "admin-modal");
 expectIncludes("js/admin-components.js", "data-product-page-size");
 expectIncludes("js/admin-leads.js", "data-lead-save-notes");

@@ -69,6 +69,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function renderLogos() {
+    if (!brandLogoRow) return;
+
     const withLogo = brands.filter((brand) => brand.logo).slice(0, 6);
     const source = withLogo.length ? withLogo : brands.slice(0, 6);
 

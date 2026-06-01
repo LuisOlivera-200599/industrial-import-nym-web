@@ -1715,9 +1715,62 @@
               </section>
 
               <section class="admin-section" id="section-stock">
-                <div class="inner-card">
-                  <h4>Gestión rápida de stock</h4>
-                  <p>Usa el botón editar en Productos para cambiar disponibilidad.</p>
+                <div class="section-grid">
+                  <div class="inner-card">
+                    <h4>Registrar movimiento</h4>
+                    <p>Controla entradas, salidas y ajustes sin editar el producto completo.</p>
+
+                    <form class="admin-form" id="stock-movement-form">
+                      <div class="field">
+                        <label for="stock-movement-product">Producto</label>
+                        <select id="stock-movement-product">
+                          <option value="">Selecciona un producto</option>
+                        </select>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="field">
+                          <label for="stock-movement-type">Movimiento</label>
+                          <select id="stock-movement-type">
+                            <option value="entrada">Entrada</option>
+                            <option value="salida">Salida</option>
+                            <option value="ajuste">Ajuste</option>
+                          </select>
+                        </div>
+
+                        <div class="field">
+                          <label for="stock-movement-quantity">Cantidad</label>
+                          <input id="stock-movement-quantity" type="number" min="0" step="1" placeholder="Ej: 10" />
+                        </div>
+                      </div>
+
+                      <div class="field">
+                        <label for="stock-movement-note">Nota interna</label>
+                        <textarea
+                          id="stock-movement-note"
+                          placeholder="Ej: compra, venta, corrección física"
+                        ></textarea>
+                      </div>
+
+                      <div class="notice" id="stock-movement-notice"></div>
+
+                      <button class="admin-btn admin-btn-primary" type="submit">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar movimiento
+                      </button>
+                    </form>
+                  </div>
+
+                  <div class="inner-card">
+                    <h4>Historial reciente</h4>
+                    <p>Últimos movimientos registrados por el equipo admin.</p>
+                    <div class="products-list" id="stock-movement-list"></div>
+                  </div>
+                </div>
+
+                <div class="inner-card" style="margin-top: 18px">
+                  <h4>Resumen de stock actual</h4>
+                  <p>Usa el historial para movimientos rápidos o edita el producto para cambiar datos completos.</p>
                   <div class="products-list" id="stock-list"></div>
                 </div>
               </section>

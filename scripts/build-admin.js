@@ -21,6 +21,7 @@ const adminModules = [
   "admin-taxonomy-delete",
   "admin-company",
   "admin-leads",
+  "admin-stock",
   "admin-session",
   "admin-events-core",
   "admin-events-products",

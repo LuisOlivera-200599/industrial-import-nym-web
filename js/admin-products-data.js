@@ -84,6 +84,7 @@ function resetAdminProductPage() {
 
 function renderStockList() {
   const activeProducts = products.filter((product) => product.is_active !== false).sort(sortAdminProducts);
+  renderStockMovementProductOptions();
 
   stockList.innerHTML = activeProducts.length
     ? activeProducts

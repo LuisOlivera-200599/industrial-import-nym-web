@@ -10,6 +10,7 @@ let brands = [];
 let categories = [];
 let subcategories = [];
 let contactLeads = [];
+let stockMovements = [];
 let currentUser = null;
 let selectedProductFile = null;
 let selectedBrandFile = null;
@@ -35,6 +36,13 @@ const leadsList = document.getElementById("leads-list");
 const leadSearch = document.getElementById("lead-search");
 const leadStatusFilter = document.getElementById("lead-status-filter");
 const leadsNotice = document.getElementById("leads-notice");
+const stockMovementForm = document.getElementById("stock-movement-form");
+const stockMovementNotice = document.getElementById("stock-movement-notice");
+const stockMovementProduct = document.getElementById("stock-movement-product");
+const stockMovementType = document.getElementById("stock-movement-type");
+const stockMovementQuantity = document.getElementById("stock-movement-quantity");
+const stockMovementNote = document.getElementById("stock-movement-note");
+const stockMovementList = document.getElementById("stock-movement-list");
 
 const search = document.getElementById("admin-search");
 const brandFilter = document.getElementById("brand-filter");
@@ -165,8 +173,8 @@ const sectionInfo = {
     description: "Agrega, edita y elimina subcategorías relacionadas a cada categoría.",
   },
   stock: {
-    title: "Gestión rápida de stock",
-    description: "Revisa el estado de disponibilidad de todos los productos.",
+    title: "Gestión de stock",
+    description: "Registra entradas, salidas y ajustes con historial por producto.",
   },
   company: {
     title: "Datos de empresa",

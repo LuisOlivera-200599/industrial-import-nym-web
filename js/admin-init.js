@@ -14,6 +14,7 @@ logoutBtn.addEventListener("click", async () => {
     await loadCategories();
     await loadSubcategories();
     await loadProducts();
+    await loadStockMovements();
     await loadCompanySettings();
     await loadContactLeads();
   } catch (error) {

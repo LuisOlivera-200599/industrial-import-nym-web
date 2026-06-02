@@ -18,6 +18,21 @@ function getClient() {
   return window.nymSupabase;
 }
 
+function getSignupClient() {
+  if (!window.supabase || !window.NYM_SUPABASE_URL || !window.NYM_SUPABASE_PUBLISHABLE_KEY) {
+    throw new Error("Config Supabase no disponible para crear usuarios.");
+  }
+
+  return window.supabase.createClient(window.NYM_SUPABASE_URL, window.NYM_SUPABASE_PUBLISHABLE_KEY, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+      storageKey: `nym-admin-signup-${Date.now()}`,
+    },
+  });
+}
+
 function cleanText(value) {
   return String(value || "")
     .replace(/Ã¡/g, "a")
@@ -1625,21 +1640,37 @@ function AuditPanel({ audit }) {
 
 function AdminUsersPanel({ users, currentUser, refresh, setNotice }) {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [localMessage, setLocalMessage] = useState("");
   const [saving, setSaving] = useState(false);
 
   async function addAdmin(event) {
     event.preventDefault();
     const adminEmail = email.trim();
-    if (!adminEmail) return;
+    const adminPassword = password.trim();
+    if (!adminEmail || adminPassword.length < 6) {
+      setLocalMessage("Ingresa correo y una contraseña de minimo 6 caracteres.");
+      return;
+    }
     setSaving(true);
     setLocalMessage("");
     try {
+      const signupClient = getSignupClient();
+      const { error: signupError } = await signupClient.auth.signUp({
+        email: adminEmail,
+        password: adminPassword,
+      });
+
+      if (signupError && !/already registered|already been registered|User already registered/i.test(signupError.message || "")) {
+        throw signupError;
+      }
+
       const { error } = await getClient().rpc("add_admin_user_by_email", { admin_email: adminEmail });
       if (error) throw error;
       setEmail("");
+      setPassword("");
       setNotice("Usuario admin agregado.");
-      setLocalMessage(`Listo: ${adminEmail} ahora tiene acceso admin.`);
+      setLocalMessage(`Listo: ${adminEmail} fue creado/autorizado como admin.`);
       await refresh("Usuarios");
     } catch (error) {
       const message = error?.message || "No se pudo agregar el usuario admin.";
@@ -1674,18 +1705,29 @@ function AdminUsersPanel({ users, currentUser, refresh, setNotice }) {
       <div className="admin-panel-header">
         <div>
           <h2>Usuarios autorizados</h2>
-          <p>Agrega o quita administradores usando correos ya registrados en Supabase Auth.</p>
+          <p>Crea cuentas admin nuevas o quita accesos sin entrar a Supabase.</p>
         </div>
       </div>
       <form className="admin-form-react" onSubmit={addAdmin}>
-        <label className="wide">
+        <label>
           Correo del usuario
           <input type="email" value={email} placeholder="correo@empresa.com" onChange={(event) => setEmail(event.target.value)} required />
+        </label>
+        <label>
+          Contraseña inicial
+          <input
+            type="password"
+            value={password}
+            placeholder="Minimo 6 caracteres"
+            minLength="6"
+            onChange={(event) => setPassword(event.target.value)}
+            required
+          />
         </label>
         <div className="admin-top-actions">
           <button className="admin-button primary" type="submit" disabled={saving}>
             <i className="fa-solid fa-user-plus" />
-            {saving ? "Procesando..." : "Agregar admin"}
+            {saving ? "Procesando..." : "Crear admin"}
           </button>
         </div>
       </form>

@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 
 const DEFAULT_IMAGE = "imagenes/optimized/productos/productos-1.webp";
 const PRODUCT_IMAGES_BUCKET = "product-images";
+const BRAND_LOGOS_BUCKET = "brand-logos";
 const PAGE_SIZES = [25, 50, 100];
 const STOCK_STATUSES = ["Disponible", "Bajo pedido", "Sin stock"];
 const LEAD_STATUSES = [
@@ -126,6 +127,7 @@ function AdminApp() {
   const [leads, setLeads] = useState([]);
   const [stockMovements, setStockMovements] = useState([]);
   const [audit, setAudit] = useState([]);
+  const [companySettings, setCompanySettings] = useState(null);
   const [loadWarnings, setLoadWarnings] = useState([]);
 
   async function loadAll() {
@@ -138,6 +140,7 @@ function AdminApp() {
       leadsResult,
       stockResult,
       auditResult,
+      companyResult,
     ] = await Promise.all([
       safeLoad("Productos", fetchAllProducts, []),
       safeLoad("Marcas", async () => {
@@ -170,6 +173,11 @@ function AdminApp() {
         if (error) throw error;
         return data || [];
       }, []),
+      safeLoad("Datos de empresa", async () => {
+        const { data, error } = await client.from("company_settings").select("*").limit(1).maybeSingle();
+        if (error) throw error;
+        return data || null;
+      }, null),
     ]);
 
     setProducts(productResult.data);
@@ -179,8 +187,9 @@ function AdminApp() {
     setLeads(leadsResult.data);
     setStockMovements(stockResult.data);
     setAudit(auditResult.data);
+    setCompanySettings(companyResult.data);
     setLoadWarnings(
-      [productResult, brandResult, categoryResult, subcategoryResult, leadsResult, stockResult, auditResult]
+      [productResult, brandResult, categoryResult, subcategoryResult, leadsResult, stockResult, auditResult, companyResult]
         .map((result) => result.warning)
         .filter(Boolean),
     );
@@ -262,6 +271,10 @@ function AdminApp() {
             {[
               ["dashboard", "fa-chart-line", "Dashboard"],
               ["products", "fa-box", "Productos"],
+              ["brands", "fa-tags", "Marcas"],
+              ["categories", "fa-layer-group", "Categorias"],
+              ["subcategories", "fa-sitemap", "Subcategorias"],
+              ["company", "fa-building", "Empresa"],
               ["leads", "fa-inbox", "Leads"],
               ["stock", "fa-boxes-stacked", "Stock"],
               ["audit", "fa-clock-rotate-left", "Auditoria"],
@@ -316,6 +329,24 @@ function AdminApp() {
                 setNotice={setNotice}
               />
             ) : null}
+            {active === "brands" ? (
+              <BrandsPanel brands={brands} user={user} refresh={refresh} setNotice={setNotice} />
+            ) : null}
+            {active === "categories" ? (
+              <CategoriesPanel categories={categories} user={user} refresh={refresh} setNotice={setNotice} />
+            ) : null}
+            {active === "subcategories" ? (
+              <SubcategoriesPanel
+                subcategories={subcategories}
+                categories={categories}
+                user={user}
+                refresh={refresh}
+                setNotice={setNotice}
+              />
+            ) : null}
+            {active === "company" ? (
+              <CompanyPanel settings={companySettings} user={user} refresh={refresh} setNotice={setNotice} />
+            ) : null}
             {active === "leads" ? <LeadsPanel leads={leads} setLeads={setLeads} user={user} setNotice={setNotice} /> : null}
             {active === "stock" ? (
               <StockPanel
@@ -338,6 +369,10 @@ function getTitle(active) {
   const titles = {
     dashboard: "Dashboard administrativo",
     products: "Gestion de productos",
+    brands: "Gestion de marcas",
+    categories: "Gestion de categorias",
+    subcategories: "Gestion de subcategorias",
+    company: "Datos de empresa",
     leads: "Pipeline de leads",
     stock: "Movimientos de stock",
     audit: "Auditoria",
@@ -776,6 +811,522 @@ function ProductForm({ product, brands, categories, subcategories, user, onCance
         <button className="admin-button" type="button" onClick={onCancel}>Cancelar</button>
       </div>
     </form>
+  );
+}
+
+function BrandsPanel({ brands, user, refresh, setNotice }) {
+  const [query, setQuery] = useState("");
+  const [editing, setEditing] = useState(null);
+  const visible = brands
+    .filter((brand) => [brand.name, brand.description].filter(Boolean).join(" ").toLowerCase().includes(query.toLowerCase()))
+    .sort(byName);
+
+  async function deleteBrand(brand) {
+    if (!window.confirm(`Eliminar marca ${brand.name}?`)) return;
+    const { error } = await getClient().from("brands").delete().eq("id", brand.id);
+    if (error) throw error;
+    await recordAudit("brand", brand.id, "deleted", `Marca eliminada: ${brand.name}`, { before: brand }, user);
+    await refresh("Marcas");
+  }
+
+  return (
+    <section className="admin-panel-react">
+      <div className="admin-panel-header">
+        <div>
+          <h2>Marcas registradas</h2>
+          <p>{visible.length} marcas con los filtros actuales.</p>
+        </div>
+        <button className="admin-button primary" type="button" onClick={() => setEditing({})}>
+          <i className="fa-solid fa-plus" />
+          Nueva marca
+        </button>
+      </div>
+      {editing ? (
+        <BrandForm
+          brand={editing}
+          user={user}
+          onCancel={() => setEditing(null)}
+          onSaved={async () => {
+            setEditing(null);
+            setNotice("Marca guardada.");
+            await refresh("Marcas");
+          }}
+        />
+      ) : null}
+      <div className="admin-toolbar-react">
+        <input value={query} placeholder="Buscar marca..." onChange={(event) => setQuery(event.target.value)} />
+      </div>
+      <div className="list-react">
+        {visible.length ? (
+          visible.map((brand) => (
+            <div className="list-item-react" key={brand.id}>
+              <div className="product-cell-react">
+                <img src={brand.logo_url || DEFAULT_IMAGE} alt={brand.name || "Marca"} />
+                <div>
+                  <strong>{cleanText(brand.name || "Marca sin nombre")}</strong>
+                  <small className="muted">{cleanText(brand.description || "Sin descripcion")}</small>
+                  <small className="muted">Orden: {brand.sort_order ?? 0}</small>
+                </div>
+              </div>
+              <div className="row-actions-react">
+                <span className={`tag-react ${brand.is_active === false ? "bad" : "ok"}`}>
+                  {brand.is_active === false ? "Inactiva" : "Activa"}
+                </span>
+                <button className="admin-button" type="button" onClick={() => setEditing(brand)}>
+                  <i className="fa-solid fa-pen" />
+                </button>
+                <button className="admin-button danger" type="button" onClick={() => deleteBrand(brand)}>
+                  <i className="fa-solid fa-trash" />
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="empty-react">No hay marcas para este filtro.</div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function BrandForm({ brand, user, onCancel, onSaved }) {
+  const [form, setForm] = useState({
+    name: brand.name || "",
+    logo_url: brand.logo_url || "",
+    description: brand.description || "",
+    sort_order: brand.sort_order ?? 0,
+    is_active: brand.is_active !== false,
+  });
+  const [file, setFile] = useState(null);
+
+  function update(key, value) {
+    setForm((current) => ({ ...current, [key]: value }));
+  }
+
+  async function uploadLogo() {
+    if (!file) return form.logo_url || "";
+    const extension = file.name.split(".").pop() || "webp";
+    const path = `brands/${Date.now()}-${Math.random().toString(16).slice(2)}.${extension}`;
+    const { error } = await getClient().storage.from(BRAND_LOGOS_BUCKET).upload(path, file, { upsert: false });
+    if (error) throw error;
+    const { data } = getClient().storage.from(BRAND_LOGOS_BUCKET).getPublicUrl(path);
+    return data.publicUrl;
+  }
+
+  async function submit(event) {
+    event.preventDefault();
+    const payload = {
+      name: form.name.trim(),
+      logo_url: await uploadLogo(),
+      description: form.description.trim(),
+      sort_order: Number(form.sort_order || 0),
+      is_active: Boolean(form.is_active),
+    };
+    if (!payload.name) return;
+
+    if (brand.id) {
+      const { error } = await getClient().from("brands").update(payload).eq("id", brand.id);
+      if (error) throw error;
+      await recordAudit("brand", brand.id, "updated", `Marca actualizada: ${payload.name}`, { before: brand, after: payload }, user);
+    } else {
+      const { data, error } = await getClient().from("brands").insert([payload]).select("id").single();
+      if (error) throw error;
+      await recordAudit("brand", data?.id || null, "created", `Marca creada: ${payload.name}`, { after: payload }, user);
+    }
+    await onSaved();
+  }
+
+  return (
+    <form className="admin-form-react" onSubmit={submit}>
+      <label>
+        Nombre
+        <input value={form.name} onChange={(event) => update("name", event.target.value)} required />
+      </label>
+      <label>
+        Orden
+        <input type="number" value={form.sort_order} onChange={(event) => update("sort_order", event.target.value)} />
+      </label>
+      <label className="wide">
+        Logo URL
+        <input value={form.logo_url} onChange={(event) => update("logo_url", event.target.value)} />
+      </label>
+      <label>
+        Subir logo
+        <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => setFile(event.target.files?.[0] || null)} />
+      </label>
+      <label>
+        Estado
+        <select value={form.is_active ? "active" : "inactive"} onChange={(event) => update("is_active", event.target.value === "active")}>
+          <option value="active">Activa</option>
+          <option value="inactive">Inactiva</option>
+        </select>
+      </label>
+      <label className="full">
+        Descripcion
+        <textarea value={form.description} onChange={(event) => update("description", event.target.value)} />
+      </label>
+      <div className="admin-top-actions full">
+        <button className="admin-button primary" type="submit">Guardar marca</button>
+        <button className="admin-button" type="button" onClick={onCancel}>Cancelar</button>
+      </div>
+    </form>
+  );
+}
+
+function CategoriesPanel({ categories, user, refresh, setNotice }) {
+  const [query, setQuery] = useState("");
+  const [editing, setEditing] = useState(null);
+  const visible = categories
+    .filter((category) => [category.name, category.description, category.icon].filter(Boolean).join(" ").toLowerCase().includes(query.toLowerCase()))
+    .sort(byName);
+
+  async function deleteCategory(category) {
+    if (!window.confirm(`Eliminar categoria ${category.name}?`)) return;
+    const { error } = await getClient().from("categories").delete().eq("id", category.id);
+    if (error) throw error;
+    await recordAudit("category", category.id, "deleted", `Categoria eliminada: ${category.name}`, { before: category }, user);
+    await refresh("Categorias");
+  }
+
+  return (
+    <section className="admin-panel-react">
+      <div className="admin-panel-header">
+        <div>
+          <h2>Categorias registradas</h2>
+          <p>{visible.length} categorias con los filtros actuales.</p>
+        </div>
+        <button className="admin-button primary" type="button" onClick={() => setEditing({})}>
+          <i className="fa-solid fa-plus" />
+          Nueva categoria
+        </button>
+      </div>
+      {editing ? (
+        <CategoryForm
+          category={editing}
+          user={user}
+          onCancel={() => setEditing(null)}
+          onSaved={async () => {
+            setEditing(null);
+            setNotice("Categoria guardada.");
+            await refresh("Categorias");
+          }}
+        />
+      ) : null}
+      <div className="admin-toolbar-react">
+        <input value={query} placeholder="Buscar categoria..." onChange={(event) => setQuery(event.target.value)} />
+      </div>
+      <AdminEntityList rows={visible} onEdit={setEditing} onDelete={deleteCategory} typeLabel="categoria" />
+    </section>
+  );
+}
+
+function CategoryForm({ category, user, onCancel, onSaved }) {
+  const [form, setForm] = useState({
+    name: category.name || "",
+    icon: category.icon || "fa-solid fa-layer-group",
+    description: category.description || "",
+    sort_order: category.sort_order ?? 0,
+    is_active: category.is_active !== false,
+  });
+
+  async function submit(event) {
+    event.preventDefault();
+    const payload = {
+      name: form.name.trim(),
+      icon: form.icon.trim(),
+      description: form.description.trim(),
+      sort_order: Number(form.sort_order || 0),
+      is_active: Boolean(form.is_active),
+    };
+    if (!payload.name) return;
+
+    if (category.id) {
+      const { error } = await getClient().from("categories").update(payload).eq("id", category.id);
+      if (error) throw error;
+      await recordAudit("category", category.id, "updated", `Categoria actualizada: ${payload.name}`, { before: category, after: payload }, user);
+    } else {
+      const { data, error } = await getClient().from("categories").insert([payload]).select("id").single();
+      if (error) throw error;
+      await recordAudit("category", data?.id || null, "created", `Categoria creada: ${payload.name}`, { after: payload }, user);
+    }
+    await onSaved();
+  }
+
+  return <TaxonomyForm form={form} setForm={setForm} submit={submit} onCancel={onCancel} title="categoria" withIcon />;
+}
+
+function SubcategoriesPanel({ subcategories, categories, user, refresh, setNotice }) {
+  const [query, setQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [editing, setEditing] = useState(null);
+  const visible = subcategories
+    .filter((subcategory) => categoryFilter === "all" || subcategory.category_id === categoryFilter)
+    .filter((subcategory) => [subcategory.name, subcategory.description, subcategory.category].filter(Boolean).join(" ").toLowerCase().includes(query.toLowerCase()))
+    .sort(byName);
+
+  async function deleteSubcategory(subcategory) {
+    if (!window.confirm(`Eliminar subcategoria ${subcategory.name}?`)) return;
+    const { error } = await getClient().from("subcategories").delete().eq("id", subcategory.id);
+    if (error) throw error;
+    await recordAudit("subcategory", subcategory.id, "deleted", `Subcategoria eliminada: ${subcategory.name}`, { before: subcategory }, user);
+    await refresh("Subcategorias");
+  }
+
+  return (
+    <section className="admin-panel-react">
+      <div className="admin-panel-header">
+        <div>
+          <h2>Subcategorias registradas</h2>
+          <p>{visible.length} subcategorias con los filtros actuales.</p>
+        </div>
+        <button className="admin-button primary" type="button" onClick={() => setEditing({})}>
+          <i className="fa-solid fa-plus" />
+          Nueva subcategoria
+        </button>
+      </div>
+      {editing ? (
+        <SubcategoryForm
+          subcategory={editing}
+          categories={categories}
+          user={user}
+          onCancel={() => setEditing(null)}
+          onSaved={async () => {
+            setEditing(null);
+            setNotice("Subcategoria guardada.");
+            await refresh("Subcategorias");
+          }}
+        />
+      ) : null}
+      <div className="admin-toolbar-react">
+        <input value={query} placeholder="Buscar subcategoria..." onChange={(event) => setQuery(event.target.value)} />
+        <select value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
+          <option value="all">Todas las categorias</option>
+          {categories.sort(byName).map((category) => (
+            <option key={category.id} value={category.id}>{category.name}</option>
+          ))}
+        </select>
+      </div>
+      <AdminEntityList rows={visible} onEdit={setEditing} onDelete={deleteSubcategory} typeLabel="subcategoria" />
+    </section>
+  );
+}
+
+function SubcategoryForm({ subcategory, categories, user, onCancel, onSaved }) {
+  const [form, setForm] = useState({
+    name: subcategory.name || "",
+    category_id: subcategory.category_id || "",
+    description: subcategory.description || "",
+    sort_order: subcategory.sort_order ?? 0,
+    is_active: subcategory.is_active !== false,
+  });
+
+  async function submit(event) {
+    event.preventDefault();
+    const category = categories.find((item) => item.id === form.category_id);
+    const payload = {
+      name: form.name.trim(),
+      category_id: category?.id || null,
+      category: category?.name || "",
+      description: form.description.trim(),
+      sort_order: Number(form.sort_order || 0),
+      is_active: Boolean(form.is_active),
+    };
+    if (!payload.name || !payload.category_id) return;
+
+    if (subcategory.id) {
+      const { error } = await getClient().from("subcategories").update(payload).eq("id", subcategory.id);
+      if (error) throw error;
+      await recordAudit("subcategory", subcategory.id, "updated", `Subcategoria actualizada: ${payload.name}`, { before: subcategory, after: payload }, user);
+    } else {
+      const { data, error } = await getClient().from("subcategories").insert([payload]).select("id").single();
+      if (error) throw error;
+      await recordAudit("subcategory", data?.id || null, "created", `Subcategoria creada: ${payload.name}`, { after: payload }, user);
+    }
+    await onSaved();
+  }
+
+  return <TaxonomyForm form={form} setForm={setForm} submit={submit} onCancel={onCancel} title="subcategoria" categories={categories} />;
+}
+
+function TaxonomyForm({ form, setForm, submit, onCancel, title, categories = [], withIcon = false }) {
+  function update(key, value) {
+    setForm((current) => ({ ...current, [key]: value }));
+  }
+
+  return (
+    <form className="admin-form-react" onSubmit={submit}>
+      <label>
+        Nombre
+        <input value={form.name} onChange={(event) => update("name", event.target.value)} required />
+      </label>
+      {categories.length ? (
+        <label>
+          Categoria
+          <select value={form.category_id} onChange={(event) => update("category_id", event.target.value)} required>
+            <option value="">Selecciona</option>
+            {categories.sort(byName).map((category) => (
+              <option key={category.id} value={category.id}>{category.name}</option>
+            ))}
+          </select>
+        </label>
+      ) : null}
+      {withIcon ? (
+        <label>
+          Icono Font Awesome
+          <input value={form.icon} onChange={(event) => update("icon", event.target.value)} />
+        </label>
+      ) : null}
+      <label>
+        Orden
+        <input type="number" value={form.sort_order} onChange={(event) => update("sort_order", event.target.value)} />
+      </label>
+      <label>
+        Estado
+        <select value={form.is_active ? "active" : "inactive"} onChange={(event) => update("is_active", event.target.value === "active")}>
+          <option value="active">Activa</option>
+          <option value="inactive">Inactiva</option>
+        </select>
+      </label>
+      <label className="full">
+        Descripcion
+        <textarea value={form.description} onChange={(event) => update("description", event.target.value)} />
+      </label>
+      <div className="admin-top-actions full">
+        <button className="admin-button primary" type="submit">Guardar {title}</button>
+        <button className="admin-button" type="button" onClick={onCancel}>Cancelar</button>
+      </div>
+    </form>
+  );
+}
+
+function AdminEntityList({ rows, onEdit, onDelete, typeLabel }) {
+  return (
+    <div className="list-react">
+      {rows.length ? (
+        rows.map((row) => (
+          <div className="list-item-react" key={row.id}>
+            <div>
+              <strong>{cleanText(row.name || `${typeLabel} sin nombre`)}</strong>
+              <small className="muted">
+                {cleanText([row.category, row.icon, row.description].filter(Boolean).join(" / ") || "Sin descripcion")}
+              </small>
+              <small className="muted">Orden: {row.sort_order ?? 0}</small>
+            </div>
+            <div className="row-actions-react">
+              <span className={`tag-react ${row.is_active === false ? "bad" : "ok"}`}>
+                {row.is_active === false ? "Inactiva" : "Activa"}
+              </span>
+              <button className="admin-button" type="button" onClick={() => onEdit(row)}>
+                <i className="fa-solid fa-pen" />
+              </button>
+              <button className="admin-button danger" type="button" onClick={() => onDelete(row)}>
+                <i className="fa-solid fa-trash" />
+              </button>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div className="empty-react">No hay registros para este filtro.</div>
+      )}
+    </div>
+  );
+}
+
+function CompanyPanel({ settings, user, refresh, setNotice }) {
+  const defaults = {
+    phone: "966 441 035",
+    phone_raw: "51966441035",
+    email: "oliveravelasquezluis@gmail.com",
+    address: "Av. Republica de Argentina 211, Lima 15079",
+    hours: "Lun - Sab / 10:00 am - 5:00 pm",
+    whatsapp_url: "https://wa.me/51966441035",
+    map_url: "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/",
+    map_embed: "",
+  };
+  const [form, setForm] = useState({ ...defaults, ...(settings || {}) });
+
+  useEffect(() => {
+    setForm({ ...defaults, ...(settings || {}) });
+  }, [settings?.id]);
+
+  function update(key, value) {
+    setForm((current) => ({ ...current, [key]: value }));
+  }
+
+  async function submit(event) {
+    event.preventDefault();
+    const payload = {
+      phone: form.phone.trim(),
+      phone_raw: form.phone_raw.trim(),
+      email: form.email.trim(),
+      address: form.address.trim(),
+      hours: form.hours.trim(),
+      whatsapp_url: form.whatsapp_url.trim(),
+      map_url: form.map_url.trim(),
+      map_embed: form.map_embed.trim(),
+    };
+
+    if (!payload.phone || !payload.email || !payload.address) return;
+
+    if (settings?.id) {
+      const { error } = await getClient().from("company_settings").update(payload).eq("id", settings.id);
+      if (error) throw error;
+      await recordAudit("company", settings.id, "updated", "Datos de empresa actualizados", { before: settings, after: payload }, user);
+    } else {
+      const { data, error } = await getClient().from("company_settings").insert([payload]).select("id").single();
+      if (error) throw error;
+      await recordAudit("company", data?.id || null, "created", "Datos de empresa creados", { after: payload }, user);
+    }
+    setNotice("Datos de empresa guardados.");
+    await refresh("Empresa");
+  }
+
+  return (
+    <section className="admin-panel-react">
+      <div className="admin-panel-header">
+        <div>
+          <h2>Datos de empresa</h2>
+          <p>Contacto, WhatsApp, horarios y mapa usados por la web publica.</p>
+        </div>
+      </div>
+      <form className="admin-form-react" onSubmit={submit}>
+        <label>
+          Telefono visible
+          <input value={form.phone} onChange={(event) => update("phone", event.target.value)} required />
+        </label>
+        <label>
+          Telefono WhatsApp
+          <input value={form.phone_raw} onChange={(event) => update("phone_raw", event.target.value)} />
+        </label>
+        <label>
+          Correo
+          <input type="email" value={form.email} onChange={(event) => update("email", event.target.value)} required />
+        </label>
+        <label>
+          Horario
+          <input value={form.hours} onChange={(event) => update("hours", event.target.value)} />
+        </label>
+        <label className="wide">
+          Direccion
+          <input value={form.address} onChange={(event) => update("address", event.target.value)} required />
+        </label>
+        <label className="wide">
+          Link WhatsApp
+          <input value={form.whatsapp_url} onChange={(event) => update("whatsapp_url", event.target.value)} />
+        </label>
+        <label className="wide">
+          Link mapa
+          <input value={form.map_url} onChange={(event) => update("map_url", event.target.value)} />
+        </label>
+        <label className="full">
+          Embed mapa
+          <textarea value={form.map_embed} onChange={(event) => update("map_embed", event.target.value)} />
+        </label>
+        <div className="admin-top-actions full">
+          <button className="admin-button primary" type="submit">Guardar datos</button>
+        </div>
+      </form>
+    </section>
   );
 }
 

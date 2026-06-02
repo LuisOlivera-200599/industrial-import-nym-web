@@ -128,7 +128,9 @@ function AdminApp() {
   const [stockMovements, setStockMovements] = useState([]);
   const [audit, setAudit] = useState([]);
   const [companySettings, setCompanySettings] = useState(null);
+  const [adminUsers, setAdminUsers] = useState([]);
   const [loadWarnings, setLoadWarnings] = useState([]);
+  const [globalQuery, setGlobalQuery] = useState("");
 
   async function loadAll() {
     const client = getClient();
@@ -141,6 +143,7 @@ function AdminApp() {
       stockResult,
       auditResult,
       companyResult,
+      adminUsersResult,
     ] = await Promise.all([
       safeLoad("Productos", fetchAllProducts, []),
       safeLoad("Marcas", async () => {
@@ -178,6 +181,11 @@ function AdminApp() {
         if (error) throw error;
         return data || null;
       }, null),
+      safeLoad("Usuarios admin", async () => {
+        const { data, error } = await client.rpc("list_admin_users");
+        if (error) throw error;
+        return data || [];
+      }, []),
     ]);
 
     setProducts(productResult.data);
@@ -188,8 +196,9 @@ function AdminApp() {
     setStockMovements(stockResult.data);
     setAudit(auditResult.data);
     setCompanySettings(companyResult.data);
+    setAdminUsers(adminUsersResult.data);
     setLoadWarnings(
-      [productResult, brandResult, categoryResult, subcategoryResult, leadsResult, stockResult, auditResult, companyResult]
+      [productResult, brandResult, categoryResult, subcategoryResult, leadsResult, stockResult, auditResult, companyResult, adminUsersResult]
         .map((result) => result.warning)
         .filter(Boolean),
     );
@@ -253,6 +262,46 @@ function AdminApp() {
     window.location.href = "admin-login.html";
   }
 
+  const globalResults = useMemo(() => {
+    const query = normalize(globalQuery);
+    if (!query) return [];
+    const matches = [];
+    products
+      .filter((item) => item.is_active !== false)
+      .forEach((item) => {
+        if (normalize([item.name, item.brand, item.category, item.subcategory].filter(Boolean).join(" ")).includes(query)) {
+          matches.push({ type: "Producto", label: item.name || "Producto sin nombre", detail: [item.brand, item.category].filter(Boolean).join(" / "), section: "products" });
+        }
+      });
+    brands
+      .filter((item) => item.is_active !== false)
+      .forEach((item) => {
+        if (normalize([item.name, item.description].filter(Boolean).join(" ")).includes(query)) {
+          matches.push({ type: "Marca", label: item.name || "Marca sin nombre", detail: item.description || "", section: "brands" });
+        }
+      });
+    categories
+      .filter((item) => item.is_active !== false)
+      .forEach((item) => {
+        if (normalize([item.name, item.description].filter(Boolean).join(" ")).includes(query)) {
+          matches.push({ type: "Categoria", label: item.name || "Categoria sin nombre", detail: item.description || "", section: "categories" });
+        }
+      });
+    subcategories
+      .filter((item) => item.is_active !== false)
+      .forEach((item) => {
+        if (normalize([item.name, item.category, item.description].filter(Boolean).join(" ")).includes(query)) {
+          matches.push({ type: "Subcategoria", label: item.name || "Subcategoria sin nombre", detail: item.category || "", section: "subcategories" });
+        }
+      });
+    leads.forEach((item) => {
+      if (normalize([item.nombre, item.empresa, item.correo, item.telefono, item.mensaje].filter(Boolean).join(" ")).includes(query)) {
+        matches.push({ type: "Lead", label: item.nombre || "Lead sin nombre", detail: [item.empresa, item.estado || "nuevo"].filter(Boolean).join(" / "), section: "leads" });
+      }
+    });
+    return matches.slice(0, 12);
+  }, [globalQuery, products, brands, categories, subcategories, leads]);
+
   if (loading) return <div className="loading-react">Cargando panel React...</div>;
 
   return (
@@ -278,6 +327,8 @@ function AdminApp() {
               ["leads", "fa-inbox", "Leads"],
               ["stock", "fa-boxes-stacked", "Stock"],
               ["audit", "fa-clock-rotate-left", "Auditoria"],
+              ["users", "fa-user-shield", "Usuarios"],
+              ["trash", "fa-trash-can", "Papelera"],
             ].map(([key, icon, label]) => (
               <button key={key} className={active === key ? "active" : ""} type="button" onClick={() => setActive(key)}>
                 <i className={`fa-solid ${icon}`} />
@@ -292,6 +343,32 @@ function AdminApp() {
             <div>
               <h1>{getTitle(active)}</h1>
               <p>{user?.email || "Sesion administrativa"}</p>
+            </div>
+            <div className="global-search-react">
+              <i className="fa-solid fa-magnifying-glass" />
+              <input value={globalQuery} placeholder="Buscar en todo el admin..." onChange={(event) => setGlobalQuery(event.target.value)} />
+              {globalQuery ? (
+                <div className="global-search-results">
+                  {globalResults.length ? (
+                    globalResults.map((result, index) => (
+                      <button
+                        key={`${result.type}-${result.label}-${index}`}
+                        type="button"
+                        onClick={() => {
+                          setActive(result.section);
+                          setGlobalQuery("");
+                        }}
+                      >
+                        <span>{result.type}</span>
+                        <strong>{cleanText(result.label)}</strong>
+                        <small>{cleanText(result.detail || "Sin detalle")}</small>
+                      </button>
+                    ))
+                  ) : (
+                    <div className="empty-search-react">Sin resultados.</div>
+                  )}
+                </div>
+              ) : null}
             </div>
             <div className="admin-top-actions">
               <a className="admin-button" href="productos.html">
@@ -358,6 +435,18 @@ function AdminApp() {
               />
             ) : null}
             {active === "audit" ? <AuditPanel audit={audit} /> : null}
+            {active === "users" ? <AdminUsersPanel users={adminUsers} currentUser={user} refresh={refresh} setNotice={setNotice} /> : null}
+            {active === "trash" ? (
+              <TrashPanel
+                products={products}
+                brands={brands}
+                categories={categories}
+                subcategories={subcategories}
+                user={user}
+                refresh={refresh}
+                setNotice={setNotice}
+              />
+            ) : null}
           </div>
         </main>
       </div>
@@ -376,6 +465,8 @@ function getTitle(active) {
     leads: "Pipeline de leads",
     stock: "Movimientos de stock",
     audit: "Auditoria",
+    users: "Usuarios administradores",
+    trash: "Papelera",
   };
   return titles[active] || "Panel";
 }
@@ -464,10 +555,10 @@ function ProductsPanel({ products, setProducts, brands, categories, subcategorie
   }
 
   async function deleteProduct(product) {
-    if (!window.confirm(`Eliminar ${product.name}?`)) return;
-    const { error } = await getClient().from("products").delete().eq("id", product.id);
+    if (!window.confirm(`Enviar ${product.name} a papelera?`)) return;
+    const { error } = await getClient().from("products").update({ is_active: false }).eq("id", product.id);
     if (error) throw error;
-    await recordAudit("product", product.id, "deleted", `Producto eliminado: ${product.name}`, { before: product }, user);
+    await recordAudit("product", product.id, "soft_deleted", `Producto enviado a papelera: ${product.name}`, { before: product }, user);
     await refresh("Productos");
   }
 
@@ -822,10 +913,10 @@ function BrandsPanel({ brands, user, refresh, setNotice }) {
     .sort(byName);
 
   async function deleteBrand(brand) {
-    if (!window.confirm(`Eliminar marca ${brand.name}?`)) return;
-    const { error } = await getClient().from("brands").delete().eq("id", brand.id);
+    if (!window.confirm(`Enviar marca ${brand.name} a papelera?`)) return;
+    const { error } = await getClient().from("brands").update({ is_active: false }).eq("id", brand.id);
     if (error) throw error;
-    await recordAudit("brand", brand.id, "deleted", `Marca eliminada: ${brand.name}`, { before: brand }, user);
+    await recordAudit("brand", brand.id, "soft_deleted", `Marca enviada a papelera: ${brand.name}`, { before: brand }, user);
     await refresh("Marcas");
   }
 
@@ -981,10 +1072,10 @@ function CategoriesPanel({ categories, user, refresh, setNotice }) {
     .sort(byName);
 
   async function deleteCategory(category) {
-    if (!window.confirm(`Eliminar categoria ${category.name}?`)) return;
-    const { error } = await getClient().from("categories").delete().eq("id", category.id);
+    if (!window.confirm(`Enviar categoria ${category.name} a papelera?`)) return;
+    const { error } = await getClient().from("categories").update({ is_active: false }).eq("id", category.id);
     if (error) throw error;
-    await recordAudit("category", category.id, "deleted", `Categoria eliminada: ${category.name}`, { before: category }, user);
+    await recordAudit("category", category.id, "soft_deleted", `Categoria enviada a papelera: ${category.name}`, { before: category }, user);
     await refresh("Categorias");
   }
 
@@ -1065,10 +1156,10 @@ function SubcategoriesPanel({ subcategories, categories, user, refresh, setNotic
     .sort(byName);
 
   async function deleteSubcategory(subcategory) {
-    if (!window.confirm(`Eliminar subcategoria ${subcategory.name}?`)) return;
-    const { error } = await getClient().from("subcategories").delete().eq("id", subcategory.id);
+    if (!window.confirm(`Enviar subcategoria ${subcategory.name} a papelera?`)) return;
+    const { error } = await getClient().from("subcategories").update({ is_active: false }).eq("id", subcategory.id);
     if (error) throw error;
-    await recordAudit("subcategory", subcategory.id, "deleted", `Subcategoria eliminada: ${subcategory.name}`, { before: subcategory }, user);
+    await recordAudit("subcategory", subcategory.id, "soft_deleted", `Subcategoria enviada a papelera: ${subcategory.name}`, { before: subcategory }, user);
     await refresh("Subcategorias");
   }
 
@@ -1526,6 +1617,124 @@ function AuditPanel({ audit }) {
           ))
         ) : (
           <div className="empty-react">Aun no hay eventos de auditoria.</div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function AdminUsersPanel({ users, currentUser, refresh, setNotice }) {
+  const [email, setEmail] = useState("");
+
+  async function addAdmin(event) {
+    event.preventDefault();
+    const adminEmail = email.trim();
+    if (!adminEmail) return;
+    const { error } = await getClient().rpc("add_admin_user_by_email", { admin_email: adminEmail });
+    if (error) throw error;
+    setEmail("");
+    setNotice("Usuario admin agregado.");
+    await refresh("Usuarios");
+  }
+
+  async function removeAdmin(userRow) {
+    if (!window.confirm(`Quitar acceso admin a ${userRow.email || userRow.user_id}?`)) return;
+    const { error } = await getClient().rpc("remove_admin_user", { target_user_id: userRow.user_id });
+    if (error) throw error;
+    setNotice("Usuario admin removido.");
+    await refresh("Usuarios");
+  }
+
+  return (
+    <section className="admin-panel-react">
+      <div className="admin-panel-header">
+        <div>
+          <h2>Usuarios autorizados</h2>
+          <p>Agrega o quita administradores usando correos ya registrados en Supabase Auth.</p>
+        </div>
+      </div>
+      <form className="admin-form-react" onSubmit={addAdmin}>
+        <label className="wide">
+          Correo del usuario
+          <input type="email" value={email} placeholder="correo@empresa.com" onChange={(event) => setEmail(event.target.value)} required />
+        </label>
+        <div className="admin-top-actions">
+          <button className="admin-button primary" type="submit">
+            <i className="fa-solid fa-user-plus" />
+            Agregar admin
+          </button>
+        </div>
+      </form>
+      <div className="list-react">
+        {users.length ? (
+          users.map((userRow) => (
+            <div className="list-item-react" key={userRow.user_id}>
+              <div>
+                <strong>{userRow.email || "Usuario sin correo visible"}</strong>
+                <small className="muted">ID: {userRow.user_id}</small>
+                <small className="muted">Agregado: {formatDate(userRow.created_at)}</small>
+              </div>
+              <div className="row-actions-react">
+                {userRow.user_id === currentUser?.id ? <span className="tag-react ok">Tu usuario</span> : null}
+                <button className="admin-button danger" type="button" disabled={userRow.user_id === currentUser?.id} onClick={() => removeAdmin(userRow)}>
+                  <i className="fa-solid fa-user-minus" />
+                  Quitar
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="empty-react">No se pudieron listar usuarios admin.</div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function TrashPanel({ products, brands, categories, subcategories, user, refresh, setNotice }) {
+  const inactiveRows = [
+    ...products.filter((item) => item.is_active === false).map((item) => ({ ...item, entity: "products", type: "Producto" })),
+    ...brands.filter((item) => item.is_active === false).map((item) => ({ ...item, entity: "brands", type: "Marca" })),
+    ...categories.filter((item) => item.is_active === false).map((item) => ({ ...item, entity: "categories", type: "Categoria" })),
+    ...subcategories.filter((item) => item.is_active === false).map((item) => ({ ...item, entity: "subcategories", type: "Subcategoria" })),
+  ].sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+
+  async function restore(row) {
+    const { error } = await getClient().from(row.entity).update({ is_active: true }).eq("id", row.id);
+    if (error) throw error;
+    await recordAudit(row.entity.replace(/s$/, ""), row.id, "restored", `${row.type} restaurado: ${row.name}`, { after: { is_active: true } }, user);
+    setNotice(`${row.type} restaurado.`);
+    await refresh("Papelera");
+  }
+
+  return (
+    <section className="admin-panel-react">
+      <div className="admin-panel-header">
+        <div>
+          <h2>Papelera</h2>
+          <p>{inactiveRows.length} registros inactivos. Restaurar vuelve a publicarlos si sus relaciones tambien estan activas.</p>
+        </div>
+      </div>
+      <div className="list-react">
+        {inactiveRows.length ? (
+          inactiveRows.map((row) => (
+            <div className="list-item-react" key={`${row.entity}-${row.id}`}>
+              <div>
+                <strong>{cleanText(row.name || "Registro sin nombre")}</strong>
+                <small className="muted">{row.type}</small>
+                <small className="muted">{cleanText([row.brand, row.category, row.subcategory, row.description].filter(Boolean).join(" / ") || "Sin detalle")}</small>
+              </div>
+              <div className="row-actions-react">
+                <span className="tag-react bad">Inactivo</span>
+                <button className="admin-button primary" type="button" onClick={() => restore(row)}>
+                  <i className="fa-solid fa-rotate-left" />
+                  Restaurar
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="empty-react">La papelera esta vacia.</div>
         )}
       </div>
     </section>

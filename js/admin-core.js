@@ -17,8 +17,7 @@ let selectedBrandFile = null;
 let adminProductPage = 1;
 let adminProductPageSize = 25;
 let adminProductSort = "created_desc";
-
-const ADMIN_PRODUCTS_PER_PAGE = 25;
+let adminFilteredProducts = [];
 
 const menuButtons = document.querySelectorAll("[data-section]");
 const sections = document.querySelectorAll(".admin-section");
@@ -51,6 +50,9 @@ const subcategoryFilter = document.getElementById("subcategory-filter");
 const stockFilter = document.getElementById("stock-filter");
 const productPageSize = document.getElementById("product-page-size");
 const productSort = document.getElementById("product-sort");
+const productResultSummary = document.getElementById("product-result-summary");
+const productAddShortcut = document.getElementById("product-add-shortcut");
+const productExportCsv = document.getElementById("product-export-csv");
 const notice = document.getElementById("notice");
 const formTitle = document.getElementById("form-title");
 const saveBtn = document.getElementById("save-btn");

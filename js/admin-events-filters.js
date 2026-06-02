@@ -34,6 +34,19 @@ productSort?.addEventListener("change", () => {
   resetAdminProductPage();
 });
 
+productPageSize?.addEventListener("change", () => {
+  adminProductPageSize = Number(productPageSize.value) || 25;
+  resetAdminProductPage();
+});
+
+productExportCsv?.addEventListener("click", downloadAdminProductsCsv);
+
+productAddShortcut?.addEventListener("click", () => {
+  resetForm();
+  form.scrollIntoView({ behavior: "smooth", block: "start" });
+  fields.name.focus();
+});
+
 resetBtn.addEventListener("click", resetForm);
 brandResetBtn.addEventListener("click", resetBrandForm);
 categoryResetBtn.addEventListener("click", resetCategoryForm);

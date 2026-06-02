@@ -95,7 +95,7 @@ function renderSortButton(field, label) {
 function renderAdminProductTable(productsToRender) {
   return `
     <div class="admin-table-wrap">
-      <table class="admin-table">
+      <table class="admin-table compact-product-table">
         <thead>
           <tr>
             <th>${renderSortButton("name", "Producto")}</th>

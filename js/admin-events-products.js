@@ -183,6 +183,7 @@ productPagination?.addEventListener("change", (event) => {
   if (!select) return;
 
   adminProductPageSize = Number(select.value) || 25;
+  if (productPageSize) productPageSize.value = String(adminProductPageSize);
   resetAdminProductPage();
 });
 

@@ -23,8 +23,7 @@ let selectedBrandFile = null;
 let adminProductPage = 1;
 let adminProductPageSize = 25;
 let adminProductSort = "created_desc";
-
-const ADMIN_PRODUCTS_PER_PAGE = 25;
+let adminFilteredProducts = [];
 
 const menuButtons = document.querySelectorAll("[data-section]");
 const sections = document.querySelectorAll(".admin-section");
@@ -57,6 +56,9 @@ const subcategoryFilter = document.getElementById("subcategory-filter");
 const stockFilter = document.getElementById("stock-filter");
 const productPageSize = document.getElementById("product-page-size");
 const productSort = document.getElementById("product-sort");
+const productResultSummary = document.getElementById("product-result-summary");
+const productAddShortcut = document.getElementById("product-add-shortcut");
+const productExportCsv = document.getElementById("product-export-csv");
 const notice = document.getElementById("notice");
 const formTitle = document.getElementById("form-title");
 const saveBtn = document.getElementById("save-btn");
@@ -448,7 +450,7 @@ function renderSortButton(field, label) {
 function renderAdminProductTable(productsToRender) {
   return `
     <div class="admin-table-wrap">
-      <table class="admin-table">
+      <table class="admin-table compact-product-table">
         <thead>
           <tr>
             <th>${renderSortButton("name", "Producto")}</th>
@@ -857,6 +859,12 @@ function renderProducts() {
   });
 
   const sorted = [...filtered].sort(sortAdminProducts);
+  adminFilteredProducts = sorted;
+
+  if (productPageSize && productPageSize.value !== String(adminProductPageSize)) {
+    productPageSize.value = String(adminProductPageSize);
+  }
+
   const totalPages = Math.max(1, Math.ceil(sorted.length / adminProductPageSize));
 
   if (adminProductPage > totalPages) {
@@ -874,6 +882,7 @@ function renderProducts() {
       });
 
   renderProductPagination(sorted.length, start, pageProducts.length, totalPages);
+  renderProductResultSummary(sorted.length, start, pageProducts.length);
   renderStockList();
   renderBrandsList();
   renderCategoriesList();
@@ -906,6 +915,74 @@ function sortAdminProducts(a, b) {
 function renderProductPagination(totalProducts, start, shownProducts, totalPages) {
   if (!productPagination) return;
   productPagination.innerHTML = renderAdminProductPagination({ totalProducts, start, shownProducts, totalPages });
+}
+
+function renderProductResultSummary(totalProducts, start, shownProducts) {
+  if (!productResultSummary) return;
+
+  if (!totalProducts) {
+    productResultSummary.textContent = "No hay productos con los filtros actuales.";
+    return;
+  }
+
+  const from = start + 1;
+  const to = start + shownProducts;
+  productResultSummary.textContent = `Mostrando ${from}-${to} de ${totalProducts} productos filtrados.`;
+}
+
+function escapeCsvValue(value) {
+  const text = String(value ?? "");
+  const escaped = text.replace(/"/g, '""');
+  return /[",;\n\r]/.test(escaped) ? `"${escaped}"` : escaped;
+}
+
+function downloadAdminProductsCsv() {
+  const rows = adminFilteredProducts.length
+    ? adminFilteredProducts
+    : products.filter((product) => product.is_active !== false).sort(sortAdminProducts);
+
+  const headers = [
+    "Producto",
+    "Marca",
+    "Categoria",
+    "Subcategoria",
+    "Estado",
+    "Cantidad",
+    "Alerta bajo stock",
+    "Descripcion",
+    "ID",
+  ];
+
+  const lines = rows.map((product) =>
+    [
+      product.name,
+      product.brand,
+      product.category,
+      product.subcategory,
+      product.stock_status,
+      product.stock_quantity,
+      product.low_stock_threshold,
+      product.description,
+      product.id,
+    ]
+      .map(escapeCsvValue)
+      .join(";"),
+  );
+
+  const blob = new Blob([`\uFEFF${[headers.join(";"), ...lines].join("\r\n")}`], {
+    type: "text/csv;charset=utf-8",
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = `productos-industrial-import-company-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+
+  showNotice(notice, `${rows.length} productos exportados en CSV.`);
 }
 
 function resetAdminProductPage() {
@@ -1850,6 +1927,7 @@ productPagination?.addEventListener("change", (event) => {
   if (!select) return;
 
   adminProductPageSize = Number(select.value) || 25;
+  if (productPageSize) productPageSize.value = String(adminProductPageSize);
   resetAdminProductPage();
 });
 
@@ -2125,6 +2203,19 @@ stockFilter.addEventListener("change", resetAdminProductPage);
 productSort?.addEventListener("change", () => {
   adminProductSort = productSort.value;
   resetAdminProductPage();
+});
+
+productPageSize?.addEventListener("change", () => {
+  adminProductPageSize = Number(productPageSize.value) || 25;
+  resetAdminProductPage();
+});
+
+productExportCsv?.addEventListener("click", downloadAdminProductsCsv);
+
+productAddShortcut?.addEventListener("click", () => {
+  resetForm();
+  form.scrollIntoView({ behavior: "smooth", block: "start" });
+  fields.name.focus();
 });
 
 resetBtn.addEventListener("click", resetForm);

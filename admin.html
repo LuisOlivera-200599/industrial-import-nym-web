@@ -66,8 +66,8 @@
       <div class="admin-boot-fallback" id="admin-boot-fallback">
         <div class="admin-boot-card">
           <h1>Cargando panel administrador</h1>
-          <p>Si el nuevo admin no carga en unos segundos, abriremos automaticamente el admin clasico.</p>
-          <a href="admin-legacy.html">Abrir admin clasico</a>
+          <p id="admin-boot-message">Inicializando el nuevo panel React.</p>
+          <a href="admin.html" id="admin-boot-action">Recargar panel</a>
         </div>
       </div>
     </div>
@@ -79,13 +79,17 @@
       window.__nymReactAdminMounted = false;
       window.__nymReactAdminFallbackTimer = window.setTimeout(function () {
         if (!window.__nymReactAdminMounted) {
-          window.location.replace("admin-legacy.html?fallback=react-admin");
+          var message = document.getElementById("admin-boot-message");
+          if (message) message.textContent = "El nuevo panel esta tardando mas de lo normal. Recarga la pagina.";
         }
       }, 4500);
     </script>
     <script
-      src="js/admin-react.iife.js?v=20260602-react-admin-fallback"
-      onerror="window.location.replace('admin-legacy.html?fallback=script-error')"
+      src="js/admin-react.iife.js?v=20260602-react-admin-process-fix"
+      onerror="
+        document.getElementById('admin-boot-message').textContent =
+          'No se pudo cargar el bundle React. Recarga la pagina.'
+      "
     ></script>
   </body>
 </html>

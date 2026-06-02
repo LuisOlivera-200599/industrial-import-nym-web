@@ -97,7 +97,6 @@ expectIncludes("admin-legacy.html", "product-import-trigger");
 expectIncludes("admin-legacy.html", "metric-low-stock");
 expectIncludes("admin-legacy.html", "admin-modal");
 expectIncludes("src/admin/main.jsx", "createRoot");
-expectIncludes("src/admin/main.jsx", "Admin clasico");
 expectIncludes("src/admin/main.jsx", "AuditPanel");
 expectIncludes("js/admin-components.js", "data-product-page-size");
 expectIncludes("js/admin-components.js", "data-quick-save");

@@ -235,10 +235,6 @@ function AdminApp() {
                 {label}
               </button>
             ))}
-            <a className="admin-legacy-link" href="admin-legacy.html">
-              <i className="fa-solid fa-layer-group" />
-              Admin clasico
-            </a>
           </nav>
         </aside>
 

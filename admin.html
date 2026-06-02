@@ -19,14 +19,73 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/admin-react.css" />
+    <style>
+      .admin-boot-fallback {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        color: #0f172a;
+      }
+
+      .admin-boot-card {
+        width: min(100%, 480px);
+        border: 1px solid #dbe3ef;
+        border-radius: 18px;
+        background: #ffffff;
+        padding: 24px;
+        box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+        text-align: center;
+      }
+
+      .admin-boot-card h1 {
+        margin: 0 0 8px;
+        font-size: 1.3rem;
+      }
+
+      .admin-boot-card p {
+        color: #64748b;
+        line-height: 1.6;
+      }
+
+      .admin-boot-card a {
+        display: inline-flex;
+        margin-top: 12px;
+        border-radius: 999px;
+        background: #3157ff;
+        color: #ffffff;
+        padding: 12px 18px;
+        font-weight: 900;
+        text-decoration: none;
+      }
+    </style>
   </head>
   <body>
     <noscript>Activa JavaScript para usar el panel administrador.</noscript>
-    <div id="admin-root"></div>
+    <div id="admin-root">
+      <div class="admin-boot-fallback" id="admin-boot-fallback">
+        <div class="admin-boot-card">
+          <h1>Cargando panel administrador</h1>
+          <p>Si el nuevo admin no carga en unos segundos, abriremos automaticamente el admin clasico.</p>
+          <a href="admin-legacy.html">Abrir admin clasico</a>
+        </div>
+      </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="js/supabase-config.js?v=20260601-products"></script>
-    <script src="js/admin-react.iife.js?v=20260602-react-admin"></script>
+    <script>
+      window.__nymReactAdminMounted = false;
+      window.__nymReactAdminFallbackTimer = window.setTimeout(function () {
+        if (!window.__nymReactAdminMounted) {
+          window.location.replace("admin-legacy.html?fallback=react-admin");
+        }
+      }, 4500);
+    </script>
+    <script
+      src="js/admin-react.iife.js?v=20260602-react-admin-fallback"
+      onerror="window.location.replace('admin-legacy.html?fallback=script-error')"
+    ></script>
   </body>
 </html>

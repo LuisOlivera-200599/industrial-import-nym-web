@@ -944,4 +944,7 @@ function AuditPanel({ audit }) {
   );
 }
 
-createRoot(document.getElementById("admin-root")).render(<AdminApp />);
+const rootElement = document.getElementById("admin-root");
+window.__nymReactAdminMounted = true;
+if (window.__nymReactAdminFallbackTimer) window.clearTimeout(window.__nymReactAdminFallbackTimer);
+createRoot(rootElement).render(<AdminApp />);

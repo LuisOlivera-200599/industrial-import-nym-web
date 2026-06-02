@@ -1625,24 +1625,48 @@ function AuditPanel({ audit }) {
 
 function AdminUsersPanel({ users, currentUser, refresh, setNotice }) {
   const [email, setEmail] = useState("");
+  const [localMessage, setLocalMessage] = useState("");
+  const [saving, setSaving] = useState(false);
 
   async function addAdmin(event) {
     event.preventDefault();
     const adminEmail = email.trim();
     if (!adminEmail) return;
-    const { error } = await getClient().rpc("add_admin_user_by_email", { admin_email: adminEmail });
-    if (error) throw error;
-    setEmail("");
-    setNotice("Usuario admin agregado.");
-    await refresh("Usuarios");
+    setSaving(true);
+    setLocalMessage("");
+    try {
+      const { error } = await getClient().rpc("add_admin_user_by_email", { admin_email: adminEmail });
+      if (error) throw error;
+      setEmail("");
+      setNotice("Usuario admin agregado.");
+      setLocalMessage(`Listo: ${adminEmail} ahora tiene acceso admin.`);
+      await refresh("Usuarios");
+    } catch (error) {
+      const message = error?.message || "No se pudo agregar el usuario admin.";
+      setLocalMessage(message);
+      setNotice(message);
+    } finally {
+      setSaving(false);
+    }
   }
 
   async function removeAdmin(userRow) {
     if (!window.confirm(`Quitar acceso admin a ${userRow.email || userRow.user_id}?`)) return;
-    const { error } = await getClient().rpc("remove_admin_user", { target_user_id: userRow.user_id });
-    if (error) throw error;
-    setNotice("Usuario admin removido.");
-    await refresh("Usuarios");
+    setSaving(true);
+    setLocalMessage("");
+    try {
+      const { error } = await getClient().rpc("remove_admin_user", { target_user_id: userRow.user_id });
+      if (error) throw error;
+      setNotice("Usuario admin removido.");
+      setLocalMessage("Usuario admin removido.");
+      await refresh("Usuarios");
+    } catch (error) {
+      const message = error?.message || "No se pudo quitar el acceso admin.";
+      setLocalMessage(message);
+      setNotice(message);
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -1659,12 +1683,13 @@ function AdminUsersPanel({ users, currentUser, refresh, setNotice }) {
           <input type="email" value={email} placeholder="correo@empresa.com" onChange={(event) => setEmail(event.target.value)} required />
         </label>
         <div className="admin-top-actions">
-          <button className="admin-button primary" type="submit">
+          <button className="admin-button primary" type="submit" disabled={saving}>
             <i className="fa-solid fa-user-plus" />
-            Agregar admin
+            {saving ? "Procesando..." : "Agregar admin"}
           </button>
         </div>
       </form>
+      {localMessage ? <div className="notice-react warning">{localMessage}</div> : null}
       <div className="list-react">
         {users.length ? (
           users.map((userRow) => (
@@ -1676,7 +1701,7 @@ function AdminUsersPanel({ users, currentUser, refresh, setNotice }) {
               </div>
               <div className="row-actions-react">
                 {userRow.user_id === currentUser?.id ? <span className="tag-react ok">Tu usuario</span> : null}
-                <button className="admin-button danger" type="button" disabled={userRow.user_id === currentUser?.id} onClick={() => removeAdmin(userRow)}>
+                <button className="admin-button danger" type="button" disabled={saving || userRow.user_id === currentUser?.id} onClick={() => removeAdmin(userRow)}>
                   <i className="fa-solid fa-user-minus" />
                   Quitar
                 </button>

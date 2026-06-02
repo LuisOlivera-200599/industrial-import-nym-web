@@ -423,6 +423,12 @@ textarea {
   font-weight: 800;
 }
 
+.notice-react.warning {
+  background: #fffbeb;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
 .empty-react {
   padding: 32px 20px;
   color: #64748b;

@@ -90,6 +90,16 @@ async function recordAudit(entityType, entityId, action, summary, metadata, user
   }
 }
 
+async function safeLoad(label, loader, fallback) {
+  try {
+    return { data: await loader(), warning: "" };
+  } catch (error) {
+    const message = error?.message || String(error);
+    console.warn(`${label} unavailable`, message);
+    return { data: fallback, warning: `${label}: ${message}` };
+  }
+}
+
 function normalize(value) {
   return String(value || "")
     .trim()
@@ -116,11 +126,12 @@ function AdminApp() {
   const [leads, setLeads] = useState([]);
   const [stockMovements, setStockMovements] = useState([]);
   const [audit, setAudit] = useState([]);
+  const [loadWarnings, setLoadWarnings] = useState([]);
 
   async function loadAll() {
     const client = getClient();
     const [
-      productRows,
+      productResult,
       brandResult,
       categoryResult,
       subcategoryResult,
@@ -128,26 +139,51 @@ function AdminApp() {
       stockResult,
       auditResult,
     ] = await Promise.all([
-      fetchAllProducts(),
-      client.from("brands").select("*").order("name", { ascending: true }),
-      client.from("categories").select("*").order("name", { ascending: true }),
-      client.from("subcategories").select("*").order("name", { ascending: true }),
-      client.from("contact_leads").select("*").order("created_at", { ascending: false }).limit(120),
-      client.from("stock_movements").select("*, products(name, brand)").order("created_at", { ascending: false }).limit(120),
-      client.from("admin_audit_log").select("*").order("created_at", { ascending: false }).limit(120),
+      safeLoad("Productos", fetchAllProducts, []),
+      safeLoad("Marcas", async () => {
+        const { data, error } = await client.from("brands").select("*").order("name", { ascending: true });
+        if (error) throw error;
+        return data || [];
+      }, []),
+      safeLoad("Categorias", async () => {
+        const { data, error } = await client.from("categories").select("*").order("name", { ascending: true });
+        if (error) throw error;
+        return data || [];
+      }, []),
+      safeLoad("Subcategorias", async () => {
+        const { data, error } = await client.from("subcategories").select("*").order("name", { ascending: true });
+        if (error) throw error;
+        return data || [];
+      }, []),
+      safeLoad("Leads", async () => {
+        const { data, error } = await client.from("contact_leads").select("*").order("created_at", { ascending: false }).limit(120);
+        if (error) throw error;
+        return data || [];
+      }, []),
+      safeLoad("Movimientos de stock", async () => {
+        const { data, error } = await client.from("stock_movements").select("*, products(name, brand)").order("created_at", { ascending: false }).limit(120);
+        if (error) throw error;
+        return data || [];
+      }, []),
+      safeLoad("Auditoria", async () => {
+        const { data, error } = await client.from("admin_audit_log").select("*").order("created_at", { ascending: false }).limit(120);
+        if (error) throw error;
+        return data || [];
+      }, []),
     ]);
 
-    [brandResult, categoryResult, subcategoryResult, leadsResult, stockResult, auditResult].forEach((result) => {
-      if (result.error) throw result.error;
-    });
-
-    setProducts(productRows);
-    setBrands(brandResult.data || []);
-    setCategories(categoryResult.data || []);
-    setSubcategories(subcategoryResult.data || []);
-    setLeads(leadsResult.data || []);
-    setStockMovements(stockResult.data || []);
-    setAudit(auditResult.data || []);
+    setProducts(productResult.data);
+    setBrands(brandResult.data);
+    setCategories(categoryResult.data);
+    setSubcategories(subcategoryResult.data);
+    setLeads(leadsResult.data);
+    setStockMovements(stockResult.data);
+    setAudit(auditResult.data);
+    setLoadWarnings(
+      [productResult, brandResult, categoryResult, subcategoryResult, leadsResult, stockResult, auditResult]
+        .map((result) => result.warning)
+        .filter(Boolean),
+    );
   }
 
   async function refresh(section = "") {
@@ -262,6 +298,11 @@ function AdminApp() {
 
           <div className="admin-content-react">
             {notice ? <div className="notice-react">{notice}</div> : null}
+            {loadWarnings.length ? (
+              <div className="notice-react warning">
+                <strong>Advertencias de carga:</strong> {loadWarnings.join(" | ")}
+              </div>
+            ) : null}
             {active === "dashboard" ? <Dashboard metrics={metrics} lowStock={lowStock} leads={leads} audit={audit} /> : null}
             {active === "products" ? (
               <ProductsPanel

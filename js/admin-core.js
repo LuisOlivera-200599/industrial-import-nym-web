@@ -53,6 +53,8 @@ const productSort = document.getElementById("product-sort");
 const productResultSummary = document.getElementById("product-result-summary");
 const productAddShortcut = document.getElementById("product-add-shortcut");
 const productExportCsv = document.getElementById("product-export-csv");
+const productImportTrigger = document.getElementById("product-import-trigger");
+const productImportFile = document.getElementById("product-import-file");
 const notice = document.getElementById("notice");
 const formTitle = document.getElementById("form-title");
 const saveBtn = document.getElementById("save-btn");
@@ -75,6 +77,10 @@ const statProducts = document.getElementById("stat-products");
 const statBrands = document.getElementById("stat-brands");
 const statCategories = document.getElementById("stat-categories");
 const statSubcategories = document.getElementById("stat-subcategories");
+const metricLowStock = document.getElementById("metric-low-stock");
+const metricNewLeads = document.getElementById("metric-new-leads");
+const metricQuotedLeads = document.getElementById("metric-quoted-leads");
+const metricTopBrand = document.getElementById("metric-top-brand");
 
 const fields = {
   id: document.getElementById("product-id"),
@@ -223,8 +229,29 @@ function cleanText(text) {
     .replace(/â†’/g, "->");
 }
 
+function cleanVisibleAdminText(root = document.body) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+
+  nodes.forEach((node) => {
+    const cleaned = cleanText(node.nodeValue);
+    if (cleaned !== node.nodeValue) node.nodeValue = cleaned;
+  });
+
+  root.querySelectorAll("[placeholder], [title], [aria-label], [alt]").forEach((element) => {
+    ["placeholder", "title", "aria-label", "alt"].forEach((attribute) => {
+      if (!element.hasAttribute(attribute)) return;
+      const value = element.getAttribute(attribute);
+      const cleaned = cleanText(value);
+      if (cleaned !== value) element.setAttribute(attribute, cleaned);
+    });
+  });
+}
+
 function showNotice(element, text, type = "success") {
-  element.textContent = text;
+  element.textContent = cleanText(text);
   element.className = `notice show ${type}`;
 
   setTimeout(() => {
@@ -234,12 +261,12 @@ function showNotice(element, text, type = "success") {
 }
 
 function setUploadStatus(text, type = "") {
-  uploadStatus.textContent = text;
+  uploadStatus.textContent = cleanText(text);
   uploadStatus.className = type ? `upload-status ${type}` : "upload-status";
 }
 
 function setBrandUploadStatus(text, type = "") {
-  brandUploadStatus.textContent = text;
+  brandUploadStatus.textContent = cleanText(text);
   brandUploadStatus.className = type ? `upload-status ${type}` : "upload-status";
 }
 
@@ -333,15 +360,34 @@ function openSection(sectionName) {
     section.classList.toggle("active", section.id === `section-${sectionName}`);
   });
 
-  sectionTitle.textContent = sectionInfo[sectionName].title;
-  sectionDescription.textContent = sectionInfo[sectionName].description;
+  sectionTitle.textContent = cleanText(sectionInfo[sectionName].title);
+  sectionDescription.textContent = cleanText(sectionInfo[sectionName].description);
 }
 
 function updateStats() {
   const activeProducts = products.filter((product) => product.is_active !== false);
+  const brandCounts = new Map();
+  const lowStockProducts = activeProducts.filter((product) => {
+    const quantity = Number(product.stock_quantity);
+    const threshold = Number(product.low_stock_threshold);
+    return Number.isFinite(quantity) && Number.isFinite(threshold) && threshold > 0 && quantity <= threshold;
+  });
+
+  activeProducts.forEach((product) => {
+    const brandName = product.brand || "Sin marca";
+    brandCounts.set(brandName, (brandCounts.get(brandName) || 0) + 1);
+  });
+
+  const topBrand = [...brandCounts.entries()].sort((a, b) => b[1] - a[1])[0];
 
   statProducts.textContent = activeProducts.length;
   statBrands.textContent = brands.filter((brand) => brand.is_active !== false).length;
   statCategories.textContent = categories.filter((category) => category.is_active !== false).length;
   statSubcategories.textContent = subcategories.filter((subcategory) => subcategory.is_active !== false).length;
+  if (metricLowStock) metricLowStock.textContent = lowStockProducts.length;
+  if (metricNewLeads)
+    metricNewLeads.textContent = contactLeads.filter((lead) => (lead.estado || "nuevo") === "nuevo").length;
+  if (metricQuotedLeads)
+    metricQuotedLeads.textContent = contactLeads.filter((lead) => lead.estado === "cotizado").length;
+  if (metricTopBrand) metricTopBrand.textContent = topBrand ? `${topBrand[0]} (${topBrand[1]})` : "-";
 }

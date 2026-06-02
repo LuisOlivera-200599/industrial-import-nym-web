@@ -110,6 +110,36 @@ form.addEventListener("submit", async (event) => {
 list.addEventListener("click", async (event) => {
   const editButton = event.target.closest("[data-edit]");
   const deleteButton = event.target.closest("[data-delete]");
+  const quickSaveButton = event.target.closest("[data-quick-save]");
+
+  if (quickSaveButton) {
+    const productId = quickSaveButton.dataset.quickSave;
+    const statusInput = list.querySelector(`[data-quick-status="${CSS.escape(productId)}"]`);
+    const quantityInput = list.querySelector(`[data-quick-quantity="${CSS.escape(productId)}"]`);
+    const stockQuantity = quantityInput?.value === "" ? null : Number(quantityInput?.value);
+
+    if (stockQuantity !== null && (!Number.isInteger(stockQuantity) || stockQuantity < 0)) {
+      showNotice(notice, "La cantidad debe ser un numero entero mayor o igual a cero.", "error");
+      return;
+    }
+
+    try {
+      quickSaveButton.disabled = true;
+      await saveQuickProductUpdate(productId, {
+        stock_status: statusInput?.value || "Disponible",
+        stock_quantity: stockQuantity,
+      });
+      showNotice(notice, "Stock actualizado desde la tabla.");
+      renderProducts();
+      renderStockList();
+    } catch (error) {
+      console.error(error);
+      showNotice(notice, error.message || "No se pudo actualizar el producto.", "error");
+    } finally {
+      quickSaveButton.disabled = false;
+    }
+    return;
+  }
 
   if (editButton) {
     const product = products.find((item) => item.id === editButton.dataset.edit);

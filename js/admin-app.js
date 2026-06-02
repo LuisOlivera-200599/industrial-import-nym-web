@@ -59,6 +59,8 @@ const productSort = document.getElementById("product-sort");
 const productResultSummary = document.getElementById("product-result-summary");
 const productAddShortcut = document.getElementById("product-add-shortcut");
 const productExportCsv = document.getElementById("product-export-csv");
+const productImportTrigger = document.getElementById("product-import-trigger");
+const productImportFile = document.getElementById("product-import-file");
 const notice = document.getElementById("notice");
 const formTitle = document.getElementById("form-title");
 const saveBtn = document.getElementById("save-btn");
@@ -81,6 +83,10 @@ const statProducts = document.getElementById("stat-products");
 const statBrands = document.getElementById("stat-brands");
 const statCategories = document.getElementById("stat-categories");
 const statSubcategories = document.getElementById("stat-subcategories");
+const metricLowStock = document.getElementById("metric-low-stock");
+const metricNewLeads = document.getElementById("metric-new-leads");
+const metricQuotedLeads = document.getElementById("metric-quoted-leads");
+const metricTopBrand = document.getElementById("metric-top-brand");
 
 const fields = {
   id: document.getElementById("product-id"),
@@ -229,8 +235,29 @@ function cleanText(text) {
     .replace(/â†’/g, "->");
 }
 
+function cleanVisibleAdminText(root = document.body) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+
+  nodes.forEach((node) => {
+    const cleaned = cleanText(node.nodeValue);
+    if (cleaned !== node.nodeValue) node.nodeValue = cleaned;
+  });
+
+  root.querySelectorAll("[placeholder], [title], [aria-label], [alt]").forEach((element) => {
+    ["placeholder", "title", "aria-label", "alt"].forEach((attribute) => {
+      if (!element.hasAttribute(attribute)) return;
+      const value = element.getAttribute(attribute);
+      const cleaned = cleanText(value);
+      if (cleaned !== value) element.setAttribute(attribute, cleaned);
+    });
+  });
+}
+
 function showNotice(element, text, type = "success") {
-  element.textContent = text;
+  element.textContent = cleanText(text);
   element.className = `notice show ${type}`;
 
   setTimeout(() => {
@@ -240,12 +267,12 @@ function showNotice(element, text, type = "success") {
 }
 
 function setUploadStatus(text, type = "") {
-  uploadStatus.textContent = text;
+  uploadStatus.textContent = cleanText(text);
   uploadStatus.className = type ? `upload-status ${type}` : "upload-status";
 }
 
 function setBrandUploadStatus(text, type = "") {
-  brandUploadStatus.textContent = text;
+  brandUploadStatus.textContent = cleanText(text);
   brandUploadStatus.className = type ? `upload-status ${type}` : "upload-status";
 }
 
@@ -339,17 +366,36 @@ function openSection(sectionName) {
     section.classList.toggle("active", section.id === `section-${sectionName}`);
   });
 
-  sectionTitle.textContent = sectionInfo[sectionName].title;
-  sectionDescription.textContent = sectionInfo[sectionName].description;
+  sectionTitle.textContent = cleanText(sectionInfo[sectionName].title);
+  sectionDescription.textContent = cleanText(sectionInfo[sectionName].description);
 }
 
 function updateStats() {
   const activeProducts = products.filter((product) => product.is_active !== false);
+  const brandCounts = new Map();
+  const lowStockProducts = activeProducts.filter((product) => {
+    const quantity = Number(product.stock_quantity);
+    const threshold = Number(product.low_stock_threshold);
+    return Number.isFinite(quantity) && Number.isFinite(threshold) && threshold > 0 && quantity <= threshold;
+  });
+
+  activeProducts.forEach((product) => {
+    const brandName = product.brand || "Sin marca";
+    brandCounts.set(brandName, (brandCounts.get(brandName) || 0) + 1);
+  });
+
+  const topBrand = [...brandCounts.entries()].sort((a, b) => b[1] - a[1])[0];
 
   statProducts.textContent = activeProducts.length;
   statBrands.textContent = brands.filter((brand) => brand.is_active !== false).length;
   statCategories.textContent = categories.filter((category) => category.is_active !== false).length;
   statSubcategories.textContent = subcategories.filter((subcategory) => subcategory.is_active !== false).length;
+  if (metricLowStock) metricLowStock.textContent = lowStockProducts.length;
+  if (metricNewLeads)
+    metricNewLeads.textContent = contactLeads.filter((lead) => (lead.estado || "nuevo") === "nuevo").length;
+  if (metricQuotedLeads)
+    metricQuotedLeads.textContent = contactLeads.filter((lead) => lead.estado === "cotizado").length;
+  if (metricTopBrand) metricTopBrand.textContent = topBrand ? `${topBrand[0]} (${topBrand[1]})` : "-";
 }
 
 // ---- admin-components.js ----
@@ -409,19 +455,33 @@ function renderAdminProductTableRow(product) {
 
       <td>
         <div class="table-meta">
-          ${renderAdminTag({
-            label: product.stock_status || "Disponible",
-            className: `stock-tag ${getStockClass(product.stock_status)}`,
-          })}
-          <span class="table-muted ${isLowStock ? "low-stock-warning" : ""}">
-            <i class="fa-solid fa-boxes-stacked"></i> ${escapeHTML(quantityLabel)}
-          </span>
+          <select class="quick-edit-select" data-quick-status="${escapeHTML(product.id)}">
+            ${["Disponible", "Bajo pedido", "Sin stock"]
+              .map(
+                (status) =>
+                  `<option value="${escapeHTML(status)}" ${String(product.stock_status || "Disponible") === status ? "selected" : ""}>${escapeHTML(status)}</option>`,
+              )
+              .join("")}
+          </select>
+          <input
+            class="quick-edit-number ${isLowStock ? "low-stock-warning" : ""}"
+            type="number"
+            min="0"
+            step="1"
+            data-quick-quantity="${escapeHTML(product.id)}"
+            value="${quantity === null ? "" : escapeHTML(quantity)}"
+            placeholder="${escapeHTML(quantityLabel)}"
+          />
           ${isLowStock ? `<span class="table-muted low-stock-warning"><i class="fa-solid fa-triangle-exclamation"></i> Bajo stock</span>` : ""}
         </div>
       </td>
 
       <td>
         <div class="table-actions">
+          <button class="icon-action" type="button" data-quick-save="${escapeHTML(product.id)}" title="Guardar stock y estado">
+            <i class="fa-solid fa-check"></i>
+          </button>
+
           <button class="icon-action" type="button" data-edit="${escapeHTML(product.id)}" title="Editar producto">
             <i class="fa-solid fa-pen"></i>
           </button>
@@ -936,38 +996,42 @@ function escapeCsvValue(value) {
   return /[",;\n\r]/.test(escaped) ? `"${escaped}"` : escaped;
 }
 
-function downloadAdminProductsCsv() {
+function getAdminProductExportRows() {
   const rows = adminFilteredProducts.length
     ? adminFilteredProducts
     : products.filter((product) => product.is_active !== false).sort(sortAdminProducts);
 
-  const headers = [
-    "Producto",
-    "Marca",
-    "Categoria",
-    "Subcategoria",
-    "Estado",
-    "Cantidad",
-    "Alerta bajo stock",
-    "Descripcion",
-    "ID",
-  ];
+  return rows.map((product) => ({
+    Producto: product.name || "",
+    Marca: product.brand || "",
+    Categoria: product.category || "",
+    Subcategoria: product.subcategory || "",
+    Estado: product.stock_status || "Disponible",
+    Cantidad: product.stock_quantity ?? "",
+    "Alerta bajo stock": product.low_stock_threshold ?? "",
+    Descripcion: product.description || "",
+    ID: product.id || "",
+  }));
+}
 
-  const lines = rows.map((product) =>
-    [
-      product.name,
-      product.brand,
-      product.category,
-      product.subcategory,
-      product.stock_status,
-      product.stock_quantity,
-      product.low_stock_threshold,
-      product.description,
-      product.id,
-    ]
-      .map(escapeCsvValue)
-      .join(";"),
-  );
+function downloadAdminProductsCsv() {
+  const exportRows = getAdminProductExportRows();
+  const headers = Object.keys(exportRows[0] || { Producto: "", Marca: "", Categoria: "", Subcategoria: "" });
+
+  if (window.XLSX) {
+    const worksheet = window.XLSX.utils.json_to_sheet(exportRows);
+    const workbook = window.XLSX.utils.book_new();
+
+    window.XLSX.utils.book_append_sheet(workbook, worksheet, "Productos");
+    window.XLSX.writeFile(
+      workbook,
+      `productos-industrial-import-company-${new Date().toISOString().slice(0, 10)}.xlsx`,
+    );
+    showNotice(notice, `${exportRows.length} productos exportados en Excel.`);
+    return;
+  }
+
+  const lines = exportRows.map((row) => headers.map((header) => escapeCsvValue(row[header])).join(";"));
 
   const blob = new Blob([`\uFEFF${[headers.join(";"), ...lines].join("\r\n")}`], {
     type: "text/csv;charset=utf-8",
@@ -982,7 +1046,106 @@ function downloadAdminProductsCsv() {
   link.remove();
   URL.revokeObjectURL(url);
 
-  showNotice(notice, `${rows.length} productos exportados en CSV.`);
+  showNotice(notice, `${exportRows.length} productos exportados en CSV porque no cargo la libreria Excel.`, "warning");
+}
+
+function normalizeImportText(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function getImportValue(row, aliases) {
+  const entries = Object.entries(row);
+  const aliasSet = aliases.map(normalizeImportText);
+  const match = entries.find(([key]) => aliasSet.includes(normalizeImportText(key)));
+  return match ? String(match[1] ?? "").trim() : "";
+}
+
+function resolveImportRelation(collection, name) {
+  const normalized = normalizeImportText(name);
+  if (!normalized) return null;
+  return collection.find((item) => normalizeImportText(item.name) === normalized) || null;
+}
+
+function buildImportedProductPayloads(rows) {
+  const skipped = [];
+  const payloads = [];
+
+  rows.forEach((row, index) => {
+    const name = getImportValue(row, ["Producto", "Nombre", "Nombre del producto", "product", "name"]);
+    const brandName = getImportValue(row, ["Marca", "brand"]);
+    const categoryName = getImportValue(row, ["Categoria", "Categoría", "category"]);
+    const subcategoryName = getImportValue(row, ["Subcategoria", "Subcategoría", "subcategory"]);
+    const brand = resolveImportRelation(brands, brandName);
+    const category = resolveImportRelation(categories, categoryName);
+    const subcategory = resolveImportRelation(subcategories, subcategoryName);
+
+    if (!name || !brand || !category) {
+      skipped.push(index + 2);
+      return;
+    }
+
+    const stockQuantity = getImportValue(row, ["Cantidad", "quantity", "stock_quantity"]);
+    const lowStockThreshold = getImportValue(row, ["Alerta bajo stock", "low_stock_threshold"]);
+
+    payloads.push({
+      name,
+      brand_id: brand.id,
+      category_id: category.id,
+      subcategory_id: subcategory?.id || null,
+      brand: brand.name || "",
+      category: category.name || "",
+      subcategory: subcategory?.name || "",
+      image_url: getImportValue(row, ["Imagen", "Imagen URL", "image_url", "image"]) || DEFAULT_IMAGE,
+      stock_status: getImportValue(row, ["Estado", "Stock", "stock_status"]) || "Disponible",
+      stock_quantity: stockQuantity === "" ? null : Number(stockQuantity),
+      low_stock_threshold: lowStockThreshold === "" ? null : Number(lowStockThreshold),
+      description: getImportValue(row, ["Descripcion", "Descripción", "description"]),
+      is_active: true,
+    });
+  });
+
+  return { payloads, skipped };
+}
+
+async function importAdminProductsFromFile(file) {
+  if (!file) return;
+  if (!window.XLSX) {
+    showNotice(notice, "No cargo la libreria Excel. Recarga la pagina e intenta otra vez.", "error");
+    return;
+  }
+
+  const buffer = await file.arrayBuffer();
+  const workbook = window.XLSX.read(buffer, { type: "array" });
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const rows = window.XLSX.utils.sheet_to_json(sheet, { defval: "" });
+  const { payloads, skipped } = buildImportedProductPayloads(rows);
+
+  if (!payloads.length) {
+    showNotice(notice, "No se importo ningun producto. Revisa columnas, marcas y categorias.", "error");
+    return;
+  }
+
+  const { data, error } = await window.nymSupabase.from("products").insert(payloads).select("id,name");
+  if (error) throw error;
+
+  await recordAdminAudit("product", null, "bulk_imported", `${payloads.length} productos importados`, {
+    imported_count: payloads.length,
+    skipped_rows: skipped,
+    file_name: file.name,
+  });
+
+  showNotice(
+    notice,
+    `${payloads.length} productos importados.${skipped.length ? ` Filas omitidas: ${skipped.join(", ")}.` : ""}`,
+    skipped.length ? "warning" : "success",
+  );
+
+  await loadProducts();
+  return data;
 }
 
 function resetAdminProductPage() {
@@ -1082,6 +1245,27 @@ async function loadSubcategories() {
   updateStats();
 }
 
+// ---- admin-audit.js ----
+async function recordAdminAudit(entityType, entityId, action, summary, metadata = {}) {
+  try {
+    const { error } = await window.nymSupabase.from("admin_audit_log").insert([
+      {
+        entity_type: entityType,
+        entity_id: entityId ? String(entityId) : null,
+        action,
+        summary,
+        metadata,
+        user_id: currentUser?.id || null,
+        user_email: currentUser?.email || null,
+      },
+    ]);
+
+    if (error) throw error;
+  } catch (error) {
+    console.warn("Admin audit log unavailable:", error.message || error);
+  }
+}
+
 // ---- admin-products-save.js ----
 async function loadProducts() {
   const pageSize = 1000;
@@ -1113,6 +1297,7 @@ async function saveProduct(payload, id) {
   delete legacyPayload.low_stock_threshold;
 
   if (id) {
+    const before = products.find((product) => String(product.id) === String(id)) || null;
     let { error } = await window.nymSupabase.from("products").update(payload).eq("id", id);
 
     if (error && /stock_quantity|low_stock_threshold|column/i.test(error.message || "")) {
@@ -1127,12 +1312,17 @@ async function saveProduct(payload, id) {
 
     if (error) throw error;
 
+    await recordAdminAudit("product", id, "updated", `Producto actualizado: ${payload.name}`, {
+      before,
+      after: payload,
+    });
     showNotice(notice, "Producto actualizado correctamente.");
   } else {
-    let { error } = await window.nymSupabase.from("products").insert([payload]);
+    let { data, error } = await window.nymSupabase.from("products").insert([payload]).select("id").single();
 
     if (error && /stock_quantity|low_stock_threshold|column/i.test(error.message || "")) {
-      const retry = await window.nymSupabase.from("products").insert([legacyPayload]);
+      const retry = await window.nymSupabase.from("products").insert([legacyPayload]).select("id").single();
+      data = retry.data;
       error = retry.error;
 
       if (!error) {
@@ -1143,8 +1333,27 @@ async function saveProduct(payload, id) {
 
     if (error) throw error;
 
+    await recordAdminAudit("product", data?.id || null, "created", `Producto creado: ${payload.name}`, {
+      after: payload,
+    });
     showNotice(notice, "Producto agregado correctamente.");
   }
+}
+
+async function saveQuickProductUpdate(productId, updates) {
+  const before = products.find((product) => String(product.id) === String(productId)) || null;
+  const { error } = await window.nymSupabase.from("products").update(updates).eq("id", productId);
+
+  if (error) throw error;
+
+  products = products.map((product) =>
+    String(product.id) === String(productId) ? { ...product, ...updates } : product,
+  );
+
+  await recordAdminAudit("product", productId, "quick_updated", `Edicion rapida: ${before?.name || productId}`, {
+    before,
+    after: updates,
+  });
 }
 
 // ---- admin-brands-save.js ----
@@ -1199,9 +1408,14 @@ async function saveSubcategory(payload, id) {
 
 // ---- admin-products-delete.js ----
 async function deleteProduct(id) {
+  const product = products.find((item) => String(item.id) === String(id)) || null;
   const { error } = await window.nymSupabase.from("products").delete().eq("id", id);
 
   if (error) throw error;
+
+  await recordAdminAudit("product", id, "deleted", `Producto eliminado: ${product?.name || id}`, {
+    before: product,
+  });
 }
 
 // ---- admin-brands-delete.js ----
@@ -1331,6 +1545,7 @@ async function saveCompanySettings() {
 const leadStatusLabels = {
   nuevo: "Nuevo",
   atendido: "Atendido",
+  cotizado: "Cotizado",
   descartado: "Archivado",
 };
 
@@ -1349,8 +1564,29 @@ function formatLeadDate(value) {
 
 function getLeadStatusClass(status) {
   if (status === "atendido") return "available";
+  if (status === "cotizado") return "preorder";
   if (status === "descartado") return "unavailable";
-  return "preorder";
+  return "neutral";
+}
+
+function renderLeadPipeline(leads) {
+  const statuses = ["nuevo", "atendido", "cotizado", "descartado"];
+
+  return `
+    <div class="lead-pipeline">
+      ${statuses
+        .map((status) => {
+          const count = leads.filter((lead) => (lead.estado || "nuevo") === status).length;
+          return `
+            <button class="lead-pipeline-card" type="button" data-lead-pipeline-status="${escapeHTML(status)}">
+              <span>${escapeHTML(leadStatusLabels[status])}</span>
+              <strong>${count}</strong>
+            </button>
+          `;
+        })
+        .join("")}
+    </div>
+  `;
 }
 
 function getLeadSearchText(lead) {
@@ -1389,13 +1625,16 @@ function renderLeads() {
 
   const leads = getFilteredLeads();
 
-  leadsList.innerHTML = leads.length
-    ? leads
-        .map((lead) => {
-          const status = lead.estado || "nuevo";
-          const whatsappUrl = buildLeadWhatsappUrl(lead);
+  leadsList.innerHTML = `
+    ${renderLeadPipeline(contactLeads)}
+    ${
+      leads.length
+        ? leads
+            .map((lead) => {
+              const status = lead.estado || "nuevo";
+              const whatsappUrl = buildLeadWhatsappUrl(lead);
 
-          return `
+              return `
           <div class="simple-item lead-item">
             <span class="lead-item-main">
               ${escapeHTML(lead.nombre || "Contacto sin nombre")}
@@ -1420,20 +1659,30 @@ function renderLeads() {
               ${whatsappUrl ? `<a class="admin-btn admin-btn-light" href="${escapeHTML(whatsappUrl)}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ""}
               <button class="admin-btn admin-btn-light" type="button" data-lead-save-notes="${escapeHTML(lead.id)}">Guardar nota</button>
               ${status !== "atendido" ? `<button class="admin-btn admin-btn-primary" type="button" data-lead-status="atendido" data-lead-id="${escapeHTML(lead.id)}">Atendido</button>` : ""}
+              ${status !== "cotizado" ? `<button class="admin-btn admin-btn-light" type="button" data-lead-status="cotizado" data-lead-id="${escapeHTML(lead.id)}">Cotizado</button>` : ""}
               ${status !== "descartado" ? `<button class="admin-btn admin-btn-light" type="button" data-lead-status="descartado" data-lead-id="${escapeHTML(lead.id)}">Archivar</button>` : ""}
               ${status !== "nuevo" ? `<button class="admin-btn admin-btn-light" type="button" data-lead-status="nuevo" data-lead-id="${escapeHTML(lead.id)}">Reabrir</button>` : ""}
             </span>
           </div>
         `;
-        })
-        .join("")
-    : `
+            })
+            .join("")
+        : `
       <div class="empty-state-admin">
         <i class="fa-solid fa-inbox"></i>
         <h3>No hay leads para este filtro</h3>
         <p>Las consultas nuevas y cotizaciones guardadas apareceran aqui.</p>
       </div>
-    `;
+    `
+    }
+  `;
+
+  leadsList.querySelectorAll("[data-lead-pipeline-status]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (leadStatusFilter) leadStatusFilter.value = button.dataset.leadPipelineStatus;
+      renderLeads();
+    });
+  });
 
   leadsList.querySelectorAll("[data-lead-status]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -1461,6 +1710,15 @@ async function saveLeadStatus(leadId, status) {
       String(lead.id) === String(leadId) ? { ...lead, estado: status } : lead,
     );
 
+    await recordAdminAudit(
+      "lead",
+      leadId,
+      "status_changed",
+      `Lead marcado como ${leadStatusLabels[status] || status}`,
+      {
+        status,
+      },
+    );
     renderLeads();
     if (leadsNotice) showNotice(leadsNotice, "Lead actualizado correctamente.");
   } catch (error) {
@@ -1483,6 +1741,10 @@ async function saveLeadNotes(leadId, notes) {
     contactLeads = contactLeads.map((lead) =>
       String(lead.id) === String(leadId) ? { ...lead, admin_notes: notes.trim() } : lead,
     );
+
+    await recordAdminAudit("lead", leadId, "notes_updated", "Notas internas actualizadas", {
+      notes: notes.trim(),
+    });
 
     if (leadsNotice) showNotice(leadsNotice, "Nota guardada correctamente.");
   } catch (error) {
@@ -1511,6 +1773,7 @@ async function loadContactLeads() {
 
     contactLeads = data || [];
     renderLeads();
+    updateStats();
   } catch (error) {
     console.error(error);
     leadsList.innerHTML = `
@@ -1709,6 +1972,21 @@ async function saveStockMovement(event) {
 
     if (movementError) throw movementError;
 
+    await recordAdminAudit(
+      "stock",
+      product.id,
+      "stock_moved",
+      `Stock ${getStockMovementLabel(type)}: ${product.name}`,
+      {
+        product_name: product.name,
+        movement_type: type,
+        previous_quantity: movement.previousQuantity,
+        new_quantity: movement.newQuantity,
+        quantity_delta: movement.quantityDelta,
+        note: stockMovementNote.value.trim() || null,
+      },
+    );
+
     stockMovementForm.reset();
     showNotice(stockMovementNotice, "Movimiento de stock registrado correctamente.");
     await loadProducts();
@@ -1854,6 +2132,36 @@ form.addEventListener("submit", async (event) => {
 list.addEventListener("click", async (event) => {
   const editButton = event.target.closest("[data-edit]");
   const deleteButton = event.target.closest("[data-delete]");
+  const quickSaveButton = event.target.closest("[data-quick-save]");
+
+  if (quickSaveButton) {
+    const productId = quickSaveButton.dataset.quickSave;
+    const statusInput = list.querySelector(`[data-quick-status="${CSS.escape(productId)}"]`);
+    const quantityInput = list.querySelector(`[data-quick-quantity="${CSS.escape(productId)}"]`);
+    const stockQuantity = quantityInput?.value === "" ? null : Number(quantityInput?.value);
+
+    if (stockQuantity !== null && (!Number.isInteger(stockQuantity) || stockQuantity < 0)) {
+      showNotice(notice, "La cantidad debe ser un numero entero mayor o igual a cero.", "error");
+      return;
+    }
+
+    try {
+      quickSaveButton.disabled = true;
+      await saveQuickProductUpdate(productId, {
+        stock_status: statusInput?.value || "Disponible",
+        stock_quantity: stockQuantity,
+      });
+      showNotice(notice, "Stock actualizado desde la tabla.");
+      renderProducts();
+      renderStockList();
+    } catch (error) {
+      console.error(error);
+      showNotice(notice, error.message || "No se pudo actualizar el producto.", "error");
+    } finally {
+      quickSaveButton.disabled = false;
+    }
+    return;
+  }
 
   if (editButton) {
     const product = products.find((item) => item.id === editButton.dataset.edit);
@@ -2212,6 +2520,26 @@ productPageSize?.addEventListener("change", () => {
 
 productExportCsv?.addEventListener("click", downloadAdminProductsCsv);
 
+productImportTrigger?.addEventListener("click", () => {
+  productImportFile?.click();
+});
+
+productImportFile?.addEventListener("change", async () => {
+  const file = productImportFile.files?.[0];
+  if (!file) return;
+
+  productImportTrigger.disabled = true;
+  try {
+    await importAdminProductsFromFile(file);
+  } catch (error) {
+    console.error(error);
+    showNotice(notice, error.message || "No se pudo importar el archivo.", "error");
+  } finally {
+    productImportTrigger.disabled = false;
+    productImportFile.value = "";
+  }
+});
+
 productAddShortcut?.addEventListener("click", () => {
   resetForm();
   form.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -2253,6 +2581,7 @@ logoutBtn.addEventListener("click", async () => {
 
 (async function initAdmin() {
   try {
+    cleanVisibleAdminText();
     const sessionOk = await requireSession();
     if (!sessionOk) return;
 

@@ -7,6 +7,7 @@ logoutBtn.addEventListener("click", async () => {
 
 (async function initAdmin() {
   try {
+    cleanVisibleAdminText();
     const sessionOk = await requireSession();
     if (!sessionOk) return;
 

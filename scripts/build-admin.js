@@ -13,6 +13,7 @@ const adminModules = [
   "admin-products-data",
   "admin-brands-data",
   "admin-taxonomy-data",
+  "admin-audit",
   "admin-products-save",
   "admin-brands-save",
   "admin-taxonomy-save",

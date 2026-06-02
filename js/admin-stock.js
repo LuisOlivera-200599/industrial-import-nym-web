@@ -180,6 +180,21 @@ async function saveStockMovement(event) {
 
     if (movementError) throw movementError;
 
+    await recordAdminAudit(
+      "stock",
+      product.id,
+      "stock_moved",
+      `Stock ${getStockMovementLabel(type)}: ${product.name}`,
+      {
+        product_name: product.name,
+        movement_type: type,
+        previous_quantity: movement.previousQuantity,
+        new_quantity: movement.newQuantity,
+        quantity_delta: movement.quantityDelta,
+        note: stockMovementNote.value.trim() || null,
+      },
+    );
+
     stockMovementForm.reset();
     showNotice(stockMovementNotice, "Movimiento de stock registrado correctamente.");
     await loadProducts();

@@ -41,6 +41,26 @@ productPageSize?.addEventListener("change", () => {
 
 productExportCsv?.addEventListener("click", downloadAdminProductsCsv);
 
+productImportTrigger?.addEventListener("click", () => {
+  productImportFile?.click();
+});
+
+productImportFile?.addEventListener("change", async () => {
+  const file = productImportFile.files?.[0];
+  if (!file) return;
+
+  productImportTrigger.disabled = true;
+  try {
+    await importAdminProductsFromFile(file);
+  } catch (error) {
+    console.error(error);
+    showNotice(notice, error.message || "No se pudo importar el archivo.", "error");
+  } finally {
+    productImportTrigger.disabled = false;
+    productImportFile.value = "";
+  }
+});
+
 productAddShortcut?.addEventListener("click", () => {
   resetForm();
   form.scrollIntoView({ behavior: "smooth", block: "start" });

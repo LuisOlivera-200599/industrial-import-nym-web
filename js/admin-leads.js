@@ -1,6 +1,7 @@
 const leadStatusLabels = {
   nuevo: "Nuevo",
   atendido: "Atendido",
+  cotizado: "Cotizado",
   descartado: "Archivado",
 };
 
@@ -19,8 +20,29 @@ function formatLeadDate(value) {
 
 function getLeadStatusClass(status) {
   if (status === "atendido") return "available";
+  if (status === "cotizado") return "preorder";
   if (status === "descartado") return "unavailable";
-  return "preorder";
+  return "neutral";
+}
+
+function renderLeadPipeline(leads) {
+  const statuses = ["nuevo", "atendido", "cotizado", "descartado"];
+
+  return `
+    <div class="lead-pipeline">
+      ${statuses
+        .map((status) => {
+          const count = leads.filter((lead) => (lead.estado || "nuevo") === status).length;
+          return `
+            <button class="lead-pipeline-card" type="button" data-lead-pipeline-status="${escapeHTML(status)}">
+              <span>${escapeHTML(leadStatusLabels[status])}</span>
+              <strong>${count}</strong>
+            </button>
+          `;
+        })
+        .join("")}
+    </div>
+  `;
 }
 
 function getLeadSearchText(lead) {
@@ -59,13 +81,16 @@ function renderLeads() {
 
   const leads = getFilteredLeads();
 
-  leadsList.innerHTML = leads.length
-    ? leads
-        .map((lead) => {
-          const status = lead.estado || "nuevo";
-          const whatsappUrl = buildLeadWhatsappUrl(lead);
+  leadsList.innerHTML = `
+    ${renderLeadPipeline(contactLeads)}
+    ${
+      leads.length
+        ? leads
+            .map((lead) => {
+              const status = lead.estado || "nuevo";
+              const whatsappUrl = buildLeadWhatsappUrl(lead);
 
-          return `
+              return `
           <div class="simple-item lead-item">
             <span class="lead-item-main">
               ${escapeHTML(lead.nombre || "Contacto sin nombre")}
@@ -90,20 +115,30 @@ function renderLeads() {
               ${whatsappUrl ? `<a class="admin-btn admin-btn-light" href="${escapeHTML(whatsappUrl)}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ""}
               <button class="admin-btn admin-btn-light" type="button" data-lead-save-notes="${escapeHTML(lead.id)}">Guardar nota</button>
               ${status !== "atendido" ? `<button class="admin-btn admin-btn-primary" type="button" data-lead-status="atendido" data-lead-id="${escapeHTML(lead.id)}">Atendido</button>` : ""}
+              ${status !== "cotizado" ? `<button class="admin-btn admin-btn-light" type="button" data-lead-status="cotizado" data-lead-id="${escapeHTML(lead.id)}">Cotizado</button>` : ""}
               ${status !== "descartado" ? `<button class="admin-btn admin-btn-light" type="button" data-lead-status="descartado" data-lead-id="${escapeHTML(lead.id)}">Archivar</button>` : ""}
               ${status !== "nuevo" ? `<button class="admin-btn admin-btn-light" type="button" data-lead-status="nuevo" data-lead-id="${escapeHTML(lead.id)}">Reabrir</button>` : ""}
             </span>
           </div>
         `;
-        })
-        .join("")
-    : `
+            })
+            .join("")
+        : `
       <div class="empty-state-admin">
         <i class="fa-solid fa-inbox"></i>
         <h3>No hay leads para este filtro</h3>
         <p>Las consultas nuevas y cotizaciones guardadas apareceran aqui.</p>
       </div>
-    `;
+    `
+    }
+  `;
+
+  leadsList.querySelectorAll("[data-lead-pipeline-status]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (leadStatusFilter) leadStatusFilter.value = button.dataset.leadPipelineStatus;
+      renderLeads();
+    });
+  });
 
   leadsList.querySelectorAll("[data-lead-status]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -131,6 +166,15 @@ async function saveLeadStatus(leadId, status) {
       String(lead.id) === String(leadId) ? { ...lead, estado: status } : lead,
     );
 
+    await recordAdminAudit(
+      "lead",
+      leadId,
+      "status_changed",
+      `Lead marcado como ${leadStatusLabels[status] || status}`,
+      {
+        status,
+      },
+    );
     renderLeads();
     if (leadsNotice) showNotice(leadsNotice, "Lead actualizado correctamente.");
   } catch (error) {
@@ -153,6 +197,10 @@ async function saveLeadNotes(leadId, notes) {
     contactLeads = contactLeads.map((lead) =>
       String(lead.id) === String(leadId) ? { ...lead, admin_notes: notes.trim() } : lead,
     );
+
+    await recordAdminAudit("lead", leadId, "notes_updated", "Notas internas actualizadas", {
+      notes: notes.trim(),
+    });
 
     if (leadsNotice) showNotice(leadsNotice, "Nota guardada correctamente.");
   } catch (error) {
@@ -181,6 +229,7 @@ async function loadContactLeads() {
 
     contactLeads = data || [];
     renderLeads();
+    updateStats();
   } catch (error) {
     console.error(error);
     leadsList.innerHTML = `

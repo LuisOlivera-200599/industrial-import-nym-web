@@ -28,6 +28,7 @@ async function saveProduct(payload, id) {
   delete legacyPayload.low_stock_threshold;
 
   if (id) {
+    const before = products.find((product) => String(product.id) === String(id)) || null;
     let { error } = await window.nymSupabase.from("products").update(payload).eq("id", id);
 
     if (error && /stock_quantity|low_stock_threshold|column/i.test(error.message || "")) {
@@ -42,12 +43,17 @@ async function saveProduct(payload, id) {
 
     if (error) throw error;
 
+    await recordAdminAudit("product", id, "updated", `Producto actualizado: ${payload.name}`, {
+      before,
+      after: payload,
+    });
     showNotice(notice, "Producto actualizado correctamente.");
   } else {
-    let { error } = await window.nymSupabase.from("products").insert([payload]);
+    let { data, error } = await window.nymSupabase.from("products").insert([payload]).select("id").single();
 
     if (error && /stock_quantity|low_stock_threshold|column/i.test(error.message || "")) {
-      const retry = await window.nymSupabase.from("products").insert([legacyPayload]);
+      const retry = await window.nymSupabase.from("products").insert([legacyPayload]).select("id").single();
+      data = retry.data;
       error = retry.error;
 
       if (!error) {
@@ -58,6 +64,25 @@ async function saveProduct(payload, id) {
 
     if (error) throw error;
 
+    await recordAdminAudit("product", data?.id || null, "created", `Producto creado: ${payload.name}`, {
+      after: payload,
+    });
     showNotice(notice, "Producto agregado correctamente.");
   }
+}
+
+async function saveQuickProductUpdate(productId, updates) {
+  const before = products.find((product) => String(product.id) === String(productId)) || null;
+  const { error } = await window.nymSupabase.from("products").update(updates).eq("id", productId);
+
+  if (error) throw error;
+
+  products = products.map((product) =>
+    String(product.id) === String(productId) ? { ...product, ...updates } : product,
+  );
+
+  await recordAdminAudit("product", productId, "quick_updated", `Edicion rapida: ${before?.name || productId}`, {
+    before,
+    after: updates,
+  });
 }

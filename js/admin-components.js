@@ -54,19 +54,33 @@ function renderAdminProductTableRow(product) {
 
       <td>
         <div class="table-meta">
-          ${renderAdminTag({
-            label: product.stock_status || "Disponible",
-            className: `stock-tag ${getStockClass(product.stock_status)}`,
-          })}
-          <span class="table-muted ${isLowStock ? "low-stock-warning" : ""}">
-            <i class="fa-solid fa-boxes-stacked"></i> ${escapeHTML(quantityLabel)}
-          </span>
+          <select class="quick-edit-select" data-quick-status="${escapeHTML(product.id)}">
+            ${["Disponible", "Bajo pedido", "Sin stock"]
+              .map(
+                (status) =>
+                  `<option value="${escapeHTML(status)}" ${String(product.stock_status || "Disponible") === status ? "selected" : ""}>${escapeHTML(status)}</option>`,
+              )
+              .join("")}
+          </select>
+          <input
+            class="quick-edit-number ${isLowStock ? "low-stock-warning" : ""}"
+            type="number"
+            min="0"
+            step="1"
+            data-quick-quantity="${escapeHTML(product.id)}"
+            value="${quantity === null ? "" : escapeHTML(quantity)}"
+            placeholder="${escapeHTML(quantityLabel)}"
+          />
           ${isLowStock ? `<span class="table-muted low-stock-warning"><i class="fa-solid fa-triangle-exclamation"></i> Bajo stock</span>` : ""}
         </div>
       </td>
 
       <td>
         <div class="table-actions">
+          <button class="icon-action" type="button" data-quick-save="${escapeHTML(product.id)}" title="Guardar stock y estado">
+            <i class="fa-solid fa-check"></i>
+          </button>
+
           <button class="icon-action" type="button" data-edit="${escapeHTML(product.id)}" title="Editar producto">
             <i class="fa-solid fa-pen"></i>
           </button>

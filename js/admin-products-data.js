@@ -103,38 +103,42 @@ function escapeCsvValue(value) {
   return /[",;\n\r]/.test(escaped) ? `"${escaped}"` : escaped;
 }
 
-function downloadAdminProductsCsv() {
+function getAdminProductExportRows() {
   const rows = adminFilteredProducts.length
     ? adminFilteredProducts
     : products.filter((product) => product.is_active !== false).sort(sortAdminProducts);
 
-  const headers = [
-    "Producto",
-    "Marca",
-    "Categoria",
-    "Subcategoria",
-    "Estado",
-    "Cantidad",
-    "Alerta bajo stock",
-    "Descripcion",
-    "ID",
-  ];
+  return rows.map((product) => ({
+    Producto: product.name || "",
+    Marca: product.brand || "",
+    Categoria: product.category || "",
+    Subcategoria: product.subcategory || "",
+    Estado: product.stock_status || "Disponible",
+    Cantidad: product.stock_quantity ?? "",
+    "Alerta bajo stock": product.low_stock_threshold ?? "",
+    Descripcion: product.description || "",
+    ID: product.id || "",
+  }));
+}
 
-  const lines = rows.map((product) =>
-    [
-      product.name,
-      product.brand,
-      product.category,
-      product.subcategory,
-      product.stock_status,
-      product.stock_quantity,
-      product.low_stock_threshold,
-      product.description,
-      product.id,
-    ]
-      .map(escapeCsvValue)
-      .join(";"),
-  );
+function downloadAdminProductsCsv() {
+  const exportRows = getAdminProductExportRows();
+  const headers = Object.keys(exportRows[0] || { Producto: "", Marca: "", Categoria: "", Subcategoria: "" });
+
+  if (window.XLSX) {
+    const worksheet = window.XLSX.utils.json_to_sheet(exportRows);
+    const workbook = window.XLSX.utils.book_new();
+
+    window.XLSX.utils.book_append_sheet(workbook, worksheet, "Productos");
+    window.XLSX.writeFile(
+      workbook,
+      `productos-industrial-import-company-${new Date().toISOString().slice(0, 10)}.xlsx`,
+    );
+    showNotice(notice, `${exportRows.length} productos exportados en Excel.`);
+    return;
+  }
+
+  const lines = exportRows.map((row) => headers.map((header) => escapeCsvValue(row[header])).join(";"));
 
   const blob = new Blob([`\uFEFF${[headers.join(";"), ...lines].join("\r\n")}`], {
     type: "text/csv;charset=utf-8",
@@ -149,7 +153,106 @@ function downloadAdminProductsCsv() {
   link.remove();
   URL.revokeObjectURL(url);
 
-  showNotice(notice, `${rows.length} productos exportados en CSV.`);
+  showNotice(notice, `${exportRows.length} productos exportados en CSV porque no cargo la libreria Excel.`, "warning");
+}
+
+function normalizeImportText(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function getImportValue(row, aliases) {
+  const entries = Object.entries(row);
+  const aliasSet = aliases.map(normalizeImportText);
+  const match = entries.find(([key]) => aliasSet.includes(normalizeImportText(key)));
+  return match ? String(match[1] ?? "").trim() : "";
+}
+
+function resolveImportRelation(collection, name) {
+  const normalized = normalizeImportText(name);
+  if (!normalized) return null;
+  return collection.find((item) => normalizeImportText(item.name) === normalized) || null;
+}
+
+function buildImportedProductPayloads(rows) {
+  const skipped = [];
+  const payloads = [];
+
+  rows.forEach((row, index) => {
+    const name = getImportValue(row, ["Producto", "Nombre", "Nombre del producto", "product", "name"]);
+    const brandName = getImportValue(row, ["Marca", "brand"]);
+    const categoryName = getImportValue(row, ["Categoria", "Categoría", "category"]);
+    const subcategoryName = getImportValue(row, ["Subcategoria", "Subcategoría", "subcategory"]);
+    const brand = resolveImportRelation(brands, brandName);
+    const category = resolveImportRelation(categories, categoryName);
+    const subcategory = resolveImportRelation(subcategories, subcategoryName);
+
+    if (!name || !brand || !category) {
+      skipped.push(index + 2);
+      return;
+    }
+
+    const stockQuantity = getImportValue(row, ["Cantidad", "quantity", "stock_quantity"]);
+    const lowStockThreshold = getImportValue(row, ["Alerta bajo stock", "low_stock_threshold"]);
+
+    payloads.push({
+      name,
+      brand_id: brand.id,
+      category_id: category.id,
+      subcategory_id: subcategory?.id || null,
+      brand: brand.name || "",
+      category: category.name || "",
+      subcategory: subcategory?.name || "",
+      image_url: getImportValue(row, ["Imagen", "Imagen URL", "image_url", "image"]) || DEFAULT_IMAGE,
+      stock_status: getImportValue(row, ["Estado", "Stock", "stock_status"]) || "Disponible",
+      stock_quantity: stockQuantity === "" ? null : Number(stockQuantity),
+      low_stock_threshold: lowStockThreshold === "" ? null : Number(lowStockThreshold),
+      description: getImportValue(row, ["Descripcion", "Descripción", "description"]),
+      is_active: true,
+    });
+  });
+
+  return { payloads, skipped };
+}
+
+async function importAdminProductsFromFile(file) {
+  if (!file) return;
+  if (!window.XLSX) {
+    showNotice(notice, "No cargo la libreria Excel. Recarga la pagina e intenta otra vez.", "error");
+    return;
+  }
+
+  const buffer = await file.arrayBuffer();
+  const workbook = window.XLSX.read(buffer, { type: "array" });
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const rows = window.XLSX.utils.sheet_to_json(sheet, { defval: "" });
+  const { payloads, skipped } = buildImportedProductPayloads(rows);
+
+  if (!payloads.length) {
+    showNotice(notice, "No se importo ningun producto. Revisa columnas, marcas y categorias.", "error");
+    return;
+  }
+
+  const { data, error } = await window.nymSupabase.from("products").insert(payloads).select("id,name");
+  if (error) throw error;
+
+  await recordAdminAudit("product", null, "bulk_imported", `${payloads.length} productos importados`, {
+    imported_count: payloads.length,
+    skipped_rows: skipped,
+    file_name: file.name,
+  });
+
+  showNotice(
+    notice,
+    `${payloads.length} productos importados.${skipped.length ? ` Filas omitidas: ${skipped.join(", ")}.` : ""}`,
+    skipped.length ? "warning" : "success",
+  );
+
+  await loadProducts();
+  return data;
 }
 
 function resetAdminProductPage() {

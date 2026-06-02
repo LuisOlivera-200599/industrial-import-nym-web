@@ -1,0 +1,481 @@
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #f3f6fb;
+  color: #0f172a;
+  min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.admin-app {
+  min-height: 100vh;
+}
+
+.admin-shell {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.admin-sidebar-react {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: #111827;
+  color: #e5e7eb;
+  padding: 20px 16px;
+}
+
+.admin-brand-react {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-brand-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: #3157ff;
+  color: #fff;
+  font-weight: 900;
+}
+
+.admin-brand-react strong,
+.admin-brand-react small {
+  display: block;
+}
+
+.admin-brand-react small {
+  color: #9ca3af;
+  font-size: 0.76rem;
+  margin-top: 3px;
+}
+
+.admin-nav-react {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.admin-nav-react button,
+.admin-legacy-link {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #d1d5db;
+  padding: 11px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.admin-nav-react button.active,
+.admin-nav-react button:hover,
+.admin-legacy-link:hover {
+  background: #1f2937;
+  color: #fff;
+}
+
+.admin-main-react {
+  min-width: 0;
+}
+
+.admin-top-react {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 28px;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid #dbe3ef;
+  backdrop-filter: blur(16px);
+}
+
+.admin-top-react h1 {
+  margin: 0;
+  font-size: 1.18rem;
+}
+
+.admin-top-react p {
+  margin: 3px 0 0;
+  color: #64748b;
+  font-size: 0.86rem;
+}
+
+.admin-top-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-content-react {
+  padding: 24px 28px 44px;
+}
+
+.admin-grid-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.metric-card-react,
+.admin-panel-react {
+  background: #fff;
+  border: 1px solid #dbe3ef;
+  border-radius: 14px;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.06);
+}
+
+.metric-card-react {
+  padding: 16px;
+}
+
+.metric-card-react span {
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.metric-card-react strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.7rem;
+}
+
+.admin-panel-react {
+  overflow: hidden;
+}
+
+.admin-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #dbe3ef;
+}
+
+.admin-panel-header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.admin-panel-header p {
+  margin: 5px 0 0;
+  color: #64748b;
+  font-size: 0.86rem;
+}
+
+.admin-toolbar-react {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 14px 20px;
+  border-bottom: 1px solid #dbe3ef;
+  background: #f8fafc;
+}
+
+.admin-toolbar-react input,
+.admin-toolbar-react select,
+.admin-form-react input,
+.admin-form-react select,
+.admin-form-react textarea {
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #fff;
+  color: #0f172a;
+  padding: 10px 12px;
+  outline: none;
+  min-height: 42px;
+}
+
+.admin-toolbar-react input {
+  flex: 1 1 260px;
+}
+
+.admin-button {
+  min-height: 42px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 10px 13px;
+  background: #fff;
+  color: #0f172a;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.admin-button.primary {
+  border-color: #3157ff;
+  background: #3157ff;
+  color: #fff;
+}
+
+.admin-button.danger {
+  border-color: #fecdd3;
+  background: #fff1f2;
+  color: #be123c;
+}
+
+.admin-table-scroll {
+  overflow-x: auto;
+}
+
+.admin-table-react {
+  width: 100%;
+  min-width: 1080px;
+  border-collapse: collapse;
+}
+
+.admin-table-react th,
+.admin-table-react td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 0.84rem;
+}
+
+.admin-table-react th {
+  background: #f1f5f9;
+  color: #334155;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.product-cell-react {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 280px;
+}
+
+.product-cell-react img {
+  width: 52px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid #dbe3ef;
+  object-fit: cover;
+  background: #fff;
+}
+
+.muted {
+  color: #64748b;
+}
+
+.tag-react {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 6px 9px;
+  background: #eef2ff;
+  color: #3157ff;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.tag-react.ok {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.tag-react.warn {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.tag-react.bad {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.quick-input-react {
+  width: 100%;
+  min-width: 88px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  padding: 8px 9px;
+  background: #fff;
+}
+
+.row-actions-react {
+  display: flex;
+  gap: 7px;
+  justify-content: flex-end;
+}
+
+.pagination-react {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  flex-wrap: wrap;
+}
+
+.admin-form-react {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #dbe3ef;
+  background: #fff;
+}
+
+.admin-form-react label {
+  display: grid;
+  gap: 6px;
+  color: #334155;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.admin-form-react .wide {
+  grid-column: span 2;
+}
+
+.admin-form-react .full {
+  grid-column: 1 / -1;
+}
+
+.lead-pipeline-react {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px 20px;
+}
+
+.lead-card-react {
+  border: 1px solid #dbe3ef;
+  border-radius: 12px;
+  padding: 13px;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+}
+
+.lead-card-react strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 1.45rem;
+}
+
+.list-react {
+  display: grid;
+  gap: 10px;
+  padding: 16px 20px;
+}
+
+.list-item-react {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid #dbe3ef;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.lead-notes-react {
+  width: 100%;
+  min-height: 72px;
+  margin-top: 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 9px;
+  resize: vertical;
+}
+
+.notice-react {
+  margin: 0 20px 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #bbf7d0;
+  font-weight: 800;
+}
+
+.empty-react {
+  padding: 32px 20px;
+  color: #64748b;
+  text-align: center;
+}
+
+.loading-react {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  color: #64748b;
+  font-weight: 900;
+}
+
+@media (max-width: 1180px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-sidebar-react {
+    position: static;
+    height: auto;
+  }
+
+  .admin-nav-react,
+  .admin-grid-metrics,
+  .lead-pipeline-react,
+  .admin-form-react {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .admin-top-react,
+  .admin-panel-header,
+  .pagination-react,
+  .list-item-react {
+    flex-direction: column;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .admin-content-react {
+    padding: 16px;
+  }
+
+  .admin-grid-metrics,
+  .lead-pipeline-react,
+  .admin-form-react {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form-react .wide {
+    grid-column: auto;
+  }
+}

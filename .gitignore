@@ -209,3 +209,4 @@ __marimo__/
 node_modules/
 supabase/.temp/
 .visual-smoke/
+js/admin-react.iife.js

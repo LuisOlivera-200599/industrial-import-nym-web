@@ -58,6 +58,7 @@ for (const file of [
   "clientes.html",
   "contacto.html",
   "admin.html",
+  "admin-legacy.html",
   "admin-login.html",
   "404.html",
 ]) {
@@ -80,18 +81,24 @@ expectIncludes("productos.html", "quote-items");
 expectIncludes("productos.html", "js/catalog.js");
 expectIncludes("js/catalog.js", "producto/${slugify(product.name)}--");
 expectIncludes("producto.html", "js/product-detail.js");
-expectIncludes("admin.html", "section-leads");
-expectIncludes("admin.html", "lead-status-filter");
-expectIncludes("admin.html", "product-sort");
-expectIncludes("admin.html", "product-stock-quantity");
-expectIncludes("admin.html", "stock-movement-form");
-expectIncludes("admin.html", 'type="module" src="js/admin-app.js?v=20260602-admin-pro"');
-expectIncludes("admin.html", "product-export-csv");
-expectIncludes("admin.html", "product-page-size");
-expectIncludes("admin.html", "product-import-trigger");
-expectIncludes("admin.html", "metric-low-stock");
-expectIncludes("admin.html", "admin-modal");
+expectIncludes("admin.html", "admin-root");
+expectIncludes("admin.html", "css/admin-react.css");
+expectIncludes("admin.html", "js/admin-react.iife.js");
 expectIncludes("admin.html", "xlsx.full.min.js");
+expectIncludes("admin-legacy.html", "section-leads");
+expectIncludes("admin-legacy.html", "lead-status-filter");
+expectIncludes("admin-legacy.html", "product-sort");
+expectIncludes("admin-legacy.html", "product-stock-quantity");
+expectIncludes("admin-legacy.html", "stock-movement-form");
+expectIncludes("admin-legacy.html", 'type="module" src="js/admin-app.js?v=20260602-admin-pro"');
+expectIncludes("admin-legacy.html", "product-export-csv");
+expectIncludes("admin-legacy.html", "product-page-size");
+expectIncludes("admin-legacy.html", "product-import-trigger");
+expectIncludes("admin-legacy.html", "metric-low-stock");
+expectIncludes("admin-legacy.html", "admin-modal");
+expectIncludes("src/admin/main.jsx", "createRoot");
+expectIncludes("src/admin/main.jsx", "Admin clasico");
+expectIncludes("src/admin/main.jsx", "AuditPanel");
 expectIncludes("js/admin-components.js", "data-product-page-size");
 expectIncludes("js/admin-components.js", "data-quick-save");
 expectIncludes("js/admin-products-data.js", "downloadAdminProductsCsv");

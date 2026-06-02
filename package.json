@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "npm run build:admin",
-    "build:admin": "node scripts/build-admin.js",
+    "build:admin": "npm run build:admin-legacy && vite build --config vite.admin.config.mjs",
+    "build:admin-legacy": "node scripts/build-admin.js",
     "check": "npm run build:admin && node scripts/check.js && npm run test:smoke",
     "format": "prettier --write \"**/*.{html,css,js,json,md,yml}\" --ignore-path .gitignore",
     "format:check": "prettier --check \"**/*.{html,css,js,json,md,yml}\" --ignore-path .gitignore",
@@ -19,5 +20,11 @@
     "ffmpeg-static": "^5.2.0",
     "prettier": "^3.8.3",
     "sharp": "^0.33.5"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^6.0.2",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "vite": "^8.0.16"
   }
 }

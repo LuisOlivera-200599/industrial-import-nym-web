@@ -596,12 +596,11 @@ function ProductsPanel({ products, setProducts, brands, categories, subcategorie
 
     try {
       const imageUrl = await uploadProductImageAsset(product.id, file);
-      const { data, error } = await getClient().from("products").update({ image_url: imageUrl }).eq("id", product.id).select("image_url,updated_at").single();
+      const { error } = await getClient().from("products").update({ image_url: imageUrl }).eq("id", product.id);
       if (error) throw error;
 
-      const savedImageUrl = data?.image_url || imageUrl;
-      setProducts((current) => current.map((item) => (item.id === product.id ? { ...item, image_url: savedImageUrl, updated_at: data?.updated_at || item.updated_at } : item)));
-      await recordAudit("product", product.id, "image_updated", `Foto actualizada: ${product.name}`, { before: product.image_url, after: savedImageUrl }, user);
+      setProducts((current) => current.map((item) => (item.id === product.id ? { ...item, image_url: imageUrl } : item)));
+      await recordAudit("product", product.id, "image_updated", `Foto actualizada: ${product.name}`, { before: product.image_url, after: imageUrl }, user);
       setNotice(`Foto actualizada para ${product.name}.`);
     } catch (error) {
       setNotice(`No se pudo actualizar la foto: ${error?.message || "error desconocido"}`);

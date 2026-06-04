@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 
 const DEFAULT_IMAGE = "imagenes/optimized/productos/productos-1.webp";
@@ -16,6 +16,19 @@ const LEAD_STATUSES = [
 function getClient() {
   if (!window.nymSupabase) throw new Error("Supabase no esta disponible.");
   return window.nymSupabase;
+}
+
+async function uploadProductImageAsset(productId, file) {
+  if (!file) throw new Error("Selecciona una imagen para subir.");
+  const extension = file.name.split(".").pop() || "webp";
+  const safeExtension = extension.toLowerCase().replace(/[^a-z0-9]/g, "") || "webp";
+  const path = `products/${productId || "new"}/${Date.now()}-${Math.random().toString(16).slice(2)}.${safeExtension}`;
+  const { error } = await getClient().storage.from(PRODUCT_IMAGES_BUCKET).upload(path, file, { upsert: false });
+  if (error) throw error;
+
+  const { data } = getClient().storage.from(PRODUCT_IMAGES_BUCKET).getPublicUrl(path);
+  if (!data?.publicUrl) throw new Error("Supabase no devolvio URL publica de la imagen.");
+  return data.publicUrl;
 }
 
 function getSignupClient() {
@@ -577,6 +590,24 @@ function ProductsPanel({ products, setProducts, brands, categories, subcategorie
     await refresh("Productos");
   }
 
+  async function changeProductImage(product, file) {
+    if (!file) return;
+    setNotice(`Subiendo foto de ${product.name}...`);
+
+    try {
+      const imageUrl = await uploadProductImageAsset(product.id, file);
+      const { data, error } = await getClient().from("products").update({ image_url: imageUrl }).eq("id", product.id).select("image_url,updated_at").single();
+      if (error) throw error;
+
+      const savedImageUrl = data?.image_url || imageUrl;
+      setProducts((current) => current.map((item) => (item.id === product.id ? { ...item, image_url: savedImageUrl, updated_at: data?.updated_at || item.updated_at } : item)));
+      await recordAudit("product", product.id, "image_updated", `Foto actualizada: ${product.name}`, { before: product.image_url, after: savedImageUrl }, user);
+      setNotice(`Foto actualizada para ${product.name}.`);
+    } catch (error) {
+      setNotice(`No se pudo actualizar la foto: ${error?.message || "error desconocido"}`);
+    }
+  }
+
   function exportExcel() {
     const rows = filtered.map((product) => ({
       Producto: product.name || "",
@@ -713,7 +744,7 @@ function ProductsPanel({ products, setProducts, brands, categories, subcategorie
           </thead>
           <tbody>
             {pageProducts.map((product) => (
-              <ProductRow key={product.id} product={product} onQuickSave={quickSave} onEdit={setEditing} onDelete={deleteProduct} />
+              <ProductRow key={product.id} product={product} onQuickSave={quickSave} onImageUpload={changeProductImage} onEdit={setEditing} onDelete={deleteProduct} />
             ))}
           </tbody>
         </table>
@@ -736,9 +767,23 @@ function ProductsPanel({ products, setProducts, brands, categories, subcategorie
   );
 }
 
-function ProductRow({ product, onQuickSave, onEdit, onDelete }) {
+function ProductRow({ product, onQuickSave, onImageUpload, onEdit, onDelete }) {
   const [stockStatus, setStockStatus] = useState(product.stock_status || "Disponible");
   const [quantity, setQuantity] = useState(product.stock_quantity ?? "");
+  const [uploading, setUploading] = useState(false);
+  const imageInputRef = useRef(null);
+
+  async function selectImage(event) {
+    const file = event.target.files?.[0] || null;
+    event.target.value = "";
+    if (!file) return;
+    setUploading(true);
+    try {
+      await onImageUpload(product, file);
+    } finally {
+      setUploading(false);
+    }
+  }
 
   return (
     <tr>
@@ -771,6 +816,10 @@ function ProductRow({ product, onQuickSave, onEdit, onDelete }) {
           <button className="admin-button primary" type="button" onClick={() => onQuickSave(product, { stock_status: stockStatus, stock_quantity: quantity === "" ? null : Number(quantity) })}>
             <i className="fa-solid fa-check" />
           </button>
+          <button className="admin-button" type="button" disabled={uploading} title="Cambiar foto" onClick={() => imageInputRef.current?.click()}>
+            <i className={uploading ? "fa-solid fa-spinner fa-spin" : "fa-solid fa-image"} />
+          </button>
+          <input ref={imageInputRef} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={selectImage} />
           <button className="admin-button" type="button" onClick={() => onEdit(product)}>
             <i className="fa-solid fa-pen" />
           </button>
@@ -823,17 +872,11 @@ function ProductForm({ product, brands, categories, subcategories, user, onCance
   async function uploadImage() {
     if (!file) return form.image_url || DEFAULT_IMAGE;
     setUploadMessage("Subiendo imagen a Supabase Storage...");
-    const extension = file.name.split(".").pop() || "webp";
-    const safeExtension = extension.toLowerCase().replace(/[^a-z0-9]/g, "") || "webp";
-    const path = `products/${product.id || "new"}/${Date.now()}-${Math.random().toString(16).slice(2)}.${safeExtension}`;
-    const { error } = await getClient().storage.from(PRODUCT_IMAGES_BUCKET).upload(path, file, { upsert: false });
-    if (error) throw error;
-    const { data } = getClient().storage.from(PRODUCT_IMAGES_BUCKET).getPublicUrl(path);
-    if (!data?.publicUrl) throw new Error("Supabase no devolvio URL publica de la imagen.");
-    setForm((current) => ({ ...current, image_url: data.publicUrl }));
-    setPreviewUrl(data.publicUrl);
+    const publicUrl = await uploadProductImageAsset(product.id, file);
+    setForm((current) => ({ ...current, image_url: publicUrl }));
+    setPreviewUrl(publicUrl);
     setUploadMessage("Imagen subida correctamente. Guardando producto...");
-    return data.publicUrl;
+    return publicUrl;
   }
 
   async function submit(event) {

@@ -97,19 +97,17 @@ document.addEventListener("DOMContentLoaded", async () => {
               data-brand="${escapeHTML(brand.slug)}"
               data-name="${escapeHTML(`${brand.name} ${brand.description}`.toLowerCase())}">
               <div>
-                <div class="brand-top">
-                  <div>
-                    <h3 class="brand-name">${escapeHTML(brand.name)}</h3>
-                    <span class="brand-category">Marca registrada</span>
-                  </div>
+                <div class="brand-icon">
+                  ${
+                    brand.logo
+                      ? `<img src="${escapeHTML(brand.logo)}" alt="${escapeHTML(brand.name)}" loading="lazy" decoding="async" />`
+                      : `<i class="fa-solid fa-tags"></i>`
+                  }
+                </div>
 
-                  <div class="brand-icon">
-                    ${
-                      brand.logo
-                        ? `<img src="${escapeHTML(brand.logo)}" alt="${escapeHTML(brand.name)}" loading="lazy" decoding="async" />`
-                        : `<i class="fa-solid fa-tags"></i>`
-                    }
-                  </div>
+                <div class="brand-top">
+                  <h3 class="brand-name">${escapeHTML(brand.name)}</h3>
+                  <span class="brand-category">Marca registrada</span>
                 </div>
 
                 <p>${escapeHTML(brand.description)}</p>

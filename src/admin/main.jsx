@@ -148,6 +148,7 @@ function AdminApp() {
   const [loading, setLoading] = useState(true);
   const [notice, setNotice] = useState("");
   const [user, setUser] = useState(null);
+  const [adminBlocked, setAdminBlocked] = useState("");
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -250,6 +251,12 @@ function AdminApp() {
         }
 
         setUser(session.user);
+        const { data: isAdmin, error: adminError } = await client.rpc("is_admin");
+        if (adminError || isAdmin !== true) {
+          setAdminBlocked("Tu usuario inicio sesion, pero no esta autorizado en admin_users. Agrega este correo como admin en Supabase o entra con un usuario autorizado.");
+          return;
+        }
+
         await loadAll();
       } catch (error) {
         console.error(error);
@@ -331,6 +338,19 @@ function AdminApp() {
   }, [globalQuery, products, brands, categories, subcategories, leads]);
 
   if (loading) return <div className="loading-react">Cargando panel React...</div>;
+  if (adminBlocked) {
+    return (
+      <div className="loading-react">
+        <div className="admin-boot-card">
+          <h1>Acceso admin no autorizado</h1>
+          <p>{adminBlocked}</p>
+          <button className="admin-button danger" type="button" onClick={logout}>
+            Salir
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-app">

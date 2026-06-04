@@ -796,56 +796,91 @@ function ProductForm({ product, brands, categories, subcategories, user, onCance
     description: product.description || "",
   });
   const [file, setFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(product.image_url || DEFAULT_IMAGE);
+  const [uploadMessage, setUploadMessage] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!file) {
+      setPreviewUrl(form.image_url || DEFAULT_IMAGE);
+      return undefined;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewUrl(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [file, form.image_url]);
 
   function update(key, value) {
     setForm((current) => ({ ...current, [key]: value }));
   }
 
+  function selectFile(selectedFile) {
+    setFile(selectedFile);
+    setUploadMessage(selectedFile ? `Imagen seleccionada: ${selectedFile.name}` : "");
+  }
+
   async function uploadImage() {
     if (!file) return form.image_url || DEFAULT_IMAGE;
+    setUploadMessage("Subiendo imagen a Supabase Storage...");
     const extension = file.name.split(".").pop() || "webp";
-    const path = `products/${Date.now()}-${Math.random().toString(16).slice(2)}.${extension}`;
+    const safeExtension = extension.toLowerCase().replace(/[^a-z0-9]/g, "") || "webp";
+    const path = `products/${product.id || "new"}/${Date.now()}-${Math.random().toString(16).slice(2)}.${safeExtension}`;
     const { error } = await getClient().storage.from(PRODUCT_IMAGES_BUCKET).upload(path, file, { upsert: false });
     if (error) throw error;
     const { data } = getClient().storage.from(PRODUCT_IMAGES_BUCKET).getPublicUrl(path);
+    if (!data?.publicUrl) throw new Error("Supabase no devolvio URL publica de la imagen.");
+    setForm((current) => ({ ...current, image_url: data.publicUrl }));
+    setPreviewUrl(data.publicUrl);
+    setUploadMessage("Imagen subida correctamente. Guardando producto...");
     return data.publicUrl;
   }
 
   async function submit(event) {
     event.preventDefault();
+    setSaving(true);
+    setUploadMessage(file ? "Preparando imagen..." : "");
     const brand = brands.find((item) => item.id === form.brand_id);
     const category = categories.find((item) => item.id === form.category_id);
     const subcategory = subcategories.find((item) => item.id === form.subcategory_id);
 
-    if (!form.name || !brand || !category) return;
+    try {
+      if (!form.name || !brand || !category) return;
 
-    const payload = {
-      name: form.name.trim(),
-      brand_id: brand.id,
-      category_id: category.id,
-      subcategory_id: subcategory?.id || null,
-      brand: brand.name || "",
-      category: category.name || "",
-      subcategory: subcategory?.name || "",
-      image_url: await uploadImage(),
-      stock_status: form.stock_status,
-      stock_quantity: form.stock_quantity === "" ? null : Number(form.stock_quantity),
-      low_stock_threshold: form.low_stock_threshold === "" ? null : Number(form.low_stock_threshold),
-      description: form.description.trim(),
-      is_active: true,
-    };
+      const uploadedImageUrl = await uploadImage();
+      const payload = {
+        name: form.name.trim(),
+        brand_id: brand.id,
+        category_id: category.id,
+        subcategory_id: subcategory?.id || null,
+        brand: brand.name || "",
+        category: category.name || "",
+        subcategory: subcategory?.name || "",
+        image_url: uploadedImageUrl,
+        stock_status: form.stock_status,
+        stock_quantity: form.stock_quantity === "" ? null : Number(form.stock_quantity),
+        low_stock_threshold: form.low_stock_threshold === "" ? null : Number(form.low_stock_threshold),
+        description: form.description.trim(),
+        is_active: true,
+      };
 
-    if (product.id) {
-      const { error } = await getClient().from("products").update(payload).eq("id", product.id);
-      if (error) throw error;
-      await recordAudit("product", product.id, "updated", `Producto actualizado: ${payload.name}`, { before: product, after: payload }, user);
-    } else {
-      const { data, error } = await getClient().from("products").insert([payload]).select("id").single();
-      if (error) throw error;
-      await recordAudit("product", data?.id || null, "created", `Producto creado: ${payload.name}`, { after: payload }, user);
+      if (product.id) {
+        const { error } = await getClient().from("products").update(payload).eq("id", product.id);
+        if (error) throw error;
+        await recordAudit("product", product.id, "updated", `Producto actualizado: ${payload.name}`, { before: product, after: payload }, user);
+      } else {
+        const { data, error } = await getClient().from("products").insert([payload]).select("id").single();
+        if (error) throw error;
+        await recordAudit("product", data?.id || null, "created", `Producto creado: ${payload.name}`, { after: payload }, user);
+      }
+
+      await onSaved();
+    } catch (error) {
+      const message = error?.message || "No se pudo guardar el producto.";
+      setUploadMessage(message);
+    } finally {
+      setSaving(false);
     }
-
-    await onSaved();
   }
 
   return (
@@ -904,17 +939,21 @@ function ProductForm({ product, brands, categories, subcategories, user, onCance
         URL imagen
         <input value={form.image_url} onChange={(event) => update("image_url", event.target.value)} />
       </label>
+      <div className="image-preview-react">
+        <img src={previewUrl || DEFAULT_IMAGE} alt="Vista previa del producto" />
+        <small className="muted">{uploadMessage || "Vista previa de la imagen actual o seleccionada."}</small>
+      </div>
       <label>
         Subir imagen
-        <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => setFile(event.target.files?.[0] || null)} />
+        <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => selectFile(event.target.files?.[0] || null)} />
       </label>
       <label className="full">
         Descripcion
         <textarea value={form.description} onChange={(event) => update("description", event.target.value)} />
       </label>
       <div className="admin-top-actions full">
-        <button className="admin-button primary" type="submit">Guardar producto</button>
-        <button className="admin-button" type="button" onClick={onCancel}>Cancelar</button>
+        <button className="admin-button primary" type="submit" disabled={saving}>{saving ? "Guardando..." : "Guardar producto"}</button>
+        <button className="admin-button" type="button" onClick={onCancel} disabled={saving}>Cancelar</button>
       </div>
     </form>
   );

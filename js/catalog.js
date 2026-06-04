@@ -26,6 +26,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   let currentBrand = "all";
   let currentSearch = "";
 
+  function getInitialFilter(name) {
+    const value = new URLSearchParams(window.location.search).get(name);
+    return value ? slugify(value) : "all";
+  }
+
   function slugify(text) {
     return String(text || "")
       .toLowerCase()
@@ -568,6 +573,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       products = rows.map(normalizeProduct);
+      currentBrand = getInitialFilter("brand");
+      currentCategory = getInitialFilter("category");
+      currentSubcategory = getInitialFilter("subcategory");
 
       bindFilters();
       filterProducts();

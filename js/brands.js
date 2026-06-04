@@ -114,8 +114,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 <div class="brand-tags">
                   <span class="brand-tag">Industrial</span>
-                  <span class="brand-tag">Catálogo</span>
-                  <span class="brand-tag">Cotización</span>
+                  <a class="brand-tag brand-tag-link" href="productos.html?brand=${encodeURIComponent(brand.slug)}">Catálogo</a>
+                  <a class="brand-tag brand-tag-link" href="contacto.html">Cotización</a>
                 </div>
               </div>
 

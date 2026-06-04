@@ -597,7 +597,11 @@ function ProductsPanel({ products, setProducts, brands, categories, subcategorie
     try {
       const imageUrl = await uploadProductImageAsset(product.id, file);
       const { error } = await getClient().from("products").update({ image_url: imageUrl }).eq("id", product.id);
-      if (error) throw error;
+      if (error) {
+        const { data: verifyRows, error: verifyError } = await getClient().from("products").select("image_url").eq("id", product.id).limit(1);
+        const savedImageUrl = verifyRows?.[0]?.image_url || "";
+        if (verifyError || savedImageUrl !== imageUrl) throw error;
+      }
 
       setProducts((current) => current.map((item) => (item.id === product.id ? { ...item, image_url: imageUrl } : item)));
       await recordAudit("product", product.id, "image_updated", `Foto actualizada: ${product.name}`, { before: product.image_url, after: imageUrl }, user);

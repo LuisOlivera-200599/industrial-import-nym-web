@@ -436,6 +436,11 @@ select {
   text-align: center;
 }
 
+.section-heading.center p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Cards */
 .cards-grid {
   display: grid;

@@ -330,6 +330,17 @@
         grid-template-columns: repeat(6, 1fr);
       }
 
+      .brands-grid.featured-brands {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        max-width: 660px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .brands-grid.featured-brands .brand-box:has(img) {
+        display: none;
+      }
+
       .brand-box img {
         max-width: 80%;
         max-height: 56px;
@@ -396,6 +407,10 @@
         .showcase-grid {
           grid-template-columns: 1fr;
         }
+
+        .brands-grid.featured-brands {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
       }
 
       @media (max-width: 900px) {
@@ -438,6 +453,10 @@
         .showcase-card,
         .testimonial-box {
           padding: 24px;
+        }
+
+        .brands-grid.featured-brands {
+          grid-template-columns: 1fr;
         }
 
         .hero-stats {
@@ -736,16 +755,7 @@
           </p>
         </div>
 
-        <div class="brands-grid enhanced">
-          <div class="brand-box">
-            <img
-              src="imagenes/optimized/marcas/marcas-1.webp"
-              alt="Logo de marca industrial distribuida por INDUSTRIAL IMPORT COMPANY S.R.L."
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-
+        <div class="brands-grid enhanced featured-brands">
           <div class="brand-box">
             <img
               src="imagenes/optimized/marcas/marcas-2.webp"

@@ -1475,11 +1475,11 @@ async function loadCompanySettings() {
     companyFields.phone.value = "966 441 035";
     companyFields.phoneRaw.value = "51966441035";
     companyFields.email.value = "oliveravelasquezluis@gmail.com";
-    companyFields.address.value = "Av. Republica de Argentina 211, Lima 15079";
+    companyFields.address.value = "Urbanizacion Esmeralda etapa 4, Lima, Peru";
     companyFields.hours.value = "Lun - Sáb / 10:00 am - 5:00 pm";
     companyFields.whatsappUrl.value = "https://wa.me/51966441035";
-    companyFields.mapUrl.value = "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/";
-    companyFields.mapEmbed.value = "";
+    companyFields.mapUrl.value = "https://www.google.com/maps?q=-11.8665833,-77.0571389";
+    companyFields.mapEmbed.value = "https://www.google.com/maps?q=-11.8665833,-77.0571389&z=17&output=embed";
     updateCompanyPreview();
     return;
   }

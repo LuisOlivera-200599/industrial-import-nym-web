@@ -1444,11 +1444,11 @@ function CompanyPanel({ settings, user, refresh, setNotice }) {
     phone: "966 441 035",
     phone_raw: "51966441035",
     email: "oliveravelasquezluis@gmail.com",
-    address: "Av. Republica de Argentina 211, Lima 15079",
+    address: "Urbanizacion Esmeralda etapa 4, Lima, Peru",
     hours: "Lun - Sab / 10:00 am - 5:00 pm",
     whatsapp_url: "https://wa.me/51966441035",
-    map_url: "https://www.google.com/maps/place/Av.+Republica+de+Argentina+211,+Lima+15079/",
-    map_embed: "",
+    map_url: "https://www.google.com/maps?q=-11.8665833,-77.0571389",
+    map_embed: "https://www.google.com/maps?q=-11.8665833,-77.0571389&z=17&output=embed",
   };
   const [form, setForm] = useState({ ...defaults, ...(settings || {}) });
 

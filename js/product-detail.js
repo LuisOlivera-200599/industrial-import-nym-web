@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const detail = document.getElementById("product-detail");
   const params = new URLSearchParams(window.location.search);
-  const pathProductId = window.location.pathname.split("/").filter(Boolean).at(-1)?.split("--").pop();
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  const lastPathPart = pathParts.at(-1) || "";
+  const pathProductId = lastPathPart.endsWith(".html") ? "" : lastPathPart.split("--").pop();
   const id = window.NYM_PRODUCT_ID || params.get("id") || pathProductId;
   const fallbackImage = "imagenes/optimized/productos/productos-1.webp";
   const escapeHTML = window.nymSite?.escapeHTML || ((text) => String(text || ""));
@@ -75,8 +77,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  if (!id || !window.nymSupabase) {
-    detail.innerHTML = "<p>No se pudo cargar el producto solicitado.</p>";
+  function renderCatalogFallback() {
+    detail.innerHTML = `
+      <div class="detail-info">
+        <h2>Elige un producto del catalogo</h2>
+        <p>Para ver una ficha completa, abre el producto desde el catalogo.</p>
+        <div class="detail-actions">
+          <a class="btn btn-primary" href="productos.html">Ir al catalogo</a>
+        </div>
+      </div>
+    `;
+  }
+
+  if (!id) {
+    renderCatalogFallback();
+    return;
+  }
+
+  if (!window.nymSupabase) {
+    detail.innerHTML = "<p>No se pudo conectar con el catalogo.</p>";
     return;
   }
 
@@ -103,6 +122,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   } catch (error) {
     console.error(error);
+    renderCatalogFallback();
+    return;
     detail.innerHTML = `
       <div class="detail-info">
         <h2>No encontramos este producto</h2>

@@ -898,18 +898,18 @@ select {
 
   .nav-menu {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 8px);
     right: 0;
-    width: min(92vw, 340px);
+    width: min(88vw, 310px);
     background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: 16px;
     box-shadow: var(--shadow-lg);
-    padding: 20px;
+    padding: 14px;
     display: none;
     flex-direction: column;
     align-items: stretch;
-    gap: 14px;
+    gap: 6px;
   }
 
   .nav-menu.open {
@@ -918,7 +918,8 @@ select {
 
   .nav-menu a {
     width: 100%;
-    padding: 10px 4px;
+    padding: 8px 4px;
+    font-size: 0.96rem;
   }
 
   .nav-menu a::after {
@@ -928,7 +929,10 @@ select {
   .mobile-cta {
     display: inline-flex;
     width: 100%;
-    margin-top: 8px;
+    min-height: 44px;
+    margin-top: 6px;
+    padding: 11px 16px;
+    color: var(--white) !important;
   }
 
   .hero-grid,
